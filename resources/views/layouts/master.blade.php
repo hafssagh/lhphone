@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="/assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
-    @livewireStyles
 
 </head>
 
@@ -39,12 +39,12 @@
                 <div>
                     <img src="/assets/images/lhphone2.png">
                 </div>
-            </div>  
+            </div>
             <x-sidebar />
         </nav>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
-        
+
             <!-- partial:../../partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <x-menu />
@@ -52,15 +52,15 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @yield("contenu")
+                    @yield('contenu')
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
+                <footer class="footer"  style="padding:15px">
+                    <div class="d-flex justify-content-end">
+                        {{-- <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
                                 href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a>
-                            from BootstrapDash.</span>
+                            from BootstrapDash.</span> --}}
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2023. All
                             rights reserved.</span>
                     </div>
@@ -84,7 +84,8 @@
     <script src="/assets/js/template.js"></script>
     <script src="/assets/js/settings.js"></script>
     <script src="/assets/js/todolist.js"></script>
-
+    <!-- Include the SweetAlert2 JS file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->

@@ -26,7 +26,9 @@ return new class extends Migration
             $table->date('date_contract');
             $table->string('type_contract');
             $table->string('duration_contract')->nullable();
+            $table->string('company');
             $table->double('base_salary');
+            $table->integer('work_hours')->nullable();
             $table->double('salary')->nullable();
             $table->string('photo')->nullable();
             $table->rememberToken();

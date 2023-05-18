@@ -4,22 +4,31 @@
             <div>
                 <h4 class="card-title card-title-dash">Liste des utilisateurs</h4><br>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Rechercher ...">
+                    <input type="text" class="form-control" wire:model.debounce.250ms='search'
+                        placeholder="Rechercher ...">
                     <span class="input-group-text"><i class="icon-search"></i></span>
                 </div>
             </div>
             <div>
-                <button class="btn btn-secondary btn-sm" type="button" wire:click.prevent="goToaddUser()">
-                    <i class="mdi mdi-account-plus"></i>&nbsp;Nouvel utilisateur</button>
+                <button class="btn btn-lg text-black mb-0 me-0" type="button" wire:click.prevent="goToaddUser()"
+                    style="font-size: 14px; line-height: 18px; padding: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                    </svg>
+                    &nbsp;Nouvel utilisateur</button>
             </div>
-        </div>
-        <div class="table-responsive" style="height: 300px;">
+        </div><br>
+        <div class="table">
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th style="width:5%"></th>
                         <th style="width:30%">Utilisateurs</th>
                         <th style="width:20%">Rôles</th>
+                        <th style="width:30%">Société</th>
                         <th class="text-center" style="width:15%">Ajouté</th>
                         <th class="text-center" style="width:30%">Action</th>
                     </tr>
@@ -27,24 +36,58 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td><img src="../assets/images/user.png"></td>
-                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-                            <td>{{ $user->allRoleName }}</td>
-                            <td class="text-center">
+                            @if ($user->photo != '' ||$user->photo != null)
+                                <td style="padding: 0.8rem;"> <img class="img rounded-circle " src="{{ asset('storage/' . $user->photo ) }}"
+                                        style="height: 36px; width:36px"></td>
+                            @else
+                                <td style="padding: 0.8rem;"> <img src="../assets/images/user.png"></td>
+                            @endif
+                            @if (count($user->resignations) > 0)
+                                <td style="padding: 0.8rem;"><del>{{ $user->first_name }} {{ $user->last_name }}</del>
+                                    <p class="text-danger">A quitté</p>
+                                </td> <br>
+                            @else
+                                <td style="padding: 0.8rem;">{{ $user->first_name }} {{ $user->last_name }}
+                            @endif
+                            <td style="padding: 0.8rem;">{{ $user->allRoleName }}</td>
+                            @if ($user->company == 'h2f')
+                                <td style="padding: 0.8rem;">
+                                    <div class="badge badge-opacity-primary">H2F PREMIUM</div>
+                                </td>
+                            @else
+                                <td style="padding: 0.8rem;">
+                                    <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">LH PHONE
+                                    </div>
+                                </td>
+                            @endif
+                            <td class="text-center" style="padding: 0.8rem;">
                                 {{ \Carbon\Carbon::parse($user->date_contract)->diffForHumans() }}</td>
-                            <td class="text-center">
-                                <a href="javascript:;" class="btn btn-sm btn-icon">
+                            <td class="text-center" style="padding: 0.8rem;">
+                                <a href="javascript:;" class="btn btn-sm btn-icon"
+                                    wire:click="goToRoleUser({{ $user->id }})">
+                                    <span class="svg-icon svg-icon-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-toggles" viewBox="0 0 16 16">
+                                            <path
+                                                d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7h-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm2.45 0A3.49 3.49 0 0 1 8 3.5 3.49 3.49 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5H6.95zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7z" />
+                                        </svg>
+                                    </span>
+                                </a>
+                                <a href="javascript:;" class="btn btn-sm btn-icon"
+                                    wire:click="goToEditUser({{ $user->id }})">
                                     <span class="svg-icon svg-icon-md">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path
-                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.36 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                             <path fill-rule="evenodd"
                                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                         </svg>
                                     </span>
                                 </a>
-                                <a href="javascript:;" class="btn btn-sm btn-icon">
+                                <a href="javascript:;"
+                                    wire:click="confirmDelete('{{ $user->first_name }} {{ $user->last_name }}' , {{ $user->id }})"
+                                    class="btn btn-sm btn-icon">
                                     <span class="svg-icon svg-icon-md">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -60,11 +103,10 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="float-end">
+                {{ $users->links() }}
+            </div>
         </div>
     </div>
-    <div class="card-footer">
-        <div class="float-end">
-            {{ $users->links() }}
-        </div>
-    </div>
+ 
 </div>

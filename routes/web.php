@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Livewire\Absences;
+use App\Http\Livewire\Historique;
+use App\Http\Livewire\Myliste;
 use App\Http\Livewire\Users;
+use App\Http\Livewire\UserProfile;
+use App\Http\Livewire\ResetPassword;
+use App\Http\Livewire\Resignations;
+use App\Http\Livewire\Test;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +31,14 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::group([
     "middleware" => ["auth", "auth.admin"],
     'as' => 'admin.'
-], function(){
-
-    Route::group([
-        "prefix" => "habilitations",
-        'as' => 'habilitations.'
-    ], function(){
-
-        Route::get("/utilisateurs", Users::class)->name("users.index");
-
-    });
+], function () {
+    Route::get('/users', Users::class)->name("users.index");
+    Route::get('/resignation', Resignations::class)->name("resignation.index");
+    Route::get('/history', Historique::class)->name("absence.historique");
+    Route::get('/absence', Absences::class)->name("absence.index");
 });
 
-/* Route::get('/habilitations/utilisateurs', [App\Http\Controllers\UserController::class, 'index'])
- ->name('utilisateurs')
- ->middleware('auth.admin'); */
+
+Route::get('/Myabsence', Myliste::class)->name("absence.myliste");
+Route::get('/change-password', ResetPassword::class)->name("profile.update")->middleware(["auth"]);
+Route::get('/user-profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);

@@ -1,44 +1,51 @@
 @extends('layouts.auth')
 
 @section('container')
-
-<div class="container-scroller" >
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto" style="width:500px">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5" >
-              <div class="image-container d-flex justify-content-center">
-                <img src="/assets/images/lhphone.png" >
-              </div>
-              <br>
-              <h4 class="text-muted">Bienvenue dans votre communauté.</h4>
-              <h6 class="fw-light text-muted">S'identifier pour continuer.</h6>
-              <form class="pt-3"  method="POST" action="{{ route('login')}}">
-                @csrf
-                <div class="form-group">
-                  <input type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" id="exampleInputEmail1" placeholder="E-mail" 
-                  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto" style="width:500px">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="image-container d-flex justify-content-center">
+                                <img src="/assets/images/lhphone.png">
+                            </div>
+                            <br><br>
+                            <h6 class="text-muted"> Bienvenue de retour !</h6>
+                            <form class="pt-3" method="POST" action="{{ route('login') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="email"
+                                        class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                        id="exampleInputEmail1" placeholder="E-mail" name="email"
+                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password"
+                                        class="form-control form-control-lg  @error('password') is-invalid @enderror"
+                                        name="password" required autocomplete="current-password" id="exampleInputPassword1"
+                                        placeholder="Mot de passe">
+                                </div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col text-center">
+                                            <button type="submit" class="btn btn-danger">Se connecter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg  @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" id="exampleInputPassword1" placeholder="Mot de passe">
-                </div>
-                <div class="container" style="width:260px; margin: 0 auto;">
-                    <button type="submit" class="btn btn-lg btn-danger btn-block">Se connecter</button>
-                </div>
-              </form>
             </div>
-          </div>
+            <!-- content-wrapper ends -->
         </div>
-      </div>
-      <!-- content-wrapper ends -->
+        <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  
 
 
-{{-- <div class="container">
+
+    {{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
