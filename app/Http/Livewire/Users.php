@@ -43,10 +43,8 @@ class Users extends Component
     {
         Carbon::setLocale("fr");
 
-        $searchCriteria = "%" . $this->search . "%";
-
-        $data = ["users" => User::where("first_name", "like", $searchCriteria)
-            ->orWhere("last_name", "like", $searchCriteria)
+        $data = ["users" => User::where("first_name", "like", "%" . $this->search . "%")
+            ->orWhere("last_name", "like", "%" . $this->search . "%")
             ->latest()->paginate(4)];
 
         return view('livewire.users.index', $data)

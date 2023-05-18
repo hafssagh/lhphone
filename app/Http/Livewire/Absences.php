@@ -18,8 +18,6 @@ class Absences extends Component
 
     public $newAbsence = [];
 
-    public $totalHours;
-
 
     protected $rules = [
         "newAbsence.user" => "required",
@@ -38,11 +36,6 @@ class Absences extends Component
     public function render()
     {
         $currentMonth = Carbon::now()->format('Y-m');
-
-        $today = Carbon::today();
-        $firstDayOfMonth = $today->copy()->startOfMonth();
-        $workingDays = $this->getWorkingDays($firstDayOfMonth, $today);
-        $this->totalHours = $workingDays * 8;
 
         return view('livewire.absence.index', [
             "absences" => Absence::query()
@@ -67,18 +60,6 @@ class Absences extends Component
     }
 
 
-    private function getWorkingDays($startDate, $endDate)
-    {
-        $workingDays = 0;
-        while ($startDate <= $endDate) {
-            if ($startDate->isWeekday()) {
-                $workingDays++;
-            }
-            $startDate->addDay();
-        }
-        return $workingDays;
-    }
-
     public function workHours()
     {
         $users = User::all();
@@ -89,7 +70,7 @@ class Absences extends Component
                 ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
                 ->sum('abs_hours');
 
-            $workHours = $this->totalHours;
+            $workHours = calculerHeuresTravail();
 
             $user->work_hours = $workHours - $totalAbsenceDays;
             $user->save();
@@ -145,6 +126,8 @@ class Absences extends Component
     public function deleteAbsence($id)
     {
         Absence::destroy($id);
+        $this->workHours();
+        $this->AbsSalary();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ supprimé avec succès!"]);
     }
 }

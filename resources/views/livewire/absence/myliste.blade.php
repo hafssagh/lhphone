@@ -28,24 +28,23 @@
                         <thead>
                             <tr>
                                 <th style="padding: 0.5rem;">Heures d'absence </th>
-                                <th style="font-weight: lighter;  padding: 0.5rem; ">{{$this->sumAbs()}} </th>
+                                <th style="font-weight: lighter;  padding: 0.5rem; "></th>
                             </tr>
                             <tr>
                                 <th style="padding: 0.5rem;">Heures de travail </th>
                                 <th style="font-weight: lighter;  padding: 0.5rem; ">{{auth()->user()->work_hours}}
-                                    <strong>  &emsp; / {{ calculerHeuresTravailParMois() }} </strong></th>
+                                    <strong>  &emsp; / {{calculerHeuresTravailParMois()}}</strong></th>
                             </tr>
                             <tr>
                                 <th style="padding: 0.1rem;"></th>
                                 <th style="padding: 0.1rem; "></th>
-                                <th style="padding: 0.1rem; "> </th>
+                                <th style="padding: 0.1rem; "></th>
                             </tr>
                         </thead>
                     </table>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 
