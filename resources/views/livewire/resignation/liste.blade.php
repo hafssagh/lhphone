@@ -77,7 +77,7 @@
                     @endif
                     @foreach ($resignations as $resignation)
                         <tr>
-                            <td style="padding: 0.8rem;">{{ $resignation->users->first_name }} {{ $resignation->users->last_name }}</td>
+                            <td style="padding: 0.8rem;"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
                             <td style="padding: 0.8rem;">{{ $resignation->date }}</td>
                             <td style="padding: 0.8rem;">{{ $resignation->motive }}</td>
                             <td class="text-center" style="padding: 0.8rem;">

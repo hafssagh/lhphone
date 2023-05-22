@@ -35,8 +35,8 @@
         <div class="form-group row">
             <label class="col-sm-3">Justification</label>
             <div class="col-sm-9">
-                <textarea class="form-control @error('newAbsence.justification') is-invalid @enderror"
-                    wire:model="newAbsence.justification"></textarea>
+                <input type="text" class="form-control @error('newAbsence.justification') is-invalid @enderror"
+                    wire:model="newAbsence.justification">
             </div>
         </div>
         <div class="d-flex flex-row-reverse">

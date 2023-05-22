@@ -34,4 +34,13 @@ class UserProfile extends Component
             $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Photo de profils mise à jour avec succès!"]);      
         }
     }
+
+    public function AbsSalary()
+    {
+       $workHoursMonth =  calculerHeuresTravailParMois();
+       $salary_perHour = $this->user->base_salary /  $workHoursMonth;
+       $salaryPerD = $salary_perHour * $this->user->work_hours;
+       $salary =  round($salaryPerD , 0, PHP_ROUND_HALF_UP);
+       return $salary;
+    }
 }

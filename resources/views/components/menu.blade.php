@@ -1,13 +1,13 @@
 <ul class="nav">
     @can('admin')
-        {{--  <li class="nav-item {{ setMenuActive('home') }}">
+        <li class="nav-item {{ setMenuActive('home') }}">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="mdi mdi-home menu-icon"></i>
                 <span class="menu-title">Acceuil</span>
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('home') }}">
+            <a class="nav-link collapsed" href="">
                 <i class="mdi mdi-grid-large menu-icon"></i>
                 <span class="menu-title">Tableau de bord</span>
             </a>
@@ -29,24 +29,32 @@
                 aria-controls="tables">
                 <i class="menu-icon mdi mdi-table"></i>
                 <span class="menu-title">Gestion Absence &nbsp;&nbsp;</span>
-               {{--  <i class="menu-arrow"></i> --}}
+                {{--  <i class="menu-arrow"></i> --}}
             </a>
             <div class="collapse" id="tables">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.absence.index') }}">Absences du mois</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.absence.historique') }}">Historique</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.absence.index') }}">Absences du mois</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.absence.historique') }}">Historique</a>
+                    </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ route('absence.myliste') }}">Mes absences</a></li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{ route('admin.salary') }}">
                 <i class="mdi mdi-credit-card-multiple menu-icon"></i>
                 <span class="menu-title">Gestion Salaire</span>
             </a>
         </li>
     @endcan
     @can('manager')
+        <li class="nav-item {{ setMenuActive('home') }}">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Acceuil</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="">
                 <i class="mdi mdi-checkbox-multiple-marked-outline menu-icon"></i>
@@ -67,6 +75,12 @@
         </li>
     @endcan
     @can('agent')
+        <li class="nav-item {{ setMenuActive('home') }}">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Acceuil</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('absence.myliste') }}">
                 <i class="mdi mdi-calendar menu-icon"></i>

@@ -1,6 +1,8 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Absence;
 
 define("PAGELIST", "liste");
 define("PAGECREATEFORM", "create");
@@ -8,6 +10,33 @@ define("PAGEEDITFORM", "edit");
 define("PAGEROLE", "role");
 
 define("DEFAULTPASSWORD" ,"password");
+
+function workHours()
+{
+    $users = User::all();
+    $currentMonth = Carbon::now()->format('Y-m');
+    foreach ($users as $user) {
+        $totalAbsenceDays = Absence::where('user_id', $user->id)
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->sum('abs_hours');
+        $workHours = calculerHeuresTravail();
+        $user->work_hours = $workHours - $totalAbsenceDays;
+        $user->save();
+    }
+}
+
+
+function AbsSalary()
+{
+    $users = User::all();
+    foreach ($users as $user) {
+        $workHoursMonth =  calculerHeuresTravailParMois();
+        $salary_perHour = $user->base_salary /  $workHoursMonth;
+        $salary = $salary_perHour * $user->work_hours;
+        $user->salary =  round($salary, 0, PHP_ROUND_HALF_UP);
+        $user->save();
+    }
+}
 
 function calculerHeuresTravailParMois()
 {
@@ -70,7 +99,7 @@ function calculerHeuresTravail()
 }
 
 function userName(){
-    return auth()->user()->first_name . ' ' . auth()->user()->last_name;
+    return auth()->user()->last_name . ' ' . auth()->user()->first_name;
 }
 
 function userPicture(){

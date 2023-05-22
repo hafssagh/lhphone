@@ -4,9 +4,9 @@
   @if ($currentPage == PAGECREATEFORM)
      @include("livewire.absence.create")
   @endif
-  {{-- @if ($currentPage == PAGEEDITFORM)
+   @if ($currentPage == PAGEEDITFORM)
      @include("livewire.absence.edit")
-  @endif --}}
+  @endif 
   @if ($currentPage == PAGELIST)
      @include("livewire.absence.liste")
   @endif

@@ -30,8 +30,10 @@ class Users extends Component
         'newUser.first_name.required' => "Le nom de l'utilisateur est requis.",
         'newUser.last_name.required' => "Le prénom de l'utilisateur est requis.",
         'newUser.id_card.required' => "Le numéro d'identité de l'utilisateur est requis.",
+        'newUser.id_card.unique' => "Le numéro de la carde d'identité a déjà été pris.",
         'newUser.birthday.required' => "La date de naissance de l'utilisateur est requise.",
         'newUser.email.required' => "L'adresse mail de l'utilisateur est requis.",
+        'newUser.email.unique' => "L'adresse mail a déjà été prise.",
         'newUser.phone.required' => "Le numéro de téléphone de l'utilisateur est requis.",
         'newUser.date_contract.required' => "La date du contrat est requise.",
         'newUser.type_contract.required' => "Le type du contrat est requis.",
@@ -43,14 +45,18 @@ class Users extends Component
     {
         Carbon::setLocale("fr");
 
-        $data = ["users" => User::where("first_name", "like", "%" . $this->search . "%")
-            ->orWhere("last_name", "like", "%" . $this->search . "%")
-            ->latest()->paginate(4)];
+        $data = [
+            "users" => User::where("first_name", "like", "%" . $this->search . "%")
+                ->orWhere("last_name", "like", "%" . $this->search . "%")
+                ->latest()
+                ->paginate(10),
+        ];
 
         return view('livewire.users.index', $data)
             ->extends("layouts.master")
             ->section("contenu");
     }
+
 
     public function rules()
     {
@@ -75,7 +81,7 @@ class Users extends Component
             'newUser.id_card' => 'required|unique:users,id_card',
             'newUser.birthday' => 'required',
             'newUser.phone' => 'required|numeric',
-            'newUser.email' => 'required|email',
+            'newUser.email' => 'required|email|unique:users,email',
             'newUser.date_contract' => 'required',
             'newUser.type_contract' => 'required',
             'newUser.duration_contract' => 'nullable',
@@ -149,7 +155,14 @@ class Users extends Component
         $validationAttributes = $this->validate();
         $validationAttributes["newUser"]["password"] =  bcrypt("password");
         //Ajouter un nouvel utilisateur
-        User::create($validationAttributes["newUser"]);
+        $user = User::create($validationAttributes["newUser"]);
+        // Assign the default "agent" role to the user
+        $agentRole = Role::where('name', 'agent')->first();
+        if ($agentRole) {
+            $user->roles()->attach($agentRole->id);
+        }
+        workHours();
+        AbsSalary();
         $this->newUser = [];
         $this->goToListeUser();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Utilisateur créé avec succès!"]);
@@ -161,6 +174,7 @@ class Users extends Component
         $validationAttributes = $this->validate();
 
         User::find($this->editUser["id"])->update($validationAttributes["editUser"]);
+        AbsSalary();
 
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Utilisateur mise à jour avec succès!"]);
     }
@@ -187,5 +201,4 @@ class Users extends Component
         User::find($this->editUser["id"])->update(["password" => Hash::make(DEFAULTPASSWORD)]);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Mot de passe utilisateur réinitialisé avec succès!"]);
     }
-
 }

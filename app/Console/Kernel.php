@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Absence;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +18,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+       $schedule->command('command:daily')->daily()->sendOutputTo('scheduler.log');; 
     }
 
     /**

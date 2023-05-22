@@ -17,7 +17,7 @@ class Absences extends Component
     public $currentPage = PAGELIST;
 
     public $newAbsence = [];
-
+    public $editAbsence = [];
 
     protected $rules = [
         "newAbsence.user" => "required",
@@ -57,42 +57,11 @@ class Absences extends Component
     public function goToListeAbsence()
     {
         $this->currentPage = PAGELIST;
-    }
-
-
-    public function workHours()
-    {
-        $users = User::all();
-
-        $currentMonth = Carbon::now()->format('Y-m');
-        foreach ($users as $user) {
-            $totalAbsenceDays = Absence::where('user_id', $user->id)
-                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->sum('abs_hours');
-
-            $workHours = calculerHeuresTravail();
-
-            $user->work_hours = $workHours - $totalAbsenceDays;
-            $user->save();
-        }
-    }
-   
-
-    public function AbsSalary()
-    {
-        $users = User::all();
-        foreach ($users as $user) {
-            $workHoursMonth =  calculerHeuresTravailParMois();
-            $salary_perHour = $user->base_salary /  $workHoursMonth;
-            $salary = $salary_perHour * $user->work_hours;
-            $user->salary =  round($salary, 0, PHP_ROUND_HALF_UP);
-            $user->save();
-        }
+        $this->editAbsence = [];
     }
 
     public function addNewAbsence()
     {
-
         $this->validate();
         $absence = new Absence;
         $absence->date = $this->newAbsence["date"];
@@ -104,12 +73,26 @@ class Absences extends Component
         }
         $absence->user_id = $this->newAbsence["user"];
         $absence->save();
-
-        $this->workHours();
-        $this->AbsSalary();
+        
+        workHours();
+        AbsSalary();
 
         $this->goToListeAbsence();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Un nouveau absence a été ajouté avec succès!"]);
+    }
+
+    public function goToEditAbsence($id)
+    {
+        $this->editAbsence = Absence::with("users")->find($id)->toArray();
+        $this->currentPage = PAGEEDITFORM;
+    }
+
+    public function updateAbsence(){
+        $absence = Absence::find($this->editAbsence["id"]);
+        $absence->fill($this->editAbsence);
+        $absence->save();
+        $this->goToListeAbsence();
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Absence mise à jour avec succès!"]);
     }
     
     public function confirmDelete($id)
@@ -126,8 +109,8 @@ class Absences extends Component
     public function deleteAbsence($id)
     {
         Absence::destroy($id);
-        $this->workHours();
-        $this->AbsSalary();
+        workHours();
+        AbsSalary();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ supprimé avec succès!"]);
     }
 }

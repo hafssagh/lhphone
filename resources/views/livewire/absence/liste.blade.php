@@ -26,8 +26,8 @@
                 <thead>
                     <tr>
                         <th>Agent</th>
-                        <th>Date d'absence</th>
-                        <th>Heures d'absence</th>
+                        <th class="text-center">Date d'absence</th>
+                        <th class="text-center">Heures d'absence</th>
                         <th>Justification</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -35,12 +35,12 @@
                 <tbody>
                     @foreach ($absences as $absence)
                         <tr>
-                            <td style="padding: 0.8rem;">{{ $absence->users->first_name }} {{ $absence->users->last_name }}</td>
-                            <td style="padding: 0.8rem;">{{ $absence->date }}</td>
-                            <td style="padding: 0.8rem;">{{ $absence->abs_hours }} Heures</td>
+                            <td style="padding: 0.8rem;"> {{ $absence->users->last_name }} {{ $absence->users->first_name }}</td>
+                            <td class="text-center" style="padding: 0.8rem;">{{ $absence->date }}</td>
+                            <td class="text-center" style="padding: 0.8rem;">{{ $absence->abs_hours }} Heures</td>
                             <td style="padding: 0.8rem;">{{ $absence->justification }}</td>
                             <td class="text-center" style="padding: 0.8rem;">
-                                <a href="javascript:;" class="btn btn-sm btn-icon" wire:click="editabsence({{$absence->id}})">
+                                <a href="javascript:;" class="btn btn-sm btn-icon" wire:click="goToEditAbsence({{$absence->id}})">
                                     <span class="svg-icon svg-icon-md">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

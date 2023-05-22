@@ -20,7 +20,7 @@
                     </svg>
                     &nbsp;Nouvel utilisateur</button>
             </div>
-        </div><br>
+        </div>
         <div class="table">
             <table class="table table-striped">
                 <thead>
@@ -28,7 +28,7 @@
                         <th style="width:5%"></th>
                         <th style="width:30%">Utilisateurs</th>
                         <th style="width:20%">Rôles</th>
-                        <th style="width:30%">Société</th>
+                        <th class="text-center" style="width:30%">Société</th>
                         <th class="text-center" style="width:15%">Ajouté</th>
                         <th class="text-center" style="width:30%">Action</th>
                     </tr>
@@ -43,19 +43,19 @@
                                 <td style="padding: 0.8rem;"> <img src="../assets/images/user.png"></td>
                             @endif
                             @if (count($user->resignations) > 0)
-                                <td style="padding: 0.8rem;"><del>{{ $user->first_name }} {{ $user->last_name }}</del>
+                                <td style="padding: 0.8rem;"><del> {{ $user->last_name }} {{ $user->first_name }}</del>
                                     <p class="text-danger">A quitté</p>
                                 </td> <br>
                             @else
-                                <td style="padding: 0.8rem;">{{ $user->first_name }} {{ $user->last_name }}
+                                <td style="padding: 0.8rem;"> {{ $user->last_name }} {{ $user->first_name }}
                             @endif
                             <td style="padding: 0.8rem;">{{ $user->allRoleName }}</td>
                             @if ($user->company == 'h2f')
-                                <td style="padding: 0.8rem;">
+                                <td class="text-center" style="padding: 0.8rem;">
                                     <div class="badge badge-opacity-primary">H2F PREMIUM</div>
                                 </td>
                             @else
-                                <td style="padding: 0.8rem;">
+                                <td class="text-center" style="padding: 0.8rem;">
                                     <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">LH PHONE
                                     </div>
                                 </td>

@@ -21,9 +21,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
-
-
-</head>
+    <link rel="stylesheet" href="/assets/css/app.css">
 
 <body>
     <div class="container-scroller">
@@ -37,8 +35,13 @@
                     </button>
                 </div>
                 <div>
-                    <img src="/assets/images/lhphone2.png">
-                </div>
+                    <a class="navbar-brand" href="index.html">
+                        <img src="/assets/images/lhphone2.png" style="height:52px; width:160px;">
+                    </a>
+                    <a class="navbar-brand brand-logo-mini" href="index.html">
+                      {{-- <img src="images/logo-mini.svg" alt="logo"> --}}
+                    </a>
+                  </div>
             </div>
             <x-sidebar />
         </nav>
@@ -89,6 +92,7 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->
+    <script src="/assets/js/app.js"></script>
 </body>
 
 @livewireScripts
