@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Resignation;
 
 use Carbon\Carbon;
 use App\Models\User;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\User;
 
 use Carbon\Carbon;
 use App\Models\Role;
@@ -34,6 +34,7 @@ class Users extends Component
         'newUser.birthday.required' => "La date de naissance de l'utilisateur est requise.",
         'newUser.email.required' => "L'adresse mail de l'utilisateur est requis.",
         'newUser.email.unique' => "L'adresse mail a déjà été prise.",
+        'newUser.email.numeric' => "Le numéro de téléphone ne doit pas avoir de lettre.",
         'newUser.phone.required' => "Le numéro de téléphone de l'utilisateur est requis.",
         'newUser.date_contract.required' => "La date du contrat est requise.",
         'newUser.type_contract.required' => "Le type du contrat est requis.",
@@ -49,7 +50,7 @@ class Users extends Component
             "users" => User::where("first_name", "like", "%" . $this->search . "%")
                 ->orWhere("last_name", "like", "%" . $this->search . "%")
                 ->latest()
-                ->paginate(10),
+                ->paginate(6),
         ];
 
         return view('livewire.users.index', $data)
@@ -92,6 +93,7 @@ class Users extends Component
 
     public function goToaddUser()
     {
+        $this->resetValidation();
         $this->currentPage = PAGECREATEFORM;
     }
 
@@ -138,6 +140,7 @@ class Users extends Component
     //affiche les informations
     public function goToEditUser($id)
     {
+        $this->resetValidation();
         $this->editUser = User::find($id)->toArray();
         $this->currentPage = PAGEEDITFORM;
     }
@@ -145,7 +148,6 @@ class Users extends Component
     public function goToListeUser()
     {
         $this->currentPage = PAGELIST;
-        $this->editUser = [];
     }
 
     public function addUser()

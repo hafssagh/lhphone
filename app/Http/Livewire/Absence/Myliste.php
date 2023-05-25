@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Absence;
 
 use Carbon\Carbon;
 use App\Models\Absence;
@@ -21,8 +21,10 @@ class Myliste extends Component
             ->where("user_id", '=', $user)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
             ->get();
+            
         $allAbsence = Absence::query()
             ->where("user_id", '=', $user)
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') <> ?", [$currentMonth])
             ->get();
 
         return view('livewire.absence.myliste', [

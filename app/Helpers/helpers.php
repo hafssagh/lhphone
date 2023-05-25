@@ -11,6 +11,34 @@ define("PAGEROLE", "role");
 
 define("DEFAULTPASSWORD" ,"password");
 
+function fetchMonthDates()
+{
+    $monthDates = [];
+
+    $currentDate = Carbon::now()->startOfMonth();
+    $lastDayOfMonth = Carbon::now()->endOfMonth();
+    
+    while ($currentDate <= $lastDayOfMonth) {
+        $monthDates[] = $currentDate->toDateString();
+        $currentDate->addDay();
+    }
+
+    return $monthDates;
+}
+
+function fetchWeekDates()
+{
+    $weekDates = [];
+
+    $currentDate = Carbon::now()->startOfWeek();
+    for ($i = 0; $i < 7; $i++) {
+        $weekDates[] = $currentDate->toDate();
+        $currentDate->addDay();
+    }
+
+    return $weekDates;
+}
+
 function workHours()
 {
     $users = User::all();
@@ -129,6 +157,3 @@ function getRolesName(){
     }
     return $rolesName;
 }
-
-
-?>

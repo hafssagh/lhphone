@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Livewire\Absences;
-use App\Http\Livewire\Historique;
-use App\Http\Livewire\Home;
-use App\Http\Livewire\Myliste;
-use App\Http\Livewire\Users;
-use App\Http\Livewire\UserProfile;
-use App\Http\Livewire\ResetPassword;
-use App\Http\Livewire\Resignations;
-use App\Http\Livewire\Salary;
-use App\Http\Livewire\Test;
+use App\Http\Livewire\Home\Home;
+use App\Http\Livewire\Production\Sales;
+use App\Http\Livewire\User\Users;
+use App\Http\Livewire\Salary\Salary;
+use App\Http\Livewire\Absence\Myliste;
+use App\Http\Livewire\Absence\Absences;
+use App\Http\Livewire\Absence\Historique;
+use App\Http\Livewire\Production\Production;
+use App\Http\Livewire\Profile\UserProfile;
+use App\Http\Livewire\Resignation\Resignations;
+use App\Http\Livewire\Profile\ResetPassword;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +28,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-/* Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); */
-
 // Le groupe des routes relatives aux administrateurs uniquement
 Route::group([
     "middleware" => ["auth", "auth.admin"],
@@ -42,6 +41,9 @@ Route::group([
 });
 
 
+
+Route::get('/sales', Sales::class)->name("sales.index");
+Route::get('/production', Production::class)->name("production");
 Route::get('/profile/absence', Myliste::class)->name("absence.myliste");
 Route::get('/user/change-password', ResetPassword::class)->name("profile.update")->middleware(["auth"]);
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);

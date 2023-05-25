@@ -24,33 +24,31 @@
     <link rel="stylesheet" href="/assets/css/app.css">
 
 <body>
-    <div class="container-scroller">
+    <div class="container-scroller"  >
         <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" >
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-                <div class="me-3">
+                <div class="me-3" >
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button"
                         data-bs-toggle="minimize">
                         <span class="icon-menu"></span>
                     </button>
                 </div>
                 <div>
-                    <a class="navbar-brand" href="index.html">
-                        <img src="/assets/images/lhphone2.png" style="height:52px; width:160px;">
+                    <a class="navbar-brand brand-logo" href="/">
+                        <img src="/assets/images/logo.png">
                     </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
-                      {{-- <img src="images/logo-mini.svg" alt="logo"> --}}
-                    </a>
+                   
                   </div>
             </div>
             <x-sidebar />
         </nav>
         <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
+        <div class="container-fluid page-body-wrapper" >
 
             <!-- partial:../../partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <x-menu />
+            <nav class="sidebar sidebar-offcanvas" id="sidebar" >
+                <livewire:menu />
             </nav>
             <!-- partial -->
             <div class="main-panel">

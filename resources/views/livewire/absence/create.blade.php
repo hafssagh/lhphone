@@ -16,6 +16,9 @@
                             {{ $user->last_name }}</option>
                     @endforeach
                 </select>
+                @error('newAbsence.user')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <div class="form-group row">
@@ -23,6 +26,9 @@
             <div class="col-sm-9">
                 <input type="date" wire:model="newAbsence.date"
                     class="form-control @error('newAbsence.date') is-invalid @enderror">
+                @error('newAbsence.date')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <div class="form-group row">
@@ -30,13 +36,17 @@
             <div class="col-sm-9">
                 <input class="form-control @error('newAbsence.abs_hours') is-invalid @enderror" type="number"
                     wire:model="newAbsence.abs_hours">
+                @error('newAbsence.abs_hours')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-3">Justification</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control @error('newAbsence.justification') is-invalid @enderror"
-                    wire:model="newAbsence.justification">
+                <textarea class="form-control @error('newAbsence.justification') is-invalid @enderror"
+                    wire:model="newAbsence.justification" id="floatingTextarea2" style="height: 80px">
+                </textarea>
             </div>
         </div>
         <div class="d-flex flex-row-reverse">

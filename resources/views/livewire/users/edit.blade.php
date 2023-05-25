@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Téléphone</label>
+                            <label for="phone">No de téléphone</label>
                             <input type="text" wire:model="editUser.phone"
                                 class="form-control
                         @error('editUser.phone') is-invalid @enderror">

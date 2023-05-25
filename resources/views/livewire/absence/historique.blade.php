@@ -16,8 +16,8 @@
             </div>
             <form wire:submit.prevent="render">
                 <div class="form-group row" class="text-end">
-                    <div class="col-lg-3">
-                        <label>Filtration par mois</label>
+                    <div class="col-lg-3" >
+                        <label  >Filtration par mois</label>
                     </div>
                     <div class="col-lg-8">
                         <select class="form-control bg-white text-dark "  wire:model="selectedMonth" id="selectedMonth">
@@ -40,7 +40,6 @@
             </form>
         </div>
 
-        <br>
 
         @if ($selectedAbsenceIds)
             <div style="display: flex; align-items: center;">
@@ -59,7 +58,7 @@
             </div>
         @endif
 
-        <div class="table" style="height: 300px;">
+        <div class="table">
             <table class="table">
                 <thead>
                     <tr>
@@ -84,10 +83,12 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="float-end">
+                {{-- {{ $absences->links() }} --}}
+            </div>
         </div>
     </div>
-    <div class="card-footer">
-    </div>
+   
 </div>
 
 

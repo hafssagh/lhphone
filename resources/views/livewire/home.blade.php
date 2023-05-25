@@ -3,11 +3,11 @@
 </div>
 <br>
 <div class="row">
-    <div class="col-md-3 grid-margin " >
+    <div class="col-md-3 grid-margin ">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Calendrier</h4>
-                <div class="d-flex justify-content-between"  style="margin-top:-5px">
+                <div class="d-flex justify-content-between" style="margin-top:-5px">
                     <div class="text-start">
                         <p class="current-date"></p>
                     </div>
@@ -28,7 +28,7 @@
                         </span>
                     </div>
                 </div><br>
-                <div class="calendar"  style="margin-top:-10px">
+                <div class="calendar" style="margin-top:-10px">
                     <ul class="weeks">
                         <li>Dim</li>
                         <li>Lun</li>
@@ -38,7 +38,7 @@
                         <li>Ven</li>
                         <li>Sam</li>
                     </ul>
-                    <ul class="days"  style="margin-top:-10px"></ul>
+                    <ul class="days" style="margin-top:-10px"></ul>
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                                 <img class="rounded" src="../assets/images/user2.png"
                                     style="height: 50px; width: 50px;">
                                 <div style="margin-left: 15px;">
-                                    <h6 class="text-danger" style="margin-bottom: 0;">Directeur</h6>
+                                    <p class="text-danger fw-bold" style="margin-bottom: 0;">Directeur</p>
                                     <p class="text-truncate" style="margin-bottom: 0;">{{ $userdirecteur->last_name }}
                                         {{ $userdirecteur->first_name }}</p>
                                 </div>
@@ -78,7 +78,7 @@
                                         style="height: 50px; width: 50px; ">
                                 @endif
                                 <div style="margin-left: 15px;">
-                                    <h6 class="" style="margin-bottom: 0;">Manager</h6>
+                                    <p class="fw-bold" style="margin-bottom: 0;">Manager</p>
                                     <p class="text-truncate" tyle="margin-bottom: 0;">{{ $usermanager->last_name }}
                                         {{ $usermanager->first_name }}</p>
                                 </div>
@@ -98,8 +98,8 @@
                                     <img class="rounded" src="../assets/images/user2.png"
                                         style="height: 50px; width: 50px; ">
                                 @endif
-                                <div style="margin-left: 15px;">
-                                    <h6 class="" style="margin-bottom: 0;">Responsable informatique</h6>
+                                <div style="margin-left: 15px ; margin-bottom: 0;" >
+                                    <P class="fw-bold" style="margin-bottom: 0;">Responsable informatique</P>
                                     <p class="text-truncate" style="margin-bottom: 0;">{{ $useradmin->last_name }}
                                         {{ $useradmin->first_name }}</p>
                                 </div>
@@ -111,7 +111,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 grid-margin " >
+    <div class="col-md-4 grid-margin ">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Agents</h4>
@@ -162,14 +162,22 @@
                             <div style="display: flex; align-items: center;">
                                 @if ($userAll->photo != '' || $userAll->photo != null)
                                     <img class="rounded" src="{{ asset('storage/' . $userAll->photo) }}"
-                                        style="height: 50px; width: 50px;">
+                                        style="height: 50px; width: 50px;"> <br>
                                 @else
                                     <img class="rounded" src="../assets/images/user2.png"
-                                        style="height: 50px; width: 50px; ">
+                                        style="height: 50px; width: 50px;">
                                 @endif
+                                <br>
                                 <div style="margin-left: 15px;">
                                     <p class="text-truncate" style="margin-bottom: 0;">{{ $userAll->last_name }}
                                         {{ $userAll->first_name }}</p>
+                                    @if ($userAll->company == 'h2f')
+                                        <img src="../assets/images/h2f.png"
+                                            style="height: 20px; width: 35px;">
+                                    @else
+                                        <img src="../assets/images/lh.png"
+                                            style="height: 23px; width: 25px;">
+                                    @endif
                                 </div>
                             </div>
                         </div>

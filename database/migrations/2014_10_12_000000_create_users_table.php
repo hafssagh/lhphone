@@ -30,6 +30,8 @@ return new class extends Migration
             $table->double('base_salary');
             $table->integer('work_hours')->nullable();
             $table->double('salary')->nullable();
+            $table->double('challenge')->nullable();
+            $table->double('prime')->nullable();
             $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -28896,6 +28896,7 @@ div.tagsinput span.tag a {
   width: 100%;
   -webkit-flex-grow: 1;
   flex-grow: 1;
+  margin-top: -25px;
 }
 
 @media (max-width: 767px) {
@@ -28917,6 +28918,7 @@ div.tagsinput span.tag a {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
+  margin-top: -15px;
 }
 
 .sidebar .nav {
@@ -29280,6 +29282,7 @@ div.tagsinput span.tag a {
   -ms-transition: background 0.25s ease;
   box-shadow: none;
   background: #F4F5F7;
+  margin-top: -15px;
   /* Navbar color variations */
 }
 
@@ -29295,7 +29298,7 @@ div.tagsinput span.tag a {
   -ms-transition: width 0.25s ease, background 0.25s ease;
   width: 220px;
   height: 97px;
-  padding: 20px 35px;
+  padding: 30px 20px;
 }
 
 .sidebar-dark .navbar .navbar-brand-wrapper {
@@ -29331,8 +29334,8 @@ div.tagsinput span.tag a {
 }
 
 .navbar .navbar-brand-wrapper .navbar-brand img {
-  max-width: 100%;
-  height: 34px;
+  height: 50px;
+  width: 170px;
   margin: auto;
   vertical-align: middle;
 }

@@ -7,7 +7,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
-                                    <h4 class="card-title card-title-dash">Mes absence du mois</h4>
+                                    <h4 class="card-title card-title-dash">Mes absences du mois</h4>
                                 </div>
                             </div>
                             <div class="mt-3">
@@ -71,7 +71,7 @@
         </div>
         <div class="col-6 grid-margin stretch-card">
             <div class="card card-rounded">
-                <div class="card-body">
+                <div class="card-body" style="max-height: 440px; overflow-y: auto;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -81,8 +81,7 @@
                             </div>
                             <div class="mt-3">
                                 @foreach ($absencesAll as $absence)
-                                    <div
-                                        class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                    <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
                                         <div class="d-flex">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-calendar2-week" viewBox="0 0 16 16">
@@ -113,9 +112,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-
     </div>
 </div>

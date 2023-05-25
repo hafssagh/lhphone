@@ -21,7 +21,7 @@
                     &nbsp;Nouvelle absence</button>
             </div>
         </div><br>
-        <div class="table" style="height: 300px;">
+        <div class="table">
             <table class="table table-striped">
                 <thead>
                     <tr>

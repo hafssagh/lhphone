@@ -8,9 +8,9 @@
                     <div class="col-lg-4 mx-auto" style="width:500px">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="image-container d-flex justify-content-center">
-                                <img src="/assets/images/lhphone.png">
+                                <img src="/assets/images/logo.png" style="width:400px; heigh:350px;">
                             </div>
-                            <br><br>
+                            <br><br><br>
                             <h6 class="text-muted"> Bienvenue de retour !</h6>
                             <form class="pt-3" method="POST" action="{{ route('login') }}">
                                 @csrf

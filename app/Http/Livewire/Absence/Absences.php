@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Absence;
 
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
 
 class Absences extends Component
 {
@@ -19,19 +18,31 @@ class Absences extends Component
     public $newAbsence = [];
     public $editAbsence = [];
 
-    protected $rules = [
-        "newAbsence.user" => "required",
-        "newAbsence.abs_hours" => "required|numeric|lte:8",
-        "newAbsence.date" => "required",
-    ];
 
     protected $messages = [
         'newAbsence.user.required' => "Le nom de l'agent est requis.",
         'newAbsence.abs_hours.required' => "Les heures d'absence sont requises.",
         'newAbsence.abs_hours.lte' => "Les heures d'absence ne doivent pas dépasser 8 heures.",
         'newAbsence.date.required' => "La date d'absence est requise.",
+        'editAbsence.abs_hours.required' => "Les heures d'absence sont requises.",
+        'editAbsence.abs_hours.lte' => "Les heures d'absence ne doivent pas dépasser 8 heures.",
+        'editAbsence.date.required' => "La date d'absence est requise.",
     ];
 
+    public function rules()
+    {
+        if ($this->currentPage == PAGEEDITFORM) {
+            return [
+                "editAbsence.abs_hours" => "required|numeric|lte:8",
+                "editAbsence.date" => "required",
+            ];
+        }
+        return [
+            "newAbsence.user" => "required",
+            "newAbsence.abs_hours" => "required|numeric|lte:8",
+            "newAbsence.date" => "required",
+        ];
+    }
 
     public function render()
     {
@@ -56,6 +67,7 @@ class Absences extends Component
 
     public function goToListeAbsence()
     {
+        $this->resetValidation();
         $this->currentPage = PAGELIST;
         $this->editAbsence = [];
     }
@@ -73,7 +85,7 @@ class Absences extends Component
         }
         $absence->user_id = $this->newAbsence["user"];
         $absence->save();
-        
+
         workHours();
         AbsSalary();
 
@@ -87,14 +99,21 @@ class Absences extends Component
         $this->currentPage = PAGEEDITFORM;
     }
 
-    public function updateAbsence(){
+    public function updateAbsence()
+    {
+        $this->validate();
         $absence = Absence::find($this->editAbsence["id"]);
-        $absence->fill($this->editAbsence);
+        $absence->abs_hours = $this->editAbsence["abs_hours"];
+        if (array_key_exists('justification', $this->editAbsence)) {
+            $absence->justification = $this->editAbsence["justification"];
+        } else {
+            $absence->justification = null;
+        }
         $absence->save();
         $this->goToListeAbsence();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Absence mise à jour avec succès!"]);
     }
-    
+
     public function confirmDelete($id)
     {
         $this->dispatchBrowserEvent("showConfirmMessage", ["message" => [

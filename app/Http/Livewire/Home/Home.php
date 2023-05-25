@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Home;
 
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Mockery\Undefined;
 
 class Home extends Component
 {
@@ -16,6 +15,7 @@ class Home extends Component
         $userAgent = User::join('user_role', 'users.id', '=', 'user_role.user_id')
         ->join('roles', 'user_role.role_id', '=', 'roles.id')
         ->where('roles.name', 'agent')
+        ->orderBy('users.last_name')
         ->select('users.first_name','users.last_name','users.photo')
         ->paginate(9);
 
@@ -40,7 +40,8 @@ class Home extends Component
         $userGet = User::join('user_role', 'users.id', '=', 'user_role.user_id')
         ->join('roles', 'user_role.role_id', '=', 'roles.id')
         ->where('roles.name', 'agent')
-        ->select('users.first_name','users.last_name','users.photo')
+        ->orderBy('users.last_name')
+        ->select('users.first_name','users.last_name','users.photo','users.company')
         ->get();
 
 
@@ -48,6 +49,5 @@ class Home extends Component
         ->extends("layouts.master")
         ->section("contenu");
     }
-
     
 }

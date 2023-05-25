@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <div class="d-sm-flex justify-content-between align-items-start">
-            <h3 class="card-title">Formulaire d'ajout d'une absence</h3>
+            <h3 class="card-title">Formulaire d'édition d'une absence</h3>
             <label class="text-end float-end" wire:click.prevent='goToListeAbsence'>X</label>
         </div>
         <br>
@@ -21,20 +21,27 @@
             <div class="col-sm-9">
                 <input type="date" wire:model="editAbsence.date"
                     class="form-control @error('editAbsence.date') is-invalid @enderror">
+                @error('editAbsence.date')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-3">Heure d'absence</label>
             <div class="col-sm-9">
-                <input class="form-control @error('editAbsence.abs_hours') is-invalid @enderror" type="number"
+                <input type="number" class="form-control @error('editAbsence.abs_hours') is-invalid @enderror"
                     wire:model="editAbsence.abs_hours">
+                @error('editAbsence.abs_hours')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-3">Justification</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control @error('editAbsence.justification') is-invalid @enderror"
-                    wire:model="editAbsence.justification">
+                <textarea class="form-control @error('editAbsence.justification') is-invalid @enderror"
+                    wire:model="editAbsence.justification" id="floatingTextarea2" style="height: 80px">
+                </textarea>
             </div>
         </div>
         <div class="d-flex flex-row-reverse">

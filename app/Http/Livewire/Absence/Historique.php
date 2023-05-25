@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Absence;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Historique extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = "bootstrap";
+
     public $selectedAbsenceIds  = [];
     public $selectedMonth ;
 
@@ -17,9 +20,9 @@ class Historique extends Component
 
         if ($this->selectedMonth === null || $this->selectedMonth == "all") {
             // Logic when all months are selected
-            $absences = Absence::get();
+            $absences = Absence::orderBy('date','DESC')->paginate(10);
         } else {
-            $absences = Absence::whereMonth('date', $this->selectedMonth)->get();
+            $absences = Absence::orderBy('date','DESC')->whereMonth('date', $this->selectedMonth)->get();
         }
         return view('livewire.absence.historique', [
             "absences" => $absences,

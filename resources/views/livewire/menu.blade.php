@@ -1,4 +1,4 @@
-{{-- <ul class="nav">
+<ul class="nav">
     @can('admin')
         <li class="nav-item {{ setMenuActive('home') }}">
             <a class="nav-link" href="{{ route('home') }}">
@@ -29,6 +29,7 @@
                 aria-controls="tables">
                 <i class="menu-icon mdi mdi-table"></i>
                 <span class="menu-title">Gestion Absence &nbsp;&nbsp;</span>
+                {{--  <i class="menu-arrow"></i> --}}
             </a>
             <div class="collapse" id="tables">
                 <ul class="nav flex-column sub-menu">
@@ -41,7 +42,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.salary') }}">
+            <a class="nav-link" href="{{ route('admin.salary') }}" wire:click='calculSalaryWorkH'>
                 <i class="mdi mdi-credit-card-multiple menu-icon"></i>
                 <span class="menu-title">Gestion Salaire</span>
             </a>
@@ -60,7 +61,7 @@
                 <span class="menu-title">Tableau de bord</span>
             </a>
         </li>
-        <li class="nav-item">
+       {{--  <li class="nav-item">
             <a class="nav-link" href="">
                 <i class="mdi mdi-checkbox-multiple-marked-outline menu-icon"></i>
                 <span class="menu-title">Gestion Objectif</span>
@@ -71,11 +72,17 @@
                 <i class="mdi mdi-database menu-icon"></i>
                 <span class="menu-title">Gestion Clientèle</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="{{ route('absence.myliste') }}">
                 <i class="mdi mdi-calendar menu-icon"></i>
                 <span class="menu-title">Mes Absences</span>
+            </a>
+        </li>
+        <li class="nav-item  {{ setMenuActive('sales.index') }}">
+            <a class="nav-link" href="{{ route('sales.index') }}">
+                <i class="mdi mdi-chart-line menu-icon"></i>
+                <span class="menu-title">Gestion Vente</span>
             </a>
         </li>
     @endcan
@@ -106,4 +113,3 @@
         </li>
     @endcan
 </ul>
---}}
