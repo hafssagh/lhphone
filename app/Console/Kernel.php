@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-       $schedule->command('command:daily')->daily()->sendOutputTo('scheduler.log'); 
+       /* $schedule->command('command:daily')->daily()->sendOutputTo('scheduler.log');  */
     }
 
     /**

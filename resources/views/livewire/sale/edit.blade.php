@@ -26,16 +26,7 @@
                                 class="form-control
                         @error('editSale.quantity') is-invalid @enderror">
                         </div>
-                        <div class="form-group">
-                            <label for="remark">Remarque</label>
-                            <div class="form-floating">
-                                <textarea class="form-control @error('editSale.remark') is-invalid @enderror" wire:model="editSale.remark"
-                                    id="floatingTextarea2" style="height: 80px">
-                                </textarea>
-                            </div>
-                        </div>
                     </div>
-
                     <div class="col-md-6">
                         <p class="card-subtitle card-subtitle-dash">Société</p>
                         <div class="form-group">

@@ -46,7 +46,7 @@
             <div class="col-lg-8 ">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-borderless ">
+                        <table class="table table-borderless">
                             <thead>
                                 <tr>
                                     <th style="padding: 0.5rem;">Heures d'absence </th>
@@ -55,13 +55,19 @@
                                 <tr>
                                     <th style="padding: 0.5rem;">Heures de travail </th>
                                     <th style="font-weight: lighter;  padding: 0.5rem; ">{{ $this->workHours() }}
-                                        <strong> &emsp; / {{ calculerHeuresTravailParMois() }}</strong>
+                                        <strong> &nbsp;/ &nbsp; {{ calculerHeuresTravailParMois() }}</strong>
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th style="padding: 0.1rem;"></th>
-                                    <th style="padding: 0.1rem; "></th>
-                                    <th style="padding: 0.1rem; "></th>
+                                    <th style="padding: 0.3rem;"></th>
+                                    <th style="padding: 0.3rem;"></th>
+                                    <th style="padding: 0.3rem;"></th>
+                                </tr>
+                                <tr style=" border-top: 0.1em solid rgb(209, 209, 209);">
+                                    <th style="padding: 0.5rem;">Salaire</th>
+                                    <th style="font-weight: lighter;  padding: 0.5rem;" class="text-danger">
+                                        <strong>{{ auth()->user()->salary }} DH</strong>
+                                    </th>
                                 </tr>
                             </thead>
                         </table>
@@ -81,7 +87,8 @@
                             </div>
                             <div class="mt-3">
                                 @foreach ($absencesAll as $absence)
-                                    <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                    <div
+                                        class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
                                         <div class="d-flex">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-calendar2-week" viewBox="0 0 16 16">

@@ -37,4 +37,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function authenticated($request, $user)
+    {
+        workHours();
+        AbsSalary();
+        CalculChallenge();
+        CalculPrime();
+        return redirect('/');
+    }
 }

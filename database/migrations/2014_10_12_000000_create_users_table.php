@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('type_contract');
             $table->string('duration_contract')->nullable();
             $table->string('company');
+            $table->string('group')->nullable();
             $table->double('base_salary');
             $table->integer('work_hours')->nullable();
             $table->double('salary')->nullable();

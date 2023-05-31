@@ -110,11 +110,11 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Société</label>
-                                    <select class="form-control bg-white text-dark @error('editUser.company') is-invalid @enderror"
-                                    id="select1"  wire:model="editUser.company">
+                                    <select class="form-control bg-white text-dark" id="select1"
+                                        @error('editUser.company') is-invalid @enderror wire:model="newUser.company">
                                         <option value="">---------</option>
                                         <option value="lh">LH Phone</option>
-                                        <option value="h2f">H2F Premium</option>
+                                        <option value="h2f">H2F Primium</option>
                                     </select>
                                 </div>
                             </div>
@@ -122,8 +122,8 @@
                                 <div class="form-group">
                                     <label>Groupe</label>
                                     <select class="form-control text-dark" id="select2"
-                                    {{-- @if (!$additionalOptionEnabled) disabled @endif --}}
-                                    wire:model="editUser.group">
+                                        @if (!$additionalOptionEnabled) disabled @endif
+                                        @error('editUser.group') is-invalid @enderror wire:model="newUser.group">
                                         <option value="">---------</option>
                                         <option value="1">Equipe Chris Ezzahra</option>
                                         <option value="2">Equipe Amine</option>

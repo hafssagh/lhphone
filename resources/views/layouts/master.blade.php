@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>LH Phone</title>
+    <title>IntelliManage</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="/assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -19,7 +19,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/assets/images/favicon.png" />
+    <link rel="shortcut icon" href="/assets/images/mylogo.png"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
 
@@ -48,7 +48,7 @@
 
             <!-- partial:../../partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar" >
-                <livewire:menu />
+                <x-menu/>
             </nav>
             <!-- partial -->
             <div class="main-panel">

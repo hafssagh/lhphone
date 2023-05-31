@@ -8,7 +8,7 @@
     @if ($currentPage == PAGEEDITFORM)
         @include('livewire.sale.edit')
     @endif
-</div>
+</div>                                                                          
 
 
 <script>

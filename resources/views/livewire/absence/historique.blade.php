@@ -14,12 +14,16 @@
                     <span class="input-group-text"><i class="icon-search"></i></span>
                 </div>
             </div>
+           {{--  <div class="dropdown">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle toggle-dark" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> All </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" >
+                  <h6 class="dropdown-header">Tous les mois</h6>
+                  <a class="dropdown-item" href="#">Tous les mois</a>
+                </div>
+              </div> --}}
             <form wire:submit.prevent="render">
                 <div class="form-group row" class="text-end">
-                    <div class="col-lg-3" >
-                        <label  >Filtration par mois</label>
-                    </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg">
                         <select class="form-control bg-white text-dark "  wire:model="selectedMonth" id="selectedMonth">
                             <option value="all">Tous les mois</option>
                             <option value="1">Janvier</option>
@@ -84,7 +88,7 @@
                 </tbody>
             </table>
             <div class="float-end">
-                {{-- {{ $absences->links() }} --}}
+                {{ $absences->links() }} 
             </div>
         </div>
     </div>

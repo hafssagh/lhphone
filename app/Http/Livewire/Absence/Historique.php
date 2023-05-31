@@ -11,6 +11,7 @@ class Historique extends Component
 {
     use WithPagination;
     protected $paginationTheme = "bootstrap";
+    public $search = "";
 
     public $selectedAbsenceIds  = [];
     public $selectedMonth ;
@@ -20,9 +21,21 @@ class Historique extends Component
 
         if ($this->selectedMonth === null || $this->selectedMonth == "all") {
             // Logic when all months are selected
-            $absences = Absence::orderBy('date','DESC')->paginate(10);
+            $absences = Absence::orderBy('date','DESC')
+            ->when($this->search, function ($query, $search) {
+                return $query->whereHas('users', function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
+                });
+            })->paginate(5);
         } else {
-            $absences = Absence::orderBy('date','DESC')->whereMonth('date', $this->selectedMonth)->get();
+            $absences = Absence::orderBy('date','DESC')->whereMonth('date', $this->selectedMonth)
+            ->when($this->search, function ($query, $search) {
+                return $query->whereHas('users', function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
+                });
+            })->paginate(5);
         }
         return view('livewire.absence.historique', [
             "absences" => $absences,

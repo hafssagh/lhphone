@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Salary;
+namespace App\Http\Livewire\Paiment;
 
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Salary extends Component
+class ChallengePrime extends Component
 {
     use WithPagination;
     protected $paginationTheme = "bootstrap";
@@ -16,10 +16,6 @@ class Salary extends Component
 
     public function render()
     {
-        $salary = User::where("first_name", "like", "%" . $this->search . "%")
-        ->orWhere("last_name", "like", "%" . $this->search . "%")
-        ->orderBy('last_name')->where('company', $this->selectedSocieties)->paginate(6);
-
         $challenge = User::whereNot('challenge', '0')
         ->where(function ($query) {
             $query->orderBy('last_name')
@@ -27,19 +23,19 @@ class Salary extends Component
                 ->where("first_name", "like", "%" . $this->search . "%")
                 ->orWhere("last_name", "like", "%" . $this->search . "%");
         })
-        ->get();
+        ->paginate(6);
 
-        $prime = User::whereNot('challenge', '0')
+        $prime = User::whereNot('prime', '0')
         ->where(function ($query) {
             $query->orderBy('last_name')
                 ->where('company', $this->selectedSocieties)
                 ->where("first_name", "like", "%" . $this->search . "%")
                 ->orWhere("last_name", "like", "%" . $this->search . "%");
         })
-        ->get();
+        ->paginate(6);
 
-        return view('livewire.salary', 
-        ["salary" => $salary , "challenge" => $challenge , "prime" => $prime])
+        return view('livewire.paiment.challenge-prime', 
+        ["challenge" => $challenge , "prime" => $prime])
         ->extends("layouts.master")
         ->section("contenu");
     }

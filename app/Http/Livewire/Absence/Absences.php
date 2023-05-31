@@ -13,6 +13,8 @@ class Absences extends Component
     use WithPagination;
     protected $paginationTheme = "bootstrap";
 
+    public $search = "";
+
     public $currentPage = PAGELIST;
 
     public $newAbsence = [];
@@ -33,7 +35,7 @@ class Absences extends Component
     {
         if ($this->currentPage == PAGEEDITFORM) {
             return [
-                "editAbsence.abs_hours" => "required|numeric|lte:8",
+                "editAbsence.abs_hours" => ";required|numeric|lte:8",
                 "editAbsence.date" => "required",
             ];
         }
@@ -51,7 +53,12 @@ class Absences extends Component
         return view('livewire.absence.index', [
             "absences" => Absence::query()
                 ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->latest()->paginate(4),
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    });
+                })->latest()->paginate(5),
             "users" => User::select('id', 'first_name', 'last_name')->get(),
         ])
             ->extends("layouts.master")
@@ -101,7 +108,7 @@ class Absences extends Component
 
     public function updateAbsence()
     {
-        $this->validate();
+        /* $this->validate(); */
         $absence = Absence::find($this->editAbsence["id"]);
         $absence->abs_hours = $this->editAbsence["abs_hours"];
         if (array_key_exists('justification', $this->editAbsence)) {

@@ -10,8 +10,9 @@
                             <div class="image-container d-flex justify-content-center">
                                 <img src="/assets/images/logo.png" style="width:400px; heigh:350px;">
                             </div>
-                            <br><br><br>
-                            <h6 class="text-muted"> Bienvenue de retour !</h6>
+                            <br><br>
+                            <h6 class="text-muted">{{-- <img src="/assets/images/mylogo.png" style="height: 40px; widht:40px">  --}}
+                                Bienvenue à <strong>IntelliManage </strong></h6>
                             <form class="pt-3" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">

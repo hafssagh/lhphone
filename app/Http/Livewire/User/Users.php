@@ -8,6 +8,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class Users extends Component
@@ -45,13 +46,33 @@ class Users extends Component
     public function render()
     {
         Carbon::setLocale("fr");
+        $user = Auth::user();
+        $role = $user->roles->first()->name;
 
-        $data = [
-            "users" => User::where("first_name", "like", "%" . $this->search . "%")
-                ->orWhere("last_name", "like", "%" . $this->search . "%")
-                ->latest()
-                ->paginate(6),
-        ];
+        if ($role == 'Administrateur' || $role == 'Super Administrateur') {
+            $data = [
+                "users" => User::where(function ($query) {
+                    $query->where("first_name", "like", "%" . $this->search . "%")
+                        ->orWhere("last_name", "like", "%" . $this->search . "%");
+                })
+                    ->orderBy("last_name")
+                    ->paginate(6),
+            ];
+        }
+        if ($role == 'Manager') {
+            $data = [
+                "users" => User::where("company", "like", "lh")
+                    ->where("company", "NOT LIKE", "h2f")
+                    ->whereHas('roles', function ($query) {
+                        $query->where('name', 'agent');})
+                    ->where(function ($query) {
+                        $query->where("first_name", "like", "%" . $this->search . "%")
+                            ->orWhere("last_name", "like", "%" . $this->search . "%");
+                    })
+                    ->orderBy("last_name")
+                    ->paginate(6),
+            ];
+        }
 
         return view('livewire.users.index', $data)
             ->extends("layouts.master")
@@ -72,6 +93,7 @@ class Users extends Component
                 'editUser.date_contract' => 'required',
                 'editUser.type_contract' => 'required',
                 'editUser.duration_contract' => 'nullable',
+                'editUser.group' => 'nullable',
                 'editUser.company' => 'required',
                 'editUser.base_salary' => 'required|numeric',
             ];
@@ -86,6 +108,7 @@ class Users extends Component
             'newUser.date_contract' => 'required',
             'newUser.type_contract' => 'required',
             'newUser.duration_contract' => 'nullable',
+            'newUser.group' => 'nullable',
             'newUser.company' => 'required',
             'newUser.base_salary' => 'required|numeric',
         ];
@@ -142,6 +165,7 @@ class Users extends Component
     {
         $this->resetValidation();
         $this->editUser = User::find($id)->toArray();
+        /* $this->updatedNewUserCompany($this->editUser['company']); */
         $this->currentPage = PAGEEDITFORM;
     }
 
@@ -152,7 +176,6 @@ class Users extends Component
 
     public function addUser()
     {
-        /* dump($this->newUser); */
         // Vérifier que les informations sont correctes
         $validationAttributes = $this->validate();
         $validationAttributes["newUser"]["password"] =  bcrypt("password");
@@ -202,5 +225,16 @@ class Users extends Component
     {
         User::find($this->editUser["id"])->update(["password" => Hash::make(DEFAULTPASSWORD)]);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Mot de passe utilisateur réinitialisé avec succès!"]);
+    }
+
+    public $additionalOptionEnabled = 'false';
+
+    public function updatedNewUserCompany($value)
+    {
+        if ($value === 'lh') {
+            $this->additionalOptionEnabled = true;
+        } else {
+            $this->additionalOptionEnabled = false;
+        }
     }
 }

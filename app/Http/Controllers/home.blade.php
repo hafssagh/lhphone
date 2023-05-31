@@ -98,7 +98,7 @@
                                     <img class="rounded" src="../assets/images/user2.png"
                                         style="height: 50px; width: 50px; ">
                                 @endif
-                                <div style="margin-left: 15px ; margin-bottom: 0;">
+                                <div style="margin-left: 15px ; margin-bottom: 0;" >
                                     <P class="fw-bold" style="margin-bottom: 0;">Responsable informatique</P>
                                     <p class="text-truncate" style="margin-bottom: 0;">{{ $useradmin->last_name }}
                                         {{ $useradmin->first_name }}</p>
@@ -116,7 +116,7 @@
                                     <img class="rounded" src="../assets/images/user2.png"
                                         style="height: 50px; width: 50px; ">
                                 @endif
-                                <div style="margin-left: 15px ; margin-bottom: 0;">
+                                <div style="margin-left: 15px ; margin-bottom: 0;" >
                                     <P class="fw-bold" style="margin-bottom: 0;">Chargée informatique</P>
                                     <p class="text-truncate" style="margin-bottom: 0;">{{ $useradmin2->last_name }}
                                         {{ $useradmin2->first_name }}</p>
@@ -145,6 +145,7 @@
                             @endif
                             <br>
                             <p class="text-truncate">{{ $user->last_name }} {{ $user->first_name }}</p>
+                            <p class="text-truncate">{{ $user->group }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -168,8 +169,9 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content"><br>
-            <div style="text-align: right; margin-right:20px; margin-top:-10px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="margin-top:-20px">
@@ -188,22 +190,13 @@
                                 <div style="margin-left: 15px;">
                                     <p class="text-truncate" style="margin-bottom: 0;">{{ $userAll->last_name }}
                                         {{ $userAll->first_name }}</p>
-                                    <div style="display: inline-block;">
-                                        @if ($userAll->company == 'h2f')
-                                            <img src="../assets/images/h2f.png"
-                                                style="height: 20px; width: 35px;display: inline-block;">
-                                        @else
-                                            <img src="../assets/images/lh.png"
-                                                style="height: 23px; width: 25px;display: inline-block;">
-                                        @endif
-                                        @if ($userAll->group == '1')
-                                            <p style="font-size: 11px; color: blue;display: inline-block;">Equipe Chris
-                                                Ezzahra</p>
-                                        @elseif ($userAll->group == '2')
-                                            <p style="font-size: 11px; color: red;display: inline-block;">Equipe Amine
-                                            </p>
-                                        @endif
-                                    </div>
+                                    @if ($userAll->company == 'h2f')
+                                        <img src="../assets/images/h2f.png"
+                                            style="height: 20px; width: 35px;">
+                                    @else
+                                        <img src="../assets/images/lh.png"
+                                            style="height: 23px; width: 25px;">
+                                    @endif
                                 </div>
                             </div>
                         </div>

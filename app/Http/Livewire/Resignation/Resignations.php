@@ -31,13 +31,16 @@ class Resignations extends Component
     {
         Carbon::setLocale("fr");
         
-        $resignationQuery = Resignation::query();
-        if($this->search != ""){
-            $resignationQuery->where("", "LIKE" , "%" . $this->search . "%");
-        } 
+       
 
         return view('livewire.resignation.index',[
-            "resignations" => $resignationQuery->latest()->paginate(4),
+            "resignations" => Resignation::query()
+            ->when($this->search, function ($query, $search) {
+                return $query->whereHas('users', function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
+                });
+            })->latest()->paginate(5),
             "users" => User::select('id', 'first_name' , 'last_name')->get(),
         ])
             ->extends("layouts.master")

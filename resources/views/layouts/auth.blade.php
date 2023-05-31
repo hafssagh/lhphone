@@ -6,7 +6,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>LH Phone</title>
+  <title>IntelliManage</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="/assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -20,7 +20,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="/assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="/assets/images/favicon.png" />
+  <link rel="shortcut icon" href="/assets/images/mylogo.png"/>
 </head>
 
 <body>

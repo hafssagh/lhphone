@@ -56,3 +56,16 @@
    });
    });
 </script>
+
+
+<script>
+    document.addEventListener('livewire:load', function() {
+        Livewire.on('toggleAdditionalOption', function(isEnabled) {
+            if (isEnabled) {
+                document.getElementById('select2').removeAttribute('disabled');
+            } else {
+                document.getElementById('select2').setAttribute('disabled', 'disabled');
+            }
+        });
+    });
+</script>

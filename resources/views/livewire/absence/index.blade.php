@@ -1,5 +1,4 @@
 
-@can("admin")
 <div wire:ignore.self>
   @if ($currentPage == PAGECREATEFORM)
      @include("livewire.absence.create")
@@ -11,7 +10,7 @@
      @include("livewire.absence.liste")
   @endif
 </div>
-@endcan
+
 
 <script>
   window.addEventListener('showSuccessMessage', event => {

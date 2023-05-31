@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Production;
 
 use App\Models\Sale;
-use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +10,8 @@ class Sales extends Component
 {
     public $currentPage = PAGELIST;
     public $state;
+
+    public $search = "";
 
     public $newSale = [];
     public $editSale = [];
@@ -33,14 +34,13 @@ class Sales extends Component
 
         $user = Auth::user();
 
-        if ($user->roles->contains('name', 'Agent')) {
-            $sales = Sale::where('user_id', $user->id)->orderBy('date_sal', 'desc')->get();
-        } else {
-            $sales = Sale::orderBy('date_sal', 'desc')
-                ->when($this->state, function ($query, $state) {
-                    return $query->where('state', $state);
-                })->get();
-        }
+        $sales = Sale::where('user_id', $user->id)->orderBy('date_sal', 'desc')
+        ->when($this->search, function ($query, $search) {
+            return $query->whereHas('users', function ($query) use ($search) {
+                $query->where('name_client', 'like', '%' . $search . '%');
+            });
+        })
+        ->get();
 
         return view('livewire.sale.index', ["sales" => $sales])
             ->extends("layouts.master")
@@ -89,7 +89,7 @@ class Sales extends Component
         $sale->save();
 
         $this->goToListeSales();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Un nouvelle vente a été ajouté avec succès!"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Une nouvelle vente a été ajouté avec succès!"]);
     }
 
     public function editSale($id)
@@ -98,82 +98,12 @@ class Sales extends Component
         $this->currentPage = PAGEEDITFORM;
     }
 
-    public function saleValide($id)
+    public function updateSale()
     {
-
-        $this->editSale = Sale::with("users")->find($id)->toArray();
         $sale = Sale::find($this->editSale["id"]);
-        $sale->state = $this->editSale["state"] = "1";
-        $sale->date_confirm = $this->newSale["date_confirm"] =  date('Y-m-d');
+        $sale->fill($this->editSale);
         $sale->save();
-        $this->CalculChallenge();
-        $this->CalculPrime();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ mise à jour avec succès!"]);
-    }
-
-    public function saleRefuse($id)
-    {
-
-        $this->editSale = Sale::with("users")->find($id)->toArray();
-        $sale = Sale::find($this->editSale["id"]);
-        $sale->state = $this->editSale["state"] = "-1";
-        $sale->date_confirm = $this->newSale["date_confirm"] =  date('Y-m-d');
-        $sale->save();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ mise à jour avec succès!"]);
-    }
-
-    public function CalculChallenge()
-    {
-        $weekDates = fetchWeekDates();
-        $users = User::all();
-
-        foreach ($users as $user) {
-            $sales = Sale::where('user_id', $user->id)
-                ->whereIn('date_confirm', $weekDates)
-                ->where('state', '1')
-                ->get();
-            if ($sales->isNotEmpty()) {
-                $totalQuantity = $sales->sum('quantity');
-                if ($totalQuantity >= 300) {
-                    $user->challenge = max(min(floor($totalQuantity / 100) * 100 - 100, 5000), 200);
-                }
-                $user->save();
-            }
-        }
-    }
-
-    public function CalculPrime()
-    {
-        $monthDates = fetchMonthDates();
-        $users = User::all();
-
-        foreach ($users as $user) {
-            $sales = Sale::where('user_id', $user->id)
-                ->whereIn('date_confirm', $monthDates)
-                ->where('state', '1')
-                ->get();
-            if ($sales->isNotEmpty()) {
-                $totalQuantity = $sales->sum('quantity');
-
-                $increments = [
-                    1000 => 1500,
-                    1400 => 2500,
-                    1800 => 3500,
-                    2200 => 4500,
-                    2600 => 5500,
-                    3000 => 6500,
-                    3400 => 7500,
-                ];
-
-                foreach ($increments as $quantityThreshold => $challengeValue) {
-                    if ($totalQuantity >= $quantityThreshold) {
-                        $user->prime = $challengeValue;
-                    } else {
-                        break;
-                    }
-                }
-            }
-            $user->save();
-        }
+        $this->goToListeSales();
+        $this->dispatchBrowserEvent("showSuccessMessage");
     }
 }

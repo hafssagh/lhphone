@@ -27,8 +27,14 @@
                     <tr>
                         <th style="width:5%"></th>
                         <th style="width:30%">Utilisateurs</th>
-                        <th style="width:20%">Rôles</th>
-                        <th class="text-center" style="width:30%">Société</th>
+                        @canAny(['admin', 'superadmin'])
+                            <th style="width:20%">Rôles</th>
+                            <th class="text-center" style="width:30%">Société</th>
+                        @endcanAny
+                        @can('manager')
+                            <th style="width:20%">Email</th>
+                            <th class="text-center" style="width:30%">Groupe</th>
+                        @endcan
                         <th class="text-center" style="width:15%">Ajouté</th>
                         <th class="text-center" style="width:30%">Action</th>
                     </tr>
@@ -36,9 +42,10 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            @if ($user->photo != '' ||$user->photo != null)
-                                <td style="padding: 0.8rem;"> <img class="img rounded-circle " src="{{ asset('storage/' . $user->photo ) }}"
-                                        style="height: 36px; width:36px"></td>
+                            @if ($user->photo != '' || $user->photo != null)
+                                <td style="padding: 0.8rem;"> <img class="img rounded-circle "
+                                        src="{{ asset('storage/' . $user->photo) }}" style="height: 36px; width:36px">
+                                </td>
                             @else
                                 <td style="padding: 0.8rem;"> <img src="../assets/images/user.png"></td>
                             @endif
@@ -49,30 +56,44 @@
                             @else
                                 <td style="padding: 0.8rem;"> {{ $user->last_name }} {{ $user->first_name }}
                             @endif
-                            <td style="padding: 0.8rem;">{{ $user->allRoleName }}</td>
-                            @if ($user->company == 'h2f')
+                            @canAny(['admin', 'superadmin'])
+                                <td style="padding: 0.8rem;">{{ $user->allRoleName }}</td>
                                 <td class="text-center" style="padding: 0.8rem;">
-                                    <div class="badge badge-opacity-primary">H2F PREMIUM</div>
+                                    @if ($user->company == 'h2f')
+                                        <div class="badge badge-opacity-primary">H2F PREMIUM</div>
+                                    @else
+                                        <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">LH PHONE
+                                        </div>
+                                    @endif
                                 </td>
-                            @else
+                            @endcanAny
+                            @can('manager')
+                                <td style="padding: 0.8rem;">{{ $user->email }}</td>
                                 <td class="text-center" style="padding: 0.8rem;">
-                                    <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">LH PHONE
-                                    </div>
+                                    @if ($user->group == '1')
+                                        <div class="badge badge-opacity-primary">Equipe Chris Ezzahra</div>
+                                    @else
+                                        <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">
+                                            Equipe Amine
+                                        </div>
+                                    @endif
                                 </td>
-                            @endif
+                            @endcan
                             <td class="text-center" style="padding: 0.8rem;">
                                 {{ \Carbon\Carbon::parse($user->date_contract)->diffForHumans() }}</td>
                             <td class="text-center" style="padding: 0.8rem;">
-                                <a href="javascript:;" class="btn btn-sm btn-icon"
-                                    wire:click="goToRoleUser({{ $user->id }})">
-                                    <span class="svg-icon svg-icon-md">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-toggles" viewBox="0 0 16 16">
-                                            <path
-                                                d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7h-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm2.45 0A3.49 3.49 0 0 1 8 3.5 3.49 3.49 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5H6.95zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7z" />
-                                        </svg>
-                                    </span>
-                                </a>
+                                @canAny(['admin', 'superadmin'])
+                                    <a href="javascript:;" class="btn btn-sm btn-icon"
+                                        wire:click="goToRoleUser({{ $user->id }})">
+                                        <span class="svg-icon svg-icon-md">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-toggles" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7h-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm2.45 0A3.49 3.49 0 0 1 8 3.5 3.49 3.49 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5H6.95zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7z" />
+                                            </svg>
+                                        </span>
+                                    </a>
+                                @endcanAny
                                 <a href="javascript:;" class="btn btn-sm btn-icon"
                                     wire:click="goToEditUser({{ $user->id }})">
                                     <span class="svg-icon svg-icon-md">

@@ -1,15 +1,73 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
 
+define("PAGEDEVIS", "devisEnCours");
 define("PAGELIST", "liste");
 define("PAGECREATEFORM", "create");
 define("PAGEEDITFORM", "edit");
 define("PAGEROLE", "role");
 
 define("DEFAULTPASSWORD" ,"password");
+
+
+function CalculChallenge()
+{
+    $weekDates = fetchWeekDates();
+    $users = User::all();
+
+    foreach ($users as $user) {
+        $sales = Sale::where('user_id', $user->id)
+            ->whereIn('date_confirm', $weekDates)
+            ->where('state', '1')
+            ->get();
+        if ($sales->isNotEmpty()) {
+            $totalQuantity = $sales->sum('quantity');
+            if ($totalQuantity >= 300) {
+                $user->challenge = max(min(floor($totalQuantity / 100) * 100 - 100, 900), 200);
+            }
+            $user->save();
+        }
+    }
+}
+
+function CalculPrime()
+{
+    $monthDates = fetchMonthDates();
+    $users = User::all();
+
+    foreach ($users as $user) {
+        $sales = Sale::where('user_id', $user->id)
+            ->whereIn('date_confirm', $monthDates)
+            ->where('state', '1')
+            ->get();
+        if ($sales->isNotEmpty()) {
+            $totalQuantity = $sales->sum('quantity');
+
+            $increments = [
+                1000 => 1500,
+                1400 => 2500,
+                1800 => 3500,
+                2200 => 4500,
+                2600 => 5500,
+                3000 => 6500,
+                3400 => 7500,
+            ];
+
+            foreach ($increments as $quantityThreshold => $challengeValue) {
+                if ($totalQuantity >= $quantityThreshold) {
+                    $user->prime = $challengeValue;
+                } else {
+                    break;
+                }
+            }
+            $user->save();
+        }
+    }
+}
 
 function fetchMonthDates()
 {
@@ -81,10 +139,7 @@ function calculerHeuresTravailParMois()
 
        for ($day = $firstDayOfMonth; $day <= $lastDayOfMonth; $day->addDay()) {
            // Check if the day is a Sunday (dayOfWeek = 0) or a weekday (dayOfWeek between 1 and 5)
-           if ($day->isSunday()) {
-               // Add 4 working hours for Sundays
-               $totalHours += 4;
-           } elseif ($day->isWeekday()) {
+          if ($day->isWeekday()) {
                // Add 8 working hours for weekdays (Monday to Friday)
                $totalHours += 8;
            }
@@ -114,10 +169,7 @@ function calculerHeuresTravail()
 
     for ($day = $firstDayOfMonth; $day <= $lastDayOfMonth; $day->addDay()) {
         // Check if the day is a Sunday (dayOfWeek = 0) or a weekday (dayOfWeek between 1 and 5)
-        if ($day->isSunday()) {
-            // Add 4 working hours for Sundays
-            $totalHours += 4;
-        } elseif ($day->isWeekday()) {
+       if ($day->isWeekday()) {
             // Add 8 working hours for weekdays (Monday to Friday)
             $totalHours += 8;
         }
@@ -125,6 +177,7 @@ function calculerHeuresTravail()
 
     return $totalHours;
 }
+
 
 function userName(){
     return auth()->user()->last_name . ' ' . auth()->user()->first_name;

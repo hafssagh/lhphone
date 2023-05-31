@@ -37,6 +37,12 @@
                                     class="dropdown-item-icon mdi mdi-account-outline me-2" style="color:#1F3BB3"></i>
                                 Mon Profile
                                 </span></a>
+                            @cannot('agent')
+                                <a class="dropdown-item" href="{{ route('absence.myliste') }}"><i
+                                        class="dropdown-item-icon mdi mdi-calendar me-2" style="color:#1F3BB3"></i>
+                                    Mes absences
+                                    </span></a>
+                            @endcannot
                             <a class="dropdown-item" href="{{ route('profile.update') }}"><i
                                     class="dropdown-item-icon mdi mdi-lock-outline me-2" style="color:#1F3BB3"></i>
                                 Sécurité</a>

@@ -81,7 +81,6 @@ header .current-date {
 
 
 .blinking-text {
-    color: #0dcaf0;
     animation: blink 2s infinite;
   }
   

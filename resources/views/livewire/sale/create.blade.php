@@ -36,14 +36,6 @@
                                 class="form-control
                         @error('newSale.quantity') is-invalid @enderror">
                         </div>
-                        <div class="form-group">
-                            <label for="remark">Remarque</label>
-                            <div class="form-floating">
-                                <textarea class="form-control @error('newSale.remark') is-invalid @enderror" wire:model="newSale.remark"
-                                    id="floatingTextarea2" style="height: 100px">
-                                </textarea>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="col-md-6">
