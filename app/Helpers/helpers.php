@@ -11,7 +11,7 @@ define("PAGECREATEFORM", "create");
 define("PAGEEDITFORM", "edit");
 define("PAGEROLE", "role");
 
-define("DEFAULTPASSWORD" ,"password");
+define("DEFAULTPASSWORD", "password");
 
 
 function CalculChallenge()
@@ -24,15 +24,23 @@ function CalculChallenge()
             ->whereIn('date_confirm', $weekDates)
             ->where('state', '1')
             ->get();
+
         if ($sales->isNotEmpty()) {
             $totalQuantity = $sales->sum('quantity');
             if ($totalQuantity >= 300) {
-                $user->challenge = max(min(floor($totalQuantity / 100) * 100 - 100, 900), 200);
+                $challenge = max(min(floor($totalQuantity / 100) * 100 - 100, 900), 200);
+                $user->challenge = $challenge;
+            } else {
+                $user->challenge = 0;
             }
-            $user->save();
+        } else {
+            $user->challenge = 0;
         }
+
+        $user->save();
     }
 }
+
 
 function CalculPrime()
 {
@@ -44,6 +52,7 @@ function CalculPrime()
             ->whereIn('date_confirm', $monthDates)
             ->where('state', '1')
             ->get();
+
         if ($sales->isNotEmpty()) {
             $totalQuantity = $sales->sum('quantity');
 
@@ -57,6 +66,8 @@ function CalculPrime()
                 3400 => 7500,
             ];
 
+            $user->prime = 0; // Set the initial value of prime
+
             foreach ($increments as $quantityThreshold => $challengeValue) {
                 if ($totalQuantity >= $quantityThreshold) {
                     $user->prime = $challengeValue;
@@ -64,8 +75,11 @@ function CalculPrime()
                     break;
                 }
             }
-            $user->save();
+        } else {
+            $user->prime = 0;
         }
+
+        $user->save();
     }
 }
 
@@ -75,7 +89,7 @@ function fetchMonthDates()
 
     $currentDate = Carbon::now()->startOfMonth();
     $lastDayOfMonth = Carbon::now()->endOfMonth();
-    
+
     while ($currentDate <= $lastDayOfMonth) {
         $monthDates[] = $currentDate->toDateString();
         $currentDate->addDay();
@@ -95,6 +109,28 @@ function fetchWeekDates()
     }
 
     return $weekDates;
+}
+
+function fetchMonthWeeks()
+{
+    $monthWeeks = [];
+    
+    $currentDate = Carbon::now()->startOfMonth();
+    $endOfMonth = Carbon::now()->endOfMonth();
+
+    while ($currentDate <= $endOfMonth) {
+        $weekStart = $currentDate->copy()->startOfWeek();
+        $weekEnd = $currentDate->copy()->endOfWeek();
+
+        $monthWeeks[] = [
+            'start' => $weekStart->toDate(),
+            'end' => $weekEnd->toDate(),
+        ];
+
+        $currentDate->addWeek();
+    }
+
+    return $monthWeeks;
 }
 
 function workHours()
@@ -126,32 +162,31 @@ function AbsSalary()
 
 function calculerHeuresTravailParMois()
 {
-       // Get the current month and year
-       $currentMonth = Carbon::now()->month;
-       $currentYear = Carbon::now()->year;
+    // Get the current month and year
+    $currentMonth = Carbon::now()->month;
+    $currentYear = Carbon::now()->year;
 
-       // Get the first and last day of the month
-       $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1);
-       $lastDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth)->endOfMonth();
+    // Get the first and last day of the month
+    $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1);
+    $lastDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth)->endOfMonth();
 
-       // Calculate the total working hours for the month
-       $totalHours = 0;
+    // Calculate the total working hours for the month
+    $totalHours = 0;
 
-       for ($day = $firstDayOfMonth; $day <= $lastDayOfMonth; $day->addDay()) {
-           // Check if the day is a Sunday (dayOfWeek = 0) or a weekday (dayOfWeek between 1 and 5)
-          if ($day->isWeekday()) {
-               // Add 8 working hours for weekdays (Monday to Friday)
-               $totalHours += 8;
-           }
-       }
+    for ($day = $firstDayOfMonth; $day <= $lastDayOfMonth; $day->addDay()) {
+        // Check if the day is a Sunday (dayOfWeek = 0) or a weekday (dayOfWeek between 1 and 5)
+        if ($day->isWeekday()) {
+            // Add 8 working hours for weekdays (Monday to Friday)
+            $totalHours += 8;
+        }
+    }
 
-       return $totalHours;
-   
+    return $totalHours;
 }
 
 function calculerHeuresTravail()
 {
-      // Get the current month and year
+    // Get the current month and year
     $currentMonth = Carbon::now()->month;
     $currentYear = Carbon::now()->year;
 
@@ -169,7 +204,7 @@ function calculerHeuresTravail()
 
     for ($day = $firstDayOfMonth; $day <= $lastDayOfMonth; $day->addDay()) {
         // Check if the day is a Sunday (dayOfWeek = 0) or a weekday (dayOfWeek between 1 and 5)
-       if ($day->isWeekday()) {
+        if ($day->isWeekday()) {
             // Add 8 working hours for weekdays (Monday to Friday)
             $totalHours += 8;
         }
@@ -179,30 +214,34 @@ function calculerHeuresTravail()
 }
 
 
-function userName(){
+function userName()
+{
     return auth()->user()->last_name . ' ' . auth()->user()->first_name;
 }
 
-function userPicture(){
+function userPicture()
+{
     return auth()->user()->photo;
 }
 
-function setMenuActive($route){
+function setMenuActive($route)
+{
     $routeActuel = request()->route()->getName();
 
-    if($routeActuel === $route ){
+    if ($routeActuel === $route) {
         return "active";
     }
     return "";
 }
 
-function getRolesName(){
+function getRolesName()
+{
     $rolesName = "";
     $i = 0;
-    foreach(auth()->user()->roles as $role){
+    foreach (auth()->user()->roles as $role) {
         $rolesName .= $role->name;
         //
-        if($i < sizeof(auth()->user()->roles) - 1 ){
+        if ($i < sizeof(auth()->user()->roles) - 1) {
             $rolesName .= ",";
         }
 

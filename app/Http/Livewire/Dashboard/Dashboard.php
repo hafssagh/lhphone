@@ -16,10 +16,14 @@ class Dashboard extends Component
 
     public $search = "";
 
+    public $chartData;
+
+    public $chart = [];
+
+
     public function render()
     {
         $users = User::where("company", "like", "lh")
-            ->where("company", "NOT LIKE", "h2f")
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })
@@ -29,7 +33,7 @@ class Dashboard extends Component
             })
             ->orderBy("last_name")
             ->get();
-
+            
         $currentMonth = Carbon::now()->format('Y-m');
         $weekDates = fetchWeekDates();
         $monthDates = fetchMonthDates();
@@ -56,34 +60,77 @@ class Dashboard extends Component
         $sumValues = $this->getSumValues();
         $cards = $this->cards();
 
-        return view('livewire.dashboard.dashboard', ["users" => $users , 'sumValues' => $sumValues , 'cards' => $cards])
+        $this->chartData = [
+            'labels' => ['Accepté', 'Non traité', 'Refusé'],
+            'datasets' => [
+                [
+                    'data' => [$cards[5], $cards[6], $cards[4]],
+                    'backgroundColor' => ['#35b653', '#835db4', '#dc3545'],
+                ],
+            ],
+        ];
+
+        $salesData = Sale::select('date_confirm', 'quantity', 'state')
+            ->orderBy('date_confirm')
+            ->get();
+
+        $monthlyData = $salesData->groupBy(function ($sale) {
+            return Carbon::parse($sale->date_confirm)->format('M');
+        })->map(function ($group) {
+            $refusedSales = $group->where('state', '-1')->sum('quantity');
+            $acceptedSales = $group->where('state', '1')->sum('quantity');
+            return [
+                'refusedSales' => $refusedSales,
+                'acceptedSales' => $acceptedSales,
+            ];
+        });
+
+        $monthlyData = $monthlyData->sortBy(function ($item, $key) {
+            return Carbon::parse($key)->month;
+        });
+
+        $months = $monthlyData->keys()->toArray();
+        $refusedSales = $monthlyData->pluck('refusedSales')->toArray();
+        $acceptedSales = $monthlyData->pluck('acceptedSales')->toArray();
+
+        return view(
+            'livewire.dashboard.dashboard',
+            ["users" => $users, 'sumValues' => $sumValues, 'cards' => $cards],
+            compact('months', 'refusedSales', 'acceptedSales')
+        )
             ->extends("layouts.master")
             ->section("contenu");
     }
 
-    public function getSumValues(){
+    public function getSumValues()
+    {
         $weekDates = fetchWeekDates();
         $monthDates = fetchMonthDates();
 
-        $sumSal = User :: sum('salary');
-        $sumSalFixe = User :: sum('base_salary');
-        $sumChall = User :: sum('challenge');
-        $sumPrime = User :: sum('prime');
+        $sumSal = User::sum('salary');
+        $sumSalFixe = User::sum('base_salary');
+        $sumChall = User::sum('challenge');
+        $sumPrime = User::sum('prime');
         $sumQuantity = Sale::whereIn('date_confirm', $weekDates)
-        ->where('state', '1')
-        ->sum('quantity');
+            ->where('state', '1')
+            ->sum('quantity');
         $sumQuantity2 = Sale::whereIn('date_confirm', $monthDates)
-        ->where('state', '1')
-        ->sum('quantity');
-        return [$sumSal,$sumSalFixe,$sumChall,$sumPrime,$sumQuantity,$sumQuantity2];
+            ->where('state', '1')
+            ->sum('quantity');
+        return [$sumSal, $sumSalFixe, $sumChall, $sumPrime, $sumQuantity, $sumQuantity2];
     }
 
-    public function cards(){
+    public function cards()
+    {
+        $monthDates = fetchMonthDates();
         $sumGrp1 = User::where('group', '1')->count();
         $sumGrp2 = User::where('group', '2')->count();
-        $sumEnAtt = Sale::where('state', '3')->count();
-        $sumEnCours = Sale::where('state', '2')->count();
-        return [$sumGrp1,$sumGrp2,$sumEnAtt,$sumEnCours];
+        $sumEnAtt = Sale::where('state', '2')->count();
+        $sumEnCours = Sale::where('state', '3')->count();
+        $sumRefusé = Sale::where('state', '-1')->whereIn('date_confirm', $monthDates)->count();
+        $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();
+        $sumS = Sale::where('state',  '2')->orWhere('state',  '3')->whereIn('date_sal', $monthDates)->count();
+        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS];
     }
-  
 }
+

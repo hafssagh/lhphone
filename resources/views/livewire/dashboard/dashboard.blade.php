@@ -1,7 +1,7 @@
+
 <div class="row">
     <div class="col-sm-12">
         <div class="row mb-3">
-            <!-- Widget Type 1-->
             <div class="mb-4 col-sm-6 col-lg-3 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -13,7 +13,7 @@
                             <div class="flex-shrink-0 ms-3 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     fill="currentColor" class="bi bi-1-circle" viewBox="0 0 16 16"
-                                    style="color: #4650dd ">
+                                    style="color: #4650dd">
                                     <path
                                         d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z" />
                                 </svg>
@@ -21,24 +21,22 @@
                         </div>
                     </div>
                     <div class="card-footer py-3"
-                        style="background-color: #dadcf8; border-radius:  0 0 1rem 1rem; border-color: transparent;">
+                        style="background-color: #dadcf8;border-radius:  0 0 1rem 1rem; border-color: transparent;">
                         <div class="row align-items-center  justify-content-center" style="color:#4650dd ">
                             <div class="col-10">
                                 <p class="mb-0"><strong>En savoir plus</strong></p>
                             </div>
                             <div class="col-2" style="margin-left:-30px">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
-                                    fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                    fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                     <path
-                                        d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /Widget Type 1-->
-            <!-- Widget Type 1-->
             <div class="mb-4 col-sm-6 col-lg-3 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -61,54 +59,21 @@
                         style="background-color: #ffe2e0; border-radius:  0 0 1rem 1rem; border-color: transparent;">
                         <div class="row align-items-center justify-content-center text-danger">
                             <div class="col-10">
-                                <p class="mb-0"> <strong>En savoir plus</strong> </p>
+                                <p class="mb-0"> <strong><a href="/"
+                                            style="text-decoration: none;color: inherit;">En savoir plus</a></strong>
+                                </p>
                             </div>
                             <div class="col-2" style="margin-left:-30px">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
-                                    fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                    fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                     <path
-                                        d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /Widget Type 1-->
-            <!-- Widget Type 1-->
-            <div class="mb-4 col-sm-6 col-lg-3 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <h3 style="color:#35b653">{{ $cards[2] }} Devis</h3>
-                                <p class="text-sm mb-0">En attente d'envoi</p>
-                            </div>
-                            <div class="flex-shrink-0 ms-3 ">
-                                <i class="mdi mdi-reload" style="font-size: 25px; color:#35b653" style=""></i>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer py-3"
-                        style="background-color: rgb(207, 238, 207); border-radius:  0 0 1rem 1rem; border-color: transparent;">
-                        <div class="row align-items-center justify-content-center" style="color:#35b653">
-                            <div class="col-10">
-                                <p class="mb-0"> <strong>En savoir plus</strong> </p>
-                            </div>
-                            <div class="col-2" style="margin-left:-30px">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
-                                    fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Widget Type 1-->
-            <!-- Widget Type 1-->
             <div class="mb-4 col-sm-6 col-lg-3 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -135,32 +100,70 @@
                             </div>
                             <div class="col-2" style="margin-left:-30px">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
-                                    fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                    fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                     <path
-                                        d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /Widget Type 1-->
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="mb-4 col-sm-6 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
+            <div class="mb-4 col-sm-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h3 style="color:#ff8000">{{ $cards[2] }} Devis</h3>
+                                <p class="text-sm mb-0">En attente d'envoi</p>
+                            </div>
+                            <div class="flex-shrink-0 ms-3 ">
+                                <i class="mdi mdi-reload" style="font-size: 25px; color:#ff8000" style=""></i>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer py-3"
+                        style="background-color: #f7dbbf; border-radius:  0 0 1rem 1rem; border-color: transparent;">
+                        <div class="row align-items-center justify-content-center" style="color:#ff8000">
+                            <div class="col-10">
+                                <p class="mb-0"> <strong>En savoir plus</strong> </p>
+                            </div>
+                            <div class="col-2" style="margin-left:-30px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
+                                    fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="mb-4 col-sm-6 col-md-6">
+</div>
+<div class="row">
+    <div class="mb-4 col-sm-6 col-md-8 stretch-card">
         <div class="card">
             <div class="card-body">
+                <div class="d-sm-flex justify-content-between align-items-start">
+                    <h3 class="card-title">Ventes de l'année</h3>
+                </div>
                 <div class="d-flex align-items-center justify-content-between">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-4 col-sm-6 col-md-4 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-sm-flex justify-content-between align-items-start">
+                    <h3 class="card-title">Devis du mois</h3>
+                </div>
+                <div class="d-flex align-items-center justify-content-center" style="margin-top: 20px">
+                    <canvas id="doughnutChart" wire:ignore></canvas>
                 </div>
             </div>
         </div>
@@ -224,3 +227,69 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("livewire:load", function() {
+        var ctx = document.getElementById('doughnutChart').getContext('2d');
+        var doughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: @json($chartData),
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            font: {
+                                weight: 'bold'
+                            },
+                        },
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('livewire:load', function() {
+        var months = @json($months);
+        var refusedSales = @json($refusedSales);
+        var acceptedSales = @json($acceptedSales);
+
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                            label: 'Acceptées              ',
+                            data: acceptedSales,
+                            borderColor: '#35b653',
+                            backgroundColor: '#35b653',
+                        },
+                        {
+                            label: 'Refusées',
+                            data: refusedSales,
+                            borderColor: '#dc3545',
+                            backgroundColor: '#dc3545',
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                font: {
+                                    weight: 'bold'
+                                },
+                            },
+                    }
+                }
+            }
+        });
+    });
+</script>

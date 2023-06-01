@@ -91,6 +91,7 @@
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->
     <script src="/assets/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 @livewireScripts

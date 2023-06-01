@@ -21,9 +21,10 @@ class Production extends Component
             $query->where('name', 'agent');
         })->get();
         
-        $this->sales = Sale::select('user_id', 'date_sal')
+        $this->sales = Sale::select('user_id', 'date_confirm')
             ->selectRaw('SUM(quantity) as sales_count')
-            ->groupBy('user_id', 'date_sal')
+            ->where('state' , '1')
+            ->groupBy('user_id', 'date_confirm')
             ->get();
 
         $this->weekDates = fetchWeekDates();

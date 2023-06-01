@@ -36,7 +36,7 @@ class DevisEnCours extends Component
                         ->orWhere('name_client', 'like', '%' . $search . '%');
                 });
             })
-            ->paginate(5);
+            ->latest()->paginate(5);
 
         return view('livewire.sale.devis.devisEncours', ["sales" => $sales])
             ->extends("layouts.master")

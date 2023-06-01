@@ -54,11 +54,11 @@ class Home extends Component
         ->select('users.first_name','users.last_name','users.photo','users.company','users.group')
         ->get();
 
-
         return view('livewire.home',  ["userGet" => $userGet , "userAgent" => $userAgent , "userAdmin" => $userAdmin ,
         "userAdmin2" => $userAdmin2 , "userManager" => $userManager ,"userDirecteur" => $userDirecteur])
         ->extends("layouts.master")
         ->section("contenu");
     }
-    
+
+
 }

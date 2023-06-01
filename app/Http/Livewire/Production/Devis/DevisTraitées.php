@@ -33,7 +33,7 @@ class DevisTraitées extends Component
                         ->orWhere('name_client', 'like', '%' . $search . '%');
                 });
             })
-            ->paginate(5);
+            ->orderBy('date_confirm')->paginate(5);
 
         return view('livewire.sale.devis.devisTraitées', ["sales" => $sales])
             ->extends("layouts.master")

@@ -43,6 +43,6 @@ class ChallengePrime extends Component
     public function toggleCheckbox($society)
     {
         $this->selectedSocieties = $society;
-    }
-
+    }  
+    
 }

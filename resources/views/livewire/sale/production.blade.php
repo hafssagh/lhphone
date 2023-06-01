@@ -24,15 +24,15 @@
                                     $salesCount =
                                         $sales
                                             ->where('user_id', $user->id)
-                                            ->where('date_sal', $date->format('Y-m-d'))
+                                            ->where('date_confirm', $date->format('Y-m-d'))
                                             ->first()->sales_count ?? 0;
                                     $backgroundColor = $salesCount != 0 ? 'background-color: #C9D2FE ' : '';
                                     $totalSalesCount += $salesCount;
                                     $dailySalesCounts[] = $salesCount;
                                 @endphp
-                                <td style="{{ $backgroundColor }}" class="text-center" >{{ $salesCount }}</td>
+                                <td style="{{ $backgroundColor }}" class="text-center">{{ $salesCount }}</td>
                             @endforeach
-                            <td class="text-center" >{{ $totalSalesCount }}</td>
+                            <td class="text-center">{{ $totalSalesCount }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -44,7 +44,7 @@
                         @endphp
                         @foreach ($weekDates as $date)
                             @php
-                                $salesCount = $sales->where('date_sal', $date->format('Y-m-d'))->sum('sales_count');
+                                $salesCount = $sales->where('date_confirm', $date->format('Y-m-d'))->sum('sales_count');
                                 $grandTotal += $salesCount;
                             @endphp
                             <td class="text-center">{{ $salesCount }}</td>
