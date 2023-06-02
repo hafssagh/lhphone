@@ -18,24 +18,26 @@ class Salary extends Component
 
     public function render()
     {
-        $salary = User::where(function($query) {
+        $salary = User::where(function ($query) {
             $query->where('company', $this->selectedSocieties)
-                ->where(function($query) {
+                ->where(function ($query) {
                     $query->where("first_name", "like", "%" . $this->search . "%")
-                          ->orWhere("last_name", "like", "%" . $this->search . "%");
+                        ->orWhere("last_name", "like", "%" . $this->search . "%");
                 });
         })
-        ->orderBy('last_name')
-        ->paginate(6);
-       
+            ->join('user_role', 'users.id', '=', 'user_role.user_id')
+            ->join('roles', 'user_role.role_id', '=', 'roles.id')
+            ->whereNot('roles.name', 'Super Administrateur')
+            ->orderBy('last_name')
+            ->paginate(6);
+
         return view('livewire.paiment.salary',  ["salary" => $salary])
-        ->extends("layouts.master")
-        ->section("contenu");
+            ->extends("layouts.master")
+            ->section("contenu");
     }
 
     public function toggleCheckbox($society)
     {
         $this->selectedSocieties = $society;
     }
-
 }

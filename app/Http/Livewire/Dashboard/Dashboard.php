@@ -32,7 +32,7 @@ class Dashboard extends Component
                     ->orWhere("last_name", "like", "%" . $this->search . "%");
             })
             ->orderBy("last_name")
-            ->get();
+            ->paginate(12);
             
         $currentMonth = Carbon::now()->format('Y-m');
         $weekDates = fetchWeekDates();

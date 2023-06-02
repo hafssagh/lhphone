@@ -13,7 +13,6 @@ define("PAGEROLE", "role");
 
 define("DEFAULTPASSWORD", "password");
 
-
 function CalculChallenge()
 {
     $weekDates = fetchWeekDates();

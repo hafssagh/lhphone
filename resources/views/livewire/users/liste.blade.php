@@ -26,17 +26,18 @@
                 <thead>
                     <tr>
                         <th style="width:5%"></th>
-                        <th style="width:30%">Utilisateurs</th>
+                        <th>Utilisateurs</th>
                         @canAny(['admin', 'superadmin'])
-                            <th style="width:20%">Rôles</th>
-                            <th class="text-center" style="width:30%">Société</th>
+                            <th>Rôles</th>
+                            <th class="text-center">Société</th>
                         @endcanAny
                         @can('manager')
-                            <th style="width:20%">Email</th>
-                            <th class="text-center" style="width:30%">Groupe</th>
+                            <th>Email</th>
+                            <th class="text-center">Groupe</th>
+                            <th class="text-center">Salaire</th>
                         @endcan
-                        <th class="text-center" style="width:15%">Ajouté</th>
-                        <th class="text-center" style="width:30%">Action</th>
+                        <th class="text-center">Ajouté</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +79,7 @@
                                         </div>
                                     @endif
                                 </td>
+                                <td class="text-center" style="padding: 0.8rem;">{{ $user->base_salary }}</td>
                             @endcan
                             <td class="text-center" style="padding: 0.8rem;">
                                 {{ \Carbon\Carbon::parse($user->date_contract)->diffForHumans() }}</td>

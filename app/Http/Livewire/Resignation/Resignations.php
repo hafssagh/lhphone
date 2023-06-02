@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Resignation;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -21,75 +22,88 @@ class Resignations extends Component
     public $newResignation = [];
     public $editResignation = [];
 
+    public $editUser = [];
+
 
     protected $rules = [
-        "newResignation.user" => "required", 
+        "newResignation.user" => "required",
         "newResignation.motive" => "nullable",
     ];
 
     public function render()
     {
         Carbon::setLocale("fr");
-        
-       
 
-        return view('livewire.resignation.index',[
+        return view('livewire.resignation.index', [
             "resignations" => Resignation::query()
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })->latest()->paginate(5),
-            "users" => User::select('id', 'first_name' , 'last_name')->get(),
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    });
+                })->latest()->paginate(5),
+            "users" => User::select('id', 'first_name', 'last_name')->whereHas('roles', function ($query) {
+                $query->whereNot('name', 'super administrateur');
+            })->get(),
         ])
             ->extends("layouts.master")
             ->section("contenu");
     }
 
-    public function toggleShowAddForm(){
-        if($this->isAddResignation){
+    public function toggleShowAddForm()
+    {
+        if ($this->isAddResignation) {
             $this->isAddResignation = false;
             $this->newResignation = [];
-        }else{
+        } else {
             $this->isAddResignation = true;
         }
     }
 
-    public function goToListe(){
+    public function goToListe()
+    {
         $this->dispatchBrowserEvent("closeModal");
     }
-    
-    public function addNewResignation(){
 
+    public function addNewResignation()
+    {
         $this->validate();
-        
+    
         $resignation = new Resignation();
         $resignation->date = $this->newResignation["date"] = date('Y-m-d');
         if (array_key_exists('motive', $this->newResignation)) {
             $resignation->motive = $this->newResignation["motive"];
         } else {
-            $resignation->motive = null; 
+            $resignation->motive = null;
         }
         $resignation->user_id = $this->newResignation["user"];
         $resignation->save();
-
-       /*  Resignation::create([
-            "date" => $validate["newResignation"]["date"],
-            "motive" => $validate["newResignation"]["motive"],
-            "user_id" => $validate["newResignation"]["user"],
-        ]); */
-
+    
+        // Retrieve the user associated with the resignation
+        $user = User::find($resignation->user_id);
+    
+        if ($user) {
+            // Generate a new password
+            $newPassword = bcrypt('resignation');
+    
+            // Update the user's password
+            $user->password = $newPassword;
+            $user->save();
+        }
+    
         $this->newResignation = [];
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Un nouveau départ a été ajouté avec succès!"]);
     }
+    
 
-    public function editResignation($resignationId){
+    public function editResignation($resignationId)
+    {
         $this->editResignation = Resignation::with("users")->find($resignationId)->toArray();
         $this->dispatchBrowserEvent("showModal");
     }
 
-    public function updateResignation(){
+    public function updateResignation()
+    {
 
         $resignation = Resignation::find($this->editResignation["id"]);
 
@@ -100,7 +114,7 @@ class Resignations extends Component
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ mise à jour avec succès!"]);
         $this->dispatchBrowserEvent("closeModal");
     }
-  
+
     public function confirmDelete($id)
     {
         $this->dispatchBrowserEvent("showConfirmMessage", ["message" => [
@@ -117,4 +131,5 @@ class Resignations extends Component
         Resignation::destroy($id);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ supprimé avec succès!"]);
     }
+
 }

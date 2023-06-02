@@ -52,9 +52,9 @@ class Users extends Component
         if ($role == 'Administrateur' || $role == 'Super Administrateur') {
             $data = [
                 "users" => User::where(function ($query) {
-                    $query->where("first_name", "like", "%" . $this->search . "%")
-                        ->orWhere("last_name", "like", "%" . $this->search . "%");
-                })
+                        $query->where("first_name", "like", "%" . $this->search . "%")
+                            ->orWhere("last_name", "like", "%" . $this->search . "%");
+                    })
                     ->orderBy("last_name")
                     ->paginate(6),
             ];
@@ -64,7 +64,8 @@ class Users extends Component
                 "users" => User::where("company", "like", "lh")
                     ->where("company", "NOT LIKE", "h2f")
                     ->whereHas('roles', function ($query) {
-                        $query->where('name', 'agent');})
+                        $query->where('name', 'agent');
+                    })
                     ->where(function ($query) {
                         $query->where("first_name", "like", "%" . $this->search . "%")
                             ->orWhere("last_name", "like", "%" . $this->search . "%");

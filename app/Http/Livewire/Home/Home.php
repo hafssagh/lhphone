@@ -41,8 +41,7 @@ class Home extends Component
 
         $userDirecteur = User::join('user_role', 'users.id', '=', 'user_role.user_id')
         ->join('roles', 'user_role.role_id', '=', 'roles.id')
-        ->where('users.first_name', 'EL MESSIOUI')
-        ->where('roles.name', 'super administrateur')
+        ->where('roles.name', 'Super Administrateur')
         ->select('users.first_name','users.last_name','users.photo')
         ->get();
 

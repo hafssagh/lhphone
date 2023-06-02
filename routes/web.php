@@ -51,6 +51,7 @@ Route::get('/sales', Sales::class)->name("sales.index");
 Route::get('/devis/onProcess', DevisEnCours::class)->name("devisOnProcess");
 Route::get('/devis/endProcess', DevisTraitées::class)->name("devisEndProcess");
 Route::get('/production', Production::class)->name("production");
+Route::get('/production2', Production::class)->name("production2");
 Route::get('/profile/absence', Myliste::class)->name("absence.myliste");
 Route::get('/user/change-password', ResetPassword::class)->name("profile.update")->middleware(["auth"]);
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);

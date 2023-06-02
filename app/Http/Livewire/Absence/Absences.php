@@ -25,7 +25,6 @@ class Absences extends Component
         'newAbsence.user.required' => "Le nom de l'agent est requis.",
         'newAbsence.abs_hours.required' => "Les heures d'absence sont requises.",
         'newAbsence.abs_hours.lte' => "Les heures d'absence ne doivent pas dépasser 8 heures.",
-        'newAbsence.date.required' => "La date d'absence est requise.",
         'editAbsence.abs_hours.required' => "Les heures d'absence sont requises.",
         'editAbsence.abs_hours.lte' => "Les heures d'absence ne doivent pas dépasser 8 heures.",
         'editAbsence.date.required' => "La date d'absence est requise.",
@@ -35,14 +34,13 @@ class Absences extends Component
     {
         if ($this->currentPage == PAGEEDITFORM) {
             return [
-                "editAbsence.abs_hours" => ";required|numeric|lte:8",
+                "editAbsence.abs_hours" => "required|numeric|lte:8",
                 "editAbsence.date" => "required",
             ];
         }
         return [
             "newAbsence.user" => "required",
             "newAbsence.abs_hours" => "required|numeric|lte:8",
-            "newAbsence.date" => "required",
         ];
     }
 
@@ -59,7 +57,9 @@ class Absences extends Component
                             ->orWhere('last_name', 'like', '%' . $search . '%');
                     });
                 })->latest()->paginate(5),
-            "users" => User::select('id', 'first_name', 'last_name')->get(),
+            "users" => User::select('id', 'first_name', 'last_name')->whereHas('roles', function ($query) {
+                $query->whereNot('name', 'super administrateur');
+            })->get(),
         ])
             ->extends("layouts.master")
             ->section("contenu");
@@ -83,7 +83,7 @@ class Absences extends Component
     {
         $this->validate();
         $absence = new Absence;
-        $absence->date = $this->newAbsence["date"];
+        $absence->date = $this->newAbsence["date"] = date('Y-m-d');
         $absence->abs_hours = $this->newAbsence["abs_hours"];
         if (array_key_exists('justification', $this->newAbsence)) {
             $absence->justification = $this->newAbsence["justification"];
@@ -108,9 +108,10 @@ class Absences extends Component
 
     public function updateAbsence()
     {
-        /* $this->validate(); */
+         $this->validate(); 
         $absence = Absence::find($this->editAbsence["id"]);
         $absence->abs_hours = $this->editAbsence["abs_hours"];
+        $absence->date = $this->editAbsence["date"];
         if (array_key_exists('justification', $this->editAbsence)) {
             $absence->justification = $this->editAbsence["justification"];
         } else {

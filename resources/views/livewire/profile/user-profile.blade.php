@@ -52,7 +52,7 @@ non
                 <div class="border-top pt-3">
                     <div class="row">
                         <div class="col-4">
-                            <h6>{{$this->AbsSalary()}} DH</h6>
+                            <h6>{{auth()->user()->salary}} DH</h6>
                             <p>Salaire</p>
                         </div>
                         <div class="col-4">

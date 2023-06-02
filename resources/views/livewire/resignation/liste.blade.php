@@ -25,10 +25,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th style="width:25%">Agent</th>
-                        <th>Date de départ</th>
-                        <th>Motif de départ</th>
-                        <th>Durée de travail</th>
+                        <th>Agent</th>
+                        <th class="text-center">Date de départ</th>
+                        <th class="text-center">Motif de départ</th>
+                        <th class="text-center">Durée de travail</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -78,8 +78,8 @@
                     @foreach ($resignations as $resignation)
                         <tr>
                             <td style="padding: 0.8rem;"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
-                            <td style="padding: 0.8rem;">{{ $resignation->date }}</td>
-                            <td style="padding: 0.8rem;">{{ $resignation->motive }}</td>
+                            <td class="text-center" style="padding: 0.8rem;">{{ $resignation->date }}</td>
+                            <td class="text-center" style="padding: 0.8rem;">{{ $resignation->motive }}</td>
                             <td class="text-center" style="padding: 0.8rem;">
                                 {{ \Carbon\Carbon::parse($resignation->date)->diffForHumans($resignation->users->date_contract) }}
                             </td>
