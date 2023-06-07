@@ -5,12 +5,11 @@ namespace App\Http\Livewire\Production;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
-use App\Models\Resignation;
 use Livewire\Component;
+use App\Models\Resignation;
 
-class Production extends Component
+class Produit extends Component
 {
-
     public $users;
     public $users2;
     public $sales;
@@ -78,17 +77,16 @@ class Production extends Component
             ->groupBy('user_id')
             ->get();
 
-
         $this->weekDates = fetchWeekDates();
         $this->months = fetchMonthWeeks();
     }
     public function render()
     {
-        return view('livewire.sale.production', [
+        return view('livewire.sale.Devis.productionManager', [
             'weekDates' => $this->weekDates,
             'months' => $this->months,
         ])
-            ->extends("layouts.app")
-            ->section("contenu2");
+            ->extends("layouts.master")
+            ->section("contenu");
     }
 }

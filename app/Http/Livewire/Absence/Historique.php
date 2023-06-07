@@ -27,7 +27,7 @@ class Historique extends Component
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%');
                 });
-            })->paginate(5);
+            })->paginate(6);
         } else {
             $absences = Absence::orderBy('date','DESC')->whereMonth('date', $this->selectedMonth)
             ->when($this->search, function ($query, $search) {
@@ -60,10 +60,7 @@ class Historique extends Component
             Absence::whereIn('id', $this->selectedAbsenceIds)->delete();
             workHours();
             AbsSalary();
-            // Perform any other necessary actions after deletion
-            // ...
-
-            // Clear the selected user IDs
+          
             $this->selectedAbsenceIds = [];
         }
     }

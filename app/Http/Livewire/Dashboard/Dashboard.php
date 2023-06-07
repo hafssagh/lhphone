@@ -65,7 +65,7 @@ class Dashboard extends Component
             'datasets' => [
                 [
                     'data' => [$cards[5], $cards[6], $cards[4]],
-                    'backgroundColor' => ['#35b653', '#835db4', '#dc3545'],
+                    'backgroundColor' => ['#4650dd', '#9fa8da', '#e0e0e0'],
                 ],
             ],
         ];

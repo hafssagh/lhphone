@@ -6,13 +6,23 @@
             <span class="menu-title">Acceuil</span>
         </a>
     </li>
-    @cannot('agent')
-        <li class="nav-item {{ setMenuActive('dashboard') }}">
-            <a class="nav-link collapsed" href="{{ route('dashboard') }}">
-                <i class="mdi mdi-grid-large menu-icon"></i>
-                <span class="menu-title">Tableau de bord</span>
-            </a>
-        </li>
+    @canAny(['admin', 'superadmin', 'manager'])
+        @can('admin')
+            <li class="nav-item {{ setMenuActive('dashboard') }}">
+                <a class="nav-link collapsed" href="{{ route('dashRH') }}">
+                    <i class="mdi mdi-grid-large menu-icon"></i>
+                    <span class="menu-title">Tableau de bord</span>
+                </a>
+            </li>
+        @endcan
+        @cannot('admin')
+            <li class="nav-item {{ setMenuActive('dashboard') }}">
+                <a class="nav-link collapsed" href="{{ route('dashboard') }}">
+                    <i class="mdi mdi-grid-large menu-icon"></i>
+                    <span class="menu-title">Tableau de bord</span>
+                </a>
+            </li>
+        @endcannot
         <li class="nav-item {{ setMenuActive('users.index') }}">
             <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="menu-icon mdi mdi-account-key"></i>
@@ -78,11 +88,14 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('devisEndProcess') }}">
                                 Traitement achevé</a>
                         </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('production2') }}">
+                                Production</a>
+                        </li>
                     </ul>
                 </div>
             </li>
         @endcanAny
-    @endcan
+    @endcanAny
 
 
     @can('agent')

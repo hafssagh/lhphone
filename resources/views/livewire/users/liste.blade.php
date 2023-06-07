@@ -3,10 +3,37 @@
         <div class="d-sm-flex justify-content-between align-items-start">
             <div>
                 <h4 class="card-title card-title-dash">Liste des utilisateurs</h4><br>
-                <div class="input-group">
-                    <input type="text" class="form-control" wire:model.debounce.250ms='search'
-                        placeholder="Rechercher ...">
-                    <span class="input-group-text"><i class="icon-search"></i></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" wire:model.debounce.250ms='search'
+                                placeholder="Rechercher ...">
+                            <span class="input-group-text"><i class="icon-search"></i></span>
+                        </div>
+                    </div>
+                    @cannot('manager')
+                        <div class="col-md-6">
+                            <form wire:submit.prevent="render">
+                                <select class="form-select" wire:model="selectedCompany" id="selectedCompany"
+                                    style="font-size:12px">
+                                    <option value="all">Société</option>
+                                    <option value="lh">LH Phone</option>
+                                    <option value="h2f">H2F Premium</option>
+                                </select>
+                            </form>
+                        </div>
+                    @endcannot
+                    @can('manager')
+                        <div class="col-md-6">
+                            <form wire:submit.prevent="render">
+                                <select class="form-select" wire:model="selectedGroup" id="selectedGroup" style="font-size:12px">
+                                    <option value="all">Groupe</option>
+                                    <option value="1">Groupe Chris Ezzahra</option>
+                                    <option value="2">Groupe Amine</option>
+                                </select>
+                            </form>
+                        </div>
+                    @endcan
                 </div>
             </div>
             <div>
@@ -26,13 +53,13 @@
                 <thead>
                     <tr>
                         <th style="width:5%"></th>
-                        <th>Utilisateurs</th>
+                        <th>Utilisateur</th>
                         @canAny(['admin', 'superadmin'])
                             <th>Rôles</th>
                             <th class="text-center">Société</th>
                         @endcanAny
+                        <th class="text-center">Email</th>
                         @can('manager')
-                            <th>Email</th>
                             <th class="text-center">Groupe</th>
                             <th class="text-center">Salaire</th>
                         @endcan
@@ -68,8 +95,8 @@
                                     @endif
                                 </td>
                             @endcanAny
+                            <td class="text-center" style="padding: 0.8rem;">{{ $user->email }}</td>
                             @can('manager')
-                                <td style="padding: 0.8rem;">{{ $user->email }}</td>
                                 <td class="text-center" style="padding: 0.8rem;">
                                     @if ($user->group == '1')
                                         <div class="badge badge-opacity-primary">Equipe Chris Ezzahra</div>
@@ -79,7 +106,7 @@
                                         </div>
                                     @endif
                                 </td>
-                                <td class="text-center" style="padding: 0.8rem;">{{ $user->base_salary }}</td>
+                                <td class="text-center" style="padding: 0.8rem;">{{ $user->base_salary }} DH</td>
                             @endcan
                             <td class="text-center" style="padding: 0.8rem;">
                                 {{ \Carbon\Carbon::parse($user->date_contract)->diffForHumans() }}</td>

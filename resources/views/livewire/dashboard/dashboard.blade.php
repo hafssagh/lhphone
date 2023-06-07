@@ -24,7 +24,11 @@
                             style="background-color: #dadcf8;border-radius:  0 0 1rem 1rem; border-color: transparent;">
                             <div class="row align-items-center  justify-content-center" style="color:#4650dd ">
                                 <div class="col-10">
-                                    <p class="mb-0"><strong>En savoir plus</strong></p>
+                                    <p class="mb-0">
+                                        <strong><a href="{{ route('users.index') }}"
+                                                style="text-decoration: none;color: inherit;">En savoir
+                                                plus</a></strong>
+                                    </p>
                                 </div>
                                 <div class="col-2" style="margin-left:-30px">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
@@ -59,7 +63,8 @@
                             style="background-color: #ffe2e0; border-radius:  0 0 1rem 1rem; border-color: transparent;">
                             <div class="row align-items-center justify-content-center text-danger">
                                 <div class="col-10">
-                                    <p class="mb-0"> <strong><a href="/"
+                                    <p class="mb-0">
+                                        <strong><a href="{{ route('users.index') }}"
                                                 style="text-decoration: none;color: inherit;">En savoir
                                                 plus</a></strong>
                                     </p>
@@ -97,7 +102,11 @@
                             style="background-color: #ddd6e7; border-radius:  0 0 1rem 1rem; border-color: transparent;">
                             <div class="row align-items-center justify-content-center" style="color:#835db4">
                                 <div class="col-10">
-                                    <p class="mb-0"> <strong>En savoir plus</strong> </p>
+                                    <p class="mb-0">
+                                        <strong><a href="{{ route('devisOnProcess') }}"
+                                                style="text-decoration: none;color: inherit;">En savoir
+                                                plus</a></strong>
+                                    </p>
                                 </div>
                                 <div class="col-2" style="margin-left:-30px">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
@@ -115,21 +124,24 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 style="color:#ff8000">{{ $cards[2] }} Devis</h3>
+                                    <h3 style="color:#66bb6a">{{ $cards[2] }} Devis</h3>
                                     <p class="text-sm mb-0">En attente d'envoi</p>
                                 </div>
                                 <div class="flex-shrink-0 ms-3 ">
-                                    <i class="mdi mdi-reload" style="font-size: 25px; color:#ff8000"
-                                        style=""></i>
+                                    <i class="mdi mdi-reload" style="font-size: 25px; color:#66bb6a"></i>
 
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer py-3"
-                            style="background-color: #f7dbbf; border-radius:  0 0 1rem 1rem; border-color: transparent;">
-                            <div class="row align-items-center justify-content-center" style="color:#ff8000">
+                            style="background-color: #c8e6c9; border-radius:  0 0 1rem 1rem; border-color: transparent;">
+                            <div class="row align-items-center justify-content-center" style="color:#66bb6a">
                                 <div class="col-10">
-                                    <p class="mb-0"> <strong>En savoir plus</strong> </p>
+                                    <p class="mb-0">
+                                        <strong><a href="{{ route('devisOnProcess') }}"
+                                                style="text-decoration: none;color: inherit;">En savoir
+                                                plus</a></strong>
+                                    </p>
                                 </div>
                                 <div class="col-2" style="margin-left:-30px">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
@@ -171,7 +183,7 @@
             </div>
         </div>
     </div>
-    <div class="card card-rounded">
+    <div class="card">
         <div class="card-body">
             <div class="table">
                 <table class="table">
@@ -230,6 +242,7 @@
         </div>
     </div>
 </div>
+
 <script>
     document.addEventListener("livewire:load", function() {
         var ctx = document.getElementById('doughnutChart').getContext('2d');
@@ -247,7 +260,8 @@
                             },
                         },
                     }
-                }
+                },
+                cutout: 90
             }
         });
     });
@@ -262,20 +276,22 @@
 
         var ctx = document.getElementById('salesChart').getContext('2d');
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar', 
             data: {
                 labels: months,
                 datasets: [{
-                        label: 'Acceptées              ',
+                        label: 'Acceptées',
                         data: acceptedSales,
-                        borderColor: '#35b653',
-                        backgroundColor: '#35b653',
+                        type: 'line',
+                        borderColor: '#4650dd ',
+                        backgroundColor: '#4650dd ',
                     },
                     {
                         label: 'Refusées',
                         data: refusedSales,
-                        borderColor: '#dc3545',
-                        backgroundColor: '#dc3545',
+                        type: 'bar', 
+                        borderColor: '#e0e0e0',
+                        backgroundColor: '#e0e0e0',
                     }
                 ]
             },
@@ -289,9 +305,21 @@
                                 weight: 'bold'
                             },
                         },
+                    }  
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false, 
+                        },    
+                    },
+                    y: {
+                        grid: {
+                            display: false, 
+                        }, 
                     }
                 }
-            }
+            },
         });
     });
 </script>

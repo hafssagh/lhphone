@@ -2,49 +2,40 @@
     <div class="card-body">
         <div class="d-sm-flex justify-content-between align-items-start">
             <div>
-                <h4 class="card-title card-title-dash">Liste des absence</h4><br>
+                <h4 class="card-title card-title-dash">Liste des absences</h4><br>
             </div>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <div class="text-start">
+        <div class="row">
+            <div class="col-md-3">
                 <div class="input-group">
                     <input type="text" class="form-control" wire:model.debounce.250ms='search'
                         placeholder="Rechercher ...">
                     <span class="input-group-text"><i class="icon-search"></i></span>
                 </div>
             </div>
-           {{--  <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle toggle-dark" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> All </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" >
-                  <h6 class="dropdown-header">Tous les mois</h6>
-                  <a class="dropdown-item" href="#">Tous les mois</a>
-                </div>
-              </div> --}}
-            <form wire:submit.prevent="render">
-                <div class="form-group row" class="text-end">
-                    <div class="col-lg">
-                        <select class="form-control bg-white text-dark "  wire:model="selectedMonth" id="selectedMonth">
-                            <option value="all">Tous les mois</option>
-                            <option value="1">Janvier</option>
-                            <option value="2">Février</option>
-                            <option value="3">Mars</option>
-                            <option value="4">Avril</option>
-                            <option value="5">Mai</option>
-                            <option value="6">Juin</option>
-                            <option value="7">Juillet</option>
-                            <option value="8">Août</option>
-                            <option value="9">Septembre</option>
-                            <option value="10">Octobre</option>
-                            <option value="11">Novembre</option>
-                            <option value="12">Décembre</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
+            <div class="col-md-3">
+                <form wire:submit.prevent="render">
+                    <select class="form-select" wire:model="selectedMonth" id="selectedMonth" style="font-size: 13px">
+                        <option value="all">Tous les mois</option>
+                        <option value="1">Janvier</option>
+                        <option value="2">Février</option>
+                        <option value="3">Mars</option>
+                        <option value="4">Avril</option>
+                        <option value="5">Mai</option>
+                        <option value="6">Juin</option>
+                        <option value="7">Juillet</option>
+                        <option value="8">Août</option>
+                        <option value="9">Septembre</option>
+                        <option value="10">Octobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Décembre</option>
+                    </select>
+                </form>
+            </div>
         </div>
 
-
+        <br>
         @if ($selectedAbsenceIds)
             <div style="display: flex; align-items: center;">
                 <p style="margin-right: 10px;">Absences sélectionnées : {{ count($selectedAbsenceIds) }}</p>
@@ -88,11 +79,11 @@
                 </tbody>
             </table>
             <div class="float-end">
-                {{ $absences->links() }} 
+                {{ $absences->links() }}
             </div>
         </div>
     </div>
-   
+
 </div>
 
 

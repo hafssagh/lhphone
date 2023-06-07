@@ -17,6 +17,7 @@ class ChallengePrime extends Component
     public function render()
     {
         $challenge = User::whereNot('challenge', '0')
+        ->select('first_name','last_name','challenge')
         ->where(function ($query) {
             $query->orderBy('last_name')
                 ->where('company', $this->selectedSocieties)
@@ -26,6 +27,7 @@ class ChallengePrime extends Component
         ->paginate(6);
 
         $prime = User::whereNot('prime', '0')
+        ->select('first_name','last_name','prime')
         ->where(function ($query) {
             $query->orderBy('last_name')
                 ->where('company', $this->selectedSocieties)

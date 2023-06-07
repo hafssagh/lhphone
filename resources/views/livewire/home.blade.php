@@ -190,10 +190,10 @@
                                         {{ $userAll->first_name }}</p>
                                     <div style="display: inline-block;">
                                         @if ($userAll->company == 'h2f')
-                                            <img src="../assets/images/h2f.png"
+                                            <img src="../assets/images/h2f2.png"
                                                 style="height: 20px; width: 35px;display: inline-block;">
                                         @else
-                                            <img src="../assets/images/lh.png"
+                                            <img src="../assets/images/lh2.png"
                                                 style="height: 23px; width: 25px;display: inline-block;">
                                         @endif
                                         @if ($userAll->group == '1')
@@ -213,3 +213,4 @@
         </div>
     </div>
 </div>
+

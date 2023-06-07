@@ -23,6 +23,8 @@ class Users extends Component
     public $rolePermissions = [];
 
     public $search = "";
+    public $selectedCompany;
+    public $selectedGroup;
 
     public $currentPage = PAGELIST;
 
@@ -50,16 +52,28 @@ class Users extends Component
         $role = $user->roles->first()->name;
 
         if ($role == 'Administrateur' || $role == 'Super Administrateur') {
-            $data = [
-                "users" => User::where(function ($query) {
+            if ($this->selectedCompany === null || $this->selectedCompany == "all") {
+                $data = [
+                    "users" => User::where(function ($query) {
                         $query->where("first_name", "like", "%" . $this->search . "%")
                             ->orWhere("last_name", "like", "%" . $this->search . "%");
                     })
-                    ->orderBy("last_name")
-                    ->paginate(6),
-            ];
+                        ->orderBy("last_name")
+                        ->paginate(6),
+                ];
+            } else {
+                $data = [
+                    "users" => User::where('company', $this->selectedCompany)->where(function ($query) {
+                        $query->where("first_name", "like", "%" . $this->search . "%")
+                            ->orWhere("last_name", "like", "%" . $this->search . "%");
+                    })
+                        ->orderBy("last_name")
+                        ->paginate(6),
+                ];
+            }
         }
         if ($role == 'Manager') {
+            if ($this->selectedGroup === null || $this->selectedGroup == "all") {
             $data = [
                 "users" => User::where("company", "like", "lh")
                     ->where("company", "NOT LIKE", "h2f")
@@ -73,6 +87,22 @@ class Users extends Component
                     ->orderBy("last_name")
                     ->paginate(6),
             ];
+        }else{
+            $data = [
+                "users" => User::where("company", "like", "lh")
+                    ->where("company", "NOT LIKE", "h2f")
+                    ->where('group', $this->selectedGroup)
+                    ->whereHas('roles', function ($query) {
+                        $query->where('name', 'agent');
+                    })
+                    ->where(function ($query) {
+                        $query->where("first_name", "like", "%" . $this->search . "%")
+                            ->orWhere("last_name", "like", "%" . $this->search . "%");
+                    })
+                    ->orderBy("last_name")
+                    ->paginate(6),
+            ];
+        }
         }
 
         return view('livewire.users.index', $data)

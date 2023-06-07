@@ -3,11 +3,35 @@
         <div class="d-sm-flex justify-content-between align-items-start">
             <div>
                 <h4 class="card-title card-title-dash">Liste des ventes</h4><br>
-                <div class="input-group">
-                    <input type="text" class="form-control" wire:model.debounce.250ms='search'
-                        placeholder="Rechercher ...">
-                    <span class="input-group-text"><i class="icon-search"></i></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" wire:model.debounce.250ms='search'
+                                placeholder="Rechercher ...">
+                            <span class="input-group-text"><i class="icon-search"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <form wire:submit.prevent="render">
+                            <select class="form-select" wire:model="selectedMonth" id="selectedMonth" style="font-size: 13px">
+                                <option value="all">Tous les mois</option>
+                                <option value="1">Janvier</option>
+                                <option value="2">Février</option>
+                                <option value="3">Mars</option>
+                                <option value="4">Avril</option>
+                                <option value="5">Mai</option>
+                                <option value="6">Juin</option>
+                                <option value="7">Juillet</option>
+                                <option value="8">Août</option>
+                                <option value="9">Septembre</option>
+                                <option value="10">Octobre</option>
+                                <option value="11">Novembre</option>
+                                <option value="12">Décembre</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
+        
             </div>
             <div class="border-top border-bottom">
                 <ul class="nav profile-navbar">
