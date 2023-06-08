@@ -3,6 +3,7 @@
 use App\Http\Livewire\Home\Home;
 use App\Http\Livewire\User\Users;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Mail\SendEmail;
 use App\Http\Livewire\Paiment\Salary;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Absence\Myliste;
@@ -59,4 +60,6 @@ Route::get('/profile/absence', Myliste::class)->name("absence.myliste");
 Route::get('/user/change-password', ResetPassword::class)->name("profile.update")->middleware(["auth"]);
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);
 Route::get('/', Home::class)->name("home")->middleware(["auth"]);
+Route::get('/customer/proposal', SendEmail::class)->name("mail")->middleware(["auth"]);
+
 

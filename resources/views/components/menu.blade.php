@@ -118,4 +118,12 @@
             </a>
         </li>
     @endcan
+    @cannot('admin')
+        <li class="nav-item {{ setMenuActive('mail') }}">
+            <a class="nav-link" href="{{ route('mail') }}">
+                <i class="menu-icon mdi mdi-email-outline"></i>
+                <span class="menu-title">Gestion Proposition</span>
+            </a>
+        </li>
+    @endcannot
 </ul>
