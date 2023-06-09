@@ -4,50 +4,67 @@
             <div class="card-body">
                 <div class="d-sm-flex justify-content-between align-items-start">
                     <h4 class="card-title">Envoyer une proposition</h4>
-                    <label class="text-end float-end" wire:click.prevent='goToListPropos'>X</label> 
-                </div><br><br>
+                    <label class="text-end float-end" wire:click.prevent='goToListPropos'>X</label>
+                </div>
                 <form wire:submit.prevent="sendEmail">
                     <div class="form-group row">
-                        <div class="col-lg-3">
-                            <label class="col-form-label">Nom/Prénom Client :</label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Nom complet </label>
+                                <input type="text" wire:model="nameClient" class="form-control">
+                                @error('nameClient')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Adresse Email</label>
+                                <input type="email" wire:model="emailClient" class="form-control">
+                                @error('nameClient')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name">No de téléphone</label>
+                                <input type="text" wire:model="numClient" class="form-control">
+                                @error('nameClient')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="text" wire:model="nameClient">
-                            @error('nameClient')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Société</label>
+                                <input type="text" wire:model="company" class="form-control">
+                                @error('company')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Adresse</label>
+                                <input type="text" wire:model="adresse" class="form-control">
+                                @error('adresse')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="remark">Remarque</label>
+                                <textarea class="form-control" wire:model="remark" class="form-control" style="height: 100px">
+                            </textarea>
+                                @error('remark')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3">
-                            <label class="col-form-label">Email Client</label>
+                        <div class="d-flex flex-row-reverse">
+                            <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"
+                                style="font-size: 14px; line-height: 18px; padding: 8px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                    <path
+                                        d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                </svg>
+                                &nbsp;Envoyé</button>
                         </div>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="email" wire:model="emailClient">
-                            @error('emailClient')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3">
-                            <label class="col-form-label">Numéro Client</label>
-                        </div>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="text" wire:model="numClient">
-                            @error('numClient')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row-reverse">
-                        <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"
-                            style="font-size: 14px; line-height: 18px; padding: 8px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
-                              </svg>
-                              &nbsp;Envoyé</button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -55,15 +72,4 @@
 </div>
 
 
-<script>
-    window.addEventListener('showSuccessMessage', event => {
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            toast: 'success',
-            title: event.detail.message || "Opération effectuée avec succès",
-            showConfirmButton: false,
-            timer: 5000
-        })
-    });
-</script>
+

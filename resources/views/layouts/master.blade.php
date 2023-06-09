@@ -19,16 +19,15 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/assets/images/mylogo.png"/>
+    <link rel="shortcut icon" href="/assets/images/mylogo.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="/assets/css/app.css">
 
 <body>
-    <div class="container-scroller"  >
+    <div class="container-scroller">
         <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" >
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-                <div class="me-3" >
+                <div class="me-3">
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button"
                         data-bs-toggle="minimize">
                         <span class="icon-menu"></span>
@@ -38,17 +37,17 @@
                     <a class="navbar-brand brand-logo" href="/">
                         <img src="/assets/images/logo.png">
                     </a>
-                   
-                  </div>
+
+                </div>
             </div>
             <x-sidebar />
         </nav>
         <!-- partial -->
-        <div class="container-fluid page-body-wrapper" >
+        <div class="container-fluid page-body-wrapper">
 
             <!-- partial:../../partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar" >
-                <x-menu/>
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <x-menu />
             </nav>
             <!-- partial -->
             <div class="main-panel">
@@ -57,7 +56,7 @@
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
-                <footer class="footer"  style="padding:15px">
+                <footer class="footer" style="padding:15px">
                     <div class="d-flex justify-content-end">
                         {{-- <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
                                 href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a>
@@ -92,6 +91,10 @@
     <!-- End custom js for this page-->
     <script src="/assets/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 
 @livewireScripts

@@ -35,16 +35,9 @@ use App\Http\Livewire\Production\Devis\DevisTraitées;
 
 Auth::routes();
 
-// Le groupe des routes relatives aux administrateurs uniquement
-Route::group([
-    "middleware" => ["auth", "auth.admin"],
-    'as' => 'admin.'
-], function () {
-    
-    Route::get('/salary', Salary::class)->name("salary");
-    Route::get('/challenge-prime', ChallengePrime::class)->name("challenge_prime");
-});
 
+Route::get('/salary', Salary::class)->name("salary");
+Route::get('/challenge-prime', ChallengePrime::class)->name("challenge_prime");
 Route::get('/admin/list', Absences::class)->name("absence.index");
 Route::get('/resignation', Resignations::class)->name("resignation.index");
 Route::get('/history', Historique::class)->name("absence.historique");

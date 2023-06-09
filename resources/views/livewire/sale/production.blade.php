@@ -1,5 +1,4 @@
-<br>
-<div class="content-wrapper">
+<div class="content-wrapper" style="margin-bottom: 20px;">
     <div class="row">
         <div class="col-5 grid-margin stretch-card">
             <div class="card">

@@ -10,6 +10,8 @@ define("PAGELIST", "liste");
 define("PAGECREATEFORM", "create");
 define("PAGEEDITFORM", "edit");
 define("PAGEROLE", "role");
+define("PAGEPOPOSWEEK", "proposWeek");
+define("PAGEPOPOSMONTH", "proposMonth");
 
 define("DEFAULTPASSWORD", "password");
 

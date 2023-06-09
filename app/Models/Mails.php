@@ -12,7 +12,8 @@ class Mails extends Model
     protected $table = 'mails';
     
     public $fillable = [
-        "nameClient", "emailClient", "numClient" , "user_id"
+        "nameClient", "emailClient", "numClient" , "user_id",
+        "adresse", "company", "state" , "remark",
     ];
 
     public function users(){

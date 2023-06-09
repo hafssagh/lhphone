@@ -63,9 +63,9 @@
                 </a>
                 <div class="collapse" id="paie">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.salary') }}">Salaire</a>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('salary') }}">Salaire</a>
                         </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.challenge_prime') }}">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('challenge_prime') }}">
                                 Challenge et Prime</a>
                         </li>
                     </ul>

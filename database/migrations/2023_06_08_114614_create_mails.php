@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('nameClient');
             $table->string('emailClient');
             $table->string('numClient');
-       /*      $table->string('adresse');
+            $table->string('adresse');
             $table->string('company');
-            $table->string('state'); */
+            $table->string('state')->nullable(); 
+            $table->string('remark')->nullable(); 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

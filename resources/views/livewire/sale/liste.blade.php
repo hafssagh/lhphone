@@ -9,7 +9,6 @@
                     <span class="input-group-text"><i class="icon-search"></i></span>
                 </div>
             </div>
-            @can('agent')
                 <div>
                     <button class="btn btn-lg text-black mb-0 me-0" type="button" wire:click="goToaddSale"
                         style="font-size: 14px; line-height: 18px; padding: 8px;">
@@ -21,7 +20,6 @@
                         </svg>
                         &nbsp;Nouvelle vente</button>
                 </div>
-            @endcan
         </div><br>
         <div class="table">
             <table class="table">
