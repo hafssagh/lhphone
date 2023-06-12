@@ -45,9 +45,4 @@ class Salary extends Component
             ->extends("layouts.master")
             ->section("contenu");
     }
-
-    public function toggleCheckbox($society)
-    {
-        $this->selectedSocieties = $society;
-    }
 }

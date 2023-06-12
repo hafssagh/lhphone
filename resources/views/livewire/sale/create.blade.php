@@ -31,7 +31,21 @@
                         <p class="card-subtitle card-subtitle-dash">Agent</p>
                         <div class="form-group">
                             <label for="name">Nom complet</label>
-                            <input type="text" placeholder="{{ userName() }}" class="form-control" disabled>
+                            @can('agent')
+                                <input type="text" placeholder="{{ userName() }}" class="form-control" disabled>
+                            @endcan
+                            @can('manager')
+                                <div class="col-sm-12">
+                                    <select wire:model="newSale.user"
+                                        class="form-control bg-white text-black @error('newSale.user') is-invalid @enderror">
+                                        <option value=""></option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->first_name }}
+                                                {{ $user->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endcan
                         </div>
                         <div class="form-group">
                             <label for="quantity">Quantité</label>

@@ -61,9 +61,9 @@
 
     @foreach ($mails as $mail)
         <div class="modal fade" id="exampleModal{{ $mail->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            aria-labelledby="exampleModalLabel" aria-hidden="true" >
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
+                <div class="modal-content" style='width:600px'>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">{{ $mail->company }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

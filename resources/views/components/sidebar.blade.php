@@ -37,7 +37,7 @@
                                     class="dropdown-item-icon mdi mdi-account-outline me-2" style="color:#1F3BB3"></i>
                                 Mon Profile
                                 </span></a>
-                            @cannot('agent')
+                                @canAny(['admin', 'manager'])
                                 <a class="dropdown-item" href="{{ route('absence.myliste') }}"><i
                                         class="dropdown-item-icon mdi mdi-calendar me-2" style="color:#1F3BB3"></i>
                                     Mes absences

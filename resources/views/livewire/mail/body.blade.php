@@ -18,7 +18,11 @@
         Vous recevrez un appel du service de contrôle pour votre devis à (vous n'aurez pas non plus de TVA
         à payer, c'est sans aucun reste à charge) <br><br>
 
-        Le matériel vous sera retourné par livraison. <br><br>
+        Le matériel vous sera retourné par livraison (0 euro).. <br><br>
+
+        <strong>MERCI DE CLIQUER SUR LE LIEN CI-CONTRE POUR REMPLIR VOTRE FICHE DE RENSEIGNEMENT :</strong><br><br>
+
+        <a href="https://forms.gle/ZoSHJqqTZ727sosZ6">https://forms.gle/ZoSHJqqTZ727sosZ6</a><br><br>
 
         Mes sincères salutations 
 
