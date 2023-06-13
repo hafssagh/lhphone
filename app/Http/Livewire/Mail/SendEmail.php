@@ -8,6 +8,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class SendEmail extends Component
 {
@@ -81,30 +82,30 @@ class SendEmail extends Component
         if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
             $query->where('state', $this->selectedStatus);
         }
-        
+
         if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
             $query->whereMonth('created_at', $this->selectedMonth);
         }
-        
+
         if ($role == 'Agent') {
             $query->where('user_id', $user->id)
-                  ->when($this->search, function ($query, $search) {
-                      return $query->whereHas('users', function ($query) use ($search) {
-                          $query->where('nameClient', 'like', '%' . $search . '%')
-                              ->orWhere('emailClient', 'like', '%' . $search . '%');
-                      });
-                  });
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('nameClient', 'like', '%' . $search . '%')
+                            ->orWhere('emailClient', 'like', '%' . $search . '%');
+                    });
+                });
         } else {
             $query->when($this->search, function ($query, $search) {
-                      return $query->whereHas('users', function ($query) use ($search) {
-                          $query->where('first_name', 'like', '%' . $search . '%')
-                              ->orWhere('last_name', 'like', '%' . $search . '%')
-                              ->orWhere('nameClient', 'like', '%' . $search . '%')
-                              ->orWhere('emailClient', 'like', '%' . $search . '%');
-                      });
-                  });
+                return $query->whereHas('users', function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%')
+                        ->orWhere('nameClient', 'like', '%' . $search . '%')
+                        ->orWhere('emailClient', 'like', '%' . $search . '%');
+                });
+            });
         }
-        
+
         $proposition = $query->orderBy('created_at', 'desc')->paginate(8);
         $Allproposition = $query->orderBy('created_at', 'desc')->without('scopes')->paginate(8);
 
@@ -136,13 +137,18 @@ class SendEmail extends Component
         $fromName = $user ?  userName() : config('mail.from.name');
         $fromAddress = config('mail.from.address');
 
-        // Your email sending logic here
-        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress) {
+        $filePath = Storage::path('test.xlsx');
+
+        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress, $filePath) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
-                ->subject($this->subject);
+                ->subject($this->subject)
+                ->attach($filePath, [
+                    'as' => 'test.xlsx',
+                    'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ]);
         });
-
+        
         $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
         $this->goToListPropos();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
