@@ -44,6 +44,9 @@ class LoginController extends Controller
         AbsSalary();
         CalculChallenge();
         CalculPrime();
+        exportSalary();
+        exportPrime();
+        exportChallenge();
         return redirect('/');
     }
 }

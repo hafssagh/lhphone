@@ -71,22 +71,22 @@
                     @foreach ($users as $user)
                         <tr>
                             @if ($user->photo != '' || $user->photo != null)
-                                <td style="padding: 0.8rem;"> <img class="img rounded-circle "
+                                <td style="padding: 0.5rem;"> <img class="img rounded-circle "
                                         src="{{ asset('storage/' . $user->photo) }}" style="height: 36px; width:36px">
                                 </td>
                             @else
-                                <td style="padding: 0.8rem;"> <img src="../assets/images/user.png"></td>
+                                <td style="padding: 0.5rem;"> <img src="../assets/images/user.png"></td>
                             @endif
                             @if (count($user->resignations) > 0)
-                                <td style="padding: 0.8rem;"><del> {{ $user->last_name }} {{ $user->first_name }}</del>
+                                <td style="padding: 0.5rem;"><del> {{ $user->last_name }} {{ $user->first_name }}</del>
                                     <p class="text-danger">A quitté</p>
                                 </td> <br>
                             @else
-                                <td style="padding: 0.8rem;"> {{ $user->last_name }} {{ $user->first_name }}
+                                <td style="padding: 0.5rem;"> {{ $user->last_name }} {{ $user->first_name }}
                             @endif
                             @canAny(['admin', 'superadmin'])
-                                <td style="padding: 0.8rem;">{{ $user->allRoleName }}</td>
-                                <td class="text-center" style="padding: 0.8rem;">
+                                <td style="padding: 0.5rem;">{{ $user->allRoleName }}</td>
+                                <td class="text-center" style="padding: 0.5rem;">
                                     @if ($user->company == 'h2f')
                                         <div class="badge badge-opacity-primary">H2F PREMIUM</div>
                                     @else
@@ -95,9 +95,9 @@
                                     @endif
                                 </td>
                             @endcanAny
-                            <td class="text-center" style="padding: 0.8rem;">{{ $user->email }}</td>
+                            <td class="text-center" style="padding: 0.5rem;">{{ $user->email }}</td>
                             @can('manager')
-                                <td class="text-center" style="padding: 0.8rem;">
+                                <td class="text-center" style="padding: 0.5rem;">
                                     @if ($user->group == '1')
                                         <div class="badge badge-opacity-primary">Equipe Chris Ezzahra</div>
                                     @else
@@ -106,11 +106,11 @@
                                         </div>
                                     @endif
                                 </td>
-                                <td class="text-center" style="padding: 0.8rem;">{{ $user->base_salary }} DH</td>
+                                <td class="text-center" style="padding: 0.5rem;">{{ $user->base_salary }} DH</td>
                             @endcan
-                            <td class="text-center" style="padding: 0.8rem;">
+                            <td class="text-center" style="padding: 0.5rem;">
                                 {{ \Carbon\Carbon::parse($user->date_contract)->diffForHumans() }}</td>
-                            <td class="text-center" style="padding: 0.8rem;">
+                            <td class="text-center" style="padding: 0.5rem;">
                                 @canAny(['admin', 'superadmin'])
                                     <a href="javascript:;" class="btn btn-sm btn-icon"
                                         wire:click="goToRoleUser({{ $user->id }})">

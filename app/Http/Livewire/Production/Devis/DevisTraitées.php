@@ -34,7 +34,7 @@ class DevisTraitées extends Component
                             ->orWhere('name_client', 'like', '%' . $search . '%');
                     });
                 })
-                ->orderBy('date_confirm', 'desc')->paginate(5);
+                ->orderBy('date_confirm', 'desc')->paginate(7);
         } else {
             $sales = Sale::whereMonth('date_confirm', $this->selectedMonth)
                 ->whereNot('state', '2')
@@ -49,7 +49,7 @@ class DevisTraitées extends Component
                             ->orWhere('name_client', 'like', '%' . $search . '%');
                     });
                 })
-                ->orderBy('date_confirm', 'desc')->paginate(5);
+                ->orderBy('date_confirm', 'desc')->paginate(7);
         }
 
         return view('livewire.sale.devis.devisTraitées', ["sales" => $sales])

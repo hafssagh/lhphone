@@ -63,7 +63,7 @@
                         <th class="text-center">Quantité</th>
                         <th class="text-center">Date de vente</th>
                         <th class="text-center">Statut</th>
-                        <th class="text-center">Date de confirmation</th>
+                        <th class="text-center">Date de confirm.</th>
                         <th>Société</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -71,30 +71,30 @@
                 <tbody>
                     @foreach ($sales as $sale)
                         <tr>
-                            <td style="padding: 0.7rem;"> {{ $sale->users->last_name }} {{ $sale->users->first_name }}
+                            <td style="padding: 0.3rem;"> {{ $sale->users->last_name }} {{ $sale->users->first_name }}
                             </td>
-                            <td class="text-center" style="padding: 0.7rem;">{{ $sale->quantity }}</td>
-                            <td style="padding: 0.7rem;" class="text-center">{{ $sale->date_sal }}</td>
-                            <td style="padding: 0.7rem;" class="text-center">
+                            <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
+                            <td style="padding: 0.3rem;" class="text-center">{{ $sale->date_sal }}</td>
+                            <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2')
                                     <p class="blinking-text" style="color: #0dcaf0;">En attente d'envoi</p>
                                 @elseif($sale->state == '3')
                                     <p class="blinking-text">Devis envoyé</p>
                                 @endif
                             </td>
-                            <td style="padding: 0.7rem;" class="text-center">
+                            <td style="padding: 0.3rem;" class="text-center">
                                 <div class="spinner-border text-info" role="status" style="width:16px ;height:16px">
                                     <span class="sr-only"></span>
                                 </div>
                             </td>
-                            <td style="padding: 0.7rem;">
-                                <p class="text-dark fw-bold" style="margin-bottom: 0;">Emma Smith</p>
+                            <td style="padding: 0.3rem;">
+                                <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $sale->name_client }}</p>
                                 <p class="text-muted" style="margin-bottom: 0;">
-                                    <span class="text-dark">Email</span>: smith@kpmg.com &nbsp;
-                                    <span class="text-dark">No</span>: 85886889
+                                    <span class="text-dark">Email</span>: {{ $sale->mail_client }} &nbsp;
+                                    <span class="text-dark">No</span>: {{ $sale->phone_client }}
                                 </p>
                             </td>
-                            <td class="text-center" style="padding: 0.7rem;">
+                            <td class="text-center" style="padding: 0.3rem;">
                                 @if ($sale->state == '3')
                                     <span class="svg-icon svg-icon-md" style="color: #198754"
                                         wire:click='saleValide({{ $sale->id }})'>

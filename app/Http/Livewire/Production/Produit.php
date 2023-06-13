@@ -53,16 +53,16 @@ class Produit extends Component
             ->groupBy('user_id', 'date_confirm')
             ->get();
 
-        $this->absence = Absence::select('user_id', 'date')
+        $this->absence = Absence::select('user_id', 'date', 'abs_hours')
             ->join('users', 'absences.user_id', '=', 'users.id')
             ->where('users.group', '1')
-            ->groupBy('user_id', 'date')
+            ->groupBy('user_id', 'date', 'abs_hours')
             ->get();
 
-        $this->absence2 = Absence::select('user_id', 'date')
+        $this->absence2 = Absence::select('user_id', 'date', 'abs_hours')
             ->join('users', 'absences.user_id', '=', 'users.id')
             ->where('users.group', '2')
-            ->groupBy('user_id', 'date')
+            ->groupBy('user_id', 'date', 'abs_hours')
             ->get();
 
         $this->resignation = Resignation::select('user_id')

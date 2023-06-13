@@ -5,6 +5,14 @@ use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
 
+use App\Exports\PrimeExport;
+use App\Exports\SalaryExport;
+use App\Exports\ChallengeExport;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+
 define("PAGEDEVIS", "devisEnCours");
 define("PAGELIST", "liste");
 define("PAGECREATEFORM", "create");
@@ -14,6 +22,295 @@ define("PAGEPOPOSWEEK", "proposWeek");
 define("PAGEPOPOSMONTH", "proposMonth");
 
 define("DEFAULTPASSWORD", "password");
+
+function exportChallenge()
+{
+    $today = date('Y-m-d');
+    $dayOfWeek = date('N');
+   
+    if ($dayOfWeek !== 7) {
+        return;
+    }
+
+    $file = 'C:/Users/hp/Desktop/salary.xlsx';
+
+    $spreadsheet = new Spreadsheet();
+    if (file_exists($file)) {
+        $spreadsheet = IOFactory::load($file);
+    }
+
+    $export = new ChallengeExport;
+    $sheet = $spreadsheet->getSheet(2);
+
+    $highestRow = $sheet->getHighestRow();
+    $nextRow = $highestRow + 1;
+
+    $data = $export->collection();
+
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+
+    $moisEnFrancais = [
+        1 => 'janvier',
+        2 => 'février',
+        3 => 'mars',
+        4 => 'avril',
+        5 => 'mai',
+        6 => 'juin',
+        7 => 'juillet',
+        8 => 'août',
+        9 => 'septembre',
+        10 => 'octobre',
+        11 => 'novembre',
+        12 => 'décembre',
+    ];
+    $mois = $moisEnFrancais[date('n')];
+
+    $annee = date('Y');
+
+    $today = new DateTime();
+    $weekOfMonth = ceil($today->format('j') / 7);
+
+    $style = [
+        'font' => [
+            'bold' => true,
+            'size' => 13,
+            'color' => ['rgb' => 'blue'],
+        ],
+        'alignment' => [
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        ],
+
+    ];
+    $cellStart = 'A' . $nextRow;
+    $cellEnd = 'E' . $nextRow;
+
+    $sheet->setCellValue('A' . $nextRow, "Les challenge de la  $weekOfMonth ème semaine : $mois  $annee");
+    switch ($weekOfMonth) {
+        case 1:
+            echo "st";
+            break;
+        case 2:
+            echo "nd";
+            break;
+        case 3:
+            echo "rd";
+            break;
+        default:
+            echo "th";
+            break;
+    }
+
+    $sheet->mergeCells($cellStart . ':' . $cellEnd);
+    $sheet->getStyle($cellStart)->applyFromArray($style);
+    $nextRow++;
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+
+    // Add the headings
+    $headings = $export->headings();
+    $sheet->fromArray([$headings], null, 'A' . $nextRow);
+    $sheet->getStyle('A' . $nextRow . ':' . 'K' . $nextRow)->applyFromArray([
+        'font' => [
+            'bold' => true,
+        ],
+    ]);
+    $nextRow++;
+
+    foreach ($data as $row) {
+        $rowData = $export->map($row);
+
+        $sheet->fromArray($rowData, null, 'A' . $nextRow);
+        $nextRow++;
+    }
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save($file);
+
+    return response()->download($file)->deleteFileAfterSend(false);
+}
+
+function exportPrime()
+{
+    $today = date('Y-m-d');
+    $lastDayOfMonth = date('Y-m-t');
+
+     if ($today !== $lastDayOfMonth) {
+        return;
+    } 
+
+    $file = 'C:/Users/hp/Desktop/salary.xlsx';
+
+    $spreadsheet = new Spreadsheet();
+    if (file_exists($file)) {
+        $spreadsheet = IOFactory::load($file);
+    }
+
+    $export = new PrimeExport;
+    $sheet = $spreadsheet->getSheet(1);
+
+    $highestRow = $sheet->getHighestRow();
+    $nextRow = $highestRow + 1;
+
+    $data = $export->collection();
+
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+
+    $moisEnFrancais = [
+        1 => 'janvier',
+        2 => 'février',
+        3 => 'mars',
+        4 => 'avril',
+        5 => 'mai',
+        6 => 'juin',
+        7 => 'juillet',
+        8 => 'août',
+        9 => 'septembre',
+        10 => 'octobre',
+        11 => 'novembre',
+        12 => 'décembre',
+    ];
+
+    $mois = $moisEnFrancais[date('n')];
+    $annee = date('Y');
+    $style = [
+        'font' => [
+            'bold' => true,
+            'size' => 13,
+            'color' => ['rgb' => 'blue'],
+        ],
+        'alignment' => [
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        ],
+
+    ];
+    $cellStart = 'A' . $nextRow;
+    $cellEnd = 'E' . $nextRow;
+
+    $sheet->setCellValue('A' . $nextRow, "Les primes du mois de : $mois  $annee");
+    $sheet->mergeCells($cellStart . ':' . $cellEnd);
+    $sheet->getStyle($cellStart)->applyFromArray($style);
+    $nextRow++;
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+
+    // Add the headings
+    $headings = $export->headings();
+    $sheet->fromArray([$headings], null, 'A' . $nextRow);
+    $sheet->getStyle('A' . $nextRow . ':' . 'D' . $nextRow)->applyFromArray([
+        'font' => [
+            'bold' => true,
+        ],
+    ]);
+    $nextRow++;
+
+    foreach ($data as $row) {
+        $rowData = $export->map($row);
+
+        $sheet->fromArray($rowData, null, 'A' . $nextRow);
+        $nextRow++;
+    }
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save($file);
+
+    return response()->download($file)->deleteFileAfterSend(false);
+}
+
+function exportSalary()
+{
+    $today = date('Y-m-d');
+    $lastDayOfMonth = date('Y-m-t');
+
+    if ($today !== $lastDayOfMonth) {
+        return;
+    } 
+
+    $file = 'C:/Users/hp/Desktop/salary.xlsx';
+
+    $spreadsheet = new Spreadsheet();
+    if (file_exists($file)) {
+        $spreadsheet = IOFactory::load($file);
+    }
+
+    $export = new SalaryExport;
+    $sheet = $spreadsheet->getSheet(0);
+
+    $highestRow = $sheet->getHighestRow();
+    $nextRow = $highestRow + 1;
+
+    $data = $export->collection();
+
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+
+    $moisEnFrancais = [
+        1 => 'janvier',
+        2 => 'février',
+        3 => 'mars',
+        4 => 'avril',
+        5 => 'mai',
+        6 => 'juin',
+        7 => 'juillet',
+        8 => 'août',
+        9 => 'septembre',
+        10 => 'octobre',
+        11 => 'novembre',
+        12 => 'décembre',
+    ];
+
+    $mois = $moisEnFrancais[date('n')];
+    $annee = date('Y');
+    $style = [
+        'font' => [
+            'bold' => true,
+            'size' => 13,
+            'color' => ['rgb' => 'blue'],
+        ],
+        'alignment' => [
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        ],
+
+    ];
+    $cellStart = 'A' . $nextRow;
+    $cellEnd = 'E' . $nextRow;
+
+    $sheet->setCellValue('A' . $nextRow, "Les salaires du mois de : $mois  $annee");
+    $sheet->mergeCells($cellStart . ':' . $cellEnd);
+    $sheet->getStyle($cellStart)->applyFromArray($style);
+    $nextRow++;
+    $sheet->setCellValue('A' . $nextRow, '');
+    $nextRow++;
+
+    // Add the headings
+    $headings = $export->headings();
+    $sheet->fromArray([$headings], null, 'A' . $nextRow);
+    $sheet->getStyle('A' . $nextRow . ':' . 'D' . $nextRow)->applyFromArray([
+        'font' => [
+            'bold' => true,
+        ],
+    ]);
+    $nextRow++;
+
+    foreach ($data as $row) {
+        $rowData = $export->map($row);
+
+        $sheet->fromArray($rowData, null, 'A' . $nextRow);
+        $nextRow++;
+    }
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save($file);
+
+    return response()->download($file)->deleteFileAfterSend(false);
+}
 
 function CalculChallenge()
 {
@@ -65,6 +362,9 @@ function CalculPrime()
                 2600 => 5500,
                 3000 => 6500,
                 3400 => 7500,
+                3800 => 8500,
+                4200 => 9000,
+                4600 => 10000,
             ];
 
             $user->prime = 0; // Set the initial value of prime
@@ -115,7 +415,7 @@ function fetchWeekDates()
 function fetchMonthWeeks()
 {
     $monthWeeks = [];
-    
+
     $currentDate = Carbon::now()->startOfMonth();
     $endOfMonth = Carbon::now()->endOfMonth();
 

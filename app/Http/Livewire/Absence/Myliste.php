@@ -13,18 +13,20 @@ class Myliste extends Component
     {
         Carbon::setLocale("fr");
 
+        $currentDay = Carbon::now()->format('Y-m-d');
         $currentMonth = Carbon::now()->format('Y-m');
 
         $user = auth()->user()->id;
 
         $absence = Absence::query()
             ->where("user_id", '=', $user)
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$currentDay])
             ->get();
             
         $allAbsence = Absence::query()
             ->where("user_id", '=', $user)
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') <> ?", [$currentMonth])
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') <> ?", [$currentDay])
             ->get();
 
         return view('livewire.absence.myliste', [

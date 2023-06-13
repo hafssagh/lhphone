@@ -45,4 +45,6 @@ class Salary extends Component
             ->extends("layouts.master")
             ->section("contenu");
     }
+
+    
 }

@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-3">
                     <form wire:submit.prevent="render">
-                        <select class="form-select" wire:model="selectedCompany" id="selectedCompany" 
+                        <select class="form-select" wire:model="selectedCompany" id="selectedCompany"
                             style="font-size:12px">
                             <option value="all">Société</option>
                             <option value="lh">LH Phone</option>
@@ -24,6 +24,8 @@
                         </select>
                     </form>
                 </div>
+            </div>
+            <div>
             </div>
             <div class="table">
                 <table class="table">

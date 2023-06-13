@@ -31,24 +31,51 @@
                                             ->first()->sales_count ?? 0;
                                     $totalSalesCount += $salesCount;
                                     $backgroundColor = $salesCount != 0 ? 'background-color: #5cb85c ; color:white' : '';
+                                    
                                     $absenceUser = $absence
                                         ->where('user_id', $user->id)
                                         ->where('date', $date->format('Y-m-d'))
+                                        ->where('abs_hours', '>', 4)
                                         ->first();
-                                    $resignationUser = $resignation->where('user_id', $user->id)->first();
+                                    
+                                    $absenceUser12 = $absence
+                                        ->where('user_id', $user->id)
+                                        ->where('date', $date->format('Y-m-d'))
+                                        ->whereBetween('abs_hours', [1, 3])
+                                        ->first();
+                                    
+                                    $absenceUserDemi = $absence
+                                        ->where('user_id', $user->id)
+                                        ->where('date', $date->format('Y-m-d'))
+                                        ->where('abs_hours', 4)
+                                        ->first();
+                                    
+                                    $retard = $absence
+                                        ->where('user_id', $user->id)
+                                        ->where('date', $date->format('Y-m-d'))
+                                        ->where('abs_hours', -1)
+                                        ->first();
                                     
                                     $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
+                                    $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
+                                    $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
+                                    $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
+                                    
+                                    $resignationUser = $resignation->where('user_id', $user->id)->first();
                                     $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                    
                                     $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                 @endphp
-                                <td style="border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px; {{ $backgroundColor2 }}; {{ $backgroundColor4 }};"
+                                <td style="border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px; 
+                                {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }};"
                                     class="text-center">
-                                    {{ $salesCount }}
+                                    <strong>{{ $salesCount }}</strong>
                                 </td>
                             @endforeach
                             <td class="text-center"
                                 style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                {{ $totalSalesCount }}</td>
+                                <strong>{{ $totalSalesCount }}</strong>
+                            </td>
                             @foreach (fetchMonthDates() as $date)
                                 @php
                                     $carbonDate = Carbon\Carbon::parse($date);
@@ -65,7 +92,8 @@
                             @endforeach
                             <td class="text-center"
                                 style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                {{ $totalSalesCountMonth }}</td>
+                                <strong>{{ $totalSalesCountMonth }}</strong>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -84,11 +112,13 @@
                             @endphp
                             <td class="text-center"
                                 style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor4 }};">
-                                {{ $salesCount }}</td>
+                                <strong>{{ $salesCount }}</strong>
+                            </td>
                         @endforeach
                         <td class="text-center"
                             style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                            {{ $grandTotal }}</td>
+                            <strong>{{ $grandTotal }}</strong>
+                        </td>
                         @php
                             $grandTotalMonth = 0;
                         @endphp
@@ -102,7 +132,8 @@
 
                         <td class="text-center"
                             style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                            {{ $grandTotalMonth }}</td>
+                            <strong>{{ $grandTotalMonth }}</strong>
+                        </td>
                     </tr>
                 </tfoot>
             </table>
@@ -112,7 +143,7 @@
 <div class="row">
     <div class="card">
         <div class="card-body d-flex justify-content-center">
-            <table class="table table-borderless" style="width: 10px;">
+            <table class="table table-borderless" >
                 <thead>
                     <tr>
                         <th>Groupe 2</th>
@@ -142,23 +173,51 @@
                                     $backgroundColor = $salesCount != 0 ? 'background-color: #5cb85c ; color:white' : '';
                                     $totalSalesCount += $salesCount;
                                     $dailySalesCounts[] = $salesCount;
+                                    
                                     $absenceUser = $absence2
                                         ->where('user_id', $user2->id)
                                         ->where('date', $date->format('Y-m-d'))
+                                        ->where('abs_hours', '>', 4)
                                         ->first();
-                                    $resignationUser = $resignation2->where('user_id', $user2->id)->first();
                                     
-                                    $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                    $absenceUser12 = $absence2
+                                        ->where('user_id', $user2->id)
+                                        ->where('date', $date->format('Y-m-d'))
+                                        ->whereBetween('abs_hours', [1, 3])
+                                        ->first();
+                                    
+                                    $absenceUserDemi = $absence2
+                                        ->where('user_id', $user2->id)
+                                        ->where('date', $date->format('Y-m-d'))
+                                        ->where('abs_hours', 4)
+                                        ->first();
+                                    
+                                    $retard = $absence2
+                                        ->where('user_id', $user2->id)
+                                        ->where('date', $date->format('Y-m-d'))
+                                        ->where('abs_hours', -1)
+                                        ->first();
+                                    
                                     $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
+                                    $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
+                                    $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
+                                    $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
+                                    
+                                    $resignationUser = $resignation2->where('user_id', $user2->id)->first();
+                                    $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                    
                                     $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                 @endphp
-                                <td style="border: 4px solid rgb(253, 253, 253);background-color: #ececec;{{ $backgroundColor }}; border-radius:15px; {{ $backgroundColor2 }};{{ $backgroundColor4 }};"
+                                <td style="border: 4px solid rgb(253, 253, 253);background-color: #ececec; {{ $backgroundColor }}; border-radius:15px; 
+                                {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }};"
                                     class="text-center">
-                                    {{ $salesCount }}</td>
+                                    <strong>{{ $salesCount }}</strong>
+                                </td>
                             @endforeach
                             <td class="text-center"
                                 style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                {{ $totalSalesCount }}</td>
+                               <strong>{{ $totalSalesCount }}</strong> 
+                            </td>
                             @foreach (fetchMonthDates() as $date)
                                 @php
                                     $carbonDate = Carbon\Carbon::parse($date);
@@ -175,7 +234,7 @@
                             @endforeach
                             <td class="text-center"
                                 style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px; {{ $backgroundColor }};">
-                                {{ $totalSalesCountMonth }}
+                               <strong>{{ $totalSalesCountMonth }}</strong> 
                             </td>
                         </tr>
                     @endforeach
@@ -195,11 +254,13 @@
                             @endphp
                             <td class="text-center"
                                 style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor4 }};">
-                                {{ $salesCount }}</td>
+                                <strong>{{ $salesCount }}</strong>
+                            </td>
                         @endforeach
                         <td class="text-center"
                             style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                            {{ $grandTotal }}</td>
+                           <strong>{{ $grandTotal }}</strong> 
+                        </td>
                         @php
                             $grandTotalMonth = 0;
                         @endphp
@@ -213,7 +274,8 @@
 
                         <td class="text-center"
                             style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                            {{ $grandTotalMonth }}</td>
+                            <strong>{{ $grandTotalMonth }}</strong>
+                        </td>
                     </tr>
                 </tfoot>
             </table>

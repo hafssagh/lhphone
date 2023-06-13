@@ -18,6 +18,8 @@ class SendEmail extends Component
 
     public $search = "";
     public $selectedMonth;
+    public $selectedStatus;
+    public $data;
 
     public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark;
 
@@ -44,6 +46,7 @@ class SendEmail extends Component
 
     public $today;
     public $mails;
+
 
     public function mount()
     {
@@ -73,95 +76,38 @@ class SendEmail extends Component
         $user = Auth::user();
         $role = $user->roles->first()->name;
 
-        if ($this->selectedMonth === null || $this->selectedMonth == "all") {
-            if ($role == 'Agent') {
-                $proposition = Mails::when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->where('user_id', $user->id)
-                    ->whereDate('created_at', '>=', fetchWeekDates()[0])
-                    ->whereDate('created_at', '<=', fetchWeekDates()[6])
-                    ->orderBy('created_at', 'desc')->paginate(8);
+        $query = Mails::query();
 
-                $Allproposition = Mails::when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->where('user_id', $user->id)
-                    ->orderBy('created_at', 'desc')->paginate(8);
-            } else {
-                $proposition = Mails::when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhere('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->whereDate('created_at', '>=', fetchWeekDates()[0])
-                    ->whereDate('created_at', '<=', fetchWeekDates()[6])
-                    ->orderBy('created_at', 'desc')->paginate(8);
-
-                $Allproposition = Mails::when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhere('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->orderBy('created_at', 'desc')->paginate(8);
-            }
-        } else {
-            if ($role == 'Agent') {
-                $proposition = Mails::whereMonth('created_at', $this->selectedMonth)->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->where('user_id', $user->id)
-                    ->whereDate('created_at', '>=', fetchWeekDates()[0])
-                    ->whereDate('created_at', '<=', fetchWeekDates()[6])
-                    ->orderBy('created_at', 'desc')->paginate(8);
-
-                $Allproposition = Mails::whereMonth('created_at', $this->selectedMonth)->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->where('user_id', $user->id)
-                    ->orderBy('created_at', 'desc')->paginate(8);
-            } else {
-                $proposition = Mails::whereMonth('created_at', $this->selectedMonth)->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhere('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->whereDate('created_at', '>=', fetchWeekDates()[0])
-                    ->whereDate('created_at', '<=', fetchWeekDates()[6])
-                    ->orderBy('created_at', 'desc')->paginate(8);
-
-                $Allproposition = Mails::whereMonth('created_at', $this->selectedMonth)->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhere('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                })
-                    ->orderBy('created_at', 'desc')->paginate(8);
-            }
+        if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
+            $query->where('state', $this->selectedStatus);
         }
+        
+        if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
+            $query->whereMonth('created_at', $this->selectedMonth);
+        }
+        
+        if ($role == 'Agent') {
+            $query->where('user_id', $user->id)
+                  ->when($this->search, function ($query, $search) {
+                      return $query->whereHas('users', function ($query) use ($search) {
+                          $query->where('nameClient', 'like', '%' . $search . '%')
+                              ->orWhere('emailClient', 'like', '%' . $search . '%');
+                      });
+                  });
+        } else {
+            $query->when($this->search, function ($query, $search) {
+                      return $query->whereHas('users', function ($query) use ($search) {
+                          $query->where('first_name', 'like', '%' . $search . '%')
+                              ->orWhere('last_name', 'like', '%' . $search . '%')
+                              ->orWhere('nameClient', 'like', '%' . $search . '%')
+                              ->orWhere('emailClient', 'like', '%' . $search . '%');
+                      });
+                  });
+        }
+        
+        $proposition = $query->orderBy('created_at', 'desc')->paginate(8);
+        $Allproposition = $query->orderBy('created_at', 'desc')->without('scopes')->paginate(8);
+
         return view('livewire.mail.index', ['proposition' => $proposition, 'Allproposition' => $Allproposition])
             ->extends("layouts.master")
             ->section("contenu");

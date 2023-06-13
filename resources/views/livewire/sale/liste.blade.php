@@ -28,7 +28,7 @@
                         <th class="text-center">Quantité</th>
                         <th class="text-center">Date de vente</th>
                         <th class="text-center">Statut</th>
-                        <th class="text-center">Date de confirmation</th>
+                        <th class="text-center">Date de confirm.</th>
                         <th>Société</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -72,10 +72,10 @@
                                 @endif
                             </td>
                             <td style="padding: 0.7rem;">
-                                <p class="text-dark fw-bold" style="margin-bottom: 0;">Emma Smith</p>
+                                <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $sale->name_client }}</p>
                                 <p class="text-muted" style="margin-bottom: 0;">
-                                    <span class="text-dark">Email</span>: smith@kpmg.com &nbsp;
-                                    <span class="text-dark">No</span>: 85886889
+                                    <span class="text-dark">Email</span>: {{ $sale->mail_client }} &nbsp;
+                                    <span class="text-dark">No</span>: {{ $sale->phone_client }}
                                 </p>
                             </td>
                             @if ($sale->state == '2')

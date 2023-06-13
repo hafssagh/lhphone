@@ -2,13 +2,9 @@
      <div class="card-body">
          <div class="d-sm-flex justify-content-between align-items-start">
              <div>
-                 <h4 class="card-title card-title-dash">Propositions de la semaine</h4><br>
-                 <div class="input-group">
-                     <input type="text" class="form-control" wire:model.debounce.250ms='search'
-                         placeholder="Rechercher ...">
-                     <span class="input-group-text"><i class="icon-search"></i></span>
-                 </div>
+                 <h4 class="card-title card-title-dash">Propositions de la semaine</h4>
              </div>
+             
              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                  <button type="button" class="btn btn-outline-dark" wire:click="goToListPropos"
                      style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</button>
@@ -16,6 +12,25 @@
                      style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</button>
              </div>
          </div><br>
+         <div class="row">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" wire:model.debounce.250ms='search'
+                        placeholder="Rechercher ...">
+                    <span class="input-group-text"><i class="icon-search"></i></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" wire:model="selectedStatus" wire:change="render" style="font-size: 13px">
+                    <option value="all">Tous les status</option>
+                    <option value="1">Accepté</option>
+                    <option value="-1">Refusé</option>
+                    <option value="3">A rappeler</option>
+                    <option value="0">Non traitée</option>
+                </select>
+            </div>
+        </div><br>
+
          <div class="table">
              <table class="table">
                  <thead>
@@ -26,7 +41,8 @@
                          <th>Société</th>
                          <th>Client</th>
                          <th>Adresse</th>
-                         <th>Date/Heure d'envoie</th>
+                         <th>Date d'envoie</th>
+                         <th style="width:3%"></th>
                      </tr>
                  </thead>
                  <tbody>
@@ -46,6 +62,17 @@
                             </td>
                             <td style="padding: 0.6rem;">{{ $propo->adresse}}</td>
                             <td style="padding: 0.6rem;">{{ $propo->created_at }}</td>
+                            <td style="padding: 0.6rem;" >
+                                @if ($propo->state == '0')
+                                    <div class="square_table" style="background-color: #c9c6c6;">
+                                @elseif($propo->state == '1')
+                                    <div class="square_table" style="background-color: #84cc88;">
+                                @elseif($propo->state == '-1')
+                                    <div class="square_table" style="background-color: #f5a7a1;">
+                                @elseif($propo->state == '3')
+                                    <div class="square_table" style="background-color: #f3ea6c;">
+                                @endif
+                            </td>
                          </tr>
                      @endforeach
                  </tbody>

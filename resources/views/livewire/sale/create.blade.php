@@ -34,7 +34,7 @@
                             @can('agent')
                                 <input type="text" placeholder="{{ userName() }}" class="form-control" disabled>
                             @endcan
-                            @can('manager')
+                            @cannot('agent')
                                 <div class="col-sm-12">
                                     <select wire:model="newSale.user"
                                         class="form-control bg-white text-black @error('newSale.user') is-invalid @enderror">

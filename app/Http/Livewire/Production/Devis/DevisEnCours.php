@@ -49,7 +49,7 @@ class DevisEnCours extends Component
                         ->orWhere('name_client', 'like', '%' . $search . '%');
                 });
             })
-            ->latest()->paginate(5);
+            ->latest()->paginate(7);
 
         $users = User::select('id', 'first_name', 'last_name')->where('company','lh')->whereHas('roles', function ($query) {
             $query->where('name', 'agent');

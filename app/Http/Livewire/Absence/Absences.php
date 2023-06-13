@@ -56,7 +56,7 @@ class Absences extends Component
                         $query->where('first_name', 'like', '%' . $search . '%')
                             ->orWhere('last_name', 'like', '%' . $search . '%');
                     });
-                })->latest()->paginate(5),
+                })->latest()->paginate(6),
             "users" => User::select('id', 'first_name', 'last_name')->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
             })->get(),

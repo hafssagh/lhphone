@@ -27,7 +27,7 @@ class Historique extends Component
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%');
                 });
-            })->paginate(6);
+            })->paginate(7);
         } else {
             $absences = Absence::orderBy('date','DESC')->whereMonth('date', $this->selectedMonth)
             ->when($this->search, function ($query, $search) {
@@ -35,7 +35,7 @@ class Historique extends Component
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%');
                 });
-            })->paginate(5);
+            })->paginate(7);
         }
         return view('livewire.absence.historique', [
             "absences" => $absences,

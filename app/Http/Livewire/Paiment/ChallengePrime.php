@@ -17,7 +17,7 @@ class ChallengePrime extends Component
     public function render()
     {
         $challenge = User::whereNot('challenge', '0')
-        ->select('first_name','last_name','challenge')
+        ->select('first_name','last_name','challenge','company','photo')
         ->where(function ($query) {
             $query->orderBy('last_name')
                 ->where('company', $this->selectedSocieties)
@@ -27,7 +27,7 @@ class ChallengePrime extends Component
         ->paginate(6);
 
         $prime = User::whereNot('prime', '0')
-        ->select('first_name','last_name','prime')
+        ->select('first_name','last_name','prime','company','photo')
         ->where(function ($query) {
             $query->orderBy('last_name')
                 ->where('company', $this->selectedSocieties)
@@ -41,10 +41,5 @@ class ChallengePrime extends Component
         ->extends("layouts.master")
         ->section("contenu");
     }
-
-    public function toggleCheckbox($society)
-    {
-        $this->selectedSocieties = $society;
-    }  
     
 }

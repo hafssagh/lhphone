@@ -36,7 +36,7 @@
                     @if ($isAddResignation)
                         <tr>
                             <form action="">
-                                <td style="padding: 0.8rem;">
+                                <td style="padding: 0.4rem;">
                                     <select wire:model="newResignation.user" 
                                     class="form-control bg-white text-black @error('newResignation.user') is-invalid @enderror">
                                         <option value=""></option>
@@ -47,12 +47,12 @@
                                     </select>
                                 </td>
                                 <td></td>
-                                <td style="padding: 0.8rem;"> <input class="form-control @error('newResignation.motive') is-invalid @enderror"
+                                <td style="padding: 0.4rem;"> <input class="form-control @error('newResignation.motive') is-invalid @enderror"
                                      type="text" wire:model="newResignation.motive"
                                         wire:keydown.enter='addNewResignation'> 
                                 </td>
-                                <td style="padding: 0.8rem;"></td>
-                                <td class="text-center" style="padding: 0.8rem;">
+                                <td style="padding: 0.4rem;"></td>
+                                <td class="text-center" style="padding: 0.4rem;">
                                     <button wire:click.prevent='addNewResignation'
                                         class="btn btn-lg text-black mb-0 me-0 justify-content-end"
                                         style="font-size: 14px; line-height: 18px; padding: 8px;">
@@ -77,13 +77,13 @@
                     @endif
                     @foreach ($resignations as $resignation)
                         <tr>
-                            <td style="padding: 0.8rem;"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
-                            <td class="text-center" style="padding: 0.8rem;">{{ $resignation->date }}</td>
-                            <td class="text-center" style="padding: 0.8rem;">{{ $resignation->motive }}</td>
-                            <td class="text-center" style="padding: 0.8rem;">
+                            <td style="padding: 0.4rem;"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
+                            <td class="text-center" style="padding: 0.4rem;">{{ $resignation->date }}</td>
+                            <td class="text-center" style="padding: 0.4rem;">{{ $resignation->motive }}</td>
+                            <td class="text-center" style="padding: 0.4rem;">
                                 {{ \Carbon\Carbon::parse($resignation->date)->diffForHumans($resignation->users->date_contract) }}
                             </td>
-                            <td class="text-center" style="padding: 0.8rem;">
+                            <td class="text-center" style="padding: 0.4rem;">
                                 <a href="javascript:;" class="btn btn-sm btn-icon" wire:click="editResignation({{$resignation->id}})">
                                     <span class="svg-icon svg-icon-md">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"

@@ -7,7 +7,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
-                                    <h4 class="card-title card-title-dash">Mes absences du mois</h4>
+                                    <h4 class="card-title card-title-dash">Mes absences du jour</h4>
                                 </div>
                             </div>
                             <div class="mt-3">
@@ -24,16 +24,36 @@
                                             </svg>
                                             <div class="wrapper ms-3">
                                                 <p class="ms-1 mb-1 fw-bold">Absence journée</p>
-                                                <small class="text-muted mb-0">{{ $absenceAuth->date }}</small>
+                                                <small class="text-muted mb-0">{{ $absenceAuth->date }} &nbsp;
+                                                    @if ($absenceAuth->justification == null)
+                                                        <span style="color:#f73122; font-size: 12px;">
+                                                            <strong>Non justifié </strong>
+                                                        </span>
+                                                    @else
+                                                        <span style="color:rgb(66, 182, 174); font-size: 12px;">
+                                                            <strong>Justifié</strong>
+                                                        </span>
+                                                    @endif
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="text-muted text-small">
-                                            @if ($absenceAuth->justification == null)
-                                                <div
-                                                    class="badge badge-opacity-danger"style="background-color: #fedfdd;">
-                                                    Non justifié</div>
-                                            @else
-                                                <div class="badge badge-opacity-success">Justifié</div>
+                                            @if ($absenceAuth->abs_hours == -1)
+                                                <div class="badge" style="background-color: #bbc9fd ; color:black">
+                                                    Retard
+                                                </div>
+                                            @elseif ($absenceAuth->abs_hours >= 1 && $absenceAuth->abs_hours <= 3)
+                                                <div class="badge" style="background-color: #b2e7eb ; color:black">
+                                                    1h-3h absence
+                                                </div>
+                                            @elseif ($absenceAuth->abs_hours == 4)
+                                                <div class="badge" style="background-color: #fdd991 ; color:black">
+                                                    1/2 absence
+                                                </div>
+                                            @elseif ($absenceAuth->abs_hours > 4)
+                                                <div class="badge" style="background-color: #f8f88b ; color:black">
+                                                    Absence
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
@@ -82,7 +102,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
-                                    <h4 class="card-title card-title-dash">Historique</h4>
+                                    <h4 class="card-title card-title-dash">Mes absences du mois</h4>
                                 </div>
                             </div>
                             <div class="mt-3">
@@ -99,16 +119,36 @@
                                             </svg>
                                             <div class="wrapper ms-3">
                                                 <p class="ms-1 mb-1 fw-bold">Absence journée</p>
-                                                <small class="text-muted mb-0">{{ $absence->date }}</small>
+                                                <small class="text-muted mb-0">{{ $absence->date }} &nbsp;
+                                                    @if ($absence->justification == null)
+                                                        <span style="color:#f73122; font-size: 12px;">
+                                                            <strong>Non justifié </strong>
+                                                        </span>
+                                                    @else
+                                                        <span style="color:rgb(66, 182, 174); font-size: 12px;">
+                                                            <strong>Justifié</strong>
+                                                        </span>
+                                                    @endif
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="text-muted text-small">
-                                            @if ($absence->justification == null)
-                                                <div
-                                                    class="badge badge-opacity-danger"style="background-color: #fedfdd;">
-                                                    Non justifié</div>
-                                            @else
-                                                <div class="badge badge-opacity-success">Justifié</div>
+                                            @if ($absence->abs_hours == -1)
+                                                <div class="badge" style="background-color: #bbc9fd ; color:black">
+                                                    Retard
+                                                </div>
+                                            @elseif ($absence->abs_hours >= 1 && $absence->abs_hours <= 3)
+                                                <div class="badge" style="background-color: #b2e7eb ; color:black">
+                                                    1h-3h absence
+                                                </div>
+                                            @elseif ($absence->abs_hours == 4)
+                                                <div class="badge" style="background-color: #fdd991 ; color:black">
+                                                    1/2 absence
+                                                </div>
+                                            @elseif ($absence->abs_hours > 4)
+                                                <div class="badge" style="background-color: #f8f88b ; color:black">
+                                                    Absence
+                                                </div>
                                             @endif
                                         </div>
                                     </div>

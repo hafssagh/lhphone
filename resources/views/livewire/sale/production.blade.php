@@ -17,7 +17,7 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td class="text-truncate"><strong>{{ $user->last_name }}
+                                    <td style="font-size:16px;" class="text-truncate"><strong>{{ $user->last_name }}
                                             {{ $user->first_name }}</strong></td>
                                     @php
                                         $totalSalesCount = 0;
@@ -33,24 +33,51 @@
                                                     ->first()->sales_count ?? 0;
                                             $totalSalesCount += $salesCount;
                                             $backgroundColor = $salesCount != 0 ? 'background-color: #5cb85c ; color:white' : '';
+                                            
                                             $absenceUser = $absence
                                                 ->where('user_id', $user->id)
                                                 ->where('date', $date->format('Y-m-d'))
+                                                ->where('abs_hours', '>', 4)
                                                 ->first();
-                                            $resignationUser = $resignation->where('user_id', $user->id)->first();
+                                            
+                                            $absenceUser12 = $absence
+                                                ->where('user_id', $user->id)
+                                                ->where('date', $date->format('Y-m-d'))
+                                                ->whereBetween('abs_hours', [1, 3])
+                                                ->first();
+                                            
+                                            $absenceUserDemi = $absence
+                                                ->where('user_id', $user->id)
+                                                ->where('date', $date->format('Y-m-d'))
+                                                ->where('abs_hours', 4)
+                                                ->first();
+                                            
+                                            $retard = $absence
+                                                ->where('user_id', $user->id)
+                                                ->where('date', $date->format('Y-m-d'))
+                                                ->where('abs_hours', -1)
+                                                ->first();
                                             
                                             $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
+                                            $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
+                                            $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
+                                            $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
+                                            
+                                            $resignationUser = $resignation->where('user_id', $user->id)->first();
                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                            
                                             $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                         @endphp
-                                        <td style="border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px; {{ $backgroundColor2 }}; {{ $backgroundColor4 }};"
+                                        <td style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px;
+                                         {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }}"
                                             class="text-center">
-                                            {{ $salesCount }}
+                                            <strong>{{ $salesCount }}</strong>
                                         </td>
                                     @endforeach
                                     <td class="text-center"
-                                        style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                        {{ $totalSalesCount }}</td>
+                                        style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                        <strong>{{ $totalSalesCount }}</strong>
+                                    </td>
                                     @foreach (fetchMonthDates() as $date)
                                         @php
                                             $carbonDate = Carbon\Carbon::parse($date);
@@ -66,14 +93,15 @@
                                         @endphp
                                     @endforeach
                                     <td class="text-center"
-                                        style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                        {{ $totalSalesCountMonth }}</td>
+                                        style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                        <strong>{{ $totalSalesCountMonth }}</strong>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="font-size:14px" style="width: 10px;">Total</th>
+                                <th style="font-size:16px">Total</th>
                                 @php
                                     $grandTotal = 0;
                                 @endphp
@@ -86,12 +114,14 @@
                                         $backgroundColor3 = $grandTotal ? 'background-color: #5c6bc0; color:white' : '';
                                     @endphp
                                     <td class="text-center"
-                                        style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor4 }};">
-                                        {{ $salesCount }}</td>
+                                        style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor4 }};">
+                                        <strong>{{ $salesCount }}</strong>
+                                    </td>
                                 @endforeach
                                 <td class="text-center"
-                                    style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                    {{ $grandTotal }}</td>
+                                    style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                    <strong>{{ $grandTotal }}</strong>
+                                </td>
                                 @php
                                     $grandTotalMonth = 0;
                                 @endphp
@@ -104,8 +134,9 @@
                                 @endforeach
 
                                 <td class="text-center"
-                                    style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                    {{ $grandTotalMonth }}</td>
+                                    style="font-size:18px; border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                    <strong>{{ $grandTotalMonth }}</strong>
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
@@ -129,7 +160,8 @@
                         <tbody>
                             @foreach ($users2 as $user2)
                                 <tr>
-                                    <td><strong>{{ $user2->last_name }} {{ $user2->first_name }}</strong> </td>
+                                    <td style="font-size:16px;"><strong>{{ $user2->last_name }}
+                                            {{ $user2->first_name }}</strong> </td>
                                     @php
                                         $totalSalesCount = 0;
                                         $totalSalesCountMonth = 0;
@@ -145,23 +177,51 @@
                                             $backgroundColor = $salesCount != 0 ? 'background-color: #5cb85c ; color:white' : '';
                                             $totalSalesCount += $salesCount;
                                             $dailySalesCounts[] = $salesCount;
+
                                             $absenceUser = $absence2
                                                 ->where('user_id', $user2->id)
                                                 ->where('date', $date->format('Y-m-d'))
+                                                ->where('abs_hours', '>', 4)
                                                 ->first();
-                                            $resignationUser = $resignation2->where('user_id', $user2->id)->first();
                                             
-                                            $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                            $absenceUser12 = $absence2
+                                                ->where('user_id', $user2->id)
+                                                ->where('date', $date->format('Y-m-d'))
+                                                ->whereBetween('abs_hours', [1, 3])
+                                                ->first();
+                                            
+                                            $absenceUserDemi = $absence2
+                                                ->where('user_id', $user2->id)
+                                                ->where('date', $date->format('Y-m-d'))
+                                                ->where('abs_hours', 4)
+                                                ->first();
+                                            
+                                            $retard = $absence2
+                                                ->where('user_id', $user2->id)
+                                                ->where('date', $date->format('Y-m-d'))
+                                                ->where('abs_hours', -1)
+                                                ->first();
+                                            
                                             $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
+                                            $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
+                                            $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
+                                            $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
+                                            
+                                            $resignationUser = $resignation2->where('user_id', $user2->id)->first();
+                                            $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                            
                                             $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                         @endphp
-                                        <td style="border: 4px solid rgb(253, 253, 253);background-color: #ececec;{{ $backgroundColor }}; border-radius:15px; {{ $backgroundColor2 }};{{ $backgroundColor4 }};"
+                                        <td style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #ececec;{{ $backgroundColor }}; border-radius:15px;
+                                         {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }};"
                                             class="text-center">
-                                            {{ $salesCount }}</td>
+                                            <strong>{{ $salesCount }}</strong>
+                                        </td>
                                     @endforeach
                                     <td class="text-center"
-                                        style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                        {{ $totalSalesCount }}</td>
+                                        style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                        <strong>{{ $totalSalesCount }}</strong>
+                                    </td>
                                     @foreach (fetchMonthDates() as $date)
                                         @php
                                             $carbonDate = Carbon\Carbon::parse($date);
@@ -177,15 +237,15 @@
                                         @endphp
                                     @endforeach
                                     <td class="text-center"
-                                        style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px; {{ $backgroundColor }};">
-                                        {{ $totalSalesCountMonth }}
+                                        style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px; {{ $backgroundColor }};">
+                                        <strong>{{ $totalSalesCountMonth }}</strong>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="font-size:14px">Total</th>
+                                <th style="font-size:16px">Total</th>
                                 @php
                                     $grandTotal = 0;
                                 @endphp
@@ -197,12 +257,14 @@
                                         $backgroundColor4 = $salesCount ? 'background-color: #5c6bc0; color:white' : '';
                                     @endphp
                                     <td class="text-center"
-                                        style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor4 }};">
-                                        {{ $salesCount }}</td>
+                                        style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor4 }};">
+                                        <strong>{{ $salesCount }}</strong>
+                                    </td>
                                 @endforeach
                                 <td class="text-center"
-                                    style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                    {{ $grandTotal }}</td>
+                                    style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                    <strong>{{ $grandTotal }}</strong>
+                                </td>
                                 @php
                                     $grandTotalMonth = 0;
                                 @endphp
@@ -215,8 +277,9 @@
                                 @endforeach
 
                                 <td class="text-center"
-                                    style="border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
-                                    {{ $grandTotalMonth }}</td>
+                                    style="font-size:18px;border: 4px solid rgb(253, 253, 253);background-color: #c5cae9; border-radius:15px;{{ $backgroundColor3 }};">
+                                    <strong>{{ $grandTotalMonth }}</strong>
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
@@ -226,49 +289,50 @@
         <div class="col-2 grid-margin">
             <div class="card">
                 <div class="card-body d-flex justify-content-center">
-                    <table class="table table-borderless" style="font-weight:bold">
+                    <table class="table table-borderless">
                         <thead>
                             <tr>
-                                <th class="text-center">Prime</th>
-                                <th class="text-center">Challenge</th>
+                                <th class="text-center legend">Prime</th>
+                                <th class="text-center legend">Challenge</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem; ">1000 P = 1500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">300 P = 200 Dh</td>
+                                <td class="text-center legend">1000 P = 1500 Dh</td>
+                                <td class="text-center legend">300 P = 200 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">1400 P = 2500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">400 P = 300 Dh</td>
+                                <td class="text-center legend">1400 P = 2500 Dh</td>
+                                <td class="text-center legend">400 P = 300 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">1800 P = 3500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">500 P = 400 Dh</td>
+                                <td class="text-center legend">1800 P = 3500 Dh</td>
+                                <td class="text-center legend">500 P = 400 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">1800 P = 3500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">600 P = 500 Dh</td>
+                                <td class="text-center legend">1800 P = 3500 Dh</td>
+                                <td class="text-center legend">600 P = 500 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">2200 P = 4500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">700 P = 600 Dh</td>
+                                <td class="text-center legend">2200 P = 4500 Dh</td>
+                                <td class="text-center legend">700 P = 600 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">2600 P = 5500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">800 P = 700 Dh</td>
+                                <td class="text-center legend">2600 P = 5500 Dh</td>
+                                <td class="text-center legend">800 P = 700 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">3000 P = 6500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">900 P = 800 Dh</td>
+                                <td class="text-center legend">3000 P = 6500 Dh</td>
+                                <td class="text-center legend">900 P = 800 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="padding: 0.8rem;">2400 P = 7500 Dh</td>
-                                <td class="text-center" style="padding: 0.8rem;">1000 P = 900 Dh</td>
+                                <td class="text-center legend">2400 P = 7500 Dh</td>
+                                <td class="text-center legend">1000 P = 900 Dh</td>
                             </tr>
                             <tr>
-                                <td class="text-center" colspan="2" style="padding: 0.8rem;">NB : Le Challenge est
-                                    plafonné</td>
+                                <td class="text-center legend" colspan="2">
+                                    NB : Le Challenge est plafonné
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -282,9 +346,22 @@
     <div class="row">
         <div style="float: left;">
             <img src="/assets/images/lh.png" style="padding-left: 270px">
-        
+
             <img src="/assets/images/h2f.png" style="padding-left: 630px; margin-top:-20px">
         </div>
     </div>
-    
+
 </div>
+
+
+<style>
+    td.legend {
+        padding: 0.8rem;
+        font-size: 15px;
+        font-weight:bold
+    }
+    th.legend {
+        font-size: 20px; 
+        font-weight:bold;
+    }
+</style>
