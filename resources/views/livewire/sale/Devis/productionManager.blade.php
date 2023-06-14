@@ -1,7 +1,7 @@
 <div class="row">
     <div class="card">
         <div class="card-body d-flex justify-content-center">
-            <table class="table table-borderless" style="width: 10px; ">
+            <table class="table table-borderless">
                 <thead>
                     <tr>
                         <th style="width: 10px; ">Groupe 1</th>

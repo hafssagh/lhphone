@@ -27,7 +27,7 @@
                         @error('editSale.quantity') is-invalid @enderror">
                         </div>
                         <div class="form-group">
-                            <label for="remark">Remarque</label>
+                            <label for="remark">Détail commande</label>
                             <textarea class="form-control" wire:model="editSale.remark"
                                 class="form-control @error('editSale.remark') is-invalid @enderror" style="height: 100px">
                             </textarea>

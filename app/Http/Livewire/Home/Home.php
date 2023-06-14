@@ -59,5 +59,4 @@ class Home extends Component
         ->section("contenu");
     }
 
-
 }

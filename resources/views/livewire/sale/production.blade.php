@@ -3,7 +3,7 @@
         <div class="col-5 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body d-flex justify-content-center">
-                    <table class="table table-borderless">
+                    <table class="table table-borderless" >
                         <thead>
                             <tr>
                                 <th>Groupe 1</th>
@@ -146,7 +146,7 @@
         <div class="col-5 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body d-flex justify-content-center">
-                    <table class="table table-borderless" style="width: 10px;">
+                    <table class="table table-borderless">
                         <thead>
                             <tr>
                                 <th>Groupe 2</th>

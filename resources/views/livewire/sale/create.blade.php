@@ -54,10 +54,13 @@
                         @error('newSale.quantity') is-invalid @enderror">
                         </div>
                         <div class="form-group">
-                            <label for="remark">Remarque</label>
-                            <textarea class="form-control" wire:model="newSale.remark"
-                                class="form-control @error('newSale.remark') is-invalid @enderror" style="height: 100px">
+                            <label for="remark">Détail commande</label><br>
+                            <textarea class="form-control @error('newSale.remark') is-invalid @enderror" wire:model="newSale.remark" style="height: 100px">
                             </textarea>
+                            
+                            <label for="remark-input">Remarque :</label>
+                            <textarea id="remark-input" name="remark" style="display: none;">{{ $newSale }}</textarea>
+                            
                         </div>
                     </div>
 

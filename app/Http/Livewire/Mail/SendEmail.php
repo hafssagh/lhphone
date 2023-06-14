@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Mail;
 
-use Carbon\Carbon;
 use App\Models\Mails;
 use Livewire\Component;
 use Livewire\WithPagination;
