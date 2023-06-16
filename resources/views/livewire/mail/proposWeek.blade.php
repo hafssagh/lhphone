@@ -31,10 +31,11 @@
             </div>
         </div><br>
 
-         <div class="table">
+         <div class="table-container">
              <table class="table">
                  <thead>
                      <tr>
+                        <th></th>
                          @cannot('agent')
                              <th>Agent</th>
                          @endcannot
@@ -42,12 +43,22 @@
                          <th>Client</th>
                          <th>Adresse</th>
                          <th>Date d'envoie</th>
-                         <th style="width:3%"></th>
                      </tr>
                  </thead>
                  <tbody>
                      @foreach ($proposition as $propo)
                          <tr>
+                            <td style="padding: 0.6rem;" >
+                                @if ($propo->state == '0')
+                                    <div class="square_table" style="background-color: #c9c6c6;">
+                                @elseif($propo->state == '1')
+                                    <div class="square_table" style="background-color: #84cc88;">
+                                @elseif($propo->state == '-1')
+                                    <div class="square_table" style="background-color: #f5a7a1;">
+                                @elseif($propo->state == '3')
+                                    <div class="square_table" style="background-color: #f3ea6c;">
+                                @endif
+                            </td>
                              @cannot('agent')
                                  <td style="padding: 0.6rem;"> {{ $propo->users->last_name }}
                                      {{ $propo->users->first_name }}</td>
@@ -62,17 +73,6 @@
                             </td>
                             <td style="padding: 0.6rem;">{{ $propo->adresse}}</td>
                             <td style="padding: 0.6rem;">{{ $propo->created_at }}</td>
-                            <td style="padding: 0.6rem;" >
-                                @if ($propo->state == '0')
-                                    <div class="square_table" style="background-color: #c9c6c6;">
-                                @elseif($propo->state == '1')
-                                    <div class="square_table" style="background-color: #84cc88;">
-                                @elseif($propo->state == '-1')
-                                    <div class="square_table" style="background-color: #f5a7a1;">
-                                @elseif($propo->state == '3')
-                                    <div class="square_table" style="background-color: #f3ea6c;">
-                                @endif
-                            </td>
                          </tr>
                      @endforeach
                  </tbody>

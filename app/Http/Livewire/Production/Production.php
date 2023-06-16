@@ -24,6 +24,7 @@ class Production extends Component
     public $resignation;
     public $resignation2;
 
+
     public function mount()
     {
         $this->users = User::where('company', 'lh')
@@ -81,7 +82,9 @@ class Production extends Component
 
         $this->weekDates = fetchWeekDates();
         $this->months = fetchMonthWeeks();
+
     }
+
     public function render()
     {
         return view('livewire.sale.production', [
@@ -91,4 +94,5 @@ class Production extends Component
             ->extends("layouts.app")
             ->section("contenu2");
     }
+
 }

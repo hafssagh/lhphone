@@ -58,7 +58,7 @@
                 </ul>
             </div>
         </div><br>
-        <div class="table">
+        <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
@@ -73,7 +73,7 @@
                 <tbody>
                     @foreach ($sales as $sale)
                         <tr>
-                            <td style="padding: 0.3rem;"> {{ $sale->users->last_name }} {{ $sale->users->first_name }}
+                            <td style="padding: 0.3rem;" class="text-center"> {{ $sale->users->last_name }} {{ $sale->users->first_name }}
                             </td>
                             <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
                             <td style="padding: 0.3rem;" class="text-center">{{ $sale->date_sal }}</td>

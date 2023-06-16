@@ -11,7 +11,7 @@
                     <div class="text-start">
                         <p class="current-date"></p>
                     </div>
-                    <div class="icons" >
+                    <div class="icons">
                         <span id="prev" class="material-symbols-rounded" style="display: inline-block;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -30,13 +30,13 @@
                 </div><br>
                 <div class="calendar" style="margin-top:-10px">
                     <ul class="weeks">
-                        <li>Dim</li>
-                        <li>Lun</li>
-                        <li>Mar</li>
-                        <li>Mer</li>
-                        <li>Jeu</li>
-                        <li>Ven</li>
-                        <li>Sam</li>
+                        <li class="day">Dim</li>
+                        <li class="day">Lun</li>
+                        <li class="day">Mar</li>
+                        <li class="day">Mer</li>
+                        <li class="day">Jeu</li>
+                        <li class="day">Ven</li>
+                        <li class="day">Sam</li>
                     </ul>
                     <ul class="days" style="margin-top:-10px"></ul>
                 </div>
@@ -79,7 +79,7 @@
                                 @endif
                                 <div style="margin-left: 15px;">
                                     <p class="fw-bold" style="margin-bottom: 0;">Manager</p>
-                                    <p class="text-truncate" tyle="margin-bottom: 0;">{{ $usermanager->last_name }}
+                                    <p class="text-truncate name" tyle="margin-bottom: 0;">{{ $usermanager->last_name }}
                                         {{ $usermanager->first_name }}</p>
                                 </div>
                             </div>
@@ -167,50 +167,53 @@
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content"><br>
-            <div style="text-align: right; margin-right:20px; margin-top:-10px">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agents</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="margin-top:-20px">
-                <div class="row">
-                    @foreach ($userGet as $userAll)
-                        <div class="col-md-6" style=" margin-left: -2px; margin-top: 0.8em;">
-                            <div style="display: flex; align-items: center;">
-                                @if ($userAll->photo != '' || $userAll->photo != null)
-                                    <img class="rounded" src="{{ asset('storage/' . $userAll->photo) }}"
-                                        style="height: 50px; width: 50px;"> <br>
-                                @else
-                                    <img class="rounded" src="../assets/images/user2.png"
-                                        style="height: 50px; width: 50px;">
-                                @endif
-                                <br>
-                                <div style="margin-left: 15px;">
-                                    <p class="text-truncate" style="margin-bottom: 0;">{{ $userAll->last_name }}
-                                        {{ $userAll->first_name }}</p>
-                                    <div style="display: inline-block;">
-                                        @if ($userAll->company == 'h2f')
-                                            <img src="../assets/images/h2f2.png"
-                                                style="height: 20px; width: 35px;display: inline-block;">
-                                        @else
-                                            <img src="../assets/images/lh2.png"
-                                                style="height: 23px; width: 25px;display: inline-block;">
-                                        @endif
-                                        @if ($userAll->group == '1')
-                                            <p style="font-size: 11px; color: blue;display: inline-block;">Equipe Chris
-                                                Ezzahra</p>
-                                        @elseif ($userAll->group == '2')
-                                            <p style="font-size: 11px; color: red;display: inline-block;">Equipe Amine
-                                            </p>
-                                        @endif
+            <div class="modal-body">
+                <div class="modal-scrollable-content">
+                    <div class="row" >
+                        @foreach ($userGet as $userAll)
+                            <div class="col-md-4" style=" margin-left: -2px; margin-top: 0.8em;">
+                                <div style="display: flex; align-items: center;">
+                                    @if ($userAll->photo != '' || $userAll->photo != null)
+                                        <img class="rounded" src="{{ asset('storage/' . $userAll->photo) }}"
+                                            style="height: 50px; width: 50px;"> <br>
+                                    @else
+                                        <img class="rounded" src="../assets/images/user2.png"
+                                            style="height: 50px; width: 50px;">
+                                    @endif
+                                    <br>
+                                    <div style="margin-left: 15px;">
+                                        <p class="text-truncate" style="margin-bottom: 0;">{{ $userAll->last_name }}
+                                            {{ $userAll->first_name }}</p>
+                                        <div style="display: inline-block;">
+                                            @if ($userAll->company == 'h2f')
+                                                <img src="../assets/images/h2f2.png"
+                                                    style="height: 20px; width: 35px;display: inline-block;">
+                                            @else
+                                                <img src="../assets/images/lh2.png"
+                                                    style="height: 23px; width: 25px;display: inline-block;">
+                                            @endif
+                                            @if ($userAll->group == '1')
+                                                <p style="font-size: 11px; color: blue;display: inline-block;">Equipe
+                                                    Chris
+                                                    Ezzahra</p>
+                                            @elseif ($userAll->group == '2')
+                                                <p style="font-size: 11px; color: red;display: inline-block;">Equipe
+                                                    Amine
+                                                </p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-

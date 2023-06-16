@@ -47,18 +47,21 @@ class SendEmail extends Component
     public $today;
     public $mails;
 
-
     public function mount()
     {
         $user = Auth::user();
-        $role = $user->roles->first()->name;
-
+        $manager = $user->last_name;
         $this->today = now()->toDateString();
-        if ($role == 'Agent') {
-            $this->mails = Mails::where('user_id', $user->id)->whereDate('created_at', $this->today)->get();
-        } else {
-            $this->mails = Mails::whereDate('created_at', $this->today)->get();
+    
+        $query = Mails::whereDate('created_at', $this->today);
+    
+        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            $query->whereHas('users', fn ($q) => $q->where('group', 1));
+        } elseif ($manager == 'Manager') {
+            $query->whereHas('users', fn ($q) => $q->where('group', 2));
         }
+    
+        $this->mails = $query->get();
     }
 
     public function mailValide($id, $state)
@@ -75,17 +78,18 @@ class SendEmail extends Component
     {
         $user = Auth::user();
         $role = $user->roles->first()->name;
-
+        $manager = $user->last_name; 
+    
         $query = Mails::query();
-
+    
         if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
             $query->where('state', $this->selectedStatus);
         }
-
+    
         if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
             $query->whereMonth('created_at', $this->selectedMonth);
         }
-
+    
         if ($role == 'Agent') {
             $query->where('user_id', $user->id)
                 ->when($this->search, function ($query, $search) {
@@ -96,7 +100,7 @@ class SendEmail extends Component
                 });
         } else {
             $query->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
+                $query->whereHas('users', function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%')
                         ->orWhere('nameClient', 'like', '%' . $search . '%')
@@ -104,19 +108,26 @@ class SendEmail extends Component
                 });
             });
         }
-
-        $proposition = $query->orderBy('created_at', 'desc')->paginate(8);
-        $Allproposition = $query->orderBy('created_at', 'desc')->without('scopes')->paginate(8);
-
+    
+        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            $query->whereHas('users', fn ($q) => $q->where('group', 1));
+        } elseif ($manager == 'Essaid') {
+            $query->whereHas('users', fn ($q) => $q->where('group', 2));
+        }
+    
+        $proposition = $query->orderBy('created_at', 'desc')->paginate(9);
+        $Allproposition = $query->orderBy('created_at', 'desc')->without('scopes')->paginate(9);
+    
         return view('livewire.mail.index', ['proposition' => $proposition, 'Allproposition' => $Allproposition])
             ->extends("layouts.master")
             ->section("contenu");
     }
+    
 
     public function sendEmail()
     {
         $this->validate();
-
+    
         $data = [
             'user_id' => $this->user_id = Auth::user()->id,
             'subject' => $this->subject = "Projet LED",
@@ -128,30 +139,44 @@ class SendEmail extends Component
             'state' => $this->state = '0',
             'remark' => $this->remark,
         ];
-
-        // Save email information to the database
-        Mails::create($data);
-
+    
         $user = Auth::user();
         $fromName = $user ?  userName() : config('mail.from.name');
         $fromAddress = config('mail.from.address');
-
-        $filePath = Storage::path('test.xlsx');
-
-        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress, $filePath) {
+    
+        $excelFilePath = Storage::path('Commande 0 euro projet LED.xlsx');
+        $pdfFilePath = Storage::path('Catalogue Projecteurs.pdf');
+    
+        $emailSent = false;
+        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, &$emailSent) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
                 ->subject($this->subject)
-                ->attach($filePath, [
-                    'as' => 'test.xlsx',
+                ->attach($excelFilePath, [
+                    'as' => 'Commande 0 euro projet LED.xlsx',
                     'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ])
+                ->attach($pdfFilePath, [
+                    'as' => 'Catalogue Projecteurs.pdf',
+                    'mime' => 'application/pdf'
                 ]);
+    
+            $emailSent = true;
         });
-        
-        $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
-        $this->goToListPropos();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
+    
+        if ($emailSent) {
+            // Save email information to the database
+            Mails::create($data);
+    
+            $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
+            $this->goToListPropos();
+            $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
+        } else {
+            // Handle the case where email sending failed
+            $this->dispatchBrowserEvent("showErrorMessage", ["message" => "Échec de l'envoi de l'email. Veuillez réessayer ultérieurement."]);
+        }
     }
+    
 
 
     public function goToListPropos()

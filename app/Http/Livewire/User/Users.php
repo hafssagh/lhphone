@@ -24,7 +24,6 @@ class Users extends Component
 
     public $search = "";
     public $selectedCompany;
-    public $selectedGroup;
 
     public $currentPage = PAGELIST;
 
@@ -38,11 +37,28 @@ class Users extends Component
         'newUser.email.required' => "L'adresse mail de l'utilisateur est requis.",
         'newUser.email.unique' => "L'adresse mail a déjà été prise.",
         'newUser.email.numeric' => "Le numéro de téléphone ne doit pas avoir de lettre.",
+        'newUser.rib.numeric' => "Le rib ne doit pas avoir de lettre.",
+        'newUser.rib.digits' => "Le rib doit avoir 24 chiffres.",
         'newUser.phone.required' => "Le numéro de téléphone de l'utilisateur est requis.",
-        'newUser.date_contract.required' => "La date du contrat est requise.",
+        'newUser.type_virement.required' => "La date du contrat est requise.",
         'newUser.type_contract.required' => "Le type du contrat est requis.",
         'newUser.company.required' => "La société est requise.",
         'newUser.base_salary.required' => "Le salaire de base de l'utilisateur est requis.",
+        'editUser.first_name.required' => "Le nom de l'utilisateur est requis.",
+        'editUser.last_name.required' => "Le prénom de l'utilisateur est requis.",
+        'editUser.id_card.required' => "Le numéro d'identité de l'utilisateur est requis.",
+        'editUser.id_card.unique' => "Le numéro de la carde d'identité a déjà été pris.",
+        'editUser.birthday.required' => "La date de naissance de l'utilisateur est requise.",
+        'editUser.email.required' => "L'adresse mail de l'utilisateur est requis.",
+        'editUser.email.unique' => "L'adresse mail a déjà été prise.",
+        'editUser.email.numeric' => "Le numéro de téléphone ne doit pas avoir de lettre.",
+        'editUser.rib.numeric' => "Le rib ne doit pas avoir de lettre.",
+        'editUser.rib.digits' => "Le rib doit avoir 24 chiffres.",
+        'editUser.phone.required' => "Le numéro de téléphone de l'utilisateur est requis.",
+        'editUser.type_virement.required' => "La date du contrat est requise.",
+        'editUser.type_contract.required' => "Le type du contrat est requis.",
+        'editUser.company.required' => "La société est requise.",
+        'editUser.base_salary.required' => "Le salaire de base de l'utilisateur est requis.",
     ];
 
     public function render()
@@ -50,66 +66,42 @@ class Users extends Component
         Carbon::setLocale("fr");
         $user = Auth::user();
         $role = $user->roles->first()->name;
+        $search = "%" . $this->search . "%";
+        $manager = $user->last_name;
+
+        $query = User::where(function ($query) use ($search) {
+            $query->where("first_name", "like", $search)
+                ->orWhere("last_name", "like", $search);
+        })
+            ->orderBy("last_name");
 
         if ($role == 'Administrateur' || $role == 'Super Administrateur') {
-            if ($this->selectedCompany === null || $this->selectedCompany == "all") {
-                $data = [
-                    "users" => User::where(function ($query) {
-                        $query->where("first_name", "like", "%" . $this->search . "%")
-                            ->orWhere("last_name", "like", "%" . $this->search . "%");
-                    })
-                        ->orderBy("last_name")
-                        ->paginate(6),
-                ];
-            } else {
-                $data = [
-                    "users" => User::where('company', $this->selectedCompany)->where(function ($query) {
-                        $query->where("first_name", "like", "%" . $this->search . "%")
-                            ->orWhere("last_name", "like", "%" . $this->search . "%");
-                    })
-                        ->orderBy("last_name")
-                        ->paginate(6),
-                ];
+            if ($this->selectedCompany !== null && $this->selectedCompany != "all") {
+                $query->where('company', $this->selectedCompany);
+            }
+        } elseif ($role == 'Manager') {
+            $query->where("company", "like", "lh")
+                ->where("company", "NOT LIKE", "h2f");
+
+            if ($manager == 'EL MESSIOUI') {
+                $query->latest();
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+                $query->where('group', 1)->latest();
+            } elseif ($manager == 'Essaid') {
+                $query->where('group', 2)->latest();
             }
         }
-        if ($role == 'Manager') {
-            if ($this->selectedGroup === null || $this->selectedGroup == "all") {
-            $data = [
-                "users" => User::where("company", "like", "lh")
-                    ->where("company", "NOT LIKE", "h2f")
-                    ->whereHas('roles', function ($query) {
-                        $query->where('name', 'agent');
-                    })
-                    ->where(function ($query) {
-                        $query->where("first_name", "like", "%" . $this->search . "%")
-                            ->orWhere("last_name", "like", "%" . $this->search . "%");
-                    })
-                    ->orderBy("last_name")
-                    ->paginate(6),
-            ];
-        }else{
-            $data = [
-                "users" => User::where("company", "like", "lh")
-                    ->where("company", "NOT LIKE", "h2f")
-                    ->where('group', $this->selectedGroup)
-                    ->whereHas('roles', function ($query) {
-                        $query->where('name', 'agent');
-                    })
-                    ->where(function ($query) {
-                        $query->where("first_name", "like", "%" . $this->search . "%")
-                            ->orWhere("last_name", "like", "%" . $this->search . "%");
-                    })
-                    ->orderBy("last_name")
-                    ->paginate(6),
-            ];
-        }
-        }
+
+        $users = $query->whereNot('last_name' , 'EL MESSIOUI')->paginate(10);
+
+        $data = [
+            "users" => $users,
+        ];
 
         return view('livewire.users.index', $data)
             ->extends("layouts.master")
             ->section("contenu");
     }
-
 
     public function rules()
     {
@@ -121,9 +113,11 @@ class Users extends Component
                 'editUser.birthday' => 'required',
                 'editUser.phone' => 'required|numeric',
                 'editUser.email' => 'required|email',
-                'editUser.date_contract' => 'required',
+                'editUser.type_virement' => 'required',
                 'editUser.type_contract' => 'required',
                 'editUser.duration_contract' => 'nullable',
+                'editUser.rib' => 'nullable|numeric|digits:24',
+                'editUser.date_contract' => 'nullable',
                 'editUser.group' => 'nullable',
                 'editUser.company' => 'required',
                 'editUser.base_salary' => 'required|numeric',
@@ -136,8 +130,10 @@ class Users extends Component
             'newUser.birthday' => 'required',
             'newUser.phone' => 'required|numeric',
             'newUser.email' => 'required|email|unique:users,email',
-            'newUser.date_contract' => 'required',
+            'newUser.type_virement' => 'required',
             'newUser.type_contract' => 'required',
+            'newUser.rib' => 'nullable|numeric|digits:24',
+            'newUser.date_contract' => 'nullable',
             'newUser.duration_contract' => 'nullable',
             'newUser.group' => 'nullable',
             'newUser.company' => 'required',

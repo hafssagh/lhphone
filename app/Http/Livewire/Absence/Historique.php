@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Historique extends Component
 {
@@ -18,32 +19,31 @@ class Historique extends Component
 
     public function render()
     {
-
-        if ($this->selectedMonth === null || $this->selectedMonth == "all") {
-            // Logic when all months are selected
-            $absences = Absence::orderBy('date','DESC')
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })->paginate(7);
-        } else {
-            $absences = Absence::orderBy('date','DESC')->whereMonth('date', $this->selectedMonth)
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })->paginate(7);
+        $user = Auth::user();
+        $manager = $user->last_name;
+        $query = Absence::orderBy('date', 'DESC');
+    
+        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            $query->whereHas('users', fn ($q) => $q->where('group', 1));
+        } elseif ($manager == 'Essaid') {
+            $query->whereHas('users', fn ($q) => $q->where('group', 2));
         }
+    
+        $absences = $query->when($this->selectedMonth !== null && $this->selectedMonth != "all", function ($q) {
+            return $q->whereMonth('date', $this->selectedMonth);
+        })->when($this->search, function ($q) {
+            return $q->whereHas('users', function ($q) {
+                $q->where('first_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('last_name', 'like', '%' . $this->search . '%');
+            });
+        })->paginate(7);
+    
         return view('livewire.absence.historique', [
             "absences" => $absences,
             "users" => User::select('id', 'first_name', 'last_name')->get(),
-        ])
-            ->extends("layouts.master")
-            ->section("contenu");
+        ])->extends("layouts.master")->section("contenu");
     }
+    
 
 
     public function confirmDelete()

@@ -6,6 +6,7 @@ use App\Models\Sale;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class DevisEnCours extends Component
 {
@@ -16,18 +17,22 @@ class DevisEnCours extends Component
     public $newSale = [];
     public $editSale = [];
 
+    public $selectedId;
+
     public $currentPage = PAGEDEVIS;
- 
+
     use WithPagination;
     protected $paginationTheme = "bootstrap";
 
     protected $rules = [
+        'newSale.user' => 'required',
         'newSale.quantity' => 'required',
         'newSale.name_client' => 'required',
         'newSale.mail_client' => 'required',
         'newSale.phone_client' => 'required',
     ];
     protected $messages = [
+        'newSale.user.required' => "Le nom complet de l'agent est requis.",
         'newSale.quantity.required' => "La quantité est requise.",
         'newSale.name_client.required' => "Le nom de la société est requise.",
         'newSale.mail_client.required' => "L'adresse Email du client est requise.",
@@ -36,26 +41,42 @@ class DevisEnCours extends Component
 
     public function render()
     {
-        $sales = Sale::orderBy('date_sal', 'desc')
-            ->whereNot('state', '1')
-            ->whereNot('state', '-1')
-            ->when($this->state, function ($query, $state) {
-                return $query->where('state', $state);
-            })
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%')
-                        ->orWhere('name_client', 'like', '%' . $search . '%');
-                });
-            })
-            ->latest()->paginate(7);
+        $user = Auth::user();
+        $manager = $user->last_name;
 
-        $users = User::select('id', 'first_name', 'last_name')->where('company','lh')->whereHas('roles', function ($query) {
-            $query->where('name', 'agent');
-        })->get();
+        $query = Sale::orderBy('date_sal', 'desc')
+            ->whereNotIn('state', ['1', '-1'])
+            ->when($this->state, fn ($q, $state) => $q->where('state', $state))
+            ->when($this->search, fn ($q, $search) => $q->whereHas(
+                'users',
+                fn ($q) =>
+                $q->where('first_name', 'like', "%$search%")
+                    ->orWhere('last_name', 'like', "%$search%")
+                    ->orWhere('name_client', 'like', "%$search%")
+            ));
 
-        return view('livewire.sale.devis.devisEncours', ["sales" => $sales , "users" => $users])
+        $usersQuery = User::select('id', 'first_name', 'last_name')
+            ->where('company', 'lh')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            });
+
+        if ($manager == 'EL MESSIOUI') {
+            $users = $usersQuery->get();
+            $sales = $query->latest()->paginate(7);
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            $users = $usersQuery->where('group', 1)->get();
+            $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
+                ->latest()
+                ->paginate(7);
+        } elseif ($manager == 'Essaid') {
+            $users = $usersQuery->where('group', 2)->get();
+            $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))
+                ->latest()
+                ->paginate(7);
+        }
+        
+        return view('livewire.sale.devis.devisEncours', ["sales" => $sales, "users" => $users])
             ->extends("layouts.master")
             ->section("contenu");
     }
@@ -107,7 +128,7 @@ class DevisEnCours extends Component
     public function editSale($id)
     {
         $this->editSale = Sale::with("users")->find($id)->toArray();
-        $this->currentPage = PAGEEDITFORM; 
+        $this->currentPage = PAGEEDITFORM;
     }
 
     public function updateSale()
@@ -124,7 +145,7 @@ class DevisEnCours extends Component
         $this->newSale = "";
         $this->currentPage = PAGECREATEFORM;
     }
-    
+
     public function addNewSale()
     {
         $this->validate();
@@ -133,23 +154,36 @@ class DevisEnCours extends Component
         $sale->quantity = $this->newSale["quantity"];
         $sale->state = $this->newSale["state"] = "2";
         $sale->date_sal = $this->newSale["date_sal"] = date('Y-m-d');
-        if (array_key_exists('date_confirm', $this->newSale)) {
-            $sale->date_confirm = $this->newSale["date_confirm"];
-        } else {
-            $sale->date_confirm = null;
-        }
+        $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
         $sale->name_client = $this->newSale["name_client"];
         $sale->mail_client = $this->newSale["mail_client"];
         $sale->phone_client = $this->newSale["phone_client"];
-        if (array_key_exists('remark', $this->newSale)) {
-            $sale->remark = $this->newSale["remark"];
-        } else {
-            $sale->remark = null;
-        }
-        
+        $sale->un = $this->newSale["un"] ?? null;
+        $sale->deux = $this->newSale["deux"] ?? null;
+        $sale->trois = $this->newSale["trois"] ?? null;
+        $sale->cinq = $this->newSale["cinq"] ?? null;
+        $sale->dix = $this->newSale["dix"] ?? null;
+        $sale->hublots = $this->newSale["hublots"] ?? null;
+        $sale->reglette = $this->newSale["reglette"] ?? null;
+        $sale->pommeaux = $this->newSale["pommeaux"] ?? null;
+        $sale->mousseurs = $this->newSale["mousseurs"] ?? null;
+        $sale->tube = $this->newSale["tube"] ?? null;
+        $sale->spot = $this->newSale["spot"] ?? null;
+        $sale->remark = $this->newSale["remark"] ?? null;
+
         $sale->save();
 
         $this->goToListeSales();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Une nouvelle vente a été ajouté avec succès!"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Une nouvelle vente a été ajoutée avec succès!"]);
+    }
+
+
+    public function toggleShowAddForm($id)
+    {
+        if ($this->selectedId === $id) {
+            $this->selectedId = null;
+        } else {
+            $this->selectedId = $id;
+        }
     }
 }

@@ -7,7 +7,6 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Resignation;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Hash;
 
 
 
@@ -41,7 +40,7 @@ class Resignations extends Component
                         $query->where('first_name', 'like', '%' . $search . '%')
                             ->orWhere('last_name', 'like', '%' . $search . '%');
                     });
-                })->latest()->paginate(5),
+                })->latest()->paginate(10),
             "users" => User::select('id', 'first_name', 'last_name')->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
             })->get(),

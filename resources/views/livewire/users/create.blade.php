@@ -85,12 +85,6 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="date_contract">Date du contrat</label>
-                            <input type="date"
-                                class="form-control @error('newUser.date_contract') is-invalid @enderror"
-                                wire:model="newUser.date_contract">
-                        </div>
-                        <div class="form-group">
                             <label>Type du contrat</label>
                             <select
                                 class="form-control bg-white text-dark @error('newUser.type_contract') is-invalid @enderror"
@@ -98,19 +92,63 @@
                                 <option value="">---------</option>
                                 <option value="CDI">CDI</option>
                                 <option value="CDD">CDD</option>
-                                <option value="temp">Travail temporaire</option>
+                                <option value="temp">Stagiaire</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="duration_contract">Durée du contrat</label>
-                            <input type="text" wire:model="newUser.duration_contract" class="form-control">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="date_contract">Date du contrat</label>
+                                    <input type="date"
+                                        class="form-control @error('newUser.date_contract') is-invalid @enderror"
+                                        wire:model="newUser.date_contract">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="duration_contract">Durée du contrat</label>
+                                    <input type="text" wire:model="newUser.duration_contract" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <label>Salaire brute</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" wire:model="newUser.base_salary"
+                                        class="form-control @error('newUser.base_salary') is-invalid @enderror">
+                                    <span class="input-group-text">DH</span>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Mode de paiement</label>
+                                    <select
+                                    class="form-control bg-white text-dark @error('newUser.type_virement') is-invalid @enderror"
+                                    wire:model="newUser.type_virement">
+                                    <option value="">---------</option>
+                                    <option value="espece">Espèce</option>
+                                    <option value="virement">Virement</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Rib</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" wire:model="newUser.rib"
+                                            class="form-control @error('newUser.rib') is-invalid @enderror">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Société</label>
-                                    <select class="form-control bg-white text-dark  @error('newUser.company') is-invalid @enderror"
-                                      id="select1" wire:model="newUser.company">
+                                    <select
+                                        class="form-control bg-white text-dark  @error('newUser.company') is-invalid @enderror"
+                                        id="select1" wire:model="newUser.company">
                                         <option value="">---------</option>
                                         <option value="lh">LH Phone</option>
                                         <option value="h2f">H2F Premium</option>
@@ -120,22 +158,15 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Groupe</label>
-                                    <select class="form-control text-dark @error('newUser.group') is-invalid @enderror"  id="select2"
-                                        @if (!$additionalOptionEnabled) disabled @endif
-                                         wire:model="newUser.group">
+                                    <select
+                                        class="form-control text-dark @error('newUser.group') is-invalid @enderror"
+                                        id="select2" @if (!$additionalOptionEnabled) disabled @endif
+                                        wire:model="newUser.group">
                                         <option value="">---------</option>
                                         <option value="1">Equipe Chris Ezzahra</option>
                                         <option value="2">Equipe Amine</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Salaire brute</label>
-                            <div class="input-group mb-3">
-                                <input type="text" wire:model="newUser.base_salary"
-                                    class="form-control @error('newUser.base_salary') is-invalid @enderror">
-                                <span class="input-group-text">DH</span>
                             </div>
                         </div>
                     </div>
@@ -155,5 +186,3 @@
         <!-- /.card-body -->
     </form>
 </div>
-
-

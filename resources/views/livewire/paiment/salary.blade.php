@@ -6,6 +6,7 @@
                     <h4 class="card-title card-title-dash">Liste des salaires</h4><br>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-3">
                     <div class="input-group">
@@ -31,21 +32,53 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width:20%">&emsp;&emsp;Agent</th>
-                            <th style="width:40%" class="text-center">Salaire de base</th>
-                            <th style="width:40%" class="text-center">Salaire par jour</th>
+                            <th class="text-center">Agent</th>
+                            <th class="text-center">Salaire de base</th>
+                            <th class="text-center">Salaire par jour</th>
+                            <th class="text-center">Mode de paiement</th>
+                            <th class="text-center">
+                                Rib
+                                <button type="submit" class="btn btn-sm text-black mb-0 me-0" style="margin-left:-15px"
+                                    wire:click="toggleRibDisplay">
+                                    <i style="color:rgb(223, 51, 51); font-size:12px">(Afficher)</i></button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($salary as $salaries)
                             <tr>
-                                <td style="width:20% ; padding: 0.7rem; "> &emsp;&emsp;{{ $salaries->last_name }}
+                                <td style="padding: 0.6rem;" class="text-center">{{ $salaries->last_name }}
                                     {{ $salaries->first_name }}</td>
-                                <td style="width:40% ; padding: 0.7rem;" class="text-center">
+                                <td style="padding: 0.6rem;" class="text-center">
                                     {{ $salaries->base_salary }} DH</td>
-                                <td style="width:40% ; padding: 0.7rem;" class="text-center">
-                                    <div class="badge badge-opacity-primary" style="border-radius: 0;">
-                                        {{ $salaries->salary }} DH</div>
+                                <td style="padding: 0.6rem;" class="text-center">
+                                    <span style="font-weight: 900;">{{ $salaries->salary }} DH</span>
+                                </td>
+                                <td style="padding: 0.6rem;" class="text-center">
+                                    @if ($salaries->type_virement == 'virement')
+                                        <div class="badge badge-outline-success paie2" style="color:#aaa8a8;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"
+                                            style="color : #F95F53; margin-bottom:2px">
+                                                <circle cx="8" cy="8" r="8"/>
+                                              </svg>
+                                              &nbsp;  Virement
+                                        </div>
+                                    @else
+                                        <div class="badge badge-outline-success paie" style="color:#4DA761;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"
+                                            style="color : #4DA761;  margin-bottom:2px ">
+                                            <circle cx="8" cy="8" r="8"/>
+                                        </svg>
+                                            &nbsp; Espèce
+                                        </div>
+                                    @endif
+                                </td>
+                                <td style="padding: 0.6rem;" class="text-center">
+                                    @if ($showRib)
+                                        {{ $salaries->rib }}
+                                    @else
+                                        ************************
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

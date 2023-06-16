@@ -8,7 +8,7 @@
                 </div><br>
                 <!-- form fields for step 3 -->
 
-      {{--           @if ($errors->any())
+                @if ($errors->any())
                 <div class="alert alert-danger">
                     <h5>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -22,7 +22,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif --}}
+            @endif 
 
                 <div class="row">
                     <div class="col-md-6">
@@ -80,23 +80,23 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="date_contract">Date du contrat</label>
-                            <input type="date"
-                                class="form-control @error('editUser.date_contract') is-invalid @enderror"
-                                wire:model="editUser.date_contract">
+                            <label>Type du contrat</label>
+                            <select
+                                class="form-control bg-white text-dark @error('editUser.type_contract') is-invalid @enderror"
+                                wire:model="editUser.type_contract">
+                                <option value="">---------</option>
+                                <option value="CDI">CDI</option>
+                                <option value="CDD">CDD</option>
+                                <option value="temp">Stagiaire</option>
+                            </select>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Type du contrat</label>
-                                    <select
-                                        class="form-control bg-white text-dark @error('editUser.type_contract') is-invalid @enderror"
-                                        wire:model="editUser.type_contract">
-                                        <option value="">---------</option>
-                                        <option value="CDI">CDI</option>
-                                        <option value="CDD">CDD</option>
-                                        <option value="temp">Travail temporaire</option>
-                                    </select>
+                                    <label for="date_contract">Date du contrat</label>
+                                    <input type="date"
+                                        class="form-control @error('editUser.date_contract') is-invalid @enderror"
+                                        wire:model="editUser.date_contract">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -106,12 +106,44 @@
                                 </div>
                             </div>
                         </div>
+                            <div class="form-group">
+                                <label>Salaire brute</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" wire:model="editUser.base_salary"
+                                        class="form-control @error('editUser.base_salary') is-invalid @enderror">
+                                    <span class="input-group-text">DH</span>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Mode de paiement</label>
+                                    <select
+                                    class="form-control bg-white text-dark @error('editUser.type_virement') is-invalid @enderror"
+                                    wire:model="editUser.type_virement">
+                                    <option value="">---------</option>
+                                    <option value="espece">Espèce</option>
+                                    <option value="virement">Virement</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Rib</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" wire:model="editUser.rib"
+                                            class="form-control @error('editUser.rib') is-invalid @enderror">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Société</label>
-                                    <select class="form-control bg-white text-dark @error('editUser.company') is-invalid @enderror"
-                                    id="select1"  wire:model="editUser.company">
+                                    <select
+                                        class="form-control bg-white text-dark  @error('editUser.company') is-invalid @enderror"
+                                        id="select1" wire:model="editUser.company">
                                         <option value="">---------</option>
                                         <option value="lh">LH Phone</option>
                                         <option value="h2f">H2F Premium</option>
@@ -121,22 +153,15 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Groupe</label>
-                                    <select class="form-control text-dark" id="select2"
-                                    {{-- @if (!$additionalOptionEnabled) disabled @endif --}}
-                                    wire:model="editUser.group">
+                                    <select
+                                        class="form-control text-dark @error('editUser.group') is-invalid @enderror"
+                                        id="select2" @if (!$additionalOptionEnabled) disabled @endif
+                                        wire:model="editUser.group">
                                         <option value="">---------</option>
                                         <option value="1">Equipe Chris Ezzahra</option>
                                         <option value="2">Equipe Amine</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="duration_contract">Salaire brute</label>
-                            <div class="input-group mb-3">
-                                <input type="text" wire:model="editUser.base_salary"
-                                    class="form-control @error('editUser.base_salary') is-invalid @enderror">
-                                <span class="input-group-text">DH</span>
                             </div>
                         </div>
                     </div>

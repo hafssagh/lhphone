@@ -21,16 +21,6 @@
                 @enderror
             </div>
         </div>
-  {{--       <div class="form-group row">
-            <label class="col-sm-3">Date d'absence</label>
-            <div class="col-sm-9">
-                <input type="date" wire:model="newAbsence.date"
-                    class="form-control @error('newAbsence.date') is-invalid @enderror">
-                @error('newAbsence.date')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-        </div> --}}
         <div class="form-group row">
             <label class="col-sm-3">Heure d'absence</label>
             <div class="col-sm-9">

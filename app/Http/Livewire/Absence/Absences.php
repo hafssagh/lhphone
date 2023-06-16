@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Absences extends Component
 {
@@ -47,19 +48,43 @@ class Absences extends Component
     public function render()
     {
         $currentMonth = Carbon::now()->format('Y-m');
+        $user = Auth::user();
+        $manager = $user->last_name;
+
+        $query = Absence::query()
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->when($this->search, function ($query, $search) {
+                return $query->whereHas('users', function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
+                });
+            })
+            ->latest();
+
+        $usersQuery = User::select('id', 'first_name', 'last_name')
+            ->whereHas('roles', function ($query) {
+                $query->whereNot('name', 'super administrateur');
+            });
+
+        if ($manager == 'EL MESSIOUI') {
+            $absences = $query->paginate(6);
+            $users = $usersQuery->get();
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
+                ->paginate(6);
+            $users = $usersQuery->where('group', 1)->get();
+        } elseif ($manager == 'Essaid') {
+            $absences = $query->whereHas('users', fn ($q) => $q->where('group', 2))
+                ->paginate(6);
+            $users = $usersQuery->where('group', 2)->get();
+        } else {
+            $absences = $query->paginate(6);
+            $users = $usersQuery->get();
+        }
 
         return view('livewire.absence.index', [
-            "absences" => Absence::query()
-                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%');
-                    });
-                })->latest()->paginate(6),
-            "users" => User::select('id', 'first_name', 'last_name')->whereHas('roles', function ($query) {
-                $query->whereNot('name', 'super administrateur');
-            })->get(),
+            "absences" => $absences,
+            "users" => $users,
         ])
             ->extends("layouts.master")
             ->section("contenu");
@@ -108,7 +133,7 @@ class Absences extends Component
 
     public function updateAbsence()
     {
-         $this->validate(); 
+        $this->validate();
         $absence = Absence::find($this->editAbsence["id"]);
         $absence->abs_hours = $this->editAbsence["abs_hours"];
         $absence->date = $this->editAbsence["date"];

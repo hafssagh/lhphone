@@ -25,3 +25,15 @@
         })
     });
 </script>
+<script>
+    window.addEventListener('showErrorMessage', event => {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            toast: 'error',
+            title: event.detail.message || "Opération échouée",
+            showConfirmButton: false,
+            timer: 5000
+        })
+    });
+</script>

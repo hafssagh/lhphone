@@ -23,6 +23,17 @@ return new class extends Migration
             $table->string('mail_client');
             $table->string('phone_client');
             $table->string('remark')->nullable();
+            $table->int('un')->nullable();
+            $table->int('deux')->nullable();
+            $table->int('trois')->nullable();
+            $table->int('cinq')->nullable();
+            $table->int('dix')->nullable();
+            $table->int('hublots')->nullable();
+            $table->int('reglette')->nullable();
+            $table->int('pommeaux')->nullable();
+            $table->int('mousseurs')->nullable();
+            $table->int('tube')->nullable();
+            $table->int('spot')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

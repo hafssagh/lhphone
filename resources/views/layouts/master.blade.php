@@ -73,6 +73,7 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
+
     <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->

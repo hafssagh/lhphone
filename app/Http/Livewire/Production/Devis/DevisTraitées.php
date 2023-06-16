@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Production\Devis;
 use App\Models\Sale;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class DevisTraitées extends Component
 {
@@ -21,36 +22,33 @@ class DevisTraitées extends Component
 
     public function render()
     {
+        $user = Auth::user();
+        $manager = $user->last_name;
+
+        $query = Sale::whereNotIn('state', ['2', '3'])
+            ->when($this->state, fn ($q, $state) => $q->where('state', $state))
+            ->when($this->search, fn ($q, $search) => $q->whereHas(
+                'users',
+                fn ($q) =>
+                $q->where('first_name', 'like', "%$search%")
+                    ->orWhere('last_name', 'like', "%$search%")
+                    ->orWhere('name_client', 'like', "%$search%")
+            ))
+            ->orderBy('date_confirm', 'desc');
+
         if ($this->selectedMonth === null || $this->selectedMonth == "all") {
-            $sales = Sale::whereNot('state', '2')
-                ->whereNot('state', '3')
-                ->when($this->state, function ($query, $state) {
-                    return $query->where('state', $state);
-                })
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhere('name_client', 'like', '%' . $search . '%');
-                    });
-                })
-                ->orderBy('date_confirm', 'desc')->paginate(7);
+            if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+                $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))->paginate(7);
+            } elseif ($manager == 'Essaid') {
+                $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))->paginate(7);
+            } else {
+                $sales = $query->paginate(7);
+            }
         } else {
-            $sales = Sale::whereMonth('date_confirm', $this->selectedMonth)
-                ->whereNot('state', '2')
-                ->whereNot('state', '3')
-                ->when($this->state, function ($query, $state) {
-                    return $query->where('state', $state);
-                })
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhere('name_client', 'like', '%' . $search . '%');
-                    });
-                })
-                ->orderBy('date_confirm', 'desc')->paginate(7);
+            $sales = $query->whereMonth('date_confirm', $this->selectedMonth)->paginate(7);
         }
+
+
 
         return view('livewire.sale.devis.devisTraitées', ["sales" => $sales])
             ->extends("layouts.master")

@@ -21,11 +21,11 @@
                     &nbsp;Nouveau départ</button>
             </div>
         </div><br>
-        <div class="table">
+        <div class="table-container">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Agent</th>
+                        <th class="text-center">Agent</th>
                         <th class="text-center">Date de départ</th>
                         <th class="text-center">Motif de départ</th>
                         <th class="text-center">Durée de travail</th>
@@ -36,7 +36,7 @@
                     @if ($isAddResignation)
                         <tr>
                             <form action="">
-                                <td style="padding: 0.4rem;">
+                                <td class="text-center" style="padding: 0.4rem;">
                                     <select wire:model="newResignation.user" 
                                     class="form-control bg-white text-black @error('newResignation.user') is-invalid @enderror">
                                         <option value=""></option>
@@ -47,7 +47,7 @@
                                     </select>
                                 </td>
                                 <td></td>
-                                <td style="padding: 0.4rem;"> <input class="form-control @error('newResignation.motive') is-invalid @enderror"
+                                <td style="padding: 0.4rem;" > <input class="form-control @error('newResignation.motive') is-invalid @enderror"
                                      type="text" wire:model="newResignation.motive"
                                         wire:keydown.enter='addNewResignation'> 
                                 </td>
@@ -77,7 +77,7 @@
                     @endif
                     @foreach ($resignations as $resignation)
                         <tr>
-                            <td style="padding: 0.4rem;"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
+                            <td style="padding: 0.4rem;" class="text-center"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
                             <td class="text-center" style="padding: 0.4rem;">{{ $resignation->date }}</td>
                             <td class="text-center" style="padding: 0.4rem;">{{ $resignation->motive }}</td>
                             <td class="text-center" style="padding: 0.4rem;">

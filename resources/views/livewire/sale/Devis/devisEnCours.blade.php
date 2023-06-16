@@ -1,8 +1,8 @@
 @if ($currentPage == PAGEEDITFORM)
-@include('livewire.sale.edit')
+    @include('livewire.sale.edit')
 @endif
 @if ($currentPage == PAGECREATEFORM)
-@include('livewire.sale.create')
+    @include('livewire.sale.create')
 @endif
 <div class="card card-rounded">
     <div class="card-body">
@@ -55,7 +55,7 @@
                 </ul>
             </div>
         </div><br>
-        <div class="table">
+        <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
@@ -71,7 +71,7 @@
                 <tbody>
                     @foreach ($sales as $sale)
                         <tr>
-                            <td style="padding: 0.3rem;"> {{ $sale->users->last_name }} {{ $sale->users->first_name }}
+                            <td style="padding: 0.3rem;" class="text-center"> {{ $sale->users->last_name }} {{ $sale->users->first_name }}
                             </td>
                             <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
                             <td style="padding: 0.3rem;" class="text-center">{{ $sale->date_sal }}</td>
@@ -118,8 +118,7 @@
                                     </span>
                                 @endif
                                 @if ($sale->state == '2')
-                                    <span class="svg-icon svg-icon-md" 
-                                        wire:click='saleSend({{ $sale->id }})'>
+                                    <span class="svg-icon svg-icon-md" wire:click='saleSend({{ $sale->id }})'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
                                             <path
@@ -140,13 +139,19 @@
                                             </svg>
                                         </span>
                                     </a>
-                            @endif
+                                @endif
                             </td>
+                        </tr>
+                     {{--    @if ($selectedId === $sale->id)
+                            <tr>
+                                <td colspan="3">Additional content for row {{ $sale->id }}</td>
+                            </tr>
+                        @endif --}}
                     @endforeach
                 </tbody>
             </table>
             <div class="float-end">
-                 {{ $sales->links() }} 
+                {{ $sales->links() }}
             </div>
         </div>
     </div>

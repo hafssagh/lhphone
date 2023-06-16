@@ -10,7 +10,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Nom complet </label>
+                                <label for="name">Nom complet client</label>
                                 <input type="text" wire:model="nameClient" class="form-control">
                                 @error('nameClient')
                                     <p class="text-danger">{{ $message }}</p>

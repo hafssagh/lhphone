@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire\Profile;
 
+use App\Models\User;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfile extends Component
 {
@@ -12,27 +13,42 @@ class UserProfile extends Component
     use WithFileUploads;
 
     public $user;
-    public $addphoto="";
+    public $addphoto = "";
+    public $nom_prod = "";
 
 
     public function render()
     {
         return view('livewire.profile.user-profile')
-        ->extends("layouts.master")
-        ->section("contenu");
+            ->extends("layouts.master")
+            ->section("contenu");
     }
 
-    public function mount(){
-        $this->user = Auth::user();
-    }
 
-     public function updateProfilePhoto()
+    public function mount()
     {
-        if($this->addphoto != null){
-            $this->user->photo = $this->addphoto->store('upload','public');
+        $this->user = Auth::user();
+        $this->nom_prod = $this->user->nom_prod;
+    }
+    public function updateProfile()
+    {
+        $this->validate([
+            'nom_prod' => 'nullable',
+        ]);
+    
+        $this->user->nom_prod = $this->nom_prod;
+        $this->user->save();
+    
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Nom de production mis à jour avec succès!"]);
+    }
+
+
+    public function updateProfilePhoto()
+    {
+        if ($this->addphoto != null) {
+            $this->user->photo = $this->addphoto->store('upload', 'public');
             $this->user->save();
-            $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Photo de profils mise à jour avec succès!"]);      
+            $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Photo de profils mise à jour avec succès!"]);
         }
     }
-
 }

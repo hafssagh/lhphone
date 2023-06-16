@@ -14,6 +14,8 @@ class Salary extends Component
     public $selectedCompany = [];
     public $search = "";
 
+    public $showRib = false;
+
     public function render()
     {
         if ($this->selectedCompany === null || $this->selectedCompany == "all") {
@@ -25,7 +27,7 @@ class Salary extends Component
                 ->join('roles', 'user_role.role_id', '=', 'roles.id')
                 ->whereNot('roles.name', 'Super Administrateur')
                 ->orderBy('last_name')
-                ->paginate(6);
+                ->paginate(9);
         } else {
             $salary = User::where(function ($query) {
                 $query->where('company', $this->selectedCompany)
@@ -38,7 +40,7 @@ class Salary extends Component
                 ->join('roles', 'user_role.role_id', '=', 'roles.id')
                 ->whereNot('roles.name', 'Super Administrateur')
                 ->orderBy('last_name')
-                ->paginate(6);
+                ->paginate(9);
         }
 
         return view('livewire.paiment.salary',  ["salary" => $salary])
@@ -46,5 +48,8 @@ class Salary extends Component
             ->section("contenu");
     }
 
-    
+    public function toggleRibDisplay()
+    {
+        $this->showRib = !$this->showRib;
+    }
 }

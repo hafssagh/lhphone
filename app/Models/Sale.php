@@ -12,7 +12,9 @@ class Sale extends Model
     public $fillable = [
         "quantity", "state", "date_sal" , "date_confirm" ,
         "name_client", "mail_client", "phone_client",
-        "remark","user_id"
+        "remark","user_id",
+        "un","deux","trois","cinq","dix","hublots",
+        "pommeaux","mousseurs","reglette","tube","spot"
     ];
 
     public function users(){

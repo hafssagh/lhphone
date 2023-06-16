@@ -14,7 +14,7 @@ class ChallengeExport implements FromCollection, WithMapping, WithHeadings
      */
     public function collection()
     {
-        return User::select('last_name', 'first_name', 'challenge', 'company')
+        return User::select('last_name', 'first_name', 'challenge', 'type_virement' ,'rib', 'company')
             ->orderBy('company','desc')
             ->whereNot('challenge', '0')
             ->get();
@@ -25,6 +25,8 @@ class ChallengeExport implements FromCollection, WithMapping, WithHeadings
         return [
             $user->last_name . ' ' . $user->first_name,
             $user->challenge . ' ' . "DH",
+            $user->type_virement,
+            $user->rib,
             $user->company,
         ];
     }
@@ -36,6 +38,8 @@ class ChallengeExport implements FromCollection, WithMapping, WithHeadings
         return [
             'Nom complet',
             'Challenge',
+            'Mode de paiement',
+            'Rib',
             'Société',
         ];
     }

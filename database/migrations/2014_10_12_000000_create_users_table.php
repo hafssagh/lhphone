@@ -23,9 +23,11 @@ return new class extends Migration
             $table->string('id_card');
             $table->string('phone');
             $table->date('birthday');
-            $table->date('date_contract');
+            $table->date('date_contract')->nullable();;
             $table->string('type_contract');
             $table->string('duration_contract')->nullable();
+            $table->string('type_virement');
+            $table->string('rib')->nullable();
             $table->string('company');
             $table->string('group')->nullable();
             $table->double('base_salary');
@@ -34,6 +36,7 @@ return new class extends Migration
             $table->double('challenge')->nullable();
             $table->double('prime')->nullable();
             $table->string('photo')->nullable();
+            $table->string('nom_prod')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

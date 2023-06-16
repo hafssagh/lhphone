@@ -21,7 +21,7 @@
                         &nbsp;Nouvelle vente</button>
                 </div>
         </div><br>
-        <div class="table">
+        <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
@@ -36,9 +36,9 @@
                 <tbody>
                     @foreach ($sales as $sale)
                         <tr>
-                            <td class="text-center" style="padding: 0.7rem;">{{ $sale->quantity }}</td>
-                            <td style="padding: 0.7rem;" class="text-center">{{ $sale->date_sal }}</td>
-                            <td style="padding: 0.7rem;" class="text-center">
+                            <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
+                            <td style="padding: 0.3rem;" class="text-center">{{ $sale->date_sal }}</td>
+                            <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2')
                                     <p class="blinking-text" style="color: #0dcaf0;">En attente d'envoi</p>
                                 @elseif($sale->state == '3')
@@ -61,7 +61,7 @@
                                     </div>
                                 @endif
                             </td>
-                            <td style="padding: 0.7rem;" class="text-center">
+                            <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2' || $sale->state == '3')
                                     <div class="spinner-border text-info" role="status"
                                         style="width:16px ;height:16px">
@@ -71,7 +71,7 @@
                                     {{ $sale->date_confirm }}
                                 @endif
                             </td>
-                            <td style="padding: 0.7rem;">
+                            <td style="padding: 0.3rem;">
                                 <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $sale->name_client }}</p>
                                 <p class="text-muted" style="margin-bottom: 0;">
                                     <span class="text-dark">Email</span>: {{ $sale->mail_client }} &nbsp;

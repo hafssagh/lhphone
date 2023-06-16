@@ -27,11 +27,11 @@ function exportChallenge()
 {
     $today = date('Y-m-d');
     $dayOfWeek = date('N');
-   
+
     if ($dayOfWeek !== 7) {
         return;
     }
-
+ 
     $file = 'C:/Users/hp/Desktop/salary.xlsx';
 
     $spreadsheet = new Spreadsheet();
@@ -117,7 +117,17 @@ function exportChallenge()
             'bold' => true,
         ],
     ]);
+
+
+    $sumEspece = User::where('type_virement', 'espece')->sum('challenge');
+    $sumVirement = User::where('type_virement', 'virement')->sum('challenge');
+
+    $sheet->setCellValue('G' . $nextRow, "Somme Salaire (Espèce) : $sumEspece DH");
+    $sheet->getStyle('G' . $nextRow)->getFont()->setBold(true); // Make the text bold
     $nextRow++;
+
+    $sheet->setCellValue('G' . $nextRow, "Somme Salaire (Virement) : $sumVirement DH");
+    $sheet->getStyle('G' . $nextRow)->getFont()->setBold(true); // Make the text bold
 
     foreach ($data as $row) {
         $rowData = $export->map($row);
@@ -134,12 +144,12 @@ function exportChallenge()
 
 function exportPrime()
 {
-    $today = date('Y-m-d');
+      $today = date('Y-m-d');
     $lastDayOfMonth = date('Y-m-t');
 
      if ($today !== $lastDayOfMonth) {
         return;
-    } 
+    }  
 
     $file = 'C:/Users/hp/Desktop/salary.xlsx';
 
@@ -202,12 +212,21 @@ function exportPrime()
     // Add the headings
     $headings = $export->headings();
     $sheet->fromArray([$headings], null, 'A' . $nextRow);
-    $sheet->getStyle('A' . $nextRow . ':' . 'D' . $nextRow)->applyFromArray([
+    $sheet->getStyle('A' . $nextRow . ':' . 'E' . $nextRow)->applyFromArray([
         'font' => [
             'bold' => true,
         ],
     ]);
+
+    $sumEspece = User::where('type_virement', 'espece')->sum('prime');
+    $sumVirement = User::where('type_virement', 'virement')->sum('prime');
+
+    $sheet->setCellValue('G' . $nextRow, "Somme Salaire (Espèce) : $sumEspece DH");
+    $sheet->getStyle('G' . $nextRow)->getFont()->setBold(true); // Make the text bold
     $nextRow++;
+
+    $sheet->setCellValue('G' . $nextRow, "Somme Salaire (Virement) : $sumVirement DH");
+    $sheet->getStyle('G' . $nextRow)->getFont()->setBold(true); // Make the text bold
 
     foreach ($data as $row) {
         $rowData = $export->map($row);
@@ -292,12 +311,23 @@ function exportSalary()
     // Add the headings
     $headings = $export->headings();
     $sheet->fromArray([$headings], null, 'A' . $nextRow);
-    $sheet->getStyle('A' . $nextRow . ':' . 'D' . $nextRow)->applyFromArray([
+    $sheet->getStyle('A' . $nextRow . ':' . 'F' . $nextRow)->applyFromArray([
         'font' => [
             'bold' => true,
         ],
     ]);
+
+    $sumEspece = User::where('type_virement', 'espece')->sum('salary');
+    $sumVirement = User::where('type_virement', 'virement')->sum('salary');
+
+    $sheet->setCellValue('H' . $nextRow, "Somme Salaire (Espèce) : $sumEspece DH");
+    $sheet->getStyle('H' . $nextRow)->getFont()->setBold(true); // Make the text bold
     $nextRow++;
+
+    $sheet->setCellValue('H' . $nextRow, "Somme Salaire (Virement) : $sumVirement DH");
+    $sheet->getStyle('H' . $nextRow)->getFont()->setBold(true); // Make the text bold
+
+
 
     foreach ($data as $row) {
         $rowData = $export->map($row);
@@ -405,7 +435,7 @@ function fetchWeekDates()
 
     $currentDate = Carbon::now()->startOfWeek();
     for ($i = 0; $i < 7; $i++) {
-        $weekDates[] = $currentDate->toDate();
+        $weekDates[$i] = $currentDate->toDateString();
         $currentDate->addDay();
     }
 

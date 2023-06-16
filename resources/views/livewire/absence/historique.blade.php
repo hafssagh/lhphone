@@ -53,7 +53,7 @@
             </div>
         @endif
 
-        <div class="table">
+        <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>

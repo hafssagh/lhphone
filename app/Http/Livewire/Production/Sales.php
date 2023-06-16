@@ -72,19 +72,22 @@ class Sales extends Component
         $sale->quantity = $this->newSale["quantity"];
         $sale->state = $this->newSale["state"] = "2";
         $sale->date_sal = $this->newSale["date_sal"] = date('Y-m-d');
-        if (array_key_exists('date_confirm', $this->newSale)) {
-            $sale->date_confirm = $this->newSale["date_confirm"];
-        } else {
-            $sale->date_confirm = null;
-        }
+        $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
         $sale->name_client = $this->newSale["name_client"];
         $sale->mail_client = $this->newSale["mail_client"];
         $sale->phone_client = $this->newSale["phone_client"];
-        if (array_key_exists('remark', $this->newSale)) {
-            $sale->remark = $this->newSale["remark"];
-        } else {
-            $sale->remark = null;
-        }
+        $sale->un = $this->newSale["un"] ?? null;
+        $sale->deux = $this->newSale["deux"] ?? null;
+        $sale->trois = $this->newSale["trois"] ?? null;
+        $sale->cinq = $this->newSale["cinq"] ?? null;
+        $sale->dix = $this->newSale["dix"] ?? null;
+        $sale->hublots = $this->newSale["hublots"] ?? null;
+        $sale->reglette = $this->newSale["reglette"] ?? null;
+        $sale->pommeaux = $this->newSale["pommeaux"] ?? null;
+        $sale->mousseurs = $this->newSale["mousseurs"] ?? null;
+        $sale->tube = $this->newSale["tube"] ?? null;
+        $sale->spot = $this->newSale["spot"] ?? null;
+        $sale->remark = $this->newSale["remark"] ?? null;
         $sale->user_id  = $this->newSale["user"] = $userId;
         $sale->save();
 

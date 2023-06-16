@@ -62,23 +62,34 @@
                 </select>
             </div>
         </div><br>
-        <div class="table">
+        <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
+                        <th></th>
                         @cannot('agent')
                             <th>Agent</th>
                         @endcannot
                         <th>Société</th>
                         <th>Client</th>
                         <th>Adresse</th>
-                        <th>Date d'envoie</th>
-                        <th></th>
+                        <th>Date </th> 
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($Allproposition as $Allpropo)
                         <tr>
+                            <td style="padding: 0.6rem;" >
+                                @if ($Allpropo->state == '0')
+                                    <div class="square_table" style="background-color: #c9c6c6;">
+                                @elseif($Allpropo->state == '1')
+                                    <div class="square_table" style="background-color: #84cc88;">
+                                @elseif($Allpropo->state == '-1')
+                                    <div class="square_table" style="background-color: #f5a7a1;">
+                                @elseif($Allpropo->state == '3')
+                                    <div class="square_table" style="background-color: #f3ea6c;">
+                                @endif
+                            </td>
                             @cannot('agent')
                                 <td style="padding: 0.6rem;"> {{ $Allpropo->users->last_name }}
                                     {{ $Allpropo->users->first_name }}</td>
@@ -92,18 +103,7 @@
                                </p>
                            </td>
                            <td style="padding: 0.6rem;">{{ $Allpropo->adresse}}</td>
-                           <td style="padding: 0.6rem;">{{ $Allpropo->created_at }}</td>
-                           <td style="padding: 0.6rem;" >
-                            @if ($Allpropo->state == '0')
-                                <div class="square_table" style="background-color: #c9c6c6;">
-                            @elseif($Allpropo->state == '1')
-                                <div class="square_table" style="background-color: #84cc88;">
-                            @elseif($Allpropo->state == '-1')
-                                <div class="square_table" style="background-color: #f5a7a1;">
-                            @elseif($Allpropo->state == '3')
-                                <div class="square_table" style="background-color: #f3ea6c;">
-                            @endif
-                        </td>
+                           <td style="padding: 0.6rem;">{{ $Allpropo->created_at->format('Y-m-d') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

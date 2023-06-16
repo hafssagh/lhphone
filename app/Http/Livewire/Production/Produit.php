@@ -23,6 +23,9 @@ class Produit extends Component
     public $resignation;
     public $resignation2;
 
+    public $objectif = "";
+    public $editing = null;
+
     public function mount()
     {
         $this->users = User::where('company', 'lh')
@@ -88,5 +91,19 @@ class Produit extends Component
         ])
             ->extends("layouts.master")
             ->section("contenu");
+    }
+
+    public function updateObjective($id)
+    {
+        $this->validate([
+            'objectif.' . $id => 'nullable|integer',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->objectif = $this->objectif[$id] ?: null;
+        $user->save();
+
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Objectif ajouté avec succès!"]);
+        return redirect()->to('/production');
     }
 }
