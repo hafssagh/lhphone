@@ -57,10 +57,7 @@
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
                 <footer class="footer">
-                    <div class="d-flex justify-content-end" >
-                        {{-- <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
-                                href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a>
-                            from BootstrapDash.</span> --}}
+                    <div class="d-flex justify-content-end">
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2023. All
                             rights reserved.</span>
                     </div>

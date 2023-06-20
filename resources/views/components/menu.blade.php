@@ -76,8 +76,8 @@
 
 
     @can('agent')
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="">
+        <li class="nav-item {{ setMenuActive('dashAgent') }}">
+            <a class="nav-link collapsed" href="{{ route('dashAgent') }}">
                 <i class="mdi mdi-grid-large menu-icon"></i>
                 <span class="menu-title">Tableau de bord</span>
             </a>

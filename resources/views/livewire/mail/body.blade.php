@@ -50,11 +50,11 @@
                     <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">
                         <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">MERCI DE CLIQUER SUR
-                            LE LIEN CI-CONTRE POUR REMPLIR VOTRE FICHE DE RENSEIGNEMENT&nbsp; &nbsp;<a
-                                name="m_6754909985627402293_m_4653474790419973246_m_7615822402829568139_m_-8382159689440578240_m_-7249257857073012853_m_-3719291791501462_m_2653610726191999988_m_4902630341822574003_m_-3990104739191721555_m_7699318320216093406_m_-3168601271839131418_m_-7658147407581394907_m_1339362487009988170__GoBack"></a></span><a
+                            LE LIEN CI-CONTRE POUR REMPLIR VOTRE FICHE DE RENSEIGNEMENT&nbsp; &nbsp;</span><br>
+                            <a
                             href="https://forms.gle/ZoSHJqqTZ727sosZ6"
                             style="font-family:&quot;Segoe Print&quot;;font-size:14.6667px" target="_blank"
-                            data-saferedirecturl="https://www.google.com/url?q=https://forms.gle/ZoSHJqqTZ727sosZ6&amp;source=gmail&amp;ust=1687337489957000&amp;usg=AOvVaw0Uvqh2fETPHTDzuP0y3B2i">https://forms.gle/<wbr>ZoSHJqqTZ727sosZ6</a>
+                            >https://forms.gle/<wbr></a>
                     </p>
                     <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">

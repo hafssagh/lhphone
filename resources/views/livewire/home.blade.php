@@ -43,7 +43,12 @@
             </div>
 
         </div>
+       <br>
+       <a href="../assets/Règlement interne.pdf" target="_blank" rel="noopener noreferrer" class="fw-bold text-primary">
+        Règlement interne
+    </a>
     </div>
+    
     <div class="col-md-5 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -175,7 +180,7 @@
             </div>
             <div class="modal-body">
                 <div class="modal-scrollable-content">
-                    <div class="row" >
+                    <div class="row">
                         @foreach ($userGet as $userAll)
                             <div class="col-md-4" style=" margin-left: -2px; margin-top: 0.8em;">
                                 <div style="display: flex; align-items: center;">
@@ -217,3 +222,5 @@
             </div>
         </div>
     </div>
+</div>
+

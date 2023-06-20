@@ -20052,7 +20052,7 @@ code {
 .footer {
   background: #F4F5F7;
   color: color(dark);
-  padding: 30px 2.45rem;
+  padding: 10px ;
   transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;
   -webkit-transition: all 0.25s ease;

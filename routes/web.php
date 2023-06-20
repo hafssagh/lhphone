@@ -17,6 +17,7 @@ use App\Http\Livewire\Profile\UserProfile;
 use App\Http\Livewire\Production\Production;
 use App\Http\Livewire\Profile\ResetPassword;
 use App\Http\Livewire\Paiment\ChallengePrime;
+use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Resignation\Resignations;
 use App\Http\Livewire\Production\Devis\DevisEnCours;
 use App\Http\Livewire\Production\Devis\DevisTraitées;
@@ -44,6 +45,7 @@ Route::get('/history', Historique::class)->name("absence.historique");
 Route::get('/users', Users::class)->name("users.index");
 Route::get('/dashboard', Dashboard::class)->name("dashboard");
 Route::get('/dashboardRH', DashRH::class)->name("dashRH");
+Route::get('/dashboardAgent', DashboardAgent::class)->name("dashAgent");
 Route::get('/sales', Sales::class)->name("sales.index");
 Route::get('/devis/onProcess', DevisEnCours::class)->name("devisOnProcess");
 Route::get('/devis/endProcess', DevisTraitées::class)->name("devisEndProcess");
@@ -54,5 +56,4 @@ Route::get('/user/change-password', ResetPassword::class)->name("profile.update"
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);
 Route::get('/', Home::class)->name("home")->middleware(["auth"]);
 Route::get('/customer/proposal', SendEmail::class)->name("mail")->middleware(["auth"]);
-
 
