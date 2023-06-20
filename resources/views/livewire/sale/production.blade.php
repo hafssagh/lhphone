@@ -83,12 +83,11 @@
                                         </td>
                                         @foreach (fetchMonthDates() as $date)
                                             @php
-                                                $carbonDate = Carbon\Carbon::parse($date);
                                                 
                                                 $salesCount =
                                                     $sales
                                                         ->where('user_id', $user->id)
-                                                        ->where('date_confirm', $carbonDate)
+                                                        ->where('date_confirm', $date)
                                                         ->first()->sales_count ?? 0;
                                                 
                                                 $totalSalesCountMonth += $salesCount;
@@ -141,6 +140,52 @@
                                         <strong>{{ $grandTotalMonth }}</strong>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th style="font-size:35px; ">Reste</th>
+                                    @foreach ($weekDates as $date)
+                                        <td style="font-size:35px;;border: 4px solid rgb(253, 253, 253); background-color: #cccbcb; border-radius: 15px;"
+                                            class="text-center">
+                                            @foreach ($objectiveA as $obj)
+                                                @php
+                                                    $dayOfWeek = Carbon\Carbon::parse($date)->dayOfWeek;
+                                                    if ($dayOfWeek === Carbon\Carbon::SATURDAY || $dayOfWeek === Carbon\Carbon::SUNDAY) {
+                                                        $reste = 0;
+                                                    } else {
+                                                        $salesCount = $sales->where('date_confirm', $date)->sum('sales_count');
+                                                        $object = $obj->objective;
+                                                        $reste = $object - $salesCount;
+                                                    }
+                                                @endphp
+                                                <strong>{{ $reste }}</strong>
+                                            @endforeach
+                                        </td>
+                                    @endforeach
+                                    <td class="text-center"
+                                        style="font-size:35px; border: 4px solid rgb(253, 253, 253);background-color: #cccbcb; border-radius:15px;">
+                                        @foreach ($weekDates as $date)
+                                            @php
+                                                $dayOfWeek = Carbon\Carbon::parse($date)->dayOfWeek;
+                                                if ($dayOfWeek === Carbon\Carbon::SATURDAY || $dayOfWeek === Carbon\Carbon::SUNDAY) {
+                                                    $reste = 0;
+                                                } else {
+                                                    $salesCount = $sales->where('date_confirm', $date)->sum('sales_count');
+                                                }
+                                            @endphp
+                                        @endforeach
+                                        @php
+                                            $grandTotal += $salesCount;
+                                            $object = $obj->objective;
+                                            $remainingDaysCount = count($weekDates) - 2;
+                                            $reste = $object - $salesCount;
+                                            $total = $reste * $remainingDaysCount;
+                                            $restTotal = $total - $grandTotal;
+                                        @endphp
+                                        <strong>{{ $restTotal }}</strong>
+                                    </td>
+                                    <td class="text-center"
+                                        style="font-size:35px; border: 4px solid rgb(253, 253, 253);background-color: #cccbcb; border-radius:15px;">
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
@@ -157,7 +202,7 @@
                                         <th style="font-size: 30px;" class="text-center">
                                             {{ \Carbon\Carbon::parse($date)->format('m-d') }}</th>
                                     @endforeach
-                                    <th style="font-size:30px;">Objective</th>
+                                    <th style="font-size:30px;">Objectif</th>
                                     <th style="font-size:35px;">Total\S</th>
                                     <th style="font-size:35px;">Total\M</th>
                                 </tr>
@@ -228,17 +273,16 @@
                                             <strong>{{ $user2->objectif }}</strong>
                                         </td>
                                         <td class="text-center"
-                                            style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;{{ $backgroundColor3 }};">
+                                            style="font-size:35px; border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;{{ $backgroundColor3 }};">
                                             <strong>{{ $totalSalesCount }}</strong>
                                         </td>
                                         @foreach (fetchMonthDates() as $date)
                                             @php
-                                                $carbonDate = Carbon\Carbon::parse($date);
                                                 
                                                 $salesCount =
                                                     $sales2
                                                         ->where('user_id', $user2->id)
-                                                        ->where('date_confirm', $carbonDate)
+                                                        ->where('date_confirm', $date)
                                                         ->first()->sales_count ?? 0;
                                                 
                                                 $totalSalesCountMonth += $salesCount;
@@ -290,6 +334,55 @@
                                     <td class="text-center"
                                         style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;{{ $backgroundColor3 }};">
                                         <strong>{{ $grandTotalMonth }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-size:35px; ">Reste</th>
+                                    @foreach ($weekDates as $date)
+                                        <td style="font-size:35px; border: 4px solid rgb(253, 253, 253); background-color: #cccbcb; border-radius: 15px;"
+                                            class="text-center">
+                                            @foreach ($objectiveB as $obj)
+                                                @php
+                                                    $dayOfWeek = Carbon\Carbon::parse($date)->dayOfWeek;
+                                                    if ($dayOfWeek === Carbon\Carbon::SATURDAY || $dayOfWeek === Carbon\Carbon::SUNDAY) {
+                                                        $reste = 0;
+                                                    } else {
+                                                        $salesCount = $sales2->where('date_confirm', $date)->sum('sales_count');
+                                                        $object = $obj->objective;
+                                                        $reste = $object - $salesCount;
+                                                    }
+                                                @endphp
+                                               <strong>{{ $reste }}</strong>
+                                            @endforeach
+                                        </td>
+                                    @endforeach
+                                    <td class="text-center"
+                                        style=" border: 4px solid rgb(253, 253, 253);background-color: #cccbcb; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style=" font-size:35px; border: 4px solid rgb(253, 253, 253); background-color: #cccbcb; border-radius: 15px;">
+                                        @foreach ($weekDates as $date)
+                                            @php
+                                                $dayOfWeek = Carbon\Carbon::parse($date)->dayOfWeek;
+                                                if ($dayOfWeek === Carbon\Carbon::SATURDAY || $dayOfWeek === Carbon\Carbon::SUNDAY) {
+                                                    $reste = 0;
+                                                } else {
+                                                    $salesCount = $sales->where('date_confirm', $date)->sum('sales_count');
+                                                }
+                                            @endphp
+                                        @endforeach
+                                        @php
+                                            $object = $obj->objective;
+                                            $grandTotal += $salesCount;;
+                                            $remainingDaysCount = count($weekDates) - 2;
+                                            $reste = $object * $remainingDaysCount;
+                                            $total = $reste - $grandTotal;
+                                        @endphp
+                                        <strong>{{ $total }}</strong>
+                                    </td>
+   
+                                    <td class="text-center"
+                                        style=" font-size:35px; border: 4px solid rgb(253, 253, 253);background-color: #cccbcb; border-radius:15px;">
                                     </td>
                                 </tr>
                             </tfoot>
@@ -348,17 +441,17 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div style="margin: 70px; ">
-                    <img src="/assets/images/slogan.png" alt="">
+                </div><br><br><br>
+                <div style="margin: 70px;">
+                    <img src="/assets/images/slogan.png" style=" height:400px;">
                 </div>
             </div>
         </div>
         <div class="row">
             <div style="float: left;">
-                <img src="/assets/images/lh.png" style="padding-left: 500px; height:400px">
+                <img src="/assets/images/lh.png" style="padding-left: 700px; height:500px">
 
-                <img src="/assets/images/h2f.png" style="padding-left: 1200px; margin-top:-20px;height:400px">
+                <img src="/assets/images/h2f.png" style="padding-left: 1500px; margin-top:-20px;height:500px">
             </div>
         </div><br><br><br><br><br><br><br><br><br><br>
 

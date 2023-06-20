@@ -19,14 +19,14 @@
                             <div class="form-group">
                                 <label for="name">Adresse Email</label>
                                 <input type="email" wire:model="emailClient" class="form-control">
-                                @error('nameClient')
+                                @error('emailClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="name">No de téléphone</label>
                                 <input type="text" wire:model="numClient" class="form-control">
-                                @error('nameClient')
+                                @error('numClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>

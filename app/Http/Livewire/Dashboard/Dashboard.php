@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
@@ -23,17 +24,29 @@ class Dashboard extends Component
 
     public function render()
     {
-        $users = User::where("company", "like", "lh")
+        $user = Auth::user();
+        $manager = $user->last_name;
+
+        $usersQuery = User::where("company", "like", "lh")
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })
-            ->where(function ($query) {
+            ->where(function ($query) use ($manager) {
                 $query->where("first_name", "like", "%" . $this->search . "%")
                     ->orWhere("last_name", "like", "%" . $this->search . "%");
             })
-            ->orderBy("last_name")
-            ->paginate(12);
-            
+            ->orderBy("last_name");
+
+        if ($manager == 'EL MESSIOUI') {
+            $usersQuery->get();
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+            $usersQuery->where('group', 1)->get();
+        } elseif ($manager == 'Essaid') {
+            $usersQuery->where('group', 2)->get();
+        }
+
+        $users = $usersQuery->paginate(13);
+
         $currentMonth = Carbon::now()->format('Y-m');
         $weekDates = fetchWeekDates();
         $monthDates = fetchMonthDates();
@@ -104,19 +117,46 @@ class Dashboard extends Component
 
     public function getSumValues()
     {
+        $user = Auth::user();
+        $manager = $user->last_name;
+
         $weekDates = fetchWeekDates();
         $monthDates = fetchMonthDates();
 
-        $sumSal = User::sum('salary');
-        $sumSalFixe = User::sum('base_salary');
-        $sumChall = User::sum('challenge');
-        $sumPrime = User::sum('prime');
-        $sumQuantity = Sale::whereIn('date_confirm', $weekDates)
-            ->where('state', '1')
+        $usersQuery = User::query();
+        $usersQuery->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+            $query->where('group', 1);
+        });
+        $usersQuery->when(($manager == 'Essaid'), function ($query) {
+            $query->where('group', 2);
+        });
+
+        $sumSal = $usersQuery->sum('salary');
+        $sumSalFixe = $usersQuery->sum('base_salary');
+        $sumChall = $usersQuery->sum('challenge');
+        $sumPrime = $usersQuery->sum('prime');
+
+        $sumQuantity = Sale::where('state', '1')
+            ->whereIn('date_confirm', $weekDates)
+            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            })
             ->sum('quantity');
-        $sumQuantity2 = Sale::whereIn('date_confirm', $monthDates)
-            ->where('state', '1')
+
+        $sumQuantity2 = Sale::where('state', '1')
+            ->whereIn('date_confirm', $monthDates)
+            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            })
             ->sum('quantity');
+
+        $sumQuantity2 = Sale::where('state', '1')
+            ->whereIn('date_confirm', $monthDates)
+            ->when($manager == 'Essaid', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            })
+            ->sum('quantity');
+
         return [$sumSal, $sumSalFixe, $sumChall, $sumPrime, $sumQuantity, $sumQuantity2];
     }
 
@@ -133,4 +173,3 @@ class Dashboard extends Component
         return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS];
     }
 }
-

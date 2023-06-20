@@ -37,7 +37,7 @@ class DevisTraitées extends Component
             ->orderBy('date_confirm', 'desc');
 
         if ($this->selectedMonth === null || $this->selectedMonth == "all") {
-            if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            if ($manager == 'ELMOURABIT' || $manager == 'By') {
                 $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))->paginate(7);
             } elseif ($manager == 'Essaid') {
                 $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))->paginate(7);

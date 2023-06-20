@@ -56,8 +56,8 @@
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
-                <footer class="footer" style="padding:15px">
-                    <div class="d-flex justify-content-end">
+                <footer class="footer">
+                    <div class="d-flex justify-content-end" >
                         {{-- <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
                                 href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a>
                             from BootstrapDash.</span> --}}

@@ -37,6 +37,7 @@ return new class extends Migration
             $table->double('prime')->nullable();
             $table->string('photo')->nullable();
             $table->string('nom_prod')->nullable();
+            $table->integer('objectif')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

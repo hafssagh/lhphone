@@ -23,7 +23,7 @@ class Historique extends Component
         $manager = $user->last_name;
         $query = Absence::orderBy('date', 'DESC');
     
-        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        if ($manager == 'ELMOURABIT' || $manager == 'By') {
             $query->whereHas('users', fn ($q) => $q->where('group', 1));
         } elseif ($manager == 'Essaid') {
             $query->whereHas('users', fn ($q) => $q->where('group', 2));

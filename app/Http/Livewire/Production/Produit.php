@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Production;
 
+use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
+use App\Models\Objective;
 use App\Models\Resignation;
 
 class Produit extends Component
@@ -23,7 +25,11 @@ class Produit extends Component
     public $resignation;
     public $resignation2;
 
+    public $objectiveA;
+    public $objectiveB;
+
     public $objectif = "";
+    public $objective = "";
     public $editing = null;
 
     public function mount()
@@ -82,12 +88,18 @@ class Produit extends Component
 
         $this->weekDates = fetchWeekDates();
         $this->months = fetchMonthWeeks();
+      
     }
     public function render()
     {
+        $this->objectiveA = Objective::where('group', '1')->get();
+        $this->objectiveB = Objective::where('group', '2')->get();
+
         return view('livewire.sale.Devis.productionManager', [
             'weekDates' => $this->weekDates,
             'months' => $this->months,
+            'objective' => $this->objectiveA,
+            'objectiveB' => $this->objectiveB
         ])
             ->extends("layouts.master")
             ->section("contenu");
@@ -105,5 +117,31 @@ class Produit extends Component
 
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Objectif ajouté avec succès!"]);
         return redirect()->to('/production');
+    }
+
+    public function update($group)
+    {
+        $this->validate([
+            'objective' => 'nullable|integer',
+        ]);
+
+        $obj = Objective::where('group', $group)->first();
+        if ($obj) {
+            $obj->objective = $this->objective;
+            $obj->save();
+        }
+
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Objectif ajouté avec succès!"]);
+        return redirect()->to('/production');
+    }
+
+    public function updateA()
+    {
+        return $this->update('1');
+    }
+
+    public function updateB()
+    {
+        return $this->update('2');
     }
 }

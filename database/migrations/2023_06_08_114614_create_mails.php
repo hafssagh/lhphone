@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('mails', function (Blueprint $table) {
             $table->id();
             $table->string('nameClient');
-            $table->string('emailClient');
+            $table->string('emailClient')->unique();
             $table->string('numClient');
             $table->string('adresse');
             $table->string('company');

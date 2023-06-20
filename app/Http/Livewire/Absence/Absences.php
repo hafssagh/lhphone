@@ -69,7 +69,7 @@ class Absences extends Component
         if ($manager == 'EL MESSIOUI') {
             $absences = $query->paginate(6);
             $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->paginate(6);
             $users = $usersQuery->where('group', 1)->get();

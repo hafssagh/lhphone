@@ -85,7 +85,7 @@ class Users extends Component
 
             if ($manager == 'EL MESSIOUI') {
                 $query->latest();
-            } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
                 $query->where('group', 1)->latest();
             } elseif ($manager == 'Essaid') {
                 $query->where('group', 2)->latest();

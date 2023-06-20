@@ -28,7 +28,7 @@ class SendEmail extends Component
     public $editProposition;
 
     protected $rules = [
-        'emailClient' => 'required|email',
+        'emailClient' => 'required|email|unique:mails,emailClient',
         'nameClient' => 'required',
         'numClient' => 'required|numeric',
         'adresse' => 'required',
@@ -37,7 +37,8 @@ class SendEmail extends Component
 
     protected $messages = [
         'emailClient.required' => 'L\'adresse Email du client est requis.',
-        'nameClient.required' => 'Le nom complet du client est requise.',
+        'emailClient.unique' => 'L\'adresse mail a déjà été prise.',
+        'nameClient.required' => 'Le nom complet du client est requis.',
         'numClient.required' => 'Le numéro de téléphone du client est requis.',
         'numClient.numeric' => 'Le numéro de téléphone ne doit pas avoir de lettre.',
         'adresse.required' => 'L\'adresse est requis.',
@@ -51,16 +52,20 @@ class SendEmail extends Component
     {
         $user = Auth::user();
         $manager = $user->last_name;
+        $role = $user->roles->first()->name;
         $this->today = now()->toDateString();
     
         $query = Mails::whereDate('created_at', $this->today);
     
-        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        if ($role == 'Agent') {
+            $query->where('user_id', $user->id);
+        }else{
+        if ($manager == 'ELMOURABIT' || $manager == 'By') {
             $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Manager') {
+        } elseif ($manager == 'Essaid') {
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
         }
-    
+    }
         $this->mails = $query->get();
     }
 
@@ -109,7 +114,7 @@ class SendEmail extends Component
             });
         }
     
-        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        if ($manager == 'ELMOURABIT' || $manager == 'By') {
             $query->whereHas('users', fn ($q) => $q->where('group', 1));
         } elseif ($manager == 'Essaid') {
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
@@ -117,11 +122,12 @@ class SendEmail extends Component
     
         $proposition = $query->orderBy('created_at', 'desc')->paginate(9);
         $Allproposition = $query->orderBy('created_at', 'desc')->without('scopes')->paginate(9);
-    
+
         return view('livewire.mail.index', ['proposition' => $proposition, 'Allproposition' => $Allproposition])
             ->extends("layouts.master")
             ->section("contenu");
     }
+    
     
 
     public function sendEmail()
@@ -130,7 +136,7 @@ class SendEmail extends Component
     
         $data = [
             'user_id' => $this->user_id = Auth::user()->id,
-            'subject' => $this->subject = "Projet LED",
+            'subject' => $this->subject = "PROJET LED À '' 0 EURO ''",
             'nameClient' => $this->nameClient,
             'emailClient' => $this->emailClient,
             'numClient' => $this->numClient,
@@ -141,23 +147,28 @@ class SendEmail extends Component
         ];
     
         $user = Auth::user();
-        $fromName = $user ?  userName() : config('mail.from.name');
+        $fromName = $user ?  auth()->user()->nom_prod  : config('mail.from.name');
         $fromAddress = config('mail.from.address');
     
-        $excelFilePath = Storage::path('Commande 0 euro projet LED.xlsx');
-        $pdfFilePath = Storage::path('Catalogue Projecteurs.pdf');
+        $excelFilePath = Storage::path('FICHE QUANTITATIVE.xlsx');
+        $pdfFilePath = Storage::path('CATALOGUE ROBINET THERMOSTAT.pdf');
+        $pdf2FilePath = Storage::path('PROJECTEURS ET HUBLOTS.pdf');
     
         $emailSent = false;
-        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, &$emailSent) {
+        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
                 ->subject($this->subject)
                 ->attach($excelFilePath, [
-                    'as' => 'Commande 0 euro projet LED.xlsx',
+                    'as' => 'FICHE QUANTITATIVE.xlsx',
                     'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 ])
                 ->attach($pdfFilePath, [
-                    'as' => 'Catalogue Projecteurs.pdf',
+                    'as' => 'CATALOGUE ROBINET THERMOSTAT.pdf',
+                    'mime' => 'application/pdf'
+                ])
+                ->attach($pdf2FilePath, [
+                    'as' => 'PROJECTEURS ET HUBLOTS.pdf',
                     'mime' => 'application/pdf'
                 ]);
     

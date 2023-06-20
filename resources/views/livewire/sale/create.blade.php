@@ -143,7 +143,7 @@
                                         <div class="col-sm-8">
                                             <input
                                                 class="form-control detail @error('newSale.hublots') is-invalid @enderror"
-                                                wire:model="newSale.hublots" type="number" disabled>
+                                                wire:model="newSale.hublots" type="number">
                                         </div>
                                     </div>
                                     <div class="form-group"
@@ -151,8 +151,8 @@
                                         <label class="col-sm-4">Réglettes:</label>
                                         <div class="col-sm-8">
                                             <input
-                                                class="form-control detail @error('newSale.pommeaux') is-invalid @enderror"
-                                                wire:model="newSale.pommeaux" type="number" disabled>
+                                                class="form-control detail @error('newSale.reglette') is-invalid @enderror"
+                                                wire:model="newSale.reglette" type="number" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group"
@@ -160,8 +160,8 @@
                                         <label class="col-sm-4">Pommeaux:</label>
                                         <div class="col-sm-8">
                                             <input
-                                                class="form-control detail @error('newSale.mousseurs') is-invalid @enderror"
-                                                wire:model="newSale.mousseurs" type="number" disabled>
+                                                class="form-control detail @error('newSale.pommeaux') is-invalid @enderror"
+                                                wire:model="newSale.pommeaux" type="number">
                                         </div>
                                     </div>
                                     <div class="form-group"
@@ -178,8 +178,8 @@
                                         <label class="col-sm-4">Mousseurs:</label>
                                         <div class="col-sm-8">
                                             <input
-                                                class="form-control detail @error('newSale.reglette') is-invalid @enderror"
-                                                wire:model="newSale.reglette" type="number" disabled>
+                                                class="form-control detail @error('newSale.mousseurs') is-invalid @enderror"
+                                                wire:model="newSale.mousseurs" type="number">
                                         </div>
                                     </div>
                                     <div class="form-group"

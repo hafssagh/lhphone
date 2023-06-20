@@ -5,8 +5,9 @@ namespace App\Http\Livewire\Production;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
-use App\Models\Resignation;
 use Livewire\Component;
+use App\Models\Objective;
+use App\Models\Resignation;
 
 class Production extends Component
 {
@@ -24,6 +25,8 @@ class Production extends Component
     public $resignation;
     public $resignation2;
 
+    public $objectiveA;
+    public $objectiveB;
 
     public function mount()
     {
@@ -87,9 +90,15 @@ class Production extends Component
 
     public function render()
     {
+        
+        $this->objectiveA = Objective::where('group', '1')->get();
+        $this->objectiveB = Objective::where('group', '2')->get();
+
         return view('livewire.sale.production', [
             'weekDates' => $this->weekDates,
             'months' => $this->months,
+            'objective' => $this->objectiveA,
+            'objectiveB' => $this->objectiveB
         ])
             ->extends("layouts.app")
             ->section("contenu2");

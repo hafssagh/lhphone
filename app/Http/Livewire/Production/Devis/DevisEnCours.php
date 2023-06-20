@@ -64,7 +64,7 @@ class DevisEnCours extends Component
         if ($manager == 'EL MESSIOUI') {
             $users = $usersQuery->get();
             $sales = $query->latest()->paginate(7);
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $users = $usersQuery->where('group', 1)->get();
             $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->latest()
