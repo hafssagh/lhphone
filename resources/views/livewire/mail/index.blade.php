@@ -25,6 +25,7 @@
         })
     });
 </script>
+
 <script>
     window.addEventListener('showErrorMessage', event => {
         Swal.fire({

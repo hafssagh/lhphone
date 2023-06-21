@@ -64,21 +64,27 @@ class Absences extends Component
         $usersQuery = User::select('id', 'first_name', 'last_name')
             ->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
-            });
+            })->orderBy('last_name');
 
         if ($manager == 'EL MESSIOUI') {
-            $absences = $query->paginate(6);
+            $absences = $query->paginate(10);
             $users = $usersQuery->get();
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
-                ->paginate(6);
+                ->paginate(10);
             $users = $usersQuery->where('group', 1)->get();
         } elseif ($manager == 'Essaid') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('group', 2))
-                ->paginate(6);
+                ->paginate(10);
             $users = $usersQuery->where('group', 2)->get();
+        } elseif ($manager == 'Hdimane') {
+            $absences = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
+                ->paginate(10);
+            $users = $usersQuery->where('company', 'h2f') ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })->get();
         } else {
-            $absences = $query->paginate(6);
+            $absences = $query->paginate(10);
             $users = $usersQuery->get();
         }
 

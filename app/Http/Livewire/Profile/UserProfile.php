@@ -35,10 +35,10 @@ class UserProfile extends Component
         $this->validate([
             'nom_prod' => 'nullable',
         ]);
-    
+
         $this->user->nom_prod = $this->nom_prod;
         $this->user->save();
-    
+
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Nom de production mis à jour avec succès!"]);
     }
 
@@ -48,7 +48,16 @@ class UserProfile extends Component
         if ($this->addphoto != null) {
             $this->user->photo = $this->addphoto->store('upload', 'public');
             $this->user->save();
-            $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Photo de profils mise à jour avec succès!"]);
+            $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Photo de profile mise à jour avec succès!"]);
+            return redirect()->to('/profile');
         }
+    }
+
+    public function deleteProfilePhoto()
+    {
+        $this->user->photo = null;
+        $this->user->save();
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Photo de profile supprimé avec succès!"]);
+        return redirect()->to('/profile');
     }
 }

@@ -106,7 +106,7 @@
                                     <td class="text-center" style="padding: 0.5rem;">{{ $user->base_salary }} DH</td>
                                 @endcan
                                 <td class="text-center" style="padding: 0.5rem;">
-                                    {{ \Carbon\Carbon::parse($user->date_contract)->diffForHumans() }}</td>
+                                    {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
                                 <td class="text-center" style="padding: 0.5rem;">
                                     @canAny(['admin', 'superadmin'])
                                         <a href="javascript:;" class="btn btn-sm btn-icon"

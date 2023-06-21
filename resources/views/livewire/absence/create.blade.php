@@ -6,14 +6,14 @@
         </div>
         <br>
         <div class="form-group row">
-            <label class="col-sm-3 ">Agent</label>
+            <label class="col-sm-3 ">Agent <span class="text-danger"><strong>*</strong></span> </label>
             <div class="col-sm-9">
                 <select wire:model="newAbsence.user"
                     class="form-control bg-white text-black @error('newAbsence.user') is-invalid @enderror">
                     <option value=""></option>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->first_name }}
-                            {{ $user->last_name }}</option>
+                        <option value="{{ $user->id }}">
+                            {{ $user->last_name }} {{ $user->first_name }}</option>
                     @endforeach
                 </select>
                 @error('newAbsence.user')
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-3">Heure d'absence</label>
+            <label class="col-sm-3">Heure d'absence <span class="text-danger"><strong>*</strong></span></label>
             <div class="col-sm-9">
                 <input class="form-control @error('newAbsence.abs_hours') is-invalid @enderror" type="number"
                     wire:model="newAbsence.abs_hours">

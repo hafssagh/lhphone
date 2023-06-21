@@ -10,18 +10,18 @@
                              <tr>
                                  <th style="width: 10px; ">Groupe 1</th>
                                  @foreach ($weekDates as $date)
-                                     <th style="font-size: 11px;" class="text-center">
+                                     <th style="font-size: 13px;" class="text-center">
                                          {{ \Carbon\Carbon::parse($date)->format('m-d') }} </th>
                                  @endforeach
-                                 <th>Total\S</th>
-                                 <th>Total\M</th>
+                                 <th class="text-center">Total\S</th>
+                                 <th class="text-center">Total\M</th>
                              </tr>
                          </thead>
                          <tbody>
                              @foreach ($users as $user)
                                  <tr>
-                                     <td style="padding: 0.7rem" class="text-truncate"><strong>{{ $user->last_name }}
-                                             {{ $user->first_name }}</strong></td>
+                                     <td  style="padding: 0.7rem; min-width: 50px; max-width: 147px;" class="text-truncate" >
+                                        <strong>{{ $user->first_name }} </strong></td>
                                      @php
                                          $totalSalesCount = 0;
                                          $totalSalesCountMonth = 0;
@@ -67,7 +67,7 @@
                                              $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
                                              
                                              $resignationUser = $resignation->where('user_id', $user->id)->first();
-                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; ' : '';
                                              
                                              $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                          @endphp
@@ -204,19 +204,19 @@
                              <tr>
                                  <th>Groupe 2</th>
                                  @foreach ($weekDates as $date)
-                                     <th style="font-size: 11px;" class="text-center">
+                                     <th style="font-size:13px" class="text-center">
                                          {{ \Carbon\Carbon::parse($date)->format('m-d') }}</th>
                                  @endforeach
-                                 <th>Objectif</th>
-                                 <th>Total\S</th>
-                                 <th>Total\M</th>
+                                 <th class="text-center"> Objectif</th>
+                                 <th class="text-center">Total\S</th>
+                                 <th class="text-center">Total\M</th>
                              </tr>
                          </thead>
                          <tbody>
                              @foreach ($users2 as $user2)
                                  <tr>
-                                     <td style="padding: 0.5rem"><strong>{{ $user2->last_name }}
-                                             {{ $user2->first_name }}</strong> </td>
+                                     <td style="padding: 0.5rem; min-width: 50px; max-width: 147px;" class="text-truncate" >
+                                        <strong>{{ $user2->first_name }}</strong> </td>
                                      @php
                                          $totalSalesCount = 0;
                                          $totalSalesCountMonth = 0;
@@ -260,10 +260,10 @@
                                              $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
                                              $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
                                              $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
-                                             $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
+                                             $backgroundColor7 = $retard ? 'background-color: #6f84ab ' : '';
                                              
                                              $resignationUser = $resignation2->where('user_id', $user2->id)->first();
-                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ;' : '';
                                              
                                              $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                          @endphp

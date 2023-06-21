@@ -1,8 +1,12 @@
 <div style="background-color: rgb(218, 213, 213)">
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <div class="content-wrapper" style="margin-bottom: 20px; background-color: rgb(218, 213, 213)">
+    <br><br><br>
+    <div class="text-center">
+        <img src="/assets/images/production.png" alt="" style="height:300px">
+    </div>
+    <br><br><br><br>
+    <div class="content-wrapper" style=" background-color: rgb(218, 213, 213)">
         <div class="row">
-            <div class="col-5 grid-margin stretch-card">
+            <div class="col-5 grid-margin">
                 <div class="card" style="">
                     <div class="card-body d-flex justify-content-center">
                         <table class="table table-borderless">
@@ -20,8 +24,11 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td style="font-size:35px;" class="text-truncate"><strong>{{ $user->last_name }}
-                                                {{ $user->first_name }}</strong></td>
+                                        <td style="font-size: 35px; min-width: 50px; max-width: 250px;"
+                                            class="text-truncate">
+                                            <strong>{{ $user->first_name }}</strong>
+                                        </td>
+
                                         @php
                                             $totalSalesCount = 0;
                                             $totalSalesCountMonth = 0;
@@ -61,13 +68,13 @@
                                                     ->where('abs_hours', -1)
                                                     ->first();
                                                 
-                                                $backgroundColor2 = $absenceUser ? 'background-color: #ffff00 ' : '';
+                                                $backgroundColor2 = $absenceUser ? 'background-color: #f0f046 ' : '';
                                                 $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
-                                                $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
-                                                $backgroundColor7 = $retard ? 'background-color: #6d9eeb ' : '';
+                                                $backgroundColor6 = $absenceUserDemi ? 'background-color: #f59445 ' : '';
+                                                $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
                                                 $resignationUser = $resignation->where('user_id', $user->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; ' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -83,7 +90,6 @@
                                         </td>
                                         @foreach (fetchMonthDates() as $date)
                                             @php
-                                                
                                                 $salesCount =
                                                     $sales
                                                         ->where('user_id', $user->id)
@@ -143,7 +149,7 @@
                                 <tr>
                                     <th style="font-size:35px; ">Reste</th>
                                     @foreach ($weekDates as $date)
-                                        <td style="font-size:35px;;border: 4px solid rgb(253, 253, 253); background-color: #cccbcb; border-radius: 15px;"
+                                        <td style="font-size:35px; border: 4px solid rgb(253, 253, 253); background-color: #cccbcb; border-radius: 15px;"
                                             class="text-center">
                                             @foreach ($objectiveA as $obj)
                                                 @php
@@ -191,7 +197,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-5 grid-margin stretch-card">
+            <div class="col-5 grid-margin ">
                 <div class="card">
                     <div class="card-body d-flex justify-content-center">
                         <table class="table table-borderless">
@@ -210,8 +216,10 @@
                             <tbody>
                                 @foreach ($users2 as $user2)
                                     <tr>
-                                        <td style="font-size:35px;"><strong>{{ $user2->last_name }}
-                                                {{ $user2->first_name }}</strong> </td>
+                                        <td style="font-size: 35px; min-width: 50px; max-width: 250px;"
+                                            class="text-truncate">
+                                            <strong>{{ $user2->first_name }}</strong>
+                                        </td>
                                         @php
                                             $totalSalesCount = 0;
                                             $totalSalesCountMonth = 0;
@@ -252,13 +260,13 @@
                                                     ->where('abs_hours', -1)
                                                     ->first();
                                                 
-                                                $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
+                                                $backgroundColor2 = $absenceUser ? 'background-color: #f0f046 ' : '';
                                                 $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
-                                                $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
-                                                $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
+                                                $backgroundColor6 = $absenceUserDemi ? 'background-color: #f59445 ' : '';
+                                                $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
                                                 $resignationUser = $resignation2->where('user_id', $user2->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color:#5A5A5A ' : '';
+                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -314,7 +322,8 @@
                                             <strong>{{ $salesCount }}</strong>
                                         </td>
                                     @endforeach
-                                    <td style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;">
+                                    <td
+                                        style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;">
                                     </td>
                                     <td class="text-center"
                                         style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;{{ $backgroundColor3 }};">
@@ -352,7 +361,7 @@
                                                         $reste = $object - $salesCount;
                                                     }
                                                 @endphp
-                                               <strong>{{ $reste }}</strong>
+                                                <strong>{{ $reste }}</strong>
                                             @endforeach
                                         </td>
                                     @endforeach
@@ -373,14 +382,14 @@
                                         @endforeach
                                         @php
                                             $object = $obj->objective;
-                                            $grandTotal += $salesCount;;
+                                            $grandTotal += $salesCount;
                                             $remainingDaysCount = count($weekDates) - 2;
                                             $reste = $object * $remainingDaysCount;
                                             $total = $reste - $grandTotal;
                                         @endphp
                                         <strong>{{ $total }}</strong>
                                     </td>
-   
+
                                     <td class="text-center"
                                         style=" font-size:35px; border: 4px solid rgb(253, 253, 253);background-color: #cccbcb; border-radius:15px;">
                                     </td>
@@ -442,19 +451,23 @@
                         </table>
                     </div>
                 </div><br><br><br>
-                <div style="margin: 70px;">
-                    <img src="/assets/images/slogan.png" style=" height:400px;">
+                <div class="text-center">
+                    <img src="/assets/images/slogan.png" style=" height:300px;">
                 </div>
             </div>
         </div>
         <div class="row">
-            <div style="float: left;">
-                <img src="/assets/images/lh.png" style="padding-left: 700px; height:500px">
-
-                <img src="/assets/images/h2f.png" style="padding-left: 1500px; margin-top:-20px;height:500px">
+            <div class="col-5 grid-margin">
+                <div class="text-center">
+                    <img src="/assets/images/lh.png" style="height:400px">
+                </div>
             </div>
-        </div><br><br><br><br><br><br><br><br><br><br>
-
+            <div class="col-5 grid-margin">
+                <div class="text-center">
+                    <img src="/assets/images/h2f.png" style=" height:400px">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

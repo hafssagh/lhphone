@@ -56,4 +56,3 @@ Route::get('/user/change-password', ResetPassword::class)->name("profile.update"
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);
 Route::get('/', Home::class)->name("home")->middleware(["auth"]);
 Route::get('/customer/proposal', SendEmail::class)->name("mail")->middleware(["auth"]);
-

@@ -182,6 +182,7 @@ class SendEmail extends Component
             $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
             $this->goToListPropos();
             $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
+            return redirect()->to('/customer/proposal');
         } else {
             // Handle the case where email sending failed
             $this->dispatchBrowserEvent("showErrorMessage", ["message" => "Échec de l'envoi de l'email. Veuillez réessayer ultérieurement."]);

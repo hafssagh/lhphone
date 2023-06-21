@@ -27,7 +27,7 @@ class Salary extends Component
                 ->join('roles', 'user_role.role_id', '=', 'roles.id')
                 ->whereNot('roles.name', 'Super Administrateur')
                 ->orderBy('last_name')
-                ->paginate(9);
+                ->paginate(12);
         } else {
             $salary = User::where(function ($query) {
                 $query->where('company', $this->selectedCompany)
@@ -40,7 +40,7 @@ class Salary extends Component
                 ->join('roles', 'user_role.role_id', '=', 'roles.id')
                 ->whereNot('roles.name', 'Super Administrateur')
                 ->orderBy('last_name')
-                ->paginate(9);
+                ->paginate(12);
         }
 
         return view('livewire.paiment.salary',  ["salary" => $salary])

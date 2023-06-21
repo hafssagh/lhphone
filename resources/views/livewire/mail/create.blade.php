@@ -10,21 +10,21 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Nom complet client</label>
+                                <label for="name">Nom complet client <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="text" wire:model="nameClient" class="form-control">
                                 @error('nameClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Adresse Email</label>
+                                <label for="name">Adresse Email <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="email" wire:model="emailClient" class="form-control">
                                 @error('emailClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">No de téléphone</label>
+                                <label for="name">No de téléphone <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="text" wire:model="numClient" class="form-control">
                                 @error('numClient')
                                     <p class="text-danger">{{ $message }}</p>
@@ -33,14 +33,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Société</label>
+                                <label for="name">Société <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="text" wire:model="company" class="form-control">
                                 @error('company')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Adresse</label>
+                                <label for="name">Adresse <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="text" wire:model="adresse" class="form-control">
                                 @error('adresse')
                                     <p class="text-danger">{{ $message }}</p>

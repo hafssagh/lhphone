@@ -38,22 +38,22 @@
                         @endcan
                         @canAny(['manager', 'superadmin'])
                             <div class="form-group row mb-1">
-                                <label class="col-sm-2 col-form-label">Agent</label>
+                                <label class="col-sm-2 col-form-label">Agent <span class="text-danger"><strong>*</strong></span></label>
                                 <div class="col-sm-8">
                                     <select wire:model="newSale.user"
                                         class="form-control bg-white text-black @error('newSale.user') is-invalid @enderror"
                                         id="user">
                                         <option value=""></option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }}
-                                                {{ $user->last_name }}</option>
+                                            <option value="{{ $user->id }}">
+                                                {{ $user->last_name }} {{ $user->first_name }} </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         @endcanAny
                         <div class="form-group row mb-1">
-                            <label for="name_client" class="col-sm-2 col-form-label">Société</label>
+                            <label for="name_client" class="col-sm-2 col-form-label">Société <span class="text-danger"><strong>*</strong></span> </label>
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control @error('newSale.name_client') is-invalid @enderror"
@@ -61,14 +61,14 @@
                             </div>
                         </div>
                         <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label">Email</label>
+                            <label class="col-sm-2 col-form-label">Email <span><strong class="text-danger">*</strong></span> </label>
                             <div class="col-sm-8">
                                 <input type="text" wire:model="newSale.mail_client"
                                     class="form-control @error('newSale.mail_client') is-invalid @enderror">
                             </div>
                         </div>
                         <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label">Numéro</label>
+                            <label class="col-sm-2 col-form-label" style="font-size: 0.796rem;">Numéro <span><strong class="text-danger">*</strong></span> </label>
                             <div class="col-sm-8">
                                 <input type="text" wire:model="newSale.phone_client"
                                     class="form-control @error('newSale.phone_client') is-invalid @enderror">
@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Qantité</label>
+                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Qantité <span class="text-danger"><strong>*</strong></span></label>
                             <div class="col-sm-8">
                                 <input type="number" wire:model="newSale.quantity"
                                     class="form-control

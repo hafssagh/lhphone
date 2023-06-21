@@ -79,8 +79,35 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Société</label>
+                                    <select
+                                        class="form-control bg-white text-dark  @error('editUser.company') is-invalid @enderror"
+                                        id="select1" wire:model="editUser.company">
+                                        <option value="">---------</option>
+                                        <option value="lh">LH Phone</option>
+                                        <option value="h2f">H2F Premium</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Groupe</label>
+                                    <select
+                                        class="form-control text-dark @error('editUser.group') is-invalid @enderror"
+                                        id="select2" @if (!$additionalOptionEnabled) disabled @endif
+                                        wire:model="editUser.group">
+                                        <option value="">---------</option>
+                                        <option value="1">Equipe Chris Ezzahra</option>
+                                        <option value="2">Equipe Amine</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label>Type du contrat</label>
+                            <label>Statut</label>
                             <select
                                 class="form-control bg-white text-dark @error('editUser.type_contract') is-invalid @enderror"
                                 wire:model="editUser.type_contract">
@@ -88,6 +115,7 @@
                                 <option value="CDI">CDI</option>
                                 <option value="CDD">CDD</option>
                                 <option value="temp">Stagiaire</option>
+                                <option value="sans">Sans</option>
                             </select>
                         </div>
                         <div class="row">
@@ -107,7 +135,7 @@
                             </div>
                         </div>
                             <div class="form-group">
-                                <label>Salaire brute</label>
+                                <label>Salaire brut</label>
                                 <div class="input-group mb-3">
                                     <input type="text" wire:model="editUser.base_salary"
                                         class="form-control @error('editUser.base_salary') is-invalid @enderror">
@@ -134,33 +162,6 @@
                                         <input type="text" wire:model="editUser.rib"
                                             class="form-control @error('editUser.rib') is-invalid @enderror">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Société</label>
-                                    <select
-                                        class="form-control bg-white text-dark  @error('editUser.company') is-invalid @enderror"
-                                        id="select1" wire:model="editUser.company">
-                                        <option value="">---------</option>
-                                        <option value="lh">LH Phone</option>
-                                        <option value="h2f">H2F Premium</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Groupe</label>
-                                    <select
-                                        class="form-control text-dark @error('editUser.group') is-invalid @enderror"
-                                        id="select2" @if (!$additionalOptionEnabled) disabled @endif
-                                        wire:model="editUser.group">
-                                        <option value="">---------</option>
-                                        <option value="1">Equipe Chris Ezzahra</option>
-                                        <option value="2">Equipe Amine</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>

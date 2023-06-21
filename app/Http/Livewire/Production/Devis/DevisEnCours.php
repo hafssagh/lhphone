@@ -59,7 +59,7 @@ class DevisEnCours extends Component
             ->where('company', 'lh')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
-            });
+            })->orderBy('last_name');
 
         if ($manager == 'EL MESSIOUI') {
             $users = $usersQuery->get();

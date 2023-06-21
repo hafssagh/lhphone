@@ -43,7 +43,7 @@ class Resignations extends Component
                 })->latest()->paginate(10),
             "users" => User::select('id', 'first_name', 'last_name')->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
-            })->get(),
+            })->orderBy('last_name')->get(),
         ])
             ->extends("layouts.master")
             ->section("contenu");
@@ -78,14 +78,11 @@ class Resignations extends Component
         $resignation->user_id = $this->newResignation["user"];
         $resignation->save();
     
-        // Retrieve the user associated with the resignation
         $user = User::find($resignation->user_id);
     
         if ($user) {
-            // Generate a new password
             $newPassword = bcrypt('resignation');
     
-            // Update the user's password
             $user->password = $newPassword;
             $user->save();
         }

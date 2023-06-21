@@ -31,34 +31,22 @@ class Users extends Component
     protected $messages = [
         'newUser.first_name.required' => "Le nom de l'utilisateur est requis.",
         'newUser.last_name.required' => "Le prénom de l'utilisateur est requis.",
-        'newUser.id_card.required' => "Le numéro d'identité de l'utilisateur est requis.",
-        'newUser.id_card.unique' => "Le numéro de la carde d'identité a déjà été pris.",
-        'newUser.birthday.required' => "La date de naissance de l'utilisateur est requise.",
         'newUser.email.required' => "L'adresse mail de l'utilisateur est requis.",
         'newUser.email.unique' => "L'adresse mail a déjà été prise.",
         'newUser.email.numeric' => "Le numéro de téléphone ne doit pas avoir de lettre.",
         'newUser.rib.numeric' => "Le rib ne doit pas avoir de lettre.",
         'newUser.rib.digits' => "Le rib doit avoir 24 chiffres.",
-        'newUser.phone.required' => "Le numéro de téléphone de l'utilisateur est requis.",
-        'newUser.type_virement.required' => "La date du contrat est requise.",
         'newUser.type_contract.required' => "Le type du contrat est requis.",
         'newUser.company.required' => "La société est requise.",
-        'newUser.base_salary.required' => "Le salaire de base de l'utilisateur est requis.",
         'editUser.first_name.required' => "Le nom de l'utilisateur est requis.",
         'editUser.last_name.required' => "Le prénom de l'utilisateur est requis.",
-        'editUser.id_card.required' => "Le numéro d'identité de l'utilisateur est requis.",
-        'editUser.id_card.unique' => "Le numéro de la carde d'identité a déjà été pris.",
-        'editUser.birthday.required' => "La date de naissance de l'utilisateur est requise.",
         'editUser.email.required' => "L'adresse mail de l'utilisateur est requis.",
         'editUser.email.unique' => "L'adresse mail a déjà été prise.",
         'editUser.email.numeric' => "Le numéro de téléphone ne doit pas avoir de lettre.",
         'editUser.rib.numeric' => "Le rib ne doit pas avoir de lettre.",
         'editUser.rib.digits' => "Le rib doit avoir 24 chiffres.",
-        'editUser.phone.required' => "Le numéro de téléphone de l'utilisateur est requis.",
-        'editUser.type_virement.required' => "La date du contrat est requise.",
         'editUser.type_contract.required' => "Le type du contrat est requis.",
         'editUser.company.required' => "La société est requise.",
-        'editUser.base_salary.required' => "Le salaire de base de l'utilisateur est requis.",
     ];
 
     public function render()
@@ -109,35 +97,35 @@ class Users extends Component
             return [
                 'editUser.first_name' => 'required',
                 'editUser.last_name' => 'required',
-                'editUser.id_card' => 'required',
-                'editUser.birthday' => 'required',
-                'editUser.phone' => 'required|numeric',
+                'editUser.id_card' => 'nullable',
+                'editUser.birthday' => 'nullable',
+                'editUser.phone' => 'nullable|numeric',
                 'editUser.email' => 'required|email',
-                'editUser.type_virement' => 'required',
+                'editUser.type_virement' => 'nullable',
                 'editUser.type_contract' => 'required',
                 'editUser.duration_contract' => 'nullable',
                 'editUser.rib' => 'nullable|numeric|digits:24',
                 'editUser.date_contract' => 'nullable',
                 'editUser.group' => 'nullable',
                 'editUser.company' => 'required',
-                'editUser.base_salary' => 'required|numeric',
+                'editUser.base_salary' => 'nullable|numeric',
             ];
         }
         return [
             'newUser.first_name' => 'required',
             'newUser.last_name' => 'required',
-            'newUser.id_card' => 'required|unique:users,id_card',
-            'newUser.birthday' => 'required',
-            'newUser.phone' => 'required|numeric',
+            'newUser.id_card' => 'nullable|unique:users,id_card',
+            'newUser.birthday' => 'nullable',
+            'newUser.phone' => 'nullable|numeric',
             'newUser.email' => 'required|email|unique:users,email',
-            'newUser.type_virement' => 'required',
+            'newUser.type_virement' => 'nullable',
             'newUser.type_contract' => 'required',
             'newUser.rib' => 'nullable|numeric|digits:24',
             'newUser.date_contract' => 'nullable',
             'newUser.duration_contract' => 'nullable',
             'newUser.group' => 'nullable',
             'newUser.company' => 'required',
-            'newUser.base_salary' => 'required|numeric',
+            'newUser.base_salary' => 'nullable|numeric',
         ];
     }
 
@@ -187,12 +175,11 @@ class Users extends Component
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Rôles mis à jour avec succès!"]);
     }
 
-    //affiche les informations
+
     public function goToEditUser($id)
     {
         $this->resetValidation();
         $this->editUser = User::find($id)->toArray();
-        /* $this->updatedNewUserCompany($this->editUser['company']); */
         $this->currentPage = PAGEEDITFORM;
     }
 
@@ -203,12 +190,11 @@ class Users extends Component
 
     public function addUser()
     {
-        // Vérifier que les informations sont correctes
         $validationAttributes = $this->validate();
         $validationAttributes["newUser"]["password"] =  bcrypt("password");
-        //Ajouter un nouvel utilisateur
+        
         $user = User::create($validationAttributes["newUser"]);
-        // Assign the default "agent" role to the user
+        
         $agentRole = Role::where('name', 'agent')->first();
         if ($agentRole) {
             $user->roles()->attach($agentRole->id);
@@ -222,12 +208,13 @@ class Users extends Component
 
     public function updateUser()
     {
-        // Vérifier que les informations sont correctes
+        
         $validationAttributes = $this->validate();
 
         User::find($this->editUser["id"])->update($validationAttributes["editUser"]);
         AbsSalary();
 
+        $this->goToListeUser();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Utilisateur mise à jour avec succès!"]);
     }
 

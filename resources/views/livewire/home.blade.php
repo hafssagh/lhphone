@@ -41,19 +41,17 @@
                     <ul class="days" style="margin-top:-10px"></ul>
                 </div>
             </div>
-
         </div>
-       <br>
-       <a href="../assets/Règlement interne.pdf" target="_blank" rel="noopener noreferrer" class="fw-bold text-primary">
-        Règlement interne
-    </a>
+        <br>
+        <a href="../assets/Règlement interne.pdf" target="_blank" rel="noopener noreferrer"
+            class="fw-bold text-primary">
+            Réglement interne
+        </a>
     </div>
-    
+
     <div class="col-md-5 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Cadres</h4>
-
                 <div class="row">
                     @foreach ($userDirecteur as $userdirecteur)
                         <div class="d-flex justify-content-between ">
@@ -69,8 +67,6 @@
                         </div>
                     @endforeach
                 </div>
-
-
                 <div class="row">
                     @foreach ($userManager as $usermanager)
                         <div class="col-md-6" style=" margin-left: -2px; margin-top: 1em;">
@@ -91,7 +87,6 @@
                         </div>
                     @endforeach
                 </div>
-
                 <div class="row">
                     @foreach ($userAdmin as $useradmin)
                         <div class="col-md-6" style=" margin-left: -2px; margin-top: 1em;">
@@ -130,11 +125,22 @@
                         </div>
                     @endforeach
                 </div>
-
+                <div class="row">
+                    <div style=" margin-left: -2px; margin-top: 1em;">
+                        <div style="display: flex; align-items: center;">
+                            <img class="rounded" src="../assets/images/user2.png"
+                                style="height: 50px; width: 50px; ">
+                            <div style="margin-left: 15px ; margin-bottom: 0; width:150px">
+                                <P class="fw-bold" style="margin-bottom: 0;">Chargée ressources humaines</P>
+                                <p class="text-truncate" style="margin-bottom: 0;">...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 grid-margin ">
+    <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Agents</h4>
@@ -193,7 +199,8 @@
                                     @endif
                                     <br>
                                     <div style="margin-left: 15px;">
-                                        <p class="text-truncate" style="margin-bottom: 0;">{{ $userAll->last_name }}
+                                        <p class="text-truncate" style="margin-bottom: 0; width:150px">
+                                            {{ $userAll->last_name }}
                                             {{ $userAll->first_name }}</p>
                                         <div style="display: inline-block;">
                                             @if ($userAll->company == 'h2f')
@@ -204,11 +211,12 @@
                                                     style="height: 23px; width: 25px;display: inline-block;">
                                             @endif
                                             @if ($userAll->group == '1')
-                                                <p style="font-size: 11px; color: blue;display: inline-block;">Equipe
+                                                <p style="font-size: 11px; display: inline-block; color:blue">Equipe
                                                     Chris
                                                     Ezzahra</p>
                                             @elseif ($userAll->group == '2')
-                                                <p style="font-size: 11px; color: red;display: inline-block;">Equipe
+                                                <p class="text-danger" style="font-size: 11px;display: inline-block;">
+                                                    Equipe
                                                     Amine
                                                 </p>
                                             @endif
@@ -223,4 +231,3 @@
         </div>
     </div>
 </div>
-
