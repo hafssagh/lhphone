@@ -1,18 +1,12 @@
 <div wire:ignore.self>
     @if ($currentPage == PAGECREATEFORM)
-        @include('livewire.mail.create')
+        @include('livewire.mail.today.create')
     @endif
     @if ($currentPage == PAGELIST)
-        @include('livewire.mail.liste')
+        @include('livewire.mail.today.liste')
     @endif
     @if ($currentPage == PAGEEDITFORM)
         @include('livewire.mail.edit')
-    @endif
-    @if ($currentPage == PAGEPOPOSWEEK)
-        @include('livewire.mail.proposWeek')
-    @endif
-    @if ($currentPage == PAGEPOPOSMONTH)
-        @include('livewire.mail.proposMonth')
     @endif
 </div>
 

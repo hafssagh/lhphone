@@ -6,10 +6,10 @@
              </div>
 
              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                 <button type="button" class="btn btn-outline-dark" wire:click="goToListPropos"
-                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</button>
-                 <button type="button" class="btn btn-outline-dark" wire:click="goToPropMonth"
-                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</button>
+                 <a href="{{ route('mail') }}" class="btn btn-outline-dark"
+                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</a>
+                 <a href="" class="btn btn-outline-dark"
+                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</a>
              </div>
          </div><br>
          <div class="row">
@@ -22,10 +22,10 @@
              </div>
              <div class="col-md-3">
                  <select class="form-select" wire:model="selectedStatus" wire:change="render" style="font-size: 13px">
-                     <option value="all">Tous les status</option>
-                     <option value="1">Accepté</option>
-                     <option value="-1">Refusé</option>
-                     <option value="3">A rappeler</option>
+                     <option value="all">Tous les statuts</option>
+                     <option value="1">Acceptée</option>
+                     <option value="-1">Refusée</option>
+                     <option value="3">À rappeler</option>
                      <option value="0">Non traitée</option>
                  </select>
              </div>
@@ -41,7 +41,7 @@
                          @endcannot
                          <th>Société</th>
                          <th>Client</th>
-                         <th>Adresse</th>
+                         <th>Statut</th>
                          <th>Date d'envoie</th>
                      </tr>
                  </thead>
@@ -73,7 +73,25 @@
                                      <span class="text-dark">No</span>: {{ $propo->numClient }}
                                  </p>
                              </td>
-                             <td style="padding: 0.6rem;">{{ $propo->adresse }}</td>
+                             <td style="padding: 0.6rem;">
+                                 @if ($propo->state == '-1')
+                                     <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">
+                                         Refusée
+                                     </div>
+                                 @elseif ($propo->state == '1')
+                                     <div class="badge badge-opacity-success" style="background-color: #c8e6c9;">
+                                         Acceptée
+                                     </div>
+                                 @elseif ($propo->state == '0')
+                                     <div class="badge badge-opacity-dark" style="background-color: #cccccc;">
+                                         Non traitée
+                                     </div>
+                                 @elseif ($propo->state == '3')
+                                     <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">
+                                         Rappeler
+                                     </div>
+                                 @endif
+                             </td>
                              <td style="padding: 0.6rem;">
                                  <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $propo->created_at }}</p>
                                  @if ($propo->rappel != null)

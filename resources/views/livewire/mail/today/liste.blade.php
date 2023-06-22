@@ -18,10 +18,10 @@
                 @endcan
             </h4>
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" class="btn btn-outline-dark" wire:click="goToPropWeek"
-                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Semaine</button>
-                <button type="button" class="btn btn-outline-dark" wire:click="goToPropMonth"
-                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</button>
+                <a href="{{ route('mailWeek') }}" class="btn btn-outline-dark"
+                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Semaine</a>
+                <a href="{{(route('mailMonth'))}}" class="btn btn-outline-dark"
+                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</a>
             </div>
         </div><br>
         <div class="calendar">

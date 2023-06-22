@@ -38,13 +38,13 @@ class SendEmail extends Component
     ];
 
     protected $messages = [
-        'emailClient.required' => 'L\'adresse Email du client est requis.',
+        'emailClient.required' => 'L\'adresse Email du client est requise.',
         'emailClient.unique' => 'L\'adresse mail a déjà été prise.',
         'nameClient.required' => 'Le nom complet du client est requis.',
         'numClient.required' => 'Le numéro de téléphone du client est requis.',
         'numClient.numeric' => 'Le numéro de téléphone ne doit pas avoir de lettre.',
-        'adresse.required' => 'L\'adresse est requis.',
-        'company.required' => 'La société est requis.',
+        'adresse.required' => 'L\'adresse est requise.',
+        'company.required' => 'La société est requise.',
     ];
 
     public $today;
@@ -71,66 +71,24 @@ class SendEmail extends Component
         $this->mails = $query->get();
     }
 
-    public function mailValide($id, $state)
-    {
-        $mail = Mails::find($id);
-        $mail->state = $state;
-        $mail->save();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Mise à jour réaliée avec succès!"]);
-        return redirect()->to('/customer/proposal');
-    }
-
 
     public function render()
     {
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
-        $manager = $user->last_name; 
-    
-        $query = Mails::query();
-    
-        if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
-            $query->where('state', $this->selectedStatus);
-        }
-    
-        if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
-            $query->whereMonth('created_at', $this->selectedMonth);
-        }
-    
-        if ($role == 'Agent') {
-            $query->where('user_id', $user->id)
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
-                    });
-                });
-        } else {
-            $query->when($this->search, function ($query, $search) {
-                $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%')
-                        ->orWhere('nameClient', 'like', '%' . $search . '%')
-                        ->orWhere('emailClient', 'like', '%' . $search . '%');
-                });
-            });
-        }
-    
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Essaid') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 2));
-        }
-    
-        $proposition = $query->orderBy('created_at', 'desc')->paginate(9);
-        $Allproposition = $query->orderBy('created_at', 'desc')->without('scopes')->paginate(9);
-
-        return view('livewire.mail.index', ['proposition' => $proposition, 'Allproposition' => $Allproposition])
+        return view('livewire.mail.today.index')
             ->extends("layouts.master")
             ->section("contenu");
     }
     
-    
+    public function goToaddPropos()
+    {
+        $this->currentPage = PAGECREATEFORM;
+    }
+
+    public function goToListPropos()
+    {
+        $this->resetValidation();
+        $this->currentPage = PAGELIST;
+    }
 
     public function sendEmail()
     {
@@ -158,7 +116,7 @@ class SendEmail extends Component
         $pdf2FilePath = Storage::path('PROJECTEURS ET HUBLOTS.pdf');
     
         $emailSent = false;
-        Mail::send('livewire.mail.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
+        Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
                 ->subject($this->subject)
@@ -192,28 +150,6 @@ class SendEmail extends Component
         }
     }
     
-
-
-    public function goToListPropos()
-    {
-        $this->resetValidation();
-        $this->currentPage = PAGELIST;
-    }
-
-    public function goToaddPropos()
-    {
-        $this->currentPage = PAGECREATEFORM;
-    }
-
-    public function goToPropWeek()
-    {
-        $this->currentPage = PAGEPOPOSWEEK;
-    }
-
-    public function goToPropMonth()
-    {
-        $this->currentPage = PAGEPOPOSMONTH;
-    }
 
     public function goToEditMail($id)
     {

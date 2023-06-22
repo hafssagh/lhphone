@@ -5,10 +5,10 @@
                 <h4 class="card-title card-title-dash">Toutes les propositions</h4><br>
             </div>
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" class="btn btn-outline-dark" wire:click="goToListPropos"
-                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</button>
-                <button type="button" class="btn btn-outline-dark" wire:click="goToPropWeek"
-                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Semaine</button>
+                <a href="{{ route('mail') }}" class="btn btn-outline-dark"
+                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</a>
+                <a href="{{ route('mailWeek') }}" class="btn btn-outline-dark"
+                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Semaine</a>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false"
@@ -54,10 +54,10 @@
             </div>
             <div class="col-md-3">
                 <select class="form-select" wire:model="selectedStatus" wire:change="render" style="font-size: 13px">
-                    <option value="all">Tous les status</option>
-                    <option value="1">Accepté</option>
-                    <option value="-1">Refusé</option>
-                    <option value="3">A rappeler</option>
+                    <option value="all">Tous les staturs</option>
+                    <option value="1">Acceptée</option>
+                    <option value="-1">Refusée</option>
+                    <option value="3">À rappeler</option>
                     <option value="0">Non traitée</option>
                 </select>
             </div>
@@ -72,38 +72,59 @@
                         @endcannot
                         <th>Société</th>
                         <th>Client</th>
-                        <th>Adresse</th>
-                        <th>Date </th> 
+                        <th>Statut</th>
+                        <th>Date </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($Allproposition as $Allpropo)
                         <tr>
-                            <td style="padding: 0.6rem;" >
-                                @if ($Allpropo->state == '0')
-                                    <div class="square_table" style="background-color: #c9c6c6;">
-                                @elseif($Allpropo->state == '1')
-                                    <div class="square_table" style="background-color: #84cc88;">
-                                @elseif($Allpropo->state == '-1')
-                                    <div class="square_table" style="background-color: #f5a7a1;">
-                                @elseif($Allpropo->state == '3')
-                                    <div class="square_table" style="background-color: #f3ea6c;">
-                                @endif
+                            <td style="padding: 0.6rem;"><button wire:click="goToEditMail({{ $Allpropo->id }})"
+                                    style="border:none; background-color:white">
+                                    @if ($Allpropo->state == '0')
+                                        <div class="square_table" style="background-color: #c9c6c6;">
+                                        @elseif($Allpropo->state == '1')
+                                            <div class="square_table" style="background-color: #84cc88;">
+                                            @elseif($Allpropo->state == '-1')
+                                                <div class="square_table" style="background-color: #f5a7a1;">
+                                                @elseif($Allpropo->state == '3')
+                                                    <div class="square_table" style="background-color: #f3ea6c;">
+                                    @endif
+                                </button>
                             </td>
                             @cannot('agent')
                                 <td style="padding: 0.6rem;"> {{ $Allpropo->users->last_name }}
                                     {{ $Allpropo->users->first_name }}</td>
                             @endcannot
-                            <td style="padding: 0.6rem;"><strong style="color: rgb(65, 118, 170)">{{ $Allpropo->company }}</strong></td>
+                            <td style="padding: 0.6rem;"><strong
+                                    style="color: rgb(65, 118, 170)">{{ $Allpropo->company }}</strong></td>
                             <td style="padding: 0.6rem;">
-                               <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $Allpropo->nameClient }}</p>
-                               <p class="text-muted" style="margin-bottom: 0;">
-                                   <span class="text-dark">Email</span>: {{ $Allpropo->emailClient }} &nbsp;
-                                   <span class="text-dark">No</span>: {{ $Allpropo->numClient }}
-                               </p>
-                           </td>
-                           <td style="padding: 0.6rem;">{{ $Allpropo->adresse}}</td>
-                           <td style="padding: 0.6rem;">{{ $Allpropo->created_at->format('Y-m-d') }}</td>
+                                <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $Allpropo->nameClient }}</p>
+                                <p class="text-muted" style="margin-bottom: 0;">
+                                    <span class="text-dark">Email</span>: {{ $Allpropo->emailClient }} &nbsp;
+                                    <span class="text-dark">No</span>: {{ $Allpropo->numClient }}
+                                </p>
+                            </td>
+                            <td style="padding: 0.6rem;">
+                                @if ($Allpropo->state == '-1')
+                                    <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">
+                                        Refusée
+                                    </div>
+                                @elseif ($Allpropo->state == '1')
+                                    <div class="badge badge-opacity-success" style="background-color: #c8e6c9;">
+                                        Acceptée
+                                    </div>
+                                @elseif ($Allpropo->state == '0')
+                                    <div class="badge badge-opacity-dark" style="background-color: #cccccc;">
+                                        Non traitée
+                                    </div>
+                                @elseif ($Allpropo->state == '3')
+                                    <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">
+                                        Rappeler
+                                    </div>
+                                @endif
+                            </td>
+                            <td style="padding: 0.6rem;">{{ $Allpropo->created_at->format('Y-m-d') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

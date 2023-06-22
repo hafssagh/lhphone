@@ -2,7 +2,9 @@
 
 use App\Http\Livewire\Home\Home;
 use App\Http\Livewire\User\Users;
+use App\Http\Livewire\Mail\MailWeek;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Mail\MailMonth;
 use App\Http\Livewire\Mail\SendEmail;
 use App\Http\Livewire\Paiment\Salary;
 use Illuminate\Support\Facades\Route;
@@ -56,3 +58,5 @@ Route::get('/user/change-password', ResetPassword::class)->name("profile.update"
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);
 Route::get('/', Home::class)->name("home")->middleware(["auth"]);
 Route::get('/customer/proposal', SendEmail::class)->name("mail")->middleware(["auth"]);
+Route::get('/proposal/week', MailWeek::class)->name("mailWeek")->middleware(["auth"]);
+Route::get('/proposal/month', MailMonth::class)->name("mailMonth")->middleware(["auth"]);
