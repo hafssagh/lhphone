@@ -17,6 +17,13 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="name">Société <span class="text-danger"><strong>*</strong></span></label>
+                                <input type="text" wire:model="company" class="form-control">
+                                @error('company')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="name">Adresse Email <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="email" wire:model="emailClient" class="form-control">
                                 @error('emailClient')
@@ -33,13 +40,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Société <span class="text-danger"><strong>*</strong></span></label>
-                                <input type="text" wire:model="company" class="form-control">
-                                @error('company')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="form-group">
                                 <label for="name">Adresse <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="text" wire:model="adresse" class="form-control">
                                 @error('adresse')
@@ -48,9 +48,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="remark">Remarque</label>
-                                <textarea class="form-control" wire:model="remark" class="form-control" style="height: 100px">
+                                <textarea class="form-control" wire:model="remark" class="form-control" style="height: 120px">
                             </textarea>
                                 @error('remark')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Rappel</label>
+                                <input type="datetime-local" wire:model="rappel" class="form-control">
+                                @error('rappel')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>

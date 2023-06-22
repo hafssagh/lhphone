@@ -5,6 +5,9 @@
     @if ($currentPage == PAGELIST)
         @include('livewire.mail.liste')
     @endif
+    @if ($currentPage == PAGEEDITFORM)
+        @include('livewire.mail.edit')
+    @endif
     @if ($currentPage == PAGEPOPOSWEEK)
         @include('livewire.mail.proposWeek')
     @endif
@@ -12,6 +15,7 @@
         @include('livewire.mail.proposMonth')
     @endif
 </div>
+
 
 <script>
     window.addEventListener('showSuccessMessage', event => {

@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <br>
+        <br><br>
         <a href="../assets/Règlement interne.pdf" target="_blank" rel="noopener noreferrer"
             class="fw-bold text-primary">
             Réglement interne

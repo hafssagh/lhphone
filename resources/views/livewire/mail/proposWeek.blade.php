@@ -48,8 +48,8 @@
                  <tbody>
                      @foreach ($proposition as $propo)
                          <tr>
-                             <td style="padding: 0.6rem;"><button data-toggle="modal"
-                                     data-target="#exampleModal{{ $propo->id }}" style="border:none; background-color:white">
+                             <td style="padding: 0.6rem;"><button wire:click="goToEditMail({{ $propo->id }})"
+                                     style="border:none; background-color:white">
                                      @if ($propo->state == '0')
                                          <div class="square_table" style="background-color: #c9c6c6;">
                                          @elseif($propo->state == '1')
@@ -61,7 +61,7 @@
                                      @endif
                                  </button> </td>
                              @cannot('agent')
-                                 <td style="padding: 0.6rem;"> {{ $propo->users->last_name }}
+                                 <td style="padding: 0.6rem;">
                                      {{ $propo->users->first_name }}</td>
                              @endcannot
                              <td style="padding: 0.6rem;"><strong
@@ -74,7 +74,14 @@
                                  </p>
                              </td>
                              <td style="padding: 0.6rem;">{{ $propo->adresse }}</td>
-                             <td style="padding: 0.6rem;">{{ $propo->created_at }}</td>
+                             <td style="padding: 0.6rem;">
+                                 <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $propo->created_at }}</p>
+                                 @if ($propo->rappel != null)
+                                     <p class="text-danger" style="margin-bottom: 0;">
+                                         <span class="text-dark">Rappel</span> : {{ $propo->rappel }}
+                                     </p>
+                                 @endif
+                             </td>
                          </tr>
                      @endforeach
                  </tbody>
@@ -89,7 +96,7 @@
      </div>
  </div>
 
- @foreach ($proposition as $propo)
+ {{--  @foreach ($proposition as $propo)
      <div class="modal fade" id="exampleModal{{ $propo->id }}" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
@@ -149,4 +156,4 @@
              </div>
          </div>
      </div>
- @endforeach
+ @endforeach --}}

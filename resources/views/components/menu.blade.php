@@ -29,7 +29,7 @@
                 <span class="menu-title">Gestion utilisateur</span>
             </a>
         </li>
-        @canAny(['admin', 'superadmin'])
+        @canAny(['admin', 'superadmin','manager'])
             <li class="nav-item {{ setMenuActive('resignation.index') }}">
                 <a class="nav-link" href="{{ route('resignation.index') }}">
                     <i class="mdi mdi-logout-variant menu-icon"></i>

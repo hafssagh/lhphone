@@ -13,7 +13,7 @@ class Mails extends Model
     
     public $fillable = [
         "nameClient", "emailClient", "numClient" , "user_id",
-        "adresse", "company", "state" , "remark",
+        "adresse", "company", "state" , "remark", "rappel"
     ];
 
     public function users(){

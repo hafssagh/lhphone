@@ -21,11 +21,13 @@ class SendEmail extends Component
     public $selectedStatus;
     public $data;
 
-    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark;
+    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $rappel;
 
     public $selectedFilter;
 
     public $editProposition;
+
+    public $editMail = [];
 
     protected $rules = [
         'emailClient' => 'required|email|unique:mails,emailClient',
@@ -144,6 +146,7 @@ class SendEmail extends Component
             'company' => $this->company,
             'state' => $this->state = '0',
             'remark' => $this->remark,
+            'rappel' => $this->rappel,
         ];
     
         $user = Auth::user();
@@ -210,5 +213,46 @@ class SendEmail extends Component
     public function goToPropMonth()
     {
         $this->currentPage = PAGEPOPOSMONTH;
+    }
+
+    public function goToEditMail($id)
+    {
+        $this->resetValidation();
+        $this->editMail = Mails::with("users")->find($id)->toArray();
+        $this->currentPage = PAGEEDITFORM;
+   
+    }
+    
+    public function updateMail()
+    {
+        $mail = Mails::find($this->editMail["id"]);
+        $mail->fill($this->editMail);
+        $mail->save();
+
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Formulaire mise à jour avec succès!"]);
+        return redirect()->to('/customer/proposal');
+    }
+
+
+    public function PropoRefuse()
+    {
+        Mails::find($this->editMail["id"])->update(["state" => "-1"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "La proposition a été refusé!"]);
+        return redirect()->to('/customer/proposal');
+    }
+
+    
+    public function PropoAccepter()
+    {
+        Mails::find($this->editMail["id"])->update(["state" => "1"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "La proposition a été accepté!"]);
+        return redirect()->to('/customer/proposal');
+    }
+
+    public function Rappeler()
+    {
+        Mails::find($this->editMail["id"])->update(["state" => "3"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Rappeler le client!"]);
+        return redirect()->to('/customer/proposal');
     }
 }
