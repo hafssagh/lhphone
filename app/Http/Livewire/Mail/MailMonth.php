@@ -26,7 +26,6 @@ class MailMonth extends Component
     public $editProposition;
 
     public $editMail = [];
-    public $today;
     public $mails;
 
     public function render()

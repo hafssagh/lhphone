@@ -42,7 +42,7 @@
                         &nbsp;Nouvel utilisateur</button>
                 </div>
             </div>
-            <div class="table">
+            <div class="table-container">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -53,9 +53,10 @@
                                 <th class="text-center">Société</th>
                             @endcanAny
                             <th class="text-center">Email</th>
+
+                            <th class="text-center">No téléphone</th>
                             @can('manager')
-                                <th class="text-center">Groupe</th>
-                                <th class="text-center">Salaire</th>
+                                <th class="text-center">Nom de prod.</th>
                             @endcan
                             <th class="text-center">Ajouté</th>
                             <th class="text-center">Action</th>
@@ -73,12 +74,13 @@
                                     <td style="padding: 0.5rem;"> <img src="../assets/images/user.png"></td>
                                 @endif
                                 @if (count($user->resignations) > 0)
-                                    <td style="padding: 0.5rem;"><del> {{ $user->last_name }}
+                                    <td style="padding: 0.5rem;"> <del> {{ $user->last_name }}
                                             {{ $user->first_name }}</del>
                                         <p class="text-danger">A quitté</p>
                                     </td> <br>
                                 @else
-                                    <td style="padding: 0.5rem;"> {{ $user->last_name }} {{ $user->first_name }}
+                                    <td style="padding: 0.5rem;"> <strong>{{ $user->last_name }}
+                                            {{ $user->first_name }}</strong>
                                 @endif
                                 @canAny(['admin', 'superadmin'])
                                     <td style="padding: 0.5rem;">{{ $user->allRoleName }}</td>
@@ -92,18 +94,14 @@
                                         @endif
                                     </td>
                                 @endcanAny
-                                <td class="text-center" style="padding: 0.5rem;">{{ $user->email }}</td>
+                                <td style="padding: 0.5rem;" class="text-center"> {{ $user->email }}</td>
+                                <td class="text-center text-muted" style="padding: 0.5rem;">
+                                    {{ $user->phone }}
+                                </td>
                                 @can('manager')
-                                    <td class="text-center" style="padding: 0.5rem;">
-                                        @if ($user->group == '1')
-                                            <div class="badge badge-opacity-primary">Equipe Chris Ezzahra</div>
-                                        @else
-                                            <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">
-                                                Equipe Amine
-                                            </div>
-                                        @endif
+                                    <td class="text-center" style="padding: 0.5rem; color:#4176AA">
+                                        <strong>{{ $user->nom_prod }}</strong>
                                     </td>
-                                    <td class="text-center" style="padding: 0.5rem;">{{ $user->base_salary }} DH</td>
                                 @endcan
                                 <td class="text-center" style="padding: 0.5rem;">
                                     {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>

@@ -63,6 +63,16 @@
                     </div>
                 </div>
             </div><br>
+            @if ($suspension->isNotEmpty())
+                <div class="col-lg-12 ">
+                    @foreach ($suspension as $s)
+                        <div class="alert alert-danger" role="alert">
+                            Suspendu du &nbsp; <a class="alert-link"> {{ $s->date_debut }} </a> &nbsp; jusqu'au &nbsp; <a class="alert-link">
+                                {{ $s->date_fin }} </a>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
             <div class="col-lg-8 ">
                 <div class="card">
                     <div class="card-body">
@@ -74,7 +84,8 @@
                                 </tr>
                                 <tr>
                                     <th style="padding: 0.5rem;">Heures de travail </th>
-                                    <th style="font-weight: lighter;  padding: 0.5rem; ">{{ $this->workHours() }}
+                                    <th style="font-weight: lighter;  padding: 0.5rem; ">
+                                        {{ auth()->user()->work_hours }}
                                         <strong> &nbsp;/ &nbsp; {{ calculerHeuresTravailParMois() }}</strong>
                                     </th>
                                 </tr>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Suspension;
 use App\Models\Resignation;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -64,6 +65,10 @@ class User extends Authenticatable
         return $this->hasMany(Resignation::class);
     }
 
+    public function suspensions(){
+        return $this->hasMany(Suspension::class);
+    }
+
     public function absences(){
         return $this->hasMany(Absence::class);
     }
@@ -72,4 +77,7 @@ class User extends Authenticatable
         return $this->hasMany(Sale::class);
     }
 
+    public function mails(){
+        return $this->hasMany(Mails::class);
+    }
 }

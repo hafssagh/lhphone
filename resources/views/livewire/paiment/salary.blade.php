@@ -32,7 +32,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center">Agent</th>
+                            <th class="text-center">Salarié</th>
                             <th class="text-center">Salaire de base</th>
                             <th class="text-center">Salaire par jour</th>
                             <th class="text-center">Mode de paiement</th>
@@ -69,7 +69,7 @@
                                             style="color : #4DA761;  margin-bottom:2px ">
                                             <circle cx="8" cy="8" r="8"/>
                                         </svg>
-                                            &nbsp; Espèce
+                                            &nbsp; Espèce&nbsp; &nbsp; 
                                         </div>
                                     @endif
                                 </td>

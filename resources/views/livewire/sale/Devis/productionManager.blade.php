@@ -20,8 +20,9 @@
                          <tbody>
                              @foreach ($users as $user)
                                  <tr>
-                                     <td  style="padding: 0.7rem; min-width: 50px; max-width: 147px;" class="text-truncate" >
-                                        <strong>{{ $user->first_name }} </strong></td>
+                                     <td style="padding: 0.7rem; min-width: 50px; max-width: 147px;" class="text-truncate">
+                                         <strong>{{ $user->first_name }} </strong>
+                                     </td>
                                      @php
                                          $totalSalesCount = 0;
                                          $totalSalesCountMonth = 0;
@@ -61,6 +62,14 @@
                                                  ->where('abs_hours', -1)
                                                  ->first();
                                              
+                                             $suspension = $suspension1
+                                                 ->where('user_id', $user->id)
+                                                 ->where('date_debut', '<=', $date)
+                                                 ->where('date_fin', '>=', $date)
+                                                 ->first();
+                                             
+                                             $backgroundColor8 = $suspension ? 'background-color: #d32f2f ; color: #d32f2f' : '';
+                                             
                                              $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
                                              $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
                                              $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
@@ -72,7 +81,7 @@
                                              $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                          @endphp
                                          <td style="padding: 0.7rem; border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px; 
-                                {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }};"
+                                {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }}; {{ $backgroundColor8 }}"
                                              class="text-center">
                                              <strong>{{ $salesCount }}</strong>
                                          </td>
@@ -215,8 +224,9 @@
                          <tbody>
                              @foreach ($users2 as $user2)
                                  <tr>
-                                     <td style="padding: 0.5rem; min-width: 50px; max-width: 147px;" class="text-truncate" >
-                                        <strong>{{ $user2->first_name }}</strong> </td>
+                                     <td style="padding: 0.5rem; min-width: 50px; max-width: 147px;" class="text-truncate">
+                                         <strong>{{ $user2->first_name }}</strong>
+                                     </td>
                                      @php
                                          $totalSalesCount = 0;
                                          $totalSalesCountMonth = 0;
@@ -257,6 +267,14 @@
                                                  ->where('abs_hours', -1)
                                                  ->first();
                                              
+                                             $suspension = $suspension2
+                                                 ->where('user_id', $user2->id)
+                                                 ->where('date_debut', '<=', $date)
+                                                 ->where('date_fin', '>=', $date)
+                                                 ->first();
+                                             
+                                             $backgroundColor8 = $suspension ? 'background-color: #d32f2f ; color: #d32f2f' : '';
+                                             
                                              $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
                                              $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
                                              $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
@@ -268,7 +286,7 @@
                                              $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                          @endphp
                                          <td style="padding: 0.5rem ;padding: 0.5rem ;border: 4px solid rgb(253, 253, 253);background-color: #ececec; {{ $backgroundColor }}; border-radius:15px; 
-                                {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }};"
+                                {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }}; {{ $backgroundColor8 }}"
                                              class="text-center">
                                              <strong>{{ $salesCount }}</strong>
                                          </td>
@@ -386,7 +404,7 @@
                                      @endforeach
                                      @php
                                          $object = $obj->objective;
-                                         $grandTotal += $salesCount;;
+                                         $grandTotal += $salesCount;
                                          $remainingDaysCount = count($weekDates) - 2;
                                          $reste = $object * $remainingDaysCount;
                                          $total = $reste - $grandTotal;

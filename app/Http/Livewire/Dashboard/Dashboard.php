@@ -5,8 +5,10 @@ namespace App\Http\Livewire\Dashboard;
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
+use App\Models\Mails;
 use App\Models\Absence;
 use Livewire\Component;
+use App\Models\Suspension;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +50,7 @@ class Dashboard extends Component
         $users = $usersQuery->paginate(13);
 
         $currentMonth = Carbon::now()->format('Y-m');
+        $currentDate = Carbon::now();
         $weekDates = fetchWeekDates();
         $monthDates = fetchMonthDates();
 
@@ -55,7 +58,32 @@ class Dashboard extends Component
             $totalAbsenceDays = Absence::where('user_id', $user->id)
                 ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
                 ->sum('abs_hours');
-            $user->totalAbsenceDays = $totalAbsenceDays;
+
+            $suspension = Suspension::where('user_id', $user->id)
+                ->where(function ($query) use ($currentMonth) {
+                    $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                        ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+                })
+                ->first();
+
+            if ($suspension) {
+                $dateStart = Carbon::parse($suspension->date_debut);
+                $dateEnd = Carbon::parse($suspension->date_fin);
+
+                $numberOfHours = 0;
+                $date = $currentDate->copy();
+
+                while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
+                    if (!$date->isWeekend() && $date->lte($dateEnd)) {
+                        $numberOfHours += 8;
+                    }
+                    $date->subDay();
+                }
+            } else {
+                $numberOfHours = 0;
+            }
+
+            $user->absenceHours = $totalAbsenceDays + $numberOfHours;
 
             $sumQuantity = Sale::where('user_id', $user->id)
                 ->whereIn('date_confirm', $weekDates)
@@ -145,13 +173,6 @@ class Dashboard extends Component
 
         $sumQuantity2 = Sale::where('state', '1')
             ->whereIn('date_confirm', $monthDates)
-            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
-                $query->whereHas('users', fn ($q) => $q->where('group', 1));
-            })
-            ->sum('quantity');
-
-        $sumQuantity2 = Sale::where('state', '1')
-            ->whereIn('date_confirm', $monthDates)
             ->when($manager == 'Essaid', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 2));
             })
@@ -165,11 +186,33 @@ class Dashboard extends Component
         $monthDates = fetchMonthDates();
         $sumGrp1 = User::where('group', '1')->count();
         $sumGrp2 = User::where('group', '2')->count();
-        $sumEnAtt = Sale::where('state', '2')->count();
-        $sumEnCours = Sale::where('state', '3')->count();
+
+        $user = Auth::user();
+        $manager = $user->last_name;
+        $today = date('Y-m-d');
+
+        if ($manager == 'Essaid') {
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', '1')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', '1')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+        } else {
+            /* $sumEnAtt = Sale::where('state', '2')->count(); */
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', '1')->count();
+            $sumEnCours = Sale::where('state', '3')->count();
+            $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->count();
+            $propoNon = Mails::where('state', '0')->count();
+        }
+
+
         $sumRefusé = Sale::where('state', '-1')->whereIn('date_confirm', $monthDates)->count();
         $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();
         $sumS = Sale::where('state',  '2')->orWhere('state',  '3')->whereIn('date_sal', $monthDates)->count();
-        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS];
+        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $propoNon];
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Absence;
 use Livewire\Component;
 use App\Models\Objective;
 use App\Models\Resignation;
+use App\Models\Suspension;
 
 class Produit extends Component
 {
@@ -24,6 +25,9 @@ class Produit extends Component
 
     public $resignation;
     public $resignation2;
+
+    public $suspension1;
+    public $suspension2;
 
     public $objectiveA;
     public $objectiveB;
@@ -86,9 +90,20 @@ class Produit extends Component
             ->groupBy('user_id')
             ->get();
 
+        $this->suspension1 = Suspension::select('user_id', 'date_debut', 'date_fin')
+            ->join('users', 'suspension.user_id', '=', 'users.id')
+            ->where('users.group', '1')
+            ->groupBy('user_id', 'date_debut', 'date_fin')
+            ->get();
+
+        $this->suspension2 = Suspension::select('user_id', 'date_debut', 'date_fin')
+            ->join('users', 'suspension.user_id', '=', 'users.id')
+            ->where('users.group', '2')
+            ->groupBy('user_id', 'date_debut', 'date_fin')
+            ->get();
+
         $this->weekDates = fetchWeekDates();
         $this->months = fetchMonthWeeks();
-      
     }
     public function render()
     {

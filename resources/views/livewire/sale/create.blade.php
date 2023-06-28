@@ -27,7 +27,7 @@
                     </div>
                 @endif <br>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6"><br>
                         @can('agent')
                             <div class="form-group row mb-1">
                                 <label for="name" class="col-sm-2 col-form-label">Agent</label>
@@ -38,7 +38,8 @@
                         @endcan
                         @canAny(['manager', 'superadmin'])
                             <div class="form-group row mb-1">
-                                <label class="col-sm-2 col-form-label">Agent <span class="text-danger"><strong>*</strong></span></label>
+                                <label class="col-sm-2 col-form-label">Agent <span
+                                        class="text-danger"><strong>*</strong></span></label>
                                 <div class="col-sm-8">
                                     <select wire:model="newSale.user"
                                         class="form-control bg-white text-black @error('newSale.user') is-invalid @enderror"
@@ -53,37 +54,35 @@
                             </div>
                         @endcanAny
                         <div class="form-group row mb-1">
-                            <label for="name_client" class="col-sm-2 col-form-label">Société <span class="text-danger"><strong>*</strong></span> </label>
+                            <label for="name_client" class="col-sm-2 col-form-label">Société <span
+                                    class="text-danger"><strong>*</strong></span> </label>
                             <div class="col-sm-8">
-                                <input type="text"
-                                    class="form-control @error('newSale.name_client') is-invalid @enderror"
-                                    id="name_client" wire:model="newSale.name_client">
+                                <select wire:model="newSale.name_client"
+                                    class="form-control bg-white text-black @error('newSale.name_client') is-invalid @enderror"
+                                    id="name_client">
+                                    <option value=""></option>
+                                    @foreach ($mails as $mail)
+                                        <option value="{{ $mail->company }}">
+                                            {{ $mail->company }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label">Email <span><strong class="text-danger">*</strong></span> </label>
-                            <div class="col-sm-8">
-                                <input type="text" wire:model="newSale.mail_client"
-                                    class="form-control @error('newSale.mail_client') is-invalid @enderror">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label" style="font-size: 0.796rem;">Numéro <span><strong class="text-danger">*</strong></span> </label>
-                            <div class="col-sm-8">
-                                <input type="text" wire:model="newSale.phone_client"
-                                    class="form-control @error('newSale.phone_client') is-invalid @enderror">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Qantité <span class="text-danger"><strong>*</strong></span></label>
+                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Qantité <span
+                                    class="text-danger"><strong>*</strong></span></label>
                             <div class="col-sm-8">
                                 <input type="number" wire:model="newSale.quantity"
                                     class="form-control
                         @error('newSale.quantity') is-invalid @enderror">
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="card-description">
+                            Détails commande
+                          </p>
                         <div class="form-group">
                             <div style="display: flex;">
                                 <div class="col-md-6">
@@ -148,15 +147,6 @@
                                     </div>
                                     <div class="form-group"
                                         style="margin-bottom: 0; display: flex; align-items: center;">
-                                        <label class="col-sm-4">Réglettes:</label>
-                                        <div class="col-sm-8">
-                                            <input
-                                                class="form-control detail @error('newSale.reglette') is-invalid @enderror"
-                                                wire:model="newSale.reglette" type="number" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group"
-                                        style="margin-bottom: 0; display: flex; align-items: center;">
                                         <label class="col-sm-4">Pommeaux:</label>
                                         <div class="col-sm-8">
                                             <input
@@ -166,20 +156,29 @@
                                     </div>
                                     <div class="form-group"
                                         style="margin-bottom: 0; display: flex; align-items: center;">
-                                        <label class="col-sm-4">Spot picket:</label>
-                                        <div class="col-sm-8">
-                                            <input
-                                                class="form-control detail @error('newSale.spot') is-invalid @enderror"
-                                                wire:model="newSale.spot" type="number" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group"
-                                        style="margin-bottom: 0; display: flex; align-items: center;">
                                         <label class="col-sm-4">Mousseurs:</label>
                                         <div class="col-sm-8">
                                             <input
                                                 class="form-control detail @error('newSale.mousseurs') is-invalid @enderror"
                                                 wire:model="newSale.mousseurs" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group"
+                                        style="margin-bottom: 0; display: flex; align-items: center;">
+                                        <label class="col-sm-4">Réglettes:</label>
+                                        <div class="col-sm-8">
+                                            <input
+                                                class="form-control detail @error('newSale.reglette') is-invalid @enderror"
+                                                wire:model="newSale.reglette" type="number" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"
+                                        style="margin-bottom: 0; display: flex; align-items: center;">
+                                        <label class="col-sm-4">Spot picket:</label>
+                                        <div class="col-sm-8">
+                                            <input
+                                                class="form-control detail @error('newSale.spot') is-invalid @enderror"
+                                                wire:model="newSale.spot" type="number" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group"

@@ -4,8 +4,10 @@ namespace App\Http\Livewire\Production\Devis;
 
 use App\Models\Sale;
 use App\Models\User;
+use App\Models\Mails;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DevisEnCours extends Component
@@ -24,62 +26,118 @@ class DevisEnCours extends Component
     use WithPagination;
     protected $paginationTheme = "bootstrap";
 
-    protected $rules = [
-        'newSale.user' => 'required',
-        'newSale.quantity' => 'required',
-        'newSale.name_client' => 'required',
-        'newSale.mail_client' => 'required',
-        'newSale.phone_client' => 'required',
-    ];
-    protected $messages = [
-        'newSale.user.required' => "Le nom complet de l'agent est requis.",
-        'newSale.quantity.required' => "La quantité est requise.",
-        'newSale.name_client.required' => "Le nom de la société est requise.",
-        'newSale.mail_client.required' => "L'adresse Email du client est requise.",
-        'newSale.phone_client.required' => "Le numéro de téléphone du client est requise.",
-    ];
-
     public function render()
     {
         $user = Auth::user();
         $manager = $user->last_name;
-
-        $query = Sale::orderBy('date_sal', 'desc')
-            ->whereNotIn('state', ['1', '-1'])
-            ->when($this->state, fn ($q, $state) => $q->where('state', $state))
+    
+        $query = Sale::select('sales.*')
+            ->join('mails', 'mails.user_id', '=', 'sales.user_id')
+            ->orderBy('sales.date_sal', 'desc')
+            ->whereNotIn('sales.state', ['1', '-1'])
+            ->when($this->state, fn ($q, $state) => $q->where('sales.state', $state))
             ->when($this->search, fn ($q, $search) => $q->whereHas(
                 'users',
-                fn ($q) =>
-                $q->where('first_name', 'like', "%$search%")
-                    ->orWhere('last_name', 'like', "%$search%")
-                    ->orWhere('name_client', 'like', "%$search%")
-            ));
-
-        $usersQuery = User::select('id', 'first_name', 'last_name')
-            ->where('company', 'lh')
+                fn ($q) => $q->where('users.first_name', 'like', "%$search%")
+                    ->orWhere('users.last_name', 'like', "%$search%")
+                    ->orWhere('sales.name_client', 'like', "%$search%")
+            ))->latest();
+    
+        $selectedUserId = $this->newSale;
+    
+        $usersQuery = User::join('mails', 'mails.user_id', '=', 'users.id')
+            ->select('users.id', 'users.first_name', 'users.last_name')
+            ->where('users.company', 'lh')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
-            })->orderBy('last_name');
-
+            })
+            ->orderBy('last_name')
+            ->when($selectedUserId, function ($query, $selectedUserId) {
+                $query->where('users.id', $selectedUserId);
+            });
+    
+        $mailsQuery = Mails::where('user_id', $selectedUserId)->where('state','1')->latest()->get();
+    
+        // Disable ONLY_FULL_GROUP_BY mode
+        DB::statement('SET sql_mode=(SELECT REPLACE(@@sql_mode, "ONLY_FULL_GROUP_BY", ""));');
+    
         if ($manager == 'EL MESSIOUI') {
-            $users = $usersQuery->get();
-            $sales = $query->latest()->paginate(7);
+            $users = $usersQuery->groupBy('users.id')->get();
+            $sales = $query->groupBy('sales.id')->paginate(7);
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $users = $usersQuery->where('group', 1)->get();
+            $users = $usersQuery->where('group', 1)->groupBy('users.id')->get();
             $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
-                ->latest()
+                ->groupBy('sales.id')
                 ->paginate(7);
         } elseif ($manager == 'Essaid') {
-            $users = $usersQuery->where('group', 2)->get();
+            $users = $usersQuery->where('group', 2)->groupBy('users.id')->get();
             $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))
-                ->latest()
+                ->groupBy('sales.id')
                 ->paginate(7);
         }
-        
-        return view('livewire.sale.devis.devisEncours', ["sales" => $sales, "users" => $users])
+    
+        return view('livewire.sale.devis.devisEncours', [
+            "sales" => $sales, "users" => $users, 'mails' => $mailsQuery,
+        ])
             ->extends("layouts.master")
             ->section("contenu");
     }
+    
+
+    public function addNewSale()
+    {
+        $this->validate([
+            'newSale.user' => 'required',
+            'newSale.quantity' => 'required',
+            'newSale.name_client' => 'required|unique:sales,name_client',
+        ], [
+            'newSale.user.required' => "Le nom complet de l'agent est requis.",
+            'newSale.quantity.required' => "La quantité est requise.",
+            'newSale.name_client.required' => "Le nom de la société est requis.",
+            'newSale.name_client.unique' => "Le nom de la société doit être unique.",
+        ]);
+    
+        $mails = Mails::where('company', $this->newSale["name_client"])->first();
+    
+        $sale = new Sale;
+        $sale->user_id = $this->newSale["user"];
+        $sale->quantity = $this->newSale["quantity"];
+        $sale->state = $this->newSale["state"] = "2";
+        $sale->date_sal = $this->newSale["date_sal"] = date('Y-m-d');
+        $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
+        $sale->name_client = $this->newSale["name_client"];
+        $sale->mail_client = $mails->emailClient ?? null;
+        $sale->phone_client = $mails->numClient ?? null;
+        $sale->un = $this->newSale["un"] ?? null;
+        $sale->deux = $this->newSale["deux"] ?? null;
+        $sale->trois = $this->newSale["trois"] ?? null;
+        $sale->cinq = $this->newSale["cinq"] ?? null;
+        $sale->dix = $this->newSale["dix"] ?? null;
+        $sale->hublots = $this->newSale["hublots"] ?? null;
+        $sale->reglette = $this->newSale["reglette"] ?? null;
+        $sale->pommeaux = $this->newSale["pommeaux"] ?? null;
+        $sale->mousseurs = $this->newSale["mousseurs"] ?? null;
+        $sale->tube = $this->newSale["tube"] ?? null;
+        $sale->spot = $this->newSale["spot"] ?? null;
+        $sale->remark = $this->newSale["remark"] ?? null;
+    
+        $sale->save();
+    
+        $this->goToListeSales();
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Une nouvelle vente a été ajoutée avec succès!"]);
+    }
+    
+
+
+    public function toggleShowAddForm($id)
+    {
+        if ($this->selectedId === $id) {
+            $this->selectedId = null;
+        } else {
+            $this->selectedId = $id;
+        }
+    }
+
 
     public function filterState($state = null)
     {
@@ -144,46 +202,5 @@ class DevisEnCours extends Component
     {
         $this->newSale = "";
         $this->currentPage = PAGECREATEFORM;
-    }
-
-    public function addNewSale()
-    {
-        $this->validate();
-        $sale = new Sale;
-        $sale->user_id  = $this->newSale["user"];
-        $sale->quantity = $this->newSale["quantity"];
-        $sale->state = $this->newSale["state"] = "2";
-        $sale->date_sal = $this->newSale["date_sal"] = date('Y-m-d');
-        $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
-        $sale->name_client = $this->newSale["name_client"];
-        $sale->mail_client = $this->newSale["mail_client"];
-        $sale->phone_client = $this->newSale["phone_client"];
-        $sale->un = $this->newSale["un"] ?? null;
-        $sale->deux = $this->newSale["deux"] ?? null;
-        $sale->trois = $this->newSale["trois"] ?? null;
-        $sale->cinq = $this->newSale["cinq"] ?? null;
-        $sale->dix = $this->newSale["dix"] ?? null;
-        $sale->hublots = $this->newSale["hublots"] ?? null;
-        $sale->reglette = $this->newSale["reglette"] ?? null;
-        $sale->pommeaux = $this->newSale["pommeaux"] ?? null;
-        $sale->mousseurs = $this->newSale["mousseurs"] ?? null;
-        $sale->tube = $this->newSale["tube"] ?? null;
-        $sale->spot = $this->newSale["spot"] ?? null;
-        $sale->remark = $this->newSale["remark"] ?? null;
-
-        $sale->save();
-
-        $this->goToListeSales();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Une nouvelle vente a été ajoutée avec succès!"]);
-    }
-
-
-    public function toggleShowAddForm($id)
-    {
-        if ($this->selectedId === $id) {
-            $this->selectedId = null;
-        } else {
-            $this->selectedId = $id;
-        }
     }
 }

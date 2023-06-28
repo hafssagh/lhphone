@@ -124,7 +124,7 @@
                                     </div>
                                 @endif
                             </td>
-                            <td style="padding: 0.6rem;">{{ $Allpropo->created_at->format('Y-m-d') }}</td>
+                            <td style="padding: 0.6rem;"><strong>{{ $Allpropo->created_at->format('Y-m-d') }}</strong></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -133,8 +133,5 @@
                 {{ $Allproposition->links() }}
             </div>
         </div>
-    </div>
-    <div class="card-footer">
-
     </div>
 </div>

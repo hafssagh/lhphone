@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Production;
 
 use App\Models\Sale;
+use App\Models\Mails;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Sales extends Component
@@ -18,34 +20,42 @@ class Sales extends Component
 
     protected $rules = [
         'newSale.quantity' => 'required',
-        'newSale.name_client' => 'required',
-        'newSale.mail_client' => 'required',
-        'newSale.phone_client' => 'required',
+        'newSale.name_client' => 'required|unique:sales,name_client',
     ];
     protected $messages = [
         'newSale.quantity.required' => "La quantité est requise.",
-        'newSale.name_client.required' => "Le nom de la société est requise.",
-        'newSale.mail_client.required' => "L'adresse Email du client est requise.",
-        'newSale.phone_client.required' => "Le numéro de téléphone du client est requise.",
+        'newSale.name_client.required' => "Le nom de la société est requise.", 
+        'newSale.name_client.unique' => "Le nom de la société doit être unique.",
     ];
 
     public function render()
     {
-
         $user = Auth::user();
 
-        $sales = Sale::where('user_id', $user->id)->orderBy('date_sal', 'desc')
-        ->when($this->search, function ($query, $search) {
-            return $query->whereHas('users', function ($query) use ($search) {
-                $query->where('name_client', 'like', '%' . $search . '%');
-            });
-        })
-        ->get();
-
-        return view('livewire.sale.index', ["sales" => $sales])
+        DB::statement('SET sql_mode=(SELECT REPLACE(@@sql_mode, "ONLY_FULL_GROUP_BY", ""));');
+        
+        $sales = Sale::select('sales.*')
+            ->join('mails', 'mails.user_id', '=', 'sales.user_id')
+            ->where('sales.user_id', $user->id)
+            ->orderBy('sales.date_sal', 'desc')
+            ->groupBy('sales.id')
+            ->when($this->search, function ($query, $search) {
+                return $query->whereHas('users', function ($query) use ($search) {
+                    $query->where('sales.name_client', 'like', '%' . $search . '%');
+                });
+            })
+            ->latest()
+            ->paginate(7);
+    
+        $selectedUserId = $user->id;
+        $mailsQuery = Mails::where('user_id', $selectedUserId)->where('state','1') ->latest()->get();
+    
+        return view('livewire.sale.index', ["sales" => $sales, 'mails' => $mailsQuery])
             ->extends("layouts.master")
             ->section("contenu");
     }
+    
+    
 
     public function filterState($state = null)
     {
@@ -67,6 +77,7 @@ class Sales extends Component
     public function addNewSale()
     {
         $this->validate();
+        $mails = Mails::where('company', $this->newSale["name_client"])->first();
         $userId = Auth::user()->id;
         $sale = new Sale;
         $sale->quantity = $this->newSale["quantity"];
@@ -74,8 +85,8 @@ class Sales extends Component
         $sale->date_sal = $this->newSale["date_sal"] = date('Y-m-d');
         $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
         $sale->name_client = $this->newSale["name_client"];
-        $sale->mail_client = $this->newSale["mail_client"];
-        $sale->phone_client = $this->newSale["phone_client"];
+        $sale->mail_client = $mails->emailClient ?? null;
+        $sale->phone_client = $mails->numClient ?? null;
         $sale->un = $this->newSale["un"] ?? null;
         $sale->deux = $this->newSale["deux"] ?? null;
         $sale->trois = $this->newSale["trois"] ?? null;

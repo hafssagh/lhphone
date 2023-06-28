@@ -15,7 +15,6 @@ class MailWeek extends Component
     public $currentPage = PAGEPOPOSWEEK;
 
     public $search = "";
-    public $selectedMonth;
     public $selectedStatus;
     public $data;
 
@@ -26,7 +25,6 @@ class MailWeek extends Component
     public $editProposition;
 
     public $editMail = [];
-    public $today;
     public $mails;
 
     public function render()
@@ -58,6 +56,7 @@ class MailWeek extends Component
                         ->orWhere('emailClient', 'like', '%' . $search . '%');
                 });
             });
+            
         }
     
         if ($manager == 'ELMOURABIT' || $manager == 'By') {

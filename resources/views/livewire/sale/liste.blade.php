@@ -79,7 +79,7 @@
                                 </p>
                             </td>
                             @if ($sale->state == '2')
-                                <td>
+                                <td style="padding: 0.3rem;" class="text-center">
                                     <a href="javascript:;" class="btn btn-sm btn-icon"
                                         wire:click="editSale({{ $sale->id }})">
                                         <span class="svg-icon svg-icon-md">
@@ -93,6 +93,8 @@
                                         </span>
                                     </a>
                                 </td>
+                            @else
+                                <td style="padding: 0.3rem;"></td>
                             @endif
                     @endforeach
                 </tbody>

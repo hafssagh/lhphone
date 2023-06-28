@@ -9,40 +9,15 @@
                 <!-- form fields for step 3 -->
                 <br>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label">Agentt</label>
-                            <div class="col-sm-10">
-                                <select wire:model="editSale.user_id" class="form-control bg-white text-black">
-                                    <option value="{{ $editSale['user_id'] }}">
-                                        {{ $editSale['users']['first_name'] }}
-                                        {{ $editSale['users']['last_name'] }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-1">
-                            <label for="name_client" class="col-sm-2 col-form-label">Société</label>
-                            <div class="col-sm-10">
-                                <input type="text"
-                                    class="form-control @error('editSale.name_client') is-invalid @enderror"
-                                    id="name_client" wire:model="editSale.name_client">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" wire:model="editSale.mail_client"
-                                    class="form-control @error('editSale.mail_client') is-invalid @enderror">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label">Numéro</label>
-                            <div class="col-sm-10">
-                                <input type="text" wire:model="editSale.phone_client"
-                                    class="form-control @error('editSale.phone_client') is-invalid @enderror">
-                            </div>
-                        </div>
+                    <div class="col-md-6"><br>
+                        <span> <strong class="title">Agent :</strong> {{ $editSale['users']['first_name'] }}
+                            {{ $editSale['users']['last_name'] }}</span> <br>
+                        <strong class="title">Société :</strong> <span
+                            class="text" >{{ $editSale['name_client'] }}</span><br>
+                        <strong class="title">No de téléphone :</strong> <span
+                            class="text">{{ $editSale['phone_client'] }}</span> <br>
+                        <strong class="title">Adresse Email :</strong> <span
+                            class="text">{{ $editSale['mail_client'] }}</span>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row mb-1">
@@ -100,7 +75,21 @@
                                         <label class="col-sm-4">Hublots:</label>
                                         <div class="col-sm-8">
                                             <input class="form-control detail @error('editSale.hublots') is-invalid @enderror"
-                                                   wire:model="editSale.hublots" type="number" disabled>
+                                                   wire:model="editSale.hublots" type="number" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
+                                        <label class="col-sm-4">Pommeaux:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control detail @error('editSale.mousseurs') is-invalid @enderror"
+                                                   wire:model="editSale.mousseurs" type="number" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
+                                        <label class="col-sm-4">Mousseurs:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control detail @error('editSale.reglette') is-invalid @enderror"
+                                                   wire:model="editSale.reglette" type="number">
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
@@ -111,24 +100,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
-                                        <label class="col-sm-4">Pommeaux:</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control detail @error('editSale.mousseurs') is-invalid @enderror"
-                                                   wire:model="editSale.mousseurs" type="number" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                                         <label class="col-sm-4">Spot picket:</label>
                                         <div class="col-sm-8">
                                             <input class="form-control detail @error('editSale.spot') is-invalid @enderror"
                                                    wire:model="editSale.spot" type="number" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
-                                        <label class="col-sm-4">Mousseurs:</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control detail @error('editSale.reglette') is-invalid @enderror"
-                                                   wire:model="editSale.reglette" type="number" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">

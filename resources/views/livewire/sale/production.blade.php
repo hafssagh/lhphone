@@ -1,12 +1,12 @@
 <div style="background-color: rgb(218, 213, 213)">
-    <br><br><br>
+    <br><br><br><br><br><br>
     <div class="text-center">
         <img src="/assets/images/production.png" alt="" style="height:300px">
     </div>
     <br><br><br><br>
     <div class="content-wrapper" style=" background-color: rgb(218, 213, 213)">
         <div class="row">
-            <div class="col-5 grid-margin">
+            <div class="col-6 grid-margin">
                 <div class="card" style="">
                     <div class="card-body d-flex justify-content-center">
                         <table class="table table-borderless">
@@ -68,6 +68,14 @@
                                                     ->where('abs_hours', -1)
                                                     ->first();
                                                 
+                                                $suspension = $suspension1
+                                                    ->where('user_id', $user->id)
+                                                    ->where('date_debut', '<=', $date)
+                                                    ->where('date_fin', '>=', $date)
+                                                    ->first();
+                                                
+                                                $backgroundColor8 = $suspension ? 'background-color: #d32f2f ; color: #d32f2f' : '';
+                                                
                                                 $backgroundColor2 = $absenceUser ? 'background-color: #f0f046 ' : '';
                                                 $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
                                                 $backgroundColor6 = $absenceUserDemi ? 'background-color: #f59445 ' : '';
@@ -79,7 +87,7 @@
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
                                             <td style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color:#c4c3c3 ; {{ $backgroundColor }}; border-radius:15px;
-                                         {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }}"
+                                         {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }}; {{ $backgroundColor8 }}"
                                                 class="text-center">
                                                 <strong>{{ $salesCount }}</strong>
                                             </td>
@@ -197,7 +205,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-5 grid-margin ">
+            <div class="col-6 grid-margin ">
                 <div class="card">
                     <div class="card-body d-flex justify-content-center">
                         <table class="table table-borderless">
@@ -216,7 +224,7 @@
                             <tbody>
                                 @foreach ($users2 as $user2)
                                     <tr>
-                                        <td style="font-size: 35px; min-width: 50px; max-width: 250px;"
+                                        <td style="font-size: 35px; min-width: 50px; max-width: 200px;"
                                             class="text-truncate">
                                             <strong>{{ $user2->first_name }}</strong>
                                         </td>
@@ -260,6 +268,14 @@
                                                     ->where('abs_hours', -1)
                                                     ->first();
                                                 
+                                                $suspension = $suspension2
+                                                    ->where('user_id', $user2->id)
+                                                    ->where('date_debut', '<=', $date)
+                                                    ->where('date_fin', '>=', $date)
+                                                    ->first();
+                                                
+                                                $backgroundColor8 = $suspension ? 'background-color: #d32f2f ; color: #d32f2f' : '';
+                                                
                                                 $backgroundColor2 = $absenceUser ? 'background-color: #f0f046 ' : '';
                                                 $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
                                                 $backgroundColor6 = $absenceUserDemi ? 'background-color: #f59445 ' : '';
@@ -271,7 +287,7 @@
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
                                             <td style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #c4c3c3;{{ $backgroundColor }}; border-radius:15px;
-                                         {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }};"
+                                         {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }}; {{ $backgroundColor8 }}"
                                                 class="text-center">
                                                 <strong>{{ $salesCount }}</strong>
                                             </td>
@@ -399,7 +415,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 grid-margin">
+            {{-- <div class="col-2 grid-margin">
                 <div class="card">
                     <div class="card-body d-flex justify-content-center">
                         <table class="table table-borderless">
@@ -454,20 +470,20 @@
                 <div class="text-center">
                     <img src="/assets/images/slogan.png" style=" height:300px;">
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="row">
-            <div class="col-5 grid-margin">
+            <div class="col-6 grid-margin">
                 <div class="text-center">
                     <img src="/assets/images/lh.png" style="height:400px">
                 </div>
             </div>
-            <div class="col-5 grid-margin">
+            <div class="col-6 grid-margin">
                 <div class="text-center">
-                    <img src="/assets/images/h2f.png" style=" height:400px">
+                    <img src="/assets/images/h2f.png" style=" height:385px">
                 </div>
             </div>
-        </div>
+        </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
 </div>
 

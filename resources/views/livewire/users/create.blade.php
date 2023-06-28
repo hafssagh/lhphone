@@ -143,7 +143,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Salaire brut</label>
+                            <label>Salaire net</label>
                             <div class="input-group mb-3">
                                 <input type="text" wire:model="newUser.base_salary"
                                     class="form-control @error('newUser.base_salary') is-invalid @enderror">

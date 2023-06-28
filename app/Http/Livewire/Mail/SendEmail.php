@@ -137,7 +137,6 @@ class SendEmail extends Component
         });
     
         if ($emailSent) {
-            // Save email information to the database
             Mails::create($data);
     
             $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
@@ -156,7 +155,6 @@ class SendEmail extends Component
         $this->resetValidation();
         $this->editMail = Mails::with("users")->find($id)->toArray();
         $this->currentPage = PAGEEDITFORM;
-   
     }
     
     public function updateMail()

@@ -5,6 +5,7 @@ use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
 
+use App\Models\Suspension;
 use App\Exports\PrimeExport;
 use App\Exports\SalaryExport;
 use App\Exports\ChallengeExport;
@@ -31,7 +32,7 @@ function exportChallenge()
     if ($dayOfWeek !== 7) {
         return;
     }
- 
+
     $file = 'C:/Users/hp/Desktop/salary.xlsx';
 
     $spreadsheet = new Spreadsheet();
@@ -71,7 +72,7 @@ function exportChallenge()
     $annee = date('Y');
 
     $today = new DateTime();
-    $weekOfMonth = ceil($today->format('j') / 7);
+    $weekOfMonth = ceil(($today->format('j') - 1) / 7) + 1;
 
     $style = [
         'font' => [
@@ -87,7 +88,7 @@ function exportChallenge()
     $cellStart = 'A' . $nextRow;
     $cellEnd = 'E' . $nextRow;
 
-    $sheet->setCellValue('A' . $nextRow, "Les challenge de la  $weekOfMonth ème semaine : $mois  $annee");
+    $sheet->setCellValue('A' . $nextRow, "Les challenges de la  $weekOfMonth ème semaine : $mois  $annee");
     switch ($weekOfMonth) {
         case 1:
             echo "st";
@@ -97,6 +98,10 @@ function exportChallenge()
             break;
         case 3:
             echo "rd";
+            break;
+        case 4:
+        case 5:
+            echo "th";
             break;
         default:
             echo "th";
@@ -144,12 +149,12 @@ function exportChallenge()
 
 function exportPrime()
 {
-      $today = date('Y-m-d');
+    $today = date('Y-m-d');
     $lastDayOfMonth = date('Y-m-t');
 
-     if ($today !== $lastDayOfMonth) {
+    if ($today !== $lastDayOfMonth) {
         return;
-    }  
+    }
 
     $file = 'C:/Users/hp/Desktop/salary.xlsx';
 
@@ -248,7 +253,7 @@ function exportSalary()
 
     if ($today !== $lastDayOfMonth) {
         return;
-    } 
+    }
 
     $file = 'C:/Users/hp/Desktop/salary.xlsx';
 
@@ -467,16 +472,45 @@ function fetchMonthWeeks()
 function workHours()
 {
     $users = User::all();
-    $currentMonth = Carbon::now()->format('Y-m');
+    $currentDate = Carbon::now();
+    $currentMonth = $currentDate->format('Y-m');
+
     foreach ($users as $user) {
         $totalAbsenceDays = Absence::where('user_id', $user->id)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
             ->sum('abs_hours');
+
+        $suspension = Suspension::where('user_id', $user->id)
+            ->where(function ($query) use ($currentMonth) {
+                $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                    ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+            })
+            ->first();
+
+        if ($suspension) {
+            $dateStart = Carbon::parse($suspension->date_debut);
+            $dateEnd = Carbon::parse($suspension->date_fin);
+
+            $numberOfHours = 0;
+            $date = $currentDate->copy();
+
+            while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
+                if (!$date->isWeekend() && $date->lte($dateEnd)) {
+                    $numberOfHours += 8;
+                }
+                $date->subDay();
+            }
+        } else {
+            $numberOfHours = 0;
+        }
+
         $workHours = calculerHeuresTravail();
-        $user->work_hours = $workHours - $totalAbsenceDays;
+        $user->work_hours = $workHours - $totalAbsenceDays - $numberOfHours;
         $user->save();
     }
 }
+
+
 
 
 function AbsSalary()
