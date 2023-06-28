@@ -6,7 +6,57 @@
                     <h4 class="card-title">Formulaire de création d'une nouvelle vente</h4>
                     <label class="text-end float-end" wire:click.prevent='goToListeSales()'>X</label>
                 </div>
-
+                <br><br>
+                <div class="md-stepper-horizontal ">
+                    <div class="md-step active">
+                        <div class="md-step-circle"><span>1</span></div>
+                        <div class="md-step-title">Propo envoyée</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>2</span></div>
+                        <div class="md-step-title">Cmd confirmée</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>3</span></div>
+                        <div class="md-step-title">Devis envoyé</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>4</span></div>
+                        <div class="md-step-title">Devis signé</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>5</span></div>
+                        <div class="md-step-title">En attent. livraison</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>6</span></div>
+                        <div class="md-step-title">Livré</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>7</span></div>
+                        <div class="md-step-title">AH envoyé</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div class="md-step">
+                        <div class="md-step-circle"><span>8</span></div>
+                        <div class="md-step-title">AH signé</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <h5>
@@ -82,7 +132,7 @@
                     <div class="col-md-6">
                         <p class="card-description">
                             Détails commande
-                          </p>
+                        </p>
                         <div class="form-group">
                             <div style="display: flex;">
                                 <div class="col-md-6">

@@ -1,11 +1,9 @@
-<div wire:ignore.self>
-    @if ($currentPage == PAGEEDITFORM)
-        @include('livewire.mail.edit')
-    @endif
-    @if ($currentPage == PAGEPOPOSMONTH)
-        @include('livewire.mail.month.proposMonth')
-    @endif
-</div>
+@if ($currentPage == PAGEEDITFORM)
+@include('livewire.mail.edit')
+@endif
+@if ($currentPage == PAGEPOPOSALL)
+@include('livewire.mail.all.proposAll')
+@endif
 
 <script>
     window.addEventListener('showSuccessMessage', event => {

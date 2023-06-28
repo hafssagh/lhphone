@@ -3,71 +3,92 @@
         <div class="d-sm-flex justify-content-between align-items-start">
             <div>
                 <h4 class="card-title card-title-dash">Liste des ventes</h4><br>
-                <div class="input-group">
-                    <input type="text" class="form-control" wire:model.debounce.250ms='search'
-                        placeholder="Rechercher ...">
-                    <span class="input-group-text"><i class="icon-search"></i></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" wire:model.debounce.250ms="search" placeholder="Rechercher ...">
+                            <span class="input-group-text"><i class="icon-search"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <form wire:submit.prevent="render">
+                            <select class="form-select" wire:model="selectedStatus" wire:change="render"  id="selectedStatus" style="font-size: 13px">
+                                <option value="all">Tous les statut</option>
+                                <option value="2">Cmd confirmée</option>
+                                <option value="3">Devis envoyé</option>
+                                <option value="1">Devis signé</option>
+                                <option value="-1">Devis refusé</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
             </div>
-                <div>
-                    <button class="btn btn-lg text-black mb-0 me-0" type="button" wire:click="goToaddSale"
-                        style="font-size: 14px; line-height: 18px; padding: 8px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                        </svg>
-                        &nbsp;Nouvelle vente</button>
-                </div>
+            <div>
+                <button class="btn btn-lg text-black mb-0 me-0" type="button" wire:click="goToaddSale"
+                    style="font-size: 14px; line-height: 18px; padding: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                    </svg>
+                    &nbsp;Nouvelle vente</button>
+            </div>
         </div><br>
         <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
+                        <th></th>
+                        <th><span style=" margin-left:20px">Agent</span></th>
                         <th class="text-center">Quantité</th>
                         <th class="text-center">Date de vente</th>
                         <th class="text-center">Statut</th>
                         <th class="text-center">Date de confirm.</th>
                         <th>Société</th>
-                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($sales as $sale)
                         <tr>
+                            <td style="padding: 0.6rem;"><button wire:click="editSale({{ $sale->id }})"
+                                    style="border:none; background-color:white">
+                                    @if ($sale->state == '2')
+                                        <div class="square_table" style="background-color: #c9c6c6;">
+                                        @elseif($sale->state == '3')
+                                            <div class="square_table" style="background-color: #f3ea6c;">
+                                            @elseif($sale->state == '1')
+                                                <div class="square_table" style="background-color: #84cc88;"
+                                                @elseif($sale->state == '-1') <div class="square_table"
+                                                    style="background-color: #f5a7a1;" @endif
+                                </button> </td>
+                            <td style="padding: 0.3rem;">
+                                <span style=" margin-left:20px">{{ $sale->users->first_name }}</span>
+                            </td>
                             <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
                             <td style="padding: 0.3rem;" class="text-center">{{ $sale->date_sal }}</td>
                             <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2')
-                                    <p class="blinking-text" style="color: #0dcaf0;">En attente d'envoi</p>
+                                    <div class="badge badge-opacity-dark" style="background-color: #cccccc;">En attente
+                                        d'envoi</div>
                                 @elseif($sale->state == '3')
-                                    <p class="blinking-text">Devis envoyé</p>
-                                @elseif ($sale->state == '1')
-                                    <div style="color:#198754">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                        </svg>
-                                    </div>
-                                @elseif ($sale->state == '-1')
-                                    <div style="color:#DC3545">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-                                        </svg>
-                                    </div>
+                                    <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">Devis
+                                        envoyé</div>
+                                @elseif($sale->state == '1')
+                                    <div class="badge badge-opacity-success" style="background-color: #c8e6c9;">Devis
+                                        signé</div>
+                                @elseif($sale->state == '-1')
+                                    <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">Devis
+                                        refusé</div>
                                 @endif
                             </td>
                             <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2' || $sale->state == '3')
-                                    <div class="spinner-border text-info" role="status"
+                                    <div class="spinner-border text-dark" role="status"
                                         style="width:16px ;height:16px">
                                         <span class="sr-only"></span>
                                     </div>
-                                @else
+                                @elseif($sale->state == '1' || $sale->state == '-1')
                                     {{ $sale->date_confirm }}
                                 @endif
                             </td>
@@ -78,29 +99,12 @@
                                     <span class="text-dark">No</span>: {{ $sale->phone_client }}
                                 </p>
                             </td>
-                            @if ($sale->state == '2')
-                                <td style="padding: 0.3rem;" class="text-center">
-                                    <a href="javascript:;" class="btn btn-sm btn-icon"
-                                        wire:click="editSale({{ $sale->id }})">
-                                        <span class="svg-icon svg-icon-md">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                <path fill-rule="evenodd"
-                                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </td>
-                            @else
-                                <td style="padding: 0.3rem;"></td>
-                            @endif
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
             <div class="float-end">
-                {{-- {{ $sales->links() }} --}}
+                {{ $sales->links() }}
             </div>
         </div>
     </div>
@@ -108,3 +112,15 @@
 
     </div>
 </div>
+<script>
+    window.addEventListener('showSuccessMessage', event => {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            toast: 'success',
+            title: event.detail.message || "Opération effectuée avec succès",
+            showConfirmButton: false,
+            timer: 5000
+        })
+    });
+</script>

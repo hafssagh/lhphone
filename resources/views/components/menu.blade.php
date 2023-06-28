@@ -118,25 +118,15 @@
         </div>
     </li>
     @endcannot
-    @canAny(['manager', 'superadmin'])
-      <li class="nav-item ">
-            <a class="nav-link collapse" data-bs-toggle="collapse" href="#devis" aria-expanded="false"
-                aria-controls="devis">
+    @cannot('admin')
+        <li class="nav-item  {{ setMenuActive('sales.index') }}">
+            <a class="nav-link" href="{{ route('sales.index') }}">
                 <i class="mdi mdi-chart-line menu-icon"></i>
-                <span class="menu-title">Gestion Devis</span>
-                <i class="menu-arrow" style="color: grey"></i>
+                <span class="menu-title">Gestion Vente</span>
             </a>
-            <div class="collapse" id="devis">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('devisOnProcess') }}">
-                            En cours de traitement</a>
-                    </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('devisEndProcess') }}">
-                            Traitement achevé</a>
-                    </li>
-                </ul>
-            </div>
         </li>
+    @endcan
+    @canAny(['manager', 'superadmin'])
         <li class="nav-item  {{ setMenuActive('production2') }}">
             <a class="nav-link" href="{{ route('production2') }}">
                 <div class="text-center ">
@@ -145,12 +135,4 @@
             </a>
         </li>
     @endcanAny
-    @can('agent')
-        <li class="nav-item  {{ setMenuActive('sales.index') }}">
-            <a class="nav-link" href="{{ route('sales.index') }}">
-                <i class="mdi mdi-chart-line menu-icon"></i>
-                <span class="menu-title">Gestion Vente</span>
-            </a>
-        </li>
-    @endcan
 </ul>

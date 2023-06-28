@@ -110,7 +110,7 @@ class Produit extends Component
         $this->objectiveA = Objective::where('group', '1')->get();
         $this->objectiveB = Objective::where('group', '2')->get();
 
-        return view('livewire.sale.Devis.productionManager', [
+        return view('livewire.sale.productionManager', [
             'weekDates' => $this->weekDates,
             'months' => $this->months,
             'objective' => $this->objectiveA,

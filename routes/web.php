@@ -2,9 +2,8 @@
 
 use App\Http\Livewire\Home\Home;
 use App\Http\Livewire\User\Users;
-use App\Http\Livewire\Mail\MailWeek;
+use App\Http\Livewire\Mail\MailAll;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Livewire\Mail\MailMonth;
 use App\Http\Livewire\Mail\SendEmail;
 use App\Http\Livewire\Paiment\Salary;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +21,6 @@ use App\Http\Livewire\Paiment\ChallengePrime;
 use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Explic\MailExplic;
 use App\Http\Livewire\Resignation\Resignations;
-use App\Http\Livewire\Production\Devis\DevisEnCours;
-use App\Http\Livewire\Production\Devis\DevisTraitées;
 use App\Http\Livewire\Suspension\Suspensions;
 
 /*
@@ -53,14 +50,11 @@ Route::get('/dashboard', Dashboard::class)->name("dashboard");
 Route::get('/dashboardRH', DashRH::class)->name("dashRH");
 Route::get('/dashboardAgent', DashboardAgent::class)->name("dashAgent");
 Route::get('/sales', Sales::class)->name("sales.index");
-Route::get('/devis/onProcess', DevisEnCours::class)->name("devisOnProcess");
-Route::get('/devis/endProcess', DevisTraitées::class)->name("devisEndProcess");
 Route::get('/fetch', Production::class)->name("production");
 Route::get('/production', Produit::class)->name("production2");
 Route::get('/profile/absence', Myliste::class)->name("absence.myliste");
 Route::get('/user/change-password', ResetPassword::class)->name("profile.update")->middleware(["auth"]);
 Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["auth"]);
 Route::get('/customer/proposal', SendEmail::class)->name("mail");
-Route::get('/proposal/week', MailWeek::class)->name("mailWeek");
-Route::get('/proposal/month', MailMonth::class)->name("mailMonth");
+Route::get('/proposal/all', MailAll::class)->name("mailAll");
 Route::get('/mailExplic', MailExplic::class)->name("mailExplic");

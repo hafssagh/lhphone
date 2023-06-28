@@ -7,14 +7,15 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
-class MailWeek extends Component
+class MailAll extends Component
 {
     use WithPagination;
     protected $paginationTheme = "bootstrap";
 
-    public $currentPage = PAGEPOPOSWEEK;
+    public $currentPage = PAGEPOPOSALL;
 
     public $search = "";
+    public $selectedMonth;
     public $selectedStatus;
     public $data;
 
@@ -38,7 +39,11 @@ class MailWeek extends Component
         if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
             $query->where('state', $this->selectedStatus);
         }
-    
+        
+        if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
+            $query->whereMonth('created_at', $this->selectedMonth);
+        }
+
         if ($role == 'Agent') {
             $query->where('user_id', $user->id)
                 ->when($this->search, function ($query, $search) {
@@ -67,7 +72,7 @@ class MailWeek extends Component
     
         $proposition = $query->orderBy('created_at', 'desc')->paginate(9);
 
-        return view('livewire.mail.week.indexWeek', ['proposition' => $proposition])
+        return view('livewire.mail.all.indexAll', ['proposition' => $proposition])
             ->extends("layouts.master")
             ->section("contenu");
     }
@@ -75,7 +80,7 @@ class MailWeek extends Component
     public function goToListPropos()
     {
         $this->resetValidation();
-        $this->currentPage = PAGEPOPOSWEEK;
+        $this->currentPage = PAGEPOPOSALL;
     }
 
     public function goToEditMail($id)
@@ -93,7 +98,7 @@ class MailWeek extends Component
         $mail->save();
 
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Formulaire mise à jour avec succès!"]);
-        return redirect()->to('/proposal/week');
+        return redirect()->to('/proposal/all');
     }
 
 
@@ -101,7 +106,7 @@ class MailWeek extends Component
     {
         Mails::find($this->editMail["id"])->update(["state" => "-1"]);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "La proposition a été refusé!"]);
-        return redirect()->to('/proposal/week');
+        return redirect()->to('/proposal/all');
     }
 
     
@@ -109,13 +114,13 @@ class MailWeek extends Component
     {
         Mails::find($this->editMail["id"])->update(["state" => "1"]);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "La proposition a été accepté!"]);
-        return redirect()->to('/proposal/week');
+        return redirect()->to('/proposal/all');
     }
 
     public function Rappeler()
     {
         Mails::find($this->editMail["id"])->update(["state" => "3"]);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Rappeler le client!"]);
-        return redirect()->to('/proposal/week');
+        return redirect()->to('/proposal/all');
     }
 }

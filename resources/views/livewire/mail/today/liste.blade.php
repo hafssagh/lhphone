@@ -18,10 +18,8 @@
                 @endcan
             </h4>
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <a href="{{ route('mailWeek') }}" class="btn btn-outline-dark"
-                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Semaine</a>
-                <a href="{{(route('mailMonth'))}}" class="btn btn-outline-dark"
-                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</a>
+                <a href="{{ route('mailAll') }}" class="btn btn-outline-dark"
+                    style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Tous</a>
             </div>
         </div><br>
         <div class="calendar">

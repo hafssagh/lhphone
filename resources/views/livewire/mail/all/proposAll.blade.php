@@ -8,8 +8,39 @@
              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                  <a href="{{ route('mail') }}" class="btn btn-outline-dark"
                      style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</a>
-                 <a href="{{ route('mailMonth') }}" class="btn btn-outline-dark"
-                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Mois</a>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">
+                        Tous
+                    </button>
+                    <ul class="dropdown-menu" style="font-size: 13px" wire:model="selectedMonth" id="selectedMonth">
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', 'all')">Tous</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '01')">Janvier</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '02')">Février</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '03')">Mars</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '04')">Avril</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '05')">Mai</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '06')">Juin</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '07')">Juillet</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '08')">Août</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" wire:click="$set('selectedMonth', '10')">Octobre</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#"
+                                wire:click="$set('selectedMonth', '11')">Novembre</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                wire:click="$set('selectedMonth', '12')">Décembre</a></li>
+                    </ul>
+                </div>
              </div>
          </div><br>
          <div class="row">

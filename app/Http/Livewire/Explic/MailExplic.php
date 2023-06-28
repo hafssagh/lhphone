@@ -61,7 +61,7 @@ class MailExplic extends Component
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
         }
     
-        $explics = $query->orderBy('created_at', 'desc')->paginate(9);
+        $explics = $query->orderBy('created_at', 'desc')->paginate(14);
 
         return view('livewire.explic.index' , ['explics' => $explics])->extends("layouts.master")
             ->section("contenu");

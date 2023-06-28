@@ -194,7 +194,7 @@
                                 <div class="row align-items-center justify-content-center" style="color:#66bb6a">
                                     <div class="col-10">
                                         <p class="mb-0">
-                                            <strong><a href="{{ route('devisOnProcess') }}"
+                                            <strong><a href="{{ route('sales.index') }}"
                                                     style="text-decoration: none;color: inherit;">En savoir
                                                     plus</a></strong>
                                         </p>
@@ -229,7 +229,7 @@
                                 <div class="row align-items-center justify-content-center" style="color:#835db4">
                                     <div class="col-10">
                                         <p class="mb-0">
-                                            <strong><a href="{{ route('devisOnProcess') }}"
+                                            <strong><a href="{{ route('sales.index') }}"
                                                     style="text-decoration: none;color: inherit;">En savoir
                                                     plus</a></strong>
                                         </p>
