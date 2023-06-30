@@ -31576,3 +31576,64 @@ li.day {
   padding: 5px; 
   font-size: 14px; 
 }
+
+.bullet-line-list2 {
+  padding-left: 30px;
+  position: relative;
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
+.rtl .bullet-line-list2 {
+  padding-left: unset;
+  padding-right: 30px;
+}
+
+.bullet-line-list2 li {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.bullet-line-list2 li:last-child {
+  padding-bottom: 0;
+}
+
+.bullet-line-list2 li:before {
+  width: 13px;
+  height: 13px;
+  left: -28px;
+  top: 6px;
+  border: 4px solid  #d0d8f5;
+  margin-right: 15px;
+  z-index: 2;
+  background: #1F3BB3;
+}
+
+.rtl .bullet-line-list2 li:before {
+  left: unset;
+  right: -45px;
+}
+
+.bullet-line-list2 li:before {
+  content: "";
+  position: absolute;
+  border-radius: 100%;
+}
+
+.bullet-line-list2:after {
+  content: "";
+  border: 1px solid #d0d8f5;
+  position: absolute;
+  top: 3px;
+  bottom: 0;
+  left: 7px;
+}
+
+.rtl .bullet-line-list2:after {
+  left: unset;
+  right: 7px;
+}
+
+.bullet-line-list2:last-child:after {
+  display: none;
+}
