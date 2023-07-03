@@ -9,7 +9,7 @@
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">
                         <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><br>Dans le cadre de
                             la nouvelle campagne&nbsp;<b>CEE</b>&nbsp;sur les projecteurs LED&nbsp;en remplacement de
-                            vos éclairages extérieurs, le pollueur &nbsp;<b><i>EDF</i></b>&nbsp;prend totalement en
+                            vos éclairages extérieurs, les pollueurs &nbsp;<b><i>{{-- EDF --}}</i></b>&nbsp;prennent totalement en
                             charge le matériel envoyé.<br>Ce matériel correspond à :<br><br>&nbsp;Des projecteurs
                             LED&nbsp;de 30. 50 ou 100 watts et hublots pour que vous puissiez remplacer tous vos points
                             lumineux extérieurs en façade, typiquement en façade, dans vos allées, parcelles, parkings,
@@ -51,17 +51,17 @@
                         <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">MERCI DE CLIQUER SUR
                             LE LIEN CI-CONTRE POUR REMPLIR VOTRE FICHE DE RENSEIGNEMENT&nbsp; &nbsp;</span><br>
                             <a
-                            href="https://forms.gle/ZoSHJqqTZ727sosZ6"
+                            {{-- href="https://forms.gle/ZoSHJqqTZ727sosZ6" --}} href="https://s2ee.fr/tableau-quantitatif-6"
                             style="font-family:&quot;Segoe Print&quot;;font-size:14.6667px" target="_blank"
-                            >https://forms.gle/<wbr></a>
+                            >{{-- https://forms.gle/ --}} https://s2ee.fr/tableau-quantitatif-6<wbr></a>
                     </p>
                     <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">
                         <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><br></span></p>
-                    <p class="MsoNormal"
+                   {{--  <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">
                         <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><b>OU RENSEIGNER LE
-                                TABLEAU QUANTITATIF EXCEL</b>.&nbsp;</span></p>
+                                TABLEAU QUANTITATIF EXCEL</b>.&nbsp;</span></p> --}}
                     <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">
                         <br></p>
@@ -89,14 +89,13 @@
                                         <div id="m_6754909985627402293m_4653474790419973246m_7615822402829568139m_-8382159689440578240m_-7249257857073012853m_-3107999687320253876m_-8500924796775359784m_-5546292994402292518m_8510688974242243591m_3886146583146010815gmail-:5n"
                                             style="font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:small;line-height:1.5;overflow:hidden">
                                             <div dir="ltr"><span class="gmail_signature_prefix">
-                                                    <font face="times new roman, serif">--</font>
                                                 </span></div>
                                             <div dir="ltr">
                                                 <div dir="ltr" class="gmail_signature">
                                                     <div dir="ltr">
                                                         <div style="margin:8px 0px 0px;padding:0px">
                                                             <div>
-                                                                <div dir="ltr">
+                                                               {{--  <div dir="ltr">
                                                                     <div dir="ltr">
                                                                         <div dir="ltr">
                                                                             <table cellpadding="0" cellspacing="0"
@@ -284,7 +283,8 @@
                                                                             <div class="adL"><br></div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
+                                                                <img src="https://ci3.googleusercontent.com/mail-sig/AIorK4x2If_PR9MF2tfIcqyvyzvwlJ14ETOwgMrtqc3IrIHg7ZjZe7CuwNrsBD391wyL2aOArq3tiW8" class="CToWUd a6T" data-bit="iit" tabindex="0">
                                                             </div>
                                                         </div>
                                                     </div>

@@ -111,12 +111,12 @@ class SendEmail extends Component
         $fromName = $user ?  auth()->user()->nom_prod  : config('mail.from.name');
         $fromAddress = config('mail.from.address');
     
-        $excelFilePath = Storage::path('FICHE QUANTITATIVE.xlsx');
+       /*  $excelFilePath = Storage::path('FICHE QUANTITATIVE.xlsx');
         $pdfFilePath = Storage::path('CATALOGUE ROBINET THERMOSTAT.pdf');
-        $pdf2FilePath = Storage::path('PROJECTEURS ET HUBLOTS.pdf');
+        $pdf2FilePath = Storage::path('PROJECTEURS ET HUBLOTS.pdf'); */
     
         $emailSent = false;
-        Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
+/*         Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
                 ->subject($this->subject)
@@ -134,8 +134,16 @@ class SendEmail extends Component
                 ]);
     
             $emailSent = true;
-        });
+        }); */
     
+        Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
+            $message->from($fromAddress, $fromName)
+                ->to($this->emailClient)
+                ->subject($this->subject);
+    
+            $emailSent = true;
+        });
+
         if ($emailSent) {
             Mails::create($data);
     
