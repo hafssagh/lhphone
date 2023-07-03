@@ -80,4 +80,16 @@ class User extends Authenticatable
     public function mails(){
         return $this->hasMany(Mails::class);
     }
+
+    public function explics(){
+        return $this->hasMany(Explic::class);
+    }
+
+    public function mangerRelances(){
+        return $this->hasMany(ManagerRelance::class);
+    }
+
+    public function agentRelances(){
+        return $this->hasMany(AgentRelance::class);
+    }
 }

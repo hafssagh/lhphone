@@ -21,7 +21,7 @@ class SendEmail extends Component
     public $selectedStatus;
     public $data;
 
-    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $rappel;
+    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $rappel, $send;
 
     public $selectedFilter;
 
@@ -35,6 +35,7 @@ class SendEmail extends Component
         'numClient' => 'required|numeric',
         'adresse' => 'required',
         'company' => 'required',
+        'send' => 'required',
     ];
 
     protected $messages = [
@@ -93,7 +94,7 @@ class SendEmail extends Component
     public function sendEmail()
     {
         $this->validate();
-    
+
         $data = [
             'user_id' => $this->user_id = Auth::user()->id,
             'subject' => $this->subject = "PROJET LED À '' 0 EURO ''",
@@ -105,48 +106,53 @@ class SendEmail extends Component
             'state' => $this->state = '0',
             'remark' => $this->remark,
             'rappel' => $this->rappel,
+            'send' => $this->send,
         ];
-    
+
         $user = Auth::user();
         $fromName = $user ?  auth()->user()->nom_prod  : config('mail.from.name');
         $fromAddress = config('mail.from.address');
-    
-       /*  $excelFilePath = Storage::path('FICHE QUANTITATIVE.xlsx');
+
+        $excelFilePath = Storage::path('FICHE QUANTITATIVE.xlsx');
         $pdfFilePath = Storage::path('CATALOGUE ROBINET THERMOSTAT.pdf');
-        $pdf2FilePath = Storage::path('PROJECTEURS ET HUBLOTS.pdf'); */
-    
+        $pdf2FilePath = Storage::path('PROJECTEURS ET HUBLOTS.pdf');
+
         $emailSent = false;
-/*         Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
-            $message->from($fromAddress, $fromName)
-                ->to($this->emailClient)
-                ->subject($this->subject)
-                ->attach($excelFilePath, [
-                    'as' => 'FICHE QUANTITATIVE.xlsx',
-                    'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                ])
-                ->attach($pdfFilePath, [
-                    'as' => 'CATALOGUE ROBINET THERMOSTAT.pdf',
-                    'mime' => 'application/pdf'
-                ])
-                ->attach($pdf2FilePath, [
-                    'as' => 'PROJECTEURS ET HUBLOTS.pdf',
-                    'mime' => 'application/pdf'
-                ]);
-    
-            $emailSent = true;
-        }); */
-    
-        Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
-            $message->from($fromAddress, $fromName)
-                ->to($this->emailClient)
-                ->subject($this->subject);
-    
-            $emailSent = true;
-        });
+
+        if ($this->send == "rive") {
+            Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
+                $message->from($fromAddress, $fromName)
+                    ->to($this->emailClient)
+                    ->subject($this->subject)
+                    ->attach($excelFilePath, [
+                        'as' => 'FICHE QUANTITATIVE.xlsx',
+                        'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    ])
+                    ->attach($pdfFilePath, [
+                        'as' => 'CATALOGUE ROBINET THERMOSTAT.pdf',
+                        'mime' => 'application/pdf'
+                    ])
+                    ->attach($pdf2FilePath, [
+                        'as' => 'PROJECTEURS ET HUBLOTS.pdf',
+                        'mime' => 'application/pdf'
+                    ]);
+
+                $emailSent = true;
+            });
+        } elseif ($this->send == "s2ee") {
+            Mail::send('livewire.mail.today.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
+                $message->from($fromAddress, $fromName)
+                    ->to($this->emailClient)
+                    ->subject($this->subject);
+
+                $emailSent = true;
+            });
+        }
+
 
         if ($emailSent) {
             Mails::create($data);
-    
+
             $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
             $this->goToListPropos();
             $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);

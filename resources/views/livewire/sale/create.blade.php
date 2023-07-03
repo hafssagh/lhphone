@@ -143,7 +143,7 @@
                                             <div class="col-sm-8">
                                                 <input
                                                     class="form-control detail @error('newSale.un') is-invalid @enderror"
-                                                    wire:model="newSale.un" type="number" disabled>
+                                                    wire:model="newSale.un" type="number">
                                             </div>
                                         </div>
                                         <div class="form-group"
@@ -152,7 +152,7 @@
                                             <div class="col-sm-8">
                                                 <input
                                                     class="form-control detail @error('newSale.deux') is-invalid @enderror"
-                                                    wire:model="newSale.deux" type="number" disabled>
+                                                    wire:model="newSale.deux" type="number">
                                             </div>
                                         </div>
                                         <div class="form-group"
@@ -219,7 +219,7 @@
                                         <div class="col-sm-8">
                                             <input
                                                 class="form-control detail @error('newSale.reglette') is-invalid @enderror"
-                                                wire:model="newSale.reglette" type="number" disabled>
+                                                wire:model="newSale.reglette" type="number">
                                         </div>
                                     </div>
                                     <div class="form-group"
@@ -228,7 +228,7 @@
                                         <div class="col-sm-8">
                                             <input
                                                 class="form-control detail @error('newSale.spot') is-invalid @enderror"
-                                                wire:model="newSale.spot" type="number" disabled>
+                                                wire:model="newSale.spot" type="number">
                                         </div>
                                     </div>
                                     <div class="form-group"
@@ -237,7 +237,7 @@
                                         <div class="col-sm-8">
                                             <input
                                                 class="form-control detail @error('newSale.tube') is-invalid @enderror"
-                                                wire:model="newSale.tube" type="number" disabled>
+                                                wire:model="newSale.tube" type="number">
                                         </div>
                                     </div>
                                 </div>

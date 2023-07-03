@@ -73,7 +73,7 @@
                          <th>Société</th>
                          <th>Client</th>
                          <th>Statut</th>
-                         <th>Date d'envoie</th>
+                         <th>Date d'envoi</th>
                      </tr>
                  </thead>
                  <tbody>

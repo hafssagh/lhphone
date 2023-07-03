@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mails extends Model
+class ManagerRelance extends Model
 {
     use HasFactory;
 
-    protected $table = 'mails';
+    protected $table = 'manager_relances';
     
     public $fillable = [
-        "nameClient", "emailClient", "numClient" , "user_id",
-        "adresse", "company", "state" , "remark", "rappel","send"
+        "company", "nameClient", "emailClient", "numClient" , "user_id",
+        "date_envoie",  "numDevie",  "object",  
     ];
 
     public function users(){

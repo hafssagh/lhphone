@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('company');
             $table->string('state')->nullable(); 
             $table->string('remark')->nullable(); 
-            $table->string('rappel')->nullable(); 
+            $table->string('rappel')->nullable();
+            $table->string('send');  
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

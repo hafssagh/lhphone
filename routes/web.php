@@ -11,6 +11,7 @@ use App\Http\Livewire\Absence\Myliste;
 use App\Http\Livewire\Absence\Absences;
 use App\Http\Livewire\Dashboard\DashRH;
 use App\Http\Livewire\Production\Sales;
+use App\Http\Livewire\Explic\MailExplic;
 use App\Http\Livewire\Absence\Historique;
 use App\Http\Livewire\Production\Produit;
 use App\Http\Livewire\Dashboard\Dashboard;
@@ -18,10 +19,11 @@ use App\Http\Livewire\Profile\UserProfile;
 use App\Http\Livewire\Production\Production;
 use App\Http\Livewire\Profile\ResetPassword;
 use App\Http\Livewire\Paiment\ChallengePrime;
-use App\Http\Livewire\Dashboard\DashboardAgent;
-use App\Http\Livewire\Explic\MailExplic;
-use App\Http\Livewire\Resignation\Resignations;
 use App\Http\Livewire\Suspension\Suspensions;
+use App\Http\Livewire\Dashboard\DashboardAgent;
+use App\Http\Livewire\RelanceAgent\MailAgent;
+use App\Http\Livewire\Resignation\Resignations;
+use App\Http\Livewire\RelanceManger\MailManager;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +60,5 @@ Route::get('/profile', UserProfile::class)->name("user.profile")->middleware(["a
 Route::get('/customer/proposal', SendEmail::class)->name("mail");
 Route::get('/proposal/all', MailAll::class)->name("mailAll");
 Route::get('/mailExplic', MailExplic::class)->name("mailExplic");
+Route::get('/mailRelance', MailManager::class)->name("RelanceManager");
+Route::get('/mailR', MailAgent::class)->name("RelanceAgent");

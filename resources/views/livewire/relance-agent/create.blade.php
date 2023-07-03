@@ -2,8 +2,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <h4 class="card-title">Envoyer une proposition</h4>
+                <div class="d-sm-flex justify-content-between align-items-start">
+                    <h4 class="card-title">Envoyer un mail de relance</h4>
                     <div class="form-group col-3" style="margin-left:-400px">
                         <select class="form-control bg-white text-dark @error('send') is-invalid @enderror" id=""
                             wire:model="send">
@@ -12,65 +12,45 @@
                             <option value="s2ee">S2EE</option>
                         </select>
                     </div>
-                    <label class="text-end float-end" wire:click.prevent='goToListPropos'>X</label>
+                    <label class="text-end float-end" wire:click.prevent='goToListMail'>X</label>
                 </div><br>
                 <form wire:submit.prevent="sendEmail">
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Nom complet client <span
-                                        class="text-danger"><strong>*</strong></span></label>
-                                <input type="text" wire:model="nameClient" class="form-control">
-                                @error('nameClient')
+                                <label for="name">Objet du mail <span class="text-danger"><strong>*</strong></span></label>
+                                <input type="text" wire:model="subject" class="form-control">
+                                @error('subject')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Société <span
-                                        class="text-danger"><strong>*</strong></span></label>
+                                <label for="name">Société <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="text" wire:model="company" class="form-control">
                                 @error('company')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Adresse Email <span
-                                        class="text-danger"><strong>*</strong></span></label>
+                                <label for="name">Adresse Email <span class="text-danger"><strong>*</strong></span></label>
                                 <input type="email" wire:model="emailClient" class="form-control">
                                 @error('emailClient')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="name">No de téléphone <span
-                                        class="text-danger"><strong>*</strong></span></label>
-                                <input type="text" wire:model="numClient" class="form-control">
-                                @error('numClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Adresse <span
-                                        class="text-danger"><strong>*</strong></span></label>
-                                <input type="text" wire:model="adresse" class="form-control">
-                                @error('adresse')
+                                <label for="name">Nom complet client</label>
+                                <input type="text" wire:model="nameClient" class="form-control">
+                                @error('nameClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="remark">Remarque</label>
-                                <textarea class="form-control" wire:model="remark" class="form-control" style="height: 120px">
-                            </textarea>
-                                @error('remark')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Rappel</label>
-                                <input type="datetime-local" wire:model="rappel" class="form-control">
-                                @error('rappel')
+                                <label for="name">No de téléphone</label>
+                                <input type="text" wire:model="numClient" class="form-control">
+                                @error('numClient')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -90,3 +70,4 @@
         </div>
     </div>
 </div>
+

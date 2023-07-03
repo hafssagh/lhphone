@@ -11,7 +11,7 @@
                                  <th style="width: 10px; ">Groupe 1</th>
                                  @foreach ($weekDates as $date)
                                      <th style="font-size: 13px;" class="text-center">
-                                         {{ \Carbon\Carbon::parse($date)->format('m-d') }} </th>
+                                         {{ \Carbon\Carbon::parse($date)->format('d-m') }} </th>
                                  @endforeach
                                  <th class="text-center">Total\S</th>
                                  <th class="text-center">Total\M</th>
@@ -214,7 +214,7 @@
                                  <th>Groupe 2</th>
                                  @foreach ($weekDates as $date)
                                      <th style="font-size:13px" class="text-center">
-                                         {{ \Carbon\Carbon::parse($date)->format('m-d') }}</th>
+                                         {{ \Carbon\Carbon::parse($date)->format('d-m') }}</th>
                                  @endforeach
                                  <th class="text-center"> Objectif</th>
                                  <th class="text-center">Total\S</th>

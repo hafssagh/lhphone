@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Livewire\Explic;
+namespace App\Http\Livewire\RelanceManger;
 
-use App\Models\Explic;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\ManagerRelance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class MailExplic extends Component
+class MailManager extends Component
 {
     public $currentPage = PAGELIST;
     use WithPagination;
     
     protected $paginationTheme = "bootstrap";
     public $search = "";
-    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company;
-
-
+    public $user_id, $subject, $company, $emailClient, $nameClient, $numClient, $date_envoie,
+    $numDevie, $object;
+    
     protected $rules = [
         'emailClient' => 'required|email|unique:mails,emailClient',
         'company' => 'required',
@@ -33,11 +33,10 @@ class MailExplic extends Component
     {
         $user = Auth::user();
         $role = $user->roles->first()->name;
-        $manager = $user->last_name; 
-    
-        $query = Explic::query();
 
-        if ($role == 'Agent') {
+        $query = ManagerRelance::query();
+
+        if ($role == 'Manager') {
             $query->where('user_id', $user->id)
                 ->when($this->search, function ($query, $search) {
                     return $query->whereHas('users', function ($query) use ($search) {
@@ -56,19 +55,14 @@ class MailExplic extends Component
             });
         }
     
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Essaid') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 2));
-        }
-    
-        $explics = $query->orderBy('created_at', 'desc')->paginate(14);
-
-        return view('livewire.explic.index' , ['explics' => $explics])->extends("layouts.master")
-            ->section("contenu");
+        $relances = $query->orderBy('created_at', 'desc')->paginate(14);
+        
+        return view('livewire.relance-manager.index'  , [ "relances" => $relances])
+        ->extends("layouts.master")
+        ->section("contenu");
     }
 
-    public function goToaddMailExplic()
+    public function goToaddMailRelance()
     {
         $this->resetValidation();
         $this->currentPage = PAGECREATEFORM;
@@ -80,12 +74,14 @@ class MailExplic extends Component
     
         $data = [
             'user_id' => $this->user_id = Auth::user()->id,
-            'subject' => $this->subject = "Projet éclairage extérieur en LED à '' 0 EURO ''",
+            'subject' => $this->subject,     
+            'company' => $this->company,
             'nameClient' => $this->nameClient,
             'emailClient' => $this->emailClient,
+            'numDevie' => $this->numDevie,
             'numClient' => $this->numClient,
-            'adresse' => $this->adresse,
-            'company' => $this->company,
+            'date_envoie' => $this->date_envoie,
+            'object' => $this->object,
         ];
     
         $user = Auth::user();
@@ -93,7 +89,7 @@ class MailExplic extends Component
         $fromAddress = config('mail.from.address');
     
         $emailSent = false;
-        Mail::send('livewire.explic.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
+        Mail::send('livewire.relance-manager.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
                 ->subject($this->subject);
@@ -102,7 +98,7 @@ class MailExplic extends Component
         });
     
         if ($emailSent) {
-            Explic::create($data);
+            ManagerRelance::create($data);
     
             $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
             $this->goToListMail();

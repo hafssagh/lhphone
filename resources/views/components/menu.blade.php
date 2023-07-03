@@ -29,22 +29,20 @@
                 <span class="menu-title">Gestion utilisateur</span>
             </a>
         </li>
-        @canAny(['admin', 'superadmin','manager'])
+        @canAny(['admin', 'superadmin', 'manager'])
             <li class="nav-item {{ setMenuActive('resignation.index') }}">
                 <a class="nav-link" href="{{ route('resignation.index') }}">
                     <i class="mdi mdi-logout-variant menu-icon"></i>
                     <span class="menu-title">Gestion Départ</span>
                 </a>
             </li>
-        
+
             <li class="nav-item {{ setMenuActive('suspension.index') }}">
                 <a class="nav-link" href="{{ route('suspension.index') }}">
                     <i class="mdi mdi-calendar-remove menu-icon"></i>
                     <span class="menu-title">Gestion Suspension</span>
                 </a>
             </li>
-            
-            
         @endcanAny
         <li class="nav-item">
             <a class="nav-link collapse" data-bs-toggle="collapse" href="#tables" aria-expanded="false"
@@ -99,24 +97,34 @@
         </li>
     @endcan
     @cannot('admin')
-    <li class="nav-item ">
-        <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
-            aria-controls="email">
-            <i class="menu-icon mdi mdi-email-outline"></i>
-            <span class="menu-title">Gestion Emailing</span>
-            <i class="menu-arrow" style="color: grey"></i>
-        </a>
-        <div class="collapse" id="email">
-            <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ route('mail') }}">
-                        Propositions</a>
-                </li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('mailExplic') }}">
-                        Mails Explicatifs</a>
-                </li>
-            </ul>
-        </div>
-    </li>
+        <li class="nav-item ">
+            <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
+                aria-controls="email">
+                <i class="menu-icon mdi mdi-email-outline"></i>
+                <span class="menu-title">Gestion Emailing</span>
+                <i class="menu-arrow" style="color: grey"></i>
+            </a>
+            <div class="collapse" id="email">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('mail') }}">
+                            Propositions</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('mailExplic') }}">
+                            Mails Explicatifs</a>
+                    </li>
+                    @cannot('agent')
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('RelanceManager') }}">
+                                Mails de Relance</a>
+                        </li>
+                    @endcannot
+                    @can('agent')
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('RelanceAgent') }}">
+                                Mails de Relance</a>
+                        </li>
+                    @endcan
+                </ul>
+            </div>
+        </li>
     @endcannot
     @cannot('admin')
         <li class="nav-item  {{ setMenuActive('sales.index') }}">
@@ -130,7 +138,8 @@
         <li class="nav-item  {{ setMenuActive('production2') }}">
             <a class="nav-link" href="{{ route('production2') }}">
                 <div class="text-center ">
-                <i class="ti-settings menu-icon"></i></div>
+                    <i class="ti-settings menu-icon"></i>
+                </div>
                 <span class="menu-title">Production</span>
             </a>
         </li>
