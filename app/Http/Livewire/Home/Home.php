@@ -18,30 +18,26 @@ class Home extends Component
         $user = Auth::user();
         $manager = $user->last_name;
 
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $userAgent = User::join('user_role', 'users.id', '=', 'user_role.user_id')
-                ->join('roles', 'user_role.role_id', '=', 'roles.id')
-                ->where('roles.name', 'agent')
-                ->where('users.group', '1')
-                ->orderBy('users.last_name')
-                ->select('users.first_name', 'users.last_name', 'users.photo')
-                ->paginate(9);
-        } elseif ($manager == 'Essaid') {
-            $userAgent = User::join('user_role', 'users.id', '=', 'user_role.user_id')
-                ->join('roles', 'user_role.role_id', '=', 'roles.id')
-                ->where('roles.name', 'agent')
-                ->where('users.group', '2')
-                ->orderBy('users.last_name')
-                ->select('users.first_name', 'users.last_name', 'users.photo')
-                ->paginate(9);
-        } else {
-            $userAgent = User::join('user_role', 'users.id', '=', 'user_role.user_id')
-                ->join('roles', 'user_role.role_id', '=', 'roles.id')
-                ->where('roles.name', 'agent')
-                ->orderBy('users.last_name')
-                ->select('users.first_name', 'users.last_name', 'users.photo')
-                ->paginate(9);
-        }
+        $userAgent = User::join('user_role', 'users.id', '=', 'user_role.user_id')
+            ->join('roles', 'user_role.role_id', '=', 'roles.id')
+            ->where('roles.name', 'agent')
+            ->when($manager, function ($query, $manager) {
+                switch ($manager) {
+                    case 'ELMOURABIT':
+                    case 'By':
+                        return $query->where('users.group', '1');
+                    case 'Essaid':
+                        return $query->where('users.group', '2');
+                    case 'Hdimane':
+                        return $query->where('users.company', 'h2f');
+                    default:
+                        return $query;
+                }
+            })
+            ->orderBy('users.last_name')
+            ->select('users.first_name', 'users.last_name', 'users.photo')
+            ->paginate(9);
+
 
         $userManager = User::join('user_role', 'users.id', '=', 'user_role.user_id')
             ->join('roles', 'user_role.role_id', '=', 'roles.id')
@@ -70,36 +66,28 @@ class Home extends Component
             ->get();
 
 
+        $userGet = User::join('user_role', 'users.id', '=', 'user_role.user_id')
+            ->join('roles', 'user_role.role_id', '=', 'roles.id')
+            ->where('roles.name', 'agent')
+            ->when($manager, function ($query, $manager) {
+                switch ($manager) {
+                    case 'ELMOURABIT':
+                    case 'By':
+                        return $query->where('users.group', '1');
+                    case 'Essaid':
+                        return $query->where('users.group', '2');
+                    case 'Hdimane':
+                        return $query->where('users.company', 'h2f');
+                    default:
+                        return $query;
+                }
+            })
+            ->orderBy('users.company', 'desc')
+            ->orderBy('users.group')
+            ->select('users.first_name', 'users.last_name', 'users.photo', 'users.company', 'users.group')
+            ->get();
 
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $userGet = User::join('user_role', 'users.id', '=', 'user_role.user_id')
-                ->join('roles', 'user_role.role_id', '=', 'roles.id')
-                ->where('roles.name', 'agent')
-                ->where('users.group', '1')
-                ->orderBy('users.company', 'desc')
-                ->orderBy('users.group')
-                ->select('users.first_name', 'users.last_name', 'users.photo', 'users.company', 'users.group')
-                ->get();
-        } elseif ($manager == 'Essaid') {
-            $userGet = User::join('user_role', 'users.id', '=', 'user_role.user_id')
-                ->join('roles', 'user_role.role_id', '=', 'roles.id')
-                ->where('roles.name', 'agent')
-                ->where('users.group', '2')
-                ->orderBy('users.company', 'desc')
-                ->orderBy('users.group')
-                ->select('users.first_name', 'users.last_name', 'users.photo', 'users.company', 'users.group')
-                ->get();
-        } else {
-            $userGet = User::join('user_role', 'users.id', '=', 'user_role.user_id')
-                ->join('roles', 'user_role.role_id', '=', 'roles.id')
-                ->where('roles.name', 'agent')
-                ->orderBy('users.company', 'desc')
-                ->orderBy('users.group')
-                ->select('users.first_name', 'users.last_name', 'users.photo', 'users.company', 'users.group')
-                ->get();
-        }
-
-        $today = Carbon::now(); // Get the current date and time using Carbon
+        $today = Carbon::now(); 
         $rappel = Mails::query()
             ->where('user_id', '=', $user->id)
             ->whereDate('rappel', $today)

@@ -3,7 +3,7 @@
 </div>
 <br>
 <div class="row">
-    <div class="col-md-3 grid-margin">
+    <div class="col-md-3 ">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Calendrier</h4>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <br>
-        <div class="col-md-12 grid-margin">
+        <div class="col-md-12 ">
             <div class="card">
                 <div class="card-body">
                     <a href="../assets/Règlement interne.pdf" target="_blank" rel="noopener noreferrer"
@@ -185,88 +185,92 @@
             </div>
         </div>
     @endcannot
-    @can('agent')
-        <div class="col-md-9 grid-margin">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-exclamation-square-fill blinking-text text-danger" viewBox="0 0 16 16">
-                            <path
-                                d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>&nbsp; Rappels d'aujourd'hui
-                    </h4>
-                    @if ($rappel->isEmpty())
-                        <span><i>Aucun rappel n'est prévu pour aujourd'hui.</i> </span>
-                    @endif
-                    <ul class="bullet-line-list2">
-                        @foreach ($rappel as $rappels)
-                            <li>
-                                <div class="d-flex justify-content-between">
-                                    <div><strong>{{ $rappels->company }}</strong><span>
-                                            ({{ $rappels->nameClient }})
-                                        </span> </div>
-                                    <p>{{ \Carbon\Carbon::parse($rappels->rappel)->format('H:i') }}</p>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <div class="list align-items-center pt-3">
-                        <div class="wrapper w-100">
-                            <p class="mb-0">
-                                <a href="/proposal/all" class="fw-bold text-primary">Voir plus <i
-                                        class="mdi mdi-arrow-right ms-2"></i></a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endcan
-</div>
-@cannot('agent')
-    <div class="row">
-        <div class="col-md-3 grid-margin"></div>
-        <div class="col-md-9 grid-margin">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-exclamation-square-fill blinking-text text-danger" viewBox="0 0 16 16">
-                            <path
-                                d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>&nbsp; Rappels d'aujourd'hui
-                    </h4>
-                    @if ($rappelManager->isEmpty())
-                        <span><i>Aucun rappel n'est prévu pour aujourd'hui.</i> </span>
-                    @endif
-                    <ul class="bullet-line-list2">
-                        @foreach ($rappelManager as $rappelM)
-                            <li>
-                                <div class="d-flex justify-content-between">
-                                    <div><strong>{{ $rappelM->company }}</strong><span>
-                                            ({{ $rappelM->nameClient }})
-                                        </span><span class="text-muted">// {{ $rappelM->users->first_name }} </span>
+    @if (Auth::user()->company != 'h2f')
+        @can('agent')
+            <div class="col-md-9 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-exclamation-square-fill blinking-text text-danger" viewBox="0 0 16 16">
+                                <path
+                                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                            </svg>&nbsp; Rappels d'aujourd'hui
+                        </h4>
+                        @if ($rappel->isEmpty())
+                            <span><i>Aucun rappel n'est prévu pour aujourd'hui.</i> </span>
+                        @endif
+                        <ul class="bullet-line-list2">
+                            @foreach ($rappel as $rappels)
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <div><strong>{{ $rappels->company }}</strong><span>
+                                                ({{ $rappels->nameClient }})
+                                            </span> </div>
+                                        <p>{{ \Carbon\Carbon::parse($rappels->rappel)->format('H:i') }}</p>
                                     </div>
-                                    <p>{{ \Carbon\Carbon::parse($rappelM->rappel)->format('H:i') }}</p>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <div class="list align-items-center pt-3">
-                        <div class="wrapper w-100">
-                            <p class="mb-0">
-                                <a href="/proposal/all" class="fw-bold text-primary">Voir plus <i
-                                        class="mdi mdi-arrow-right ms-2"></i></a>
-                            </p>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="list align-items-center pt-3">
+                            <div class="wrapper w-100">
+                                <p class="mb-0">
+                                    <a href="/proposal/all" class="fw-bold text-primary">Voir plus <i
+                                            class="mdi mdi-arrow-right ms-2"></i></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endcan
+    @endif
+</div>
+
+@if (Auth::user()->company != 'h2f')
+    @canany(['superadmin', 'manager'])
+        <div class="row">
+            <div class="col-md-3 grid-margin"></div>
+            <div class="col-md-9 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-exclamation-square-fill blinking-text text-danger" viewBox="0 0 16 16">
+                                <path
+                                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                            </svg>&nbsp; Rappels d'aujourd'hui
+                        </h4>
+                        @if ($rappelManager->isEmpty())
+                            <span><i>Aucun rappel n'est prévu pour aujourd'hui.</i> </span>
+                        @endif
+                        <ul class="bullet-line-list2">
+                            @foreach ($rappelManager as $rappelM)
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <div><strong>{{ $rappelM->company }}</strong><span>
+                                                ({{ $rappelM->nameClient }})
+                                            </span><span class="text-muted">// {{ $rappelM->users->first_name }} </span>
+                                        </div>
+                                        <p>{{ \Carbon\Carbon::parse($rappelM->rappel)->format('H:i') }}</p>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="list align-items-center pt-3">
+                            <div class="wrapper w-100">
+                                <p class="mb-0">
+                                    <a href="/proposal/all" class="fw-bold text-primary">Voir plus <i
+                                            class="mdi mdi-arrow-right ms-2"></i></a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-@endcannot
-
+    @endcanany
+@endif
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 800px;">
         <div class="modal-content">

@@ -96,6 +96,7 @@
             </a>
         </li>
     @endcan
+    @if (Auth::user()->company === 'lh' || Auth::user()->roles()->where('name', 'manager')->where('name', 'superadmin')->exists())
     @cannot('admin')
         <li class="nav-item ">
             <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
@@ -125,8 +126,6 @@
                 </ul>
             </div>
         </li>
-    @endcannot
-    @cannot('admin')
         <li class="nav-item  {{ setMenuActive('sales.index') }}">
             <a class="nav-link" href="{{ route('sales.index') }}">
                 <i class="mdi mdi-chart-line menu-icon"></i>
@@ -144,4 +143,5 @@
             </a>
         </li>
     @endcanAny
+    @endif
 </ul>

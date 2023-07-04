@@ -53,6 +53,7 @@ class Myliste extends Component
         $currentDate = Carbon::now();
         $totalAbsenceDays = Absence::where('user_id', $user->id)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->whereRaw("abs_hours > ?", [0]) 
             ->sum('abs_hours');
 
         $suspension = Suspension::where('user_id', $user->id)

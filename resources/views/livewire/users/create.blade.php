@@ -121,7 +121,6 @@
                                 <option value="">---------</option>
                                 <option value="CDI">CDI</option>
                                 <option value="CDD">CDD</option>
-                                <option value="temp">Stagiaire</option>
                                 <option value="sans">Sans</option>
                             </select>
                         </div>

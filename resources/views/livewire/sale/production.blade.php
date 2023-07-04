@@ -42,7 +42,7 @@
                                                         ->where('date_confirm', $date)
                                                         ->first()->sales_count ?? 0;
                                                 $totalSalesCount += $salesCount;
-                                                $backgroundColor = $salesCount != 0 ? 'background-color: #93c47d ; color:white' : '';
+                                                $backgroundColor = $salesCount != 0 ? 'background-color: #93c47d' : '';
                                                 
                                                 $absenceUser = $absence
                                                     ->where('user_id', $user->id)
@@ -240,7 +240,7 @@
                                                         ->where('user_id', $user2->id)
                                                         ->where('date_confirm', $date)
                                                         ->first()->sales_count ?? 0;
-                                                $backgroundColor = $salesCount != 0 ? 'background-color: #5cb85c ; color:white' : '';
+                                                $backgroundColor = $salesCount != 0 ? 'background-color: #5cb85c ;' : '';
                                                 $totalSalesCount += $salesCount;
                                                 $dailySalesCounts[] = $salesCount;
                                                 

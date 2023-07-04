@@ -68,15 +68,23 @@ class Users extends Component
                 $query->where('company', $this->selectedCompany);
             }
         } elseif ($role == 'Manager') {
-            $query->where("company", "like", "lh")
-                ->where("company", "NOT LIKE", "h2f");
-
+           
             if ($manager == 'EL MESSIOUI') {
                 $query->latest();
             } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-                $query->where('group', 1)->latest();
+                $query->where("company", "like", "lh")->where('group', 1)  ->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->latest();
             } elseif ($manager == 'Essaid') {
-                $query->where('group', 2)->latest();
+                $query->where("company", "like", "lh")->where('group', 2)  ->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->latest();
+            } elseif ($manager == 'Hdimane') {
+                $query->where("company", "like", "h2f")
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })
+                ->latest();
             }
         }
 

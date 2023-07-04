@@ -138,14 +138,14 @@
                                     <label class="col-sm-2">10w:</label>
                                     <div class="col-sm-8">
                                         <input class="form-control detail @error('editSale.un') is-invalid @enderror"
-                                            wire:model="editSale.un" type="number" disabled>
+                                            wire:model="editSale.un" type="number" {{-- disabled --}}>
                                     </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                                     <label class="col-sm-2">20w:</label>
                                     <div class="col-sm-8">
                                         <input class="form-control detail @error('editSale.deux') is-invalid @enderror"
-                                            wire:model="editSale.deux" type="number" disabled>
+                                            wire:model="editSale.deux" type="number" {{-- disabled --}}>
                                     </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
@@ -201,21 +201,21 @@
                                 <div class="col-sm-8">
                                     <input
                                         class="form-control detail @error('editSale.pommeaux') is-invalid @enderror"
-                                        wire:model="editSale.pommeaux" type="number" disabled>
+                                        wire:model="editSale.pommeaux" type="number" {{-- disabled --}}>
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                                 <label class="col-sm-4">Spot picket:</label>
                                 <div class="col-sm-8">
                                     <input class="form-control detail @error('editSale.spot') is-invalid @enderror"
-                                        wire:model="editSale.spot" type="number" disabled>
+                                        wire:model="editSale.spot" type="number" {{-- disabled --}}>
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                                 <label class="col-sm-4">Tubes:</label>
                                 <div class="col-sm-8">
                                     <input class="form-control detail @error('editSale.tube') is-invalid @enderror"
-                                        wire:model="editSale.tube" type="number" disabled>
+                                        wire:model="editSale.tube" type="number" {{-- disabled --}}>
                                 </div>
                             </div>
                         </div>

@@ -2,7 +2,11 @@
     <div class="card-body">
         <div class="d-sm-flex justify-content-between align-items-start">
             <div>
-                <h4 class="card-title card-title-dash">Mails de relance</h4><br>
+                <h4 class="card-title card-title-dash">Mails de relance <br>
+                    <a href="/mailR" style="font-weight: normal; font-size:14px">
+                        Mails de relances des agents
+                    </a>
+                </h4><br>
                 <div class="input-group">
                     <input type="text" class="form-control" wire:model.debounce.250ms='search'
                         placeholder="Rechercher ...">
@@ -27,7 +31,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    @cannot('agent')
+                    @cannot('manager')
                         <th>Manager</th>
                     @endcannot
                     <th> Société</th>
@@ -41,7 +45,7 @@
             <tbody>
                 @foreach ($relances as $relance)
                     <tr>
-                        @cannot('agent')
+                        @cannot('manager')
                             <td style="padding: 0.6rem; ">
                                 &nbsp;&nbsp; {{ $relance->users->first_name }}</td>
                         @endcannot
