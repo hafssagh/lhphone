@@ -49,7 +49,8 @@ class MailAll extends Component
                 ->when($this->search, function ($query, $search) {
                     return $query->whereHas('users', function ($query) use ($search) {
                         $query->where('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
+                            ->orWhere('emailClient', 'like', '%' . $search . '%')
+                            ->orWhere('company', 'like', '%' . $search . '%');
                     });
                 });
         } else {
@@ -58,6 +59,7 @@ class MailAll extends Component
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%')
                         ->orWhere('nameClient', 'like', '%' . $search . '%')
+                        ->orWhere('company', 'like', '%' . $search . '%')
                         ->orWhere('emailClient', 'like', '%' . $search . '%');
                 });
             });

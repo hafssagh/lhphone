@@ -30,7 +30,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col text-center">
-                                            <button type="submit" class="btn btn-danger">Se connecter</button>
+                                            <button type="submit" class="btn btn-dark">Se connecter</button>
                                         </div>
                                     </div>
                                 </div>

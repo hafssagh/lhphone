@@ -31637,3 +31637,15 @@ li.day {
 .bullet-line-list2:last-child:after {
   display: none;
 }
+
+ .vertical-text {
+  writing-mode: vertical-lr; /* Rotate the text vertically */
+  transform: rotate(-180deg); /* Flip the text upside down */
+  margin-left:-20px;
+}
+
+.vertical-text2 {
+  writing-mode: vertical-lr; /* Rotate the text vertically */
+  transform: rotate(360deg); /* Flip the text upside down */
+  margin-left:-20px;
+}

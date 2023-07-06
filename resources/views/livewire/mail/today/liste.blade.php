@@ -22,11 +22,12 @@
                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Tous</a>
             </div>
         </div><br>
+
         <div class="calendar">
             <div class="lines">
                 @php
                     $startHour = 9;
-                    $endHour = 19;
+                    $endHour = 18;
                     $intervalMinutes = 30;
                 @endphp
                 @for ($hour = $startHour; $hour <= $endHour; $hour++)
@@ -51,7 +52,7 @@
                                                 if ($mail->state == '0') {
                                                     $eventColor = '#DCDCDC';
                                                 } elseif ($mail->state == '1') {
-                                                    $eventColor = '#c8e6c9';
+                                                    $eventColor = '#b0d9b1';
                                                 } elseif ($mail->state == '-1') {
                                                     $eventColor = '#ffe2e0';
                                                 } elseif ($mail->state == '3') {
@@ -65,14 +66,46 @@
                                             <div class="event-details">
                                                 <button class="btn btn-sm text-black mb-0 me-0"
                                                     wire:click="goToEditMail({{ $mail->id }})">
-                                                    <strong>{{ $mail->company }} </strong>
-                                                    @if ($mail->rappel != null)
-                                                        <span class="text-danger"> ({{ $mail->rappel }})</span>
-                                                    @endif
-                                                    <br>
                                                     @cannot('agent')
-                                                        {{ $mail->users->last_name }} {{ $mail->users->first_name }}
+                                                        <div class="row">
+                                                            <div class="col-auto">
+                                                                @cannot('agent')
+                                                                    @if ($mail->send == 'rive')
+                                                                        <span
+                                                                            class=" vertical-text text-primary"><strong> Eco<br> Rive</strong>
+                                                                        </span>
+                                                                    @elseif ($mail->send == 's2ee')
+                                                                        <span
+                                                                            class=" vertical-text text-success"><strong>s2ee</strong>
+                                                                        </span>
+                                                                    @endif
+                                                                @endcannot
+
+                                                            </div>
+                                                            <div class="col" style="margin-left:-10px;">
+                                                                <strong>{{ $mail->company }} </strong>
+                                                                @if ($mail->rappel != null)
+                                                                    <span class="text-danger"> ({{ $mail->rappel }})</span>
+                                                                @endif
+                                                                <br>
+                                                                {{ $mail->users->last_name }} {{ $mail->users->first_name }}
+                                                            </div>
+                                                        </div>
                                                     @endcannot
+                                                    @can('agent')
+                                                        <strong>{{ $mail->company }} </strong>
+                                                        @if ($mail->rappel != null)
+                                                            <span class="text-danger"> ({{ $mail->rappel }})</span>
+                                                        @endif
+                                                        <br>
+                                                        @if ($mail->send == 'rive')
+                                                            <span class="text-primary"><strong>RiveEco</strong>
+                                                            </span>
+                                                        @elseif ($mail->send == 's2ee')
+                                                            <span class="text-success"><strong>s2ee</strong>
+                                                            </span>
+                                                        @endif
+                                                    @endcan
                                                 </button>
                                             </div>
                                         </div>

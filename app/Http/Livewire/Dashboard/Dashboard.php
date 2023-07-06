@@ -87,13 +87,13 @@ class Dashboard extends Component
 
             $sumQuantity = Sale::where('user_id', $user->id)
                 ->whereIn('date_confirm', $weekDates)
-                ->where('state', '1')
+                ->whereIn('state', [1, 5, 6, 7, 8])
                 ->sum('quantity');
             $user->sumQuantity = $sumQuantity;
 
             $sumQuantity2 = Sale::where('user_id', $user->id)
                 ->whereIn('date_confirm', $monthDates)
-                ->where('state', '1')
+                ->whereIn('state', [1, 5, 6, 7, 8])
                 ->sum('quantity');
             $user->sumQuantity2 = $sumQuantity2;
         }
@@ -102,7 +102,7 @@ class Dashboard extends Component
         $cards = $this->cards();
 
         $this->chartData = [
-            'labels' => ['Accepté', 'Non traité', 'Refusé'],
+            'labels' => ['Devis igné', 'Devis envoyé', 'Cmd en attente de livraison'],
             'datasets' => [
                 [
                     'data' => [$cards[5], $cards[6], $cards[4]],
@@ -119,7 +119,7 @@ class Dashboard extends Component
             return Carbon::parse($sale->date_confirm)->format('M');
         })->map(function ($group) {
             $refusedSales = $group->where('state', '-1')->sum('quantity');
-            $acceptedSales = $group->where('state', '1')->sum('quantity');
+            $acceptedSales = $group->whereIn('state', [1, 5, 6, 7, 8])->sum('quantity');
             return [
                 'refusedSales' => $refusedSales,
                 'acceptedSales' => $acceptedSales,
@@ -164,15 +164,21 @@ class Dashboard extends Component
         $sumChall = $usersQuery->sum('challenge');
         $sumPrime = $usersQuery->sum('prime');
 
-        $sumQuantity = Sale::where('state', '1')
+        $sumQuantity = Sale::whereIn('state', [1, 5, 6, 7, 8])
             ->whereIn('date_confirm', $weekDates)
             ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 1));
             })
+            ->when($manager == 'Essaid', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            })
             ->sum('quantity');
 
-        $sumQuantity2 = Sale::where('state', '1')
+        $sumQuantity2 = Sale::whereIn('state', [1, 5, 6, 7, 8])
             ->whereIn('date_confirm', $monthDates)
+            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            })
             ->when($manager == 'Essaid', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 2));
             })
@@ -192,25 +198,25 @@ class Dashboard extends Component
         $today = date('Y-m-d');
 
         if ($manager == 'Essaid') {
-            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', '1')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', '1')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         } else {
             /* $sumEnAtt = Sale::where('state', '2')->count(); */
-            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', '1')->count();
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->count();
             $sumEnCours = Sale::where('state', '3')->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->count();
             $propoNon = Mails::where('state', '0')->count();
         }
 
 
-        $sumRefusé = Sale::where('state', '-1')->whereIn('date_confirm', $monthDates)->count();
+        $sumRefusé = Sale::where('state', '5')->whereIn('date_confirm', $monthDates)->count();
         $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();
         $sumS = Sale::where('state',  '2')->orWhere('state',  '3')->whereIn('date_sal', $monthDates)->count();
         return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $propoNon];

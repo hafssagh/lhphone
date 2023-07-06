@@ -34,7 +34,7 @@
                     </div>
                     <div class="md-step">
                         <div class="md-step-circle"><span>5</span></div>
-                        <div class="md-step-title">En attent. livraison</div>
+                        <div class="md-step-title">En attente de livraison</div>
                         <div class="md-step-bar-left"></div>
                         <div class="md-step-bar-right"></div>
                     </div>

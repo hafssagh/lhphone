@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Statut <span class="text-danger"><strong>*</strong></span></label>
+                            <label>Contrat <span class="text-danger"><strong>*</strong></span></label>
                             <select
                                 class="form-control bg-white text-dark @error('newUser.type_contract') is-invalid @enderror"
                                 wire:model="newUser.type_contract">

@@ -127,7 +127,9 @@ class Sales extends Component
         $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
         $sale->name_client = $this->newSale["name_client"];
         $sale->mail_client = $mails->emailClient ?? null;
-        $sale->phone_client = $mails->numClient ?? null;
+        $sale->phone_client = $mails->numClient ?? null; 
+        $sale->remark = $mails->send ?? null;
+        /* $sale->remark = $this->newSale["remark"] ?? null; */
         $sale->un = $this->newSale["un"] ?? null;
         $sale->deux = $this->newSale["deux"] ?? null;
         $sale->trois = $this->newSale["trois"] ?? null;
@@ -139,7 +141,6 @@ class Sales extends Component
         $sale->mousseurs = $this->newSale["mousseurs"] ?? null;
         $sale->tube = $this->newSale["tube"] ?? null;
         $sale->spot = $this->newSale["spot"] ?? null;
-        $sale->remark = $this->newSale["remark"] ?? null;
 
         $sale->save();
 
@@ -193,6 +194,8 @@ class Sales extends Component
             $sale->date_confirm = now()->toDateString();
         }
         $sale->save();
+        CalculChallenge();
+        CalculPrime();
         $this->goToListeSales();
         $this->dispatchBrowserEvent("showSuccessMessage");
     }

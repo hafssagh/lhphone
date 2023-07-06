@@ -354,7 +354,7 @@ function CalculChallenge()
     foreach ($users as $user) {
         $sales = Sale::where('user_id', $user->id)
             ->whereIn('date_confirm', $weekDates)
-            ->where('state', '1')
+            ->whereIn('state', [1, 5, 6, 7, 8])
             ->get();
 
         if ($sales->isNotEmpty()) {
@@ -382,7 +382,7 @@ function CalculPrime()
     foreach ($users as $user) {
         $sales = Sale::where('user_id', $user->id)
             ->whereIn('date_confirm', $monthDates)
-            ->where('state', '1')
+            ->whereIn('state', [1, 5, 6, 7, 8])
             ->get();
 
         if ($sales->isNotEmpty()) {

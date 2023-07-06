@@ -6,18 +6,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" wire:model.debounce.250ms="search" placeholder="Rechercher ...">
+                            <input type="text" class="form-control" wire:model.debounce.250ms="search"
+                                placeholder="Rechercher ...">
                             <span class="input-group-text"><i class="icon-search"></i></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <form wire:submit.prevent="render">
-                            <select class="form-select" wire:model="selectedStatus" wire:change="render"  id="selectedStatus" style="font-size: 13px">
+                            <select class="form-select" wire:model="selectedStatus" wire:change="render"
+                                id="selectedStatus" style="font-size: 13px">
                                 <option value="all">Tous les statut</option>
                                 <option value="2">Cmd confirmée</option>
                                 <option value="3">Devis envoyé</option>
                                 <option value="1">Devis signé</option>
                                 <option value="-1">Devis refusé</option>
+                                <option value="5">En attente de livraison</option>
+                                <option value="6">Livré</option>
+                                <option value="7">AH envoyé</option>
+                                <option value="8">AH signé</option>
                             </select>
                         </form>
                     </div>
@@ -46,22 +52,34 @@
                         <th class="text-center">Statut</th>
                         <th class="text-center">Date de confirm.</th>
                         <th>Société</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($sales as $sale)
                         <tr>
-                            <td style="padding: 0.6rem;"><button wire:click="editSale({{ $sale->id }})"
+                            <td style="padding: 0.6rem;">
+                                <button wire:click="editSale({{ $sale->id }})"
                                     style="border:none; background-color:white">
                                     @if ($sale->state == '2')
-                                        <div class="square_table" style="background-color: #c9c6c6;">
-                                        @elseif($sale->state == '3')
-                                            <div class="square_table" style="background-color: #f3ea6c;">
-                                            @elseif($sale->state == '1')
-                                                <div class="square_table" style="background-color: #84cc88;"
-                                                @elseif($sale->state == '-1') <div class="square_table"
-                                                    style="background-color: #f5a7a1;" @endif
-                                </button> </td>
+                                        <div class="square_table" style="background-color: #c9c6c6;"></div>
+                                    @elseif($sale->state == '3')
+                                        <div class="square_table" style="background-color: #b09dd4;"></div>
+                                    @elseif($sale->state == '1')
+                                        <div class="square_table" style="background-color: #b0d4b1;"></div>
+                                    @elseif($sale->state == '-1')
+                                        <div class="square_table" style="background-color: #f5a7a1;"></div>
+                                    @elseif ($sale->state == '5')
+                                        <div class="square_table" style="background-color: #7dc098;"></div>
+                                    @elseif ($sale->state == '6')
+                                        <div class="square_table" style="background-color: #89dbd2;"></div>
+                                    @elseif ($sale->state == '7')
+                                        <div class="square_table" style="background-color: #9CCDDF;"></div>
+                                    @elseif ($sale->state == '8')
+                                        <div class="square_table" style="background-color: #8ABCCE;"></div>
+                                    @endif
+                                </button>
+                            </td>
                             <td style="padding: 0.3rem;">
                                 <span style=" margin-left:20px">{{ $sale->users->first_name }}</span>
                             </td>
@@ -72,14 +90,30 @@
                                     <div class="badge badge-opacity-dark" style="background-color: #cccccc;">En attente
                                         d'envoi</div>
                                 @elseif($sale->state == '3')
-                                    <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">Devis
+                                    <div class="badge badge-opacity-dark"
+                                        style="background-color: #d9cdf3; color:#75609c">Devis
                                         envoyé</div>
                                 @elseif($sale->state == '1')
-                                    <div class="badge badge-opacity-success" style="background-color: #c8e6c9;">Devis
+                                    <div class="badge badge-opacity-success" style="background-color: #d5ebd6;">Devis
                                         signé</div>
                                 @elseif($sale->state == '-1')
                                     <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">Devis
                                         refusé</div>
+                                @elseif($sale->state == '5')
+                                    <div class="badge badge-opacity-success" style="background-color: #b8e6ca;">En
+                                        attente
+                                        de livraison</div>
+                                @elseif($sale->state == '6')
+                                    <div class="badge badge-opacity-dark"
+                                        style="background-color: #bbece6; color:#3d7c75;">Livré</div>
+                                @elseif($sale->state == '7')
+                                    <div class="badge badge-opacity-primary"
+                                        style="background-color: #9ccddfc0;color: #427c91;">AH envoyé
+                                    </div>
+                                @elseif($sale->state == '8')
+                                    <div class="badge badge-opacity-primary"
+                                        style="background-color: #83cbe6;color: #0d455a;">AH signé
+                                    </div>
                                 @endif
                             </td>
                             <td style="padding: 0.3rem;" class="text-center">
@@ -90,6 +124,8 @@
                                     </div>
                                 @elseif($sale->state == '1' || $sale->state == '-1')
                                     {{ $sale->date_confirm }}
+                                @else
+                                    {{ $sale->updated_at->format('Y-m-d') }}
                                 @endif
                             </td>
                             <td style="padding: 0.3rem;">
@@ -99,6 +135,17 @@
                                     <span class="text-dark">No</span>: {{ $sale->phone_client }}
                                 </p>
                             </td>
+                            <td><span>
+                                @if ($sale->remark == 'rive')
+                                <span
+                                    class=" vertical-text2 text-primary"><strong> Eco<br> Rive</strong>
+                                </span>
+                            @elseif ($sale->remark == 's2ee')
+                                <span
+                                    class=" vertical-text2 text-success"><strong>s2ee</strong>
+                                </span>
+                            @endif</span></td>
+
                         </tr>
                     @endforeach
                 </tbody>

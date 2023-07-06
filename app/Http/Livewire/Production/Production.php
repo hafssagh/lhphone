@@ -49,7 +49,7 @@ class Production extends Component
         $this->sales = Sale::select('user_id', 'date_confirm')
             ->selectRaw('SUM(quantity) as sales_count')
             ->join('users', 'sales.user_id', '=', 'users.id')
-            ->where('state', '1')
+            ->whereIn('state', [1, 5, 6, 7, 8])
             ->where('users.group', '1')
             ->groupBy('user_id', 'date_confirm')
             ->get();
@@ -57,7 +57,7 @@ class Production extends Component
         $this->sales2 = Sale::select('user_id', 'date_confirm')
             ->selectRaw('SUM(quantity) as sales_count')
             ->join('users', 'sales.user_id', '=', 'users.id')
-            ->where('state', '1')
+            ->whereIn('state', [1, 5, 6, 7, 8])
             ->where('users.group', '2')
             ->groupBy('user_id', 'date_confirm')
             ->get();

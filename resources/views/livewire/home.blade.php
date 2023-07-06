@@ -187,7 +187,56 @@
     @endcannot
     @if (Auth::user()->company != 'h2f')
         @can('agent')
-            <div class="col-md-9 grid-margin">
+            <div class="col-md-4 grid-margin">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-center">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style=" font-weight:bold">Prime</th>
+                                    <th class="text-center" style=" font-weight:bold">Challenge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">1000 P = 1500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">300 P = 200 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">1400 P = 2500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">400 P = 300 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">1800 P = 3500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">500 P = 400 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">2200 P = 4500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">600 P = 500 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">2600 P = 5500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">700 P = 600 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">3000 P = 6500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">800 P = 700 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.3rem;">3400 P = 7500 Dh</td>
+                                    <td class="text-center" style="padding: 0.3rem;">900 P = 800 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-muted" style="padding: 1rem;" colspan="2">
+                                        NB : Le Challenge est plafonné
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 grid-margin">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title ">

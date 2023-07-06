@@ -107,14 +107,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Statut</label>
+                            <label>Contrat</label>
                             <select
                                 class="form-control bg-white text-dark @error('editUser.type_contract') is-invalid @enderror"
                                 wire:model="editUser.type_contract">
                                 <option value="">---------</option>
                                 <option value="CDI">CDI</option>
                                 <option value="CDD">CDD</option>
-                                <option value="temp">Stagiaire</option>
                                 <option value="sans">Sans</option>
                             </select>
                         </div>
