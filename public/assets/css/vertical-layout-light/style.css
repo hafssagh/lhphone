@@ -31649,3 +31649,84 @@ li.day {
   transform: rotate(360deg); /* Flip the text upside down */
   margin-left:-20px;
 }
+
+.list-group {
+  border-radius: 0.25rem;
+}
+
+.list-group {
+  --bs-list-group-color: #212529;
+  --bs-list-group-bg: #fff;
+  --bs-list-group-border-color: rgba(0,0,0,.125);
+  --bs-list-group-border-width: 1px;
+  --bs-list-group-border-radius: 0.25rem;
+  --bs-list-group-item-padding-x: 1rem;
+  --bs-list-group-item-padding-y: 0.5rem;
+  --bs-list-group-action-color: #495057;
+  --bs-list-group-action-hover-color: #495057;
+  --bs-list-group-action-hover-bg: #f8f9fa;
+  --bs-list-group-action-active-color: #343a40;
+  --bs-list-group-action-active-bg: #e9ecef;
+  --bs-list-group-disabled-color: #6c757d;
+  --bs-list-group-disabled-bg: #fff;
+  --bs-list-group-active-color: #fff;
+  --bs-list-group-active-bg: #4650dd;
+  --bs-list-group-active-border-color: #4650dd;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: var(--bs-list-group-border-radius);
+}
+
+.list-group-timeline .list-group-item {
+  position: relative;
+  border: 0;
+  background-color: transparent;
+}
+
+.card .list-group-item {
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+  color: var(--bs-list-group-color);
+  background-color: var(--bs-list-group-bg);
+  border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+}
+
+.list-group-timeline .list-group-item:before {
+  position: absolute;
+  left: 1.5rem;
+  height: 100%;
+  content: "";
+  border-left: 1px solid #dee2e6;
+}
+
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  border: #dee2e6;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+  line-height: 3rem;
+}
+
+ .list-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 500px;
+  }

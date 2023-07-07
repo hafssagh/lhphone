@@ -57,7 +57,7 @@ class Suspensions extends Component
         if ($manager == 'EL MESSIOUI') {
             $suspensions = $query->get();
             $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 1));
             $users = $usersQuery->where('group', 1)->get();
         } elseif ($manager == 'Essaid') {

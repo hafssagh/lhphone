@@ -41,7 +41,7 @@ class Dashboard extends Component
 
         if ($manager == 'EL MESSIOUI') {
             $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $usersQuery->where('group', 1)->get();
         } elseif ($manager == 'Essaid') {
             $usersQuery->where('group', 2)->get();
@@ -152,7 +152,7 @@ class Dashboard extends Component
         $monthDates = fetchMonthDates();
 
         $usersQuery = User::query();
-        $usersQuery->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+        $usersQuery->when($manager == 'ELMOURABIT' || $manager == 'Bélanger', function ($query) {
             $query->where('group', 1);
         });
         $usersQuery->when(($manager == 'Essaid'), function ($query) {
@@ -166,7 +166,7 @@ class Dashboard extends Component
 
         $sumQuantity = Sale::whereIn('state', [1, 5, 6, 7, 8])
             ->whereIn('date_confirm', $weekDates)
-            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+            ->when($manager == 'ELMOURABIT' || $manager == 'Bélanger', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 1));
             })
             ->when($manager == 'Essaid', function ($query) {
@@ -176,7 +176,7 @@ class Dashboard extends Component
 
         $sumQuantity2 = Sale::whereIn('state', [1, 5, 6, 7, 8])
             ->whereIn('date_confirm', $monthDates)
-            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+            ->when($manager == 'ELMOURABIT' || $manager == 'Bélanger', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 1));
             })
             ->when($manager == 'Essaid', function ($query) {
@@ -202,7 +202,7 @@ class Dashboard extends Component
             $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();

@@ -24,7 +24,7 @@ class Home extends Component
             ->when($manager, function ($query, $manager) {
                 switch ($manager) {
                     case 'ELMOURABIT':
-                    case 'By':
+                    case 'Bélanger':
                         return $query->where('users.group', '1');
                     case 'Essaid':
                         return $query->where('users.group', '2');
@@ -98,7 +98,7 @@ class Home extends Component
             ->whereDate('rappel', $today)
             ->orderBy('rappel');
 
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
+        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $rappelManager->whereHas('users', fn ($q) => $q->where('group', 1));
         } elseif ($manager == 'Essaid') {
             $rappelManager->whereHas('users', fn ($q) => $q->where('group', 2));

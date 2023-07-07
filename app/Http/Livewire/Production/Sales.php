@@ -76,7 +76,7 @@ class Sales extends Component
         if ($manager == 'EL MESSIOUI') {
             $users = $usersQuery->groupBy('users.id')->get();
             $sales = $query->groupBy('sales.id')->paginate(7);
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $users = $usersQuery->where('group', 1)->groupBy('users.id')->get();
             $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->groupBy('sales.id')

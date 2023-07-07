@@ -71,7 +71,7 @@ class Users extends Component
            
             if ($manager == 'EL MESSIOUI') {
                 $query->latest();
-            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
                 $query->where("company", "like", "lh")->where('group', 1)  ->whereHas('roles', function ($query) {
                     $query->where('name', 'agent');
                 })->latest();

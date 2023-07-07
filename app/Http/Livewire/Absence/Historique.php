@@ -23,7 +23,7 @@ class Historique extends Component
         $manager = $user->last_name;
         $query = Absence::orderBy('date', 'DESC');
     
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
+        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $query->whereHas('users', fn ($q) => $q->where('group', 1));
         } elseif ($manager == 'Essaid') {
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
@@ -36,7 +36,7 @@ class Historique extends Component
                 $q->where('first_name', 'like', '%' . $this->search . '%')
                     ->orWhere('last_name', 'like', '%' . $this->search . '%');
             });
-        })->paginate(7);
+        })->paginate(14);
     
         return view('livewire.absence.historique', [
             "absences" => $absences,

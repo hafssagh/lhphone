@@ -63,7 +63,7 @@ class SendEmail extends Component
         if ($role == 'Agent') {
             $query->where('user_id', $user->id);
         }else{
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
+        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
             $query->whereHas('users', fn ($q) => $q->where('group', 1));
         } elseif ($manager == 'Essaid') {
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
