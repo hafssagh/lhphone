@@ -58,8 +58,7 @@ class Absences extends Component
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%');
                 });
-            })
-            ->latest();
+            })->orderBy('date','desc');
 
         $usersQuery = User::select('id', 'first_name', 'last_name')
             ->whereHas('roles', function ($query) {
@@ -69,7 +68,7 @@ class Absences extends Component
         if ($manager == 'EL MESSIOUI') {
             $absences = $query->paginate(10);
             $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->paginate(10);
             $users = $usersQuery->where('group', 1)->get();

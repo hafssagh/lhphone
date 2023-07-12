@@ -57,7 +57,7 @@ class Resignations extends Component
         if ($manager == 'EL MESSIOUI') {
             $resignations = $resignation->paginate(10);
             $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $resignations = $resignation->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->paginate(10);
             $users = $usersQuery->where('group', 1)->get();

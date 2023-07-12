@@ -75,17 +75,17 @@ class Sales extends Component
 
         if ($manager == 'EL MESSIOUI') {
             $users = $usersQuery->groupBy('users.id')->get();
-            $sales = $query->groupBy('sales.id')->paginate(7);
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+            $sales = $query->groupBy('sales.id')->paginate(9);
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $users = $usersQuery->where('group', 1)->groupBy('users.id')->get();
             $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->groupBy('sales.id')
-                ->paginate(7);
+                ->paginate(9);
         } elseif ($manager == 'Essaid') {
             $users = $usersQuery->where('group', 2)->groupBy('users.id')->get();
             $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))
                 ->groupBy('sales.id')
-                ->paginate(7);
+                ->paginate(9);
         } else {
             $users = $usersQuery->groupBy('users.id')->get();
             $sales = $query->groupBy('sales.id')->paginate(7);

@@ -8,7 +8,6 @@ use App\Models\Absence;
 use Livewire\Component;
 use App\Models\Suspension;
 use App\Models\Resignation;
-use Livewire\WithPagination;
 
 class DashRH extends Component
 {
@@ -141,7 +140,7 @@ class DashRH extends Component
 
         $stagiaire = User::query()->where('type_contract', 'sans')->whereHas('roles', function ($query) {
             $query->where('name', 'agent');
-        })->latest()->get();
+        })->orderBy('company')->latest()->get();
 
         $cards = $this->cards();
         $absence = $this->absence();

@@ -9,14 +9,12 @@ use App\Models\Mails;
 use App\Models\Absence;
 use Livewire\Component;
 use App\Models\Suspension;
-use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
-    use WithPagination;
-    protected $paginationTheme = "bootstrap";
-
+    public $group = 1;
     public $search = "";
 
     public $chartData;
@@ -33,21 +31,89 @@ class Dashboard extends Component
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })
-            ->where(function ($query) use ($manager) {
-                $query->where("first_name", "like", "%" . $this->search . "%")
-                    ->orWhere("last_name", "like", "%" . $this->search . "%");
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id');
+            })
+            ->orderBy("users.first_name");
+
+
+        $usersQuery1 = User::where("company", "like", "lh")
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
             })
             ->orderBy("last_name");
 
+
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $users3 = User::where("users.company", "like", "lh")
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })
+            ->where('users.group', $this->group)
+            ->leftJoin('sales', 'users.id', '=', 'sales.user_id')
+            ->select('users.id', 'users.first_name', 'users.last_name', 'users.group')
+            ->selectSub(function ($query) use ($currentMonth) {
+                $query->selectRaw('SUM(sales.quantity)')
+                    ->from('sales')
+                    ->whereColumn('sales.user_id', 'users.id')
+                    ->whereRaw("DATE_FORMAT(sales.date_confirm, '%Y-%m') = ?", [$currentMonth])
+                    ->whereIn('sales.state', [1, 5, 6, 7, 8]);
+            }, 'total_sales')
+            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.group')
+            ->having('total_sales', '>', 0)
+            ->orderBy('total_sales', 'desc')
+            ->get();
+
+            $usersWithoutSales = User::where("users.company", "like", "lh")
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })
+            ->whereNotExists(function ($query) use ($currentMonth) {
+                $query->select(DB::raw(1))
+                    ->from('sales')
+                    ->whereColumn('sales.user_id', 'users.id')
+                    ->whereRaw("DATE_FORMAT(sales.date_confirm, '%Y-%m') = ?", [$currentMonth]);
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id');
+            })
+            ->orderBy('users.id')
+            ->paginate(3);
+
+            $usersWithoutSalesCount = User::where("users.company", "like", "lh")
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })
+            ->whereNotExists(function ($query) use ($currentMonth) {
+                $query->select(DB::raw(1))
+                    ->from('sales')
+                    ->whereColumn('sales.user_id', 'users.id')
+                    ->whereRaw("DATE_FORMAT(sales.date_confirm, '%Y-%m') = ?", [$currentMonth]);
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id');
+            })
+            ->orderBy('users.id')
+            ->get()->count();
+
         if ($manager == 'EL MESSIOUI') {
-            $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
-            $usersQuery->where('group', 1)->get();
+            $usersQuery->where('group', $this->group);
+            $usersQuery1;
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+            $usersQuery->where('group', 1);
         } elseif ($manager == 'Essaid') {
-            $usersQuery->where('group', 2)->get();
+            $usersQuery->where('group', 2);
         }
 
-        $users = $usersQuery->paginate(13);
+        $users = $usersQuery->get();
+        $users1 = $usersQuery1->get();
 
         $currentMonth = Carbon::now()->format('Y-m');
         $currentDate = Carbon::now();
@@ -98,18 +164,16 @@ class Dashboard extends Component
             $user->sumQuantity2 = $sumQuantity2;
         }
 
+        foreach ($users1 as $user1) {
+            $currentDate = \Carbon\Carbon::now()->format('Y-m-d');
+            $propoDayCount = Mails::where('user_id', $user1->id)
+                ->whereDate('created_at', $currentDate)
+                ->count();
+            $user1->propoDayCount = $propoDayCount;
+        }
+
         $sumValues = $this->getSumValues();
         $cards = $this->cards();
-
-        $this->chartData = [
-            'labels' => ['Devis igné', 'Devis envoyé', 'Cmd en attente de livraison'],
-            'datasets' => [
-                [
-                    'data' => [$cards[5], $cards[6], $cards[4]],
-                    'backgroundColor' => ['#4650dd', '#9fa8da', '#e0e0e0'],
-                ],
-            ],
-        ];
 
         $salesData = Sale::select('date_confirm', 'quantity', 'state')
             ->orderBy('date_confirm')
@@ -136,7 +200,12 @@ class Dashboard extends Component
 
         return view(
             'livewire.dashboard.dashboard',
-            ["users" => $users, 'sumValues' => $sumValues, 'cards' => $cards],
+            [
+                "users" => $users, "users1" => $users1, "users3" => $users3,
+                'sumValues' => $sumValues, 'cards' => $cards,
+                "usersWithoutSalesCount" => $usersWithoutSalesCount,
+                "usersWithoutSales" => $usersWithoutSales
+            ],
             compact('months', 'refusedSales', 'acceptedSales')
         )
             ->extends("layouts.master")
@@ -152,7 +221,7 @@ class Dashboard extends Component
         $monthDates = fetchMonthDates();
 
         $usersQuery = User::query();
-        $usersQuery->when($manager == 'ELMOURABIT' || $manager == 'Bélanger', function ($query) {
+        $usersQuery->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
             $query->where('group', 1);
         });
         $usersQuery->when(($manager == 'Essaid'), function ($query) {
@@ -166,21 +235,27 @@ class Dashboard extends Component
 
         $sumQuantity = Sale::whereIn('state', [1, 5, 6, 7, 8])
             ->whereIn('date_confirm', $weekDates)
-            ->when($manager == 'ELMOURABIT' || $manager == 'Bélanger', function ($query) {
+            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 1));
             })
             ->when($manager == 'Essaid', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            })
+            ->when($manager == 'EL MESSIOUI', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', $this->group));
             })
             ->sum('quantity');
 
         $sumQuantity2 = Sale::whereIn('state', [1, 5, 6, 7, 8])
             ->whereIn('date_confirm', $monthDates)
-            ->when($manager == 'ELMOURABIT' || $manager == 'Bélanger', function ($query) {
+            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 1));
             })
             ->when($manager == 'Essaid', function ($query) {
                 $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            })
+            ->when($manager == 'EL MESSIOUI', function ($query) {
+                $query->whereHas('users', fn ($q) => $q->where('group', $this->group));
             })
             ->sum('quantity');
 
@@ -202,13 +277,12 @@ class Dashboard extends Component
             $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         } else {
-            /* $sumEnAtt = Sale::where('state', '2')->count(); */
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->count();
             $sumEnCours = Sale::where('state', '3')->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->count();

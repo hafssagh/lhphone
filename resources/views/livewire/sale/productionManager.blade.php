@@ -1,6 +1,5 @@
  @auth
-     @if (Auth::user()->last_name === 'By' ||
-             Auth::user()->last_name === 'EL MESSIOUI' ||
+     @if (Auth::user()->last_name != 'Essaid' ||
              Auth::user()->last_name === 'ELMOURABIT')
          <div class="row">
              <div class="card">
@@ -76,7 +75,7 @@
                                              $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
                                              
                                              $resignationUser = $resignation->where('user_id', $user->id)->first();
-                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; ' : '';
+                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
                                              
                                              $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                          @endphp
@@ -281,7 +280,7 @@
                                              $backgroundColor7 = $retard ? 'background-color: #6f84ab ' : '';
                                              
                                              $resignationUser = $resignation2->where('user_id', $user2->id)->first();
-                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ;' : '';
+                                             $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color: #5A5A5A ' : '';
                                              
                                              $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                          @endphp

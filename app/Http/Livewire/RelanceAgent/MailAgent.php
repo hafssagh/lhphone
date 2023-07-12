@@ -58,7 +58,7 @@ class MailAgent extends Component
             });
         }
 
-        if ($manager == 'ELMOURABIT' || $manager == 'Bélanger') {
+        if ($manager == 'ELMOURABIT' || $manager == 'By') {
             $query->whereHas('users', fn ($q) => $q->where('group', 1));
         } elseif ($manager == 'Essaid') {
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
