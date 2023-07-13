@@ -72,7 +72,11 @@
                                 <br><br><br>
                             @endcannot
                             <div class="form-group" style='margin-top:-10px'>
-                                <label for="remark">Remarque</label>
+                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2')
+                                    <label for="remark">Commentaire agent</label>
+                                @else
+                                    <label for="remark">Remarque</label>
+                                @endif
                                 <textarea class="form-control" wire:model="editMail.remark" wire:keydown.enter.prevent="updateMail" class="form-control"
                                     style="height: 100px">
                             </textarea>
@@ -80,22 +84,32 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            @auth
+                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2')
+                                    <div class="form-group" style='margin-top:-10px'>
+                                        <label for="remark2">Commentaire Manager</label>
+                                        <textarea class="form-control" wire:model="editMail.remark2" wire:keydown.enter.prevent="updateMail"
+                                            class="form-control" style="height: 50px">
+                                     </textarea>
+                                    </div>
+                                @endif
+                            @endauth
                             <div class="form-group">
                                 <label for="rappel">Rappel</label>
                                 <input type="datetime-local" class="form-control" wire:model="editMail.rappel"
                                     wire:keydown.enter.prevent="updateMail" class="form-control">
                             </div>
-                        </div>
-                        <div class="d-flex flex-row-reverse">
-                            <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"
-                                style="font-size: 14px; line-height: 18px; padding: 8px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                                    <path
-                                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg>
-                                Enregistrer</button>&nbsp;
-                        </div>
+                            <div class="d-flex flex-row-reverse">
+                                <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"
+                                    style="font-size: 14px; line-height: 18px; padding: 8px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                    </svg>
+                                    Enregistrer</button>&nbsp;
+                            </div>
                 </form>
             </div>
         </div>

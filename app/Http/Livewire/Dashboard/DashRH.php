@@ -158,7 +158,6 @@ class DashRH extends Component
 
     public function cards()
     {
-        $currentMonth = Carbon::now()->format('Y-m');
         $currentDate = Carbon::now();
 
         $userCount = User::leftJoin('resignations', 'users.id', '=', 'resignations.user_id')
@@ -171,7 +170,13 @@ class DashRH extends Component
             $query->where('name', 'agent');
         })->where('group', 2)->count();
         $usersh2f = User::query()->where('company', 'h2f')->count();
-        $newEmploye = User::query()->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])->count();
+        $currentWeek = Carbon::now()->subWeek(); // Subtracting a week to get the starting date of the last week
+        $currentDay = Carbon::now();
+        
+        $newEmploye = User::whereBetween('created_at', [
+            $currentWeek->format('Y-m-d'),
+            $currentDay->format('Y-m-d')
+        ])->count();
         $depart = Resignation::query()->count();
         $absence = Absence::query()->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$currentDate->format('Y-m-d')])->count();
         $birthday = User::leftJoin('resignations', 'users.id', '=', 'resignations.user_id')

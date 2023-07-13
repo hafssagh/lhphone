@@ -19,7 +19,7 @@ class MailAll extends Component
     public $selectedStatus;
     public $data;
 
-    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $rappel;
+    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $remark2, $rappel;
 
     public $selectedFilter;
 

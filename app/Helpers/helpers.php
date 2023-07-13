@@ -3,8 +3,9 @@
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
-use App\Models\Absence;
+use App\Models\Avance;
 
+use App\Models\Absence;
 use App\Models\Suspension;
 use App\Exports\PrimeExport;
 use App\Exports\SalaryExport;
@@ -511,16 +512,21 @@ function workHours()
 }
 
 
-
-
 function AbsSalary()
 {
     $users = User::all();
+    $currentDate = Carbon::now();
+    $currentMonth = $currentDate->format('Y-m');
+
     foreach ($users as $user) {
+        $avance = Avance::where('user_id', $user->id)
+        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
+        ->sum('advance');
+
         $workHoursMonth =  calculerHeuresTravailParMois();
         $salary_perHour = $user->base_salary /  $workHoursMonth;
         $salary = $salary_perHour * $user->work_hours;
-        $user->salary =  round($salary, 0, PHP_ROUND_HALF_UP);
+        $user->salary =  round($salary, 0, PHP_ROUND_HALF_UP) - $avance;
         $user->save();
     }
 }

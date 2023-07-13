@@ -271,20 +271,24 @@ class Dashboard extends Component
         $user = Auth::user();
         $manager = $user->last_name;
         $today = date('Y-m-d');
+        $currentMonth = Carbon::now()->format('Y-m');
 
         if ($manager == 'Essaid') {
-            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
-            $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth.'%')
+            ->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
-            $sumEnCours = Sale::where('state', '3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth.'%')
+            ->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         } else {
-            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->whereIn('state', [1, 5, 6, 7, 8])->count();
-            $sumEnCours = Sale::where('state', '3')->count();
+            $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->count();
+            $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth.'%')
+            ->whereIn('state', [1, 5, 6, 7, 8])->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->count();
             $propoNon = Mails::where('state', '0')->count();
         }

@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mails extends Model
+class Avance extends Model
 {
     use HasFactory;
 
-    protected $table = 'mails';
+    protected $table = 'table_avances';
     
     public $fillable = [
-        "nameClient", "emailClient", "numClient" , "user_id",
-        "adresse", "company", "state" , "remark", "remark2", "rappel","send" 
+        "advance", "motif", "user_id"
     ];
 
     public function users(){
         return $this->belongsTo(User::class, "user_id", "id");
     }
+    
 }

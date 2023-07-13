@@ -21,7 +21,7 @@ class SendEmail extends Component
     public $selectedStatus;
     public $data;
 
-    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $rappel, $send;
+    public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company, $state, $remark, $remark2, $rappel, $send;
 
     public $selectedFilter;
 
@@ -105,6 +105,7 @@ class SendEmail extends Component
             'company' => $this->company,
             'state' => $this->state = '0',
             'remark' => $this->remark,
+            'remark2' => $this->remark2,
             'rappel' => $this->rappel,
             'send' => $this->send,
         ];

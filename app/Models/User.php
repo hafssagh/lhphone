@@ -92,4 +92,8 @@ class User extends Authenticatable
     public function agentRelances(){
         return $this->hasMany(AgentRelance::class);
     }
+
+    public function avances(){
+        return $this->hasMany(Avance::class);
+    }
 }

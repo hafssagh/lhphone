@@ -60,7 +60,7 @@
                 </ul>
             </div>
         </li>
-        @canAny(['admin', 'superadmin'])
+        @canAny(['admin', 'superadmin','manager'])
             <li class="nav-item">
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#paie" aria-expanded="false"
                     aria-controls="paie">

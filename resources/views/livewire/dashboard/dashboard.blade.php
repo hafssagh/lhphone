@@ -75,7 +75,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 class="text-danger" style="font-size: 1.19rem">{{ $cards[8] }} Propositions
+                                    <h3 class="text-danger" style="font-size: 1.18rem">{{ $cards[8] }} Propositions
                                     </h3>
                                     <p class="text-sm mb-0">Non traitées</p>
                                 </div>
@@ -95,7 +95,7 @@
                             <div class="row align-items-center justify-content-center text-danger">
                                 <div class="col-10">
                                     <p class="mb-0">
-                                        <strong><a href="/proposal/week"
+                                        <strong><a href="/proposal/all"
                                                 style="text-decoration: none;color: inherit;">En
                                                 savoir
                                                 plus</a></strong>
@@ -161,15 +161,14 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     <h3 style="color:#835db4; font-size: 1.26rem">{{ $cards[3] }} Devis</h3>
-                                    <p class="text-sm mb-0">Envoyés</p>
+                                    <p class="text-sm mb-0">Signés  (<span
+                                        id="moisAnnee"></span>) </p>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                    fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
-                                    <path style="color:#835db4"
-                                        d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                                    <path style="color:#835db4"
-                                        d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                                    <path style="color:#835db4" fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                    <path style="color:#835db4" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                    <path style="color:#835db4" d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                  </svg>
                             </div>
                         </div>
                         <div class="card-footer py-3"
@@ -197,8 +196,6 @@
         </div>
     </div>
     @can('superadmin')
-
-
         <div class="row">
             <div class="col-sm-4 ">
                 <div class="card ">
@@ -245,7 +242,7 @@
                             <h3 class="card-title"
                                 style=" color: #010101; margin-bottom: 1.2rem; text-transform: capitalize; font-size: 1.126rem; font-weight: 600;">
                                 Classement Agent (<span
-                                id="moisAnnee"></span>) 
+                                id="mois"></span>) 
                         </div>
                         <canvas id="my_chart" style="height: 80%; width:50%"></canvas>
                     </div>
@@ -262,7 +259,7 @@
                 </div><br>
                 <div id="usersContainer" class="d-sm-flex justify-content-between align-items-start">
                     <a href="{{ $usersWithoutSales->previousPageUrl() }}" class="btn btn-dark btn-sm"
-                        style="width: 25px; height: 27px;">
+                        style="width: 25px; height: 27px; background-color: #0d6efd; border-color: #0d6efd">
                         <svg style="margin-left:-7px; margin-top:-5px" xmlns="http://www.w3.org/2000/svg" width="14"
                             height="14" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                             <path
@@ -284,10 +281,11 @@
                         </div>
                     @endforeach
                     <a href="{{ $usersWithoutSales->nextPageUrl() }}" class="btn btn-dark btn-sm"
-                        style="width: 25px; height: 27px;">
+                        style="width: 25px; height: 27px; background-color: #0d6efd; border-color: #0d6efd">
                         <svg style="margin-left:-7px; margin-top:-5px" xmlns="http://www.w3.org/2000/svg" width="14"
                             height="14" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                             <path
+                            
                                 d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                         </svg>
                     </a>
@@ -370,25 +368,26 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th style="padding: 0.6rem;">Agent</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Absence</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Heures travail</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Salaire fixe</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Salaire</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Vente(Sem)</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Challenge</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Vente(Mois)</th>
-                                        <th style="padding: 0.6rem;" class="text-center">Prime</th>
+                                        <th style="padding: 0.6rem;" class="text-muted">Agent</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Absence</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Heures travail</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Salaire fixe</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Salaire</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Vente(Sem)</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Challenge</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Vente(Mois)</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Prime</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
-                                            <td style="padding: 0.6rem;"> {{ $user->last_name }} {{ $user->first_name }}
+                                            <td style="padding: 0.6rem;"> 
+                                                <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->absenceHours }}
+                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->absenceHours }} h
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }}</td>
+                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }} h</td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->base_salary }}
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->salary }}</td>
@@ -404,7 +403,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td class="text-center" style="padding: 0.6rem;"><strong>Total</strong></td>
+                                        <td  style="padding: 0.6rem;"><strong>Total</strong></td>
                                         <td style="padding: 0.6rem;"></td>
                                         <td style="padding: 0.6rem;"></td>
                                         <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[1] }}
@@ -581,5 +580,18 @@
         var moisAnnee = mois + " " + annee;
 
         document.getElementById("moisAnnee").textContent = moisAnnee;
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var date = new Date();
+        var mois = date.toLocaleString("default", {
+            month: "long"
+        });
+        var annee = date.getFullYear();
+        var mois = mois ;
+
+        document.getElementById("mois").textContent = mois;
     });
 </script>

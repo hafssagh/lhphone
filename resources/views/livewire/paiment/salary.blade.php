@@ -5,6 +5,18 @@
                 <div>
                     <h4 class="card-title card-title-dash">Liste des salaires</h4><br>
                 </div>
+                <div>
+                    <a class="btn btn-lg text-black mb-0 me-0 float-end" href="/advance-salary"
+                        style="font-size: 14px; line-height: 18px; padding: 8px; display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                        </svg>
+                        &nbsp;Ajouter un avancement de salaire
+                    </a>
+                </div>
             </div>
 
             <div class="row">
@@ -15,18 +27,18 @@
                         <span class="input-group-text"><i class="icon-search"></i></span>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <form wire:submit.prevent="render">
-                        <select class="form-select" wire:model="selectedCompany" id="selectedCompany"
-                            style="font-size:12px">
-                            <option value="all">Société</option>
-                            <option value="lh">LH Phone</option>
-                            <option value="h2f">H2F Premium</option>
-                        </select>
-                    </form>
-                </div>
-            </div>
-            <div>
+                @cannot('manager')
+                    <div class="col-md-3">
+                        <form wire:submit.prevent="render">
+                            <select class="form-select" wire:model="selectedCompany" id="selectedCompany"
+                                style="font-size:12px">
+                                <option value="all">Société</option>
+                                <option value="lh">LH Phone</option>
+                                <option value="h2f">H2F Premium</option>
+                            </select>
+                        </form>
+                    </div>
+                @endcannot
             </div>
             <div class="table">
                 <table class="table">
@@ -57,19 +69,21 @@
                                 <td style="padding: 0.6rem;" class="text-center">
                                     @if ($salaries->type_virement == 'virement')
                                         <div class="badge badge-outline-success paie2" style="color:#aaa8a8;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"
-                                            style="color : #F95F53; margin-bottom:2px">
-                                                <circle cx="8" cy="8" r="8"/>
-                                              </svg>
-                                              &nbsp;  Virement
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
+                                                fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"
+                                                style="color : #F95F53; margin-bottom:2px">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            &nbsp; Virement
                                         </div>
                                     @else
                                         <div class="badge badge-outline-success paie" style="color:#4DA761;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"
-                                            style="color : #4DA761;  margin-bottom:2px ">
-                                            <circle cx="8" cy="8" r="8"/>
-                                        </svg>
-                                            &nbsp; Espèce&nbsp; &nbsp; 
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
+                                                fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"
+                                                style="color : #4DA761;  margin-bottom:2px ">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            &nbsp; Espèce&nbsp; &nbsp;
                                         </div>
                                     @endif
                                 </td>
