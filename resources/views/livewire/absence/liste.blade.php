@@ -36,7 +36,8 @@
                     @foreach ($absences as $absence)
                         <tr>
                             <td class="text-center" style="padding: 0.4rem;"> {{ $absence->users->last_name }} {{ $absence->users->first_name }}</td>
-                            <td class="text-center" style="padding: 0.4rem;">{{ $absence->date }}</td>
+                            <td class="text-center" style="padding: 0.4rem;">{{ \Carbon\Carbon::parse($absence->date)->format('d-m-Y') }}
+                            </td>
                             <td class="text-center" style="padding: 0.4rem;">{{ $absence->abs_hours }} Heures</td>
                             <td style="padding: 0.4rem;">{{ $absence->justification }}</td>
                             <td class="text-center" style="padding: 0.4rem;">

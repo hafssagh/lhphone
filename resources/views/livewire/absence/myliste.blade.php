@@ -24,7 +24,7 @@
                                             </svg>
                                             <div class="wrapper ms-3">
                                                 <p class="ms-1 mb-1 fw-bold">Absence journée</p>
-                                                <small class="text-muted mb-0">{{ $absenceAuth->date }} &nbsp;
+                                                <small class="text-muted mb-0">{{ \Carbon\Carbon::parse($absenceAuth->date)->format('d-m-Y') }} &nbsp;
                                                     @if ($absenceAuth->justification == null)
                                                         <span style="color:#f73122; font-size: 12px;">
                                                             <strong>Non justifié </strong>
@@ -67,8 +67,8 @@
                 <div class="col-lg-12 ">
                     @foreach ($suspension as $s)
                         <div class="alert alert-danger" role="alert">
-                            Suspendu du &nbsp; <a class="alert-link"> {{ $s->date_debut }} </a> &nbsp; jusqu'au &nbsp; <a class="alert-link">
-                                {{ $s->date_fin }} </a>
+                            Suspendu du &nbsp; <a class="alert-link"> {{ \Carbon\Carbon::parse($s->date_debut)->format('d-m-Y') }} </a> &nbsp; jusqu'au &nbsp; <a class="alert-link">
+                                {{ \Carbon\Carbon::parse($s->date_fin)->format('d-m-Y') }} </a>
                         </div>
                     @endforeach
                 </div>
@@ -130,7 +130,7 @@
                                             </svg>
                                             <div class="wrapper ms-3">
                                                 <p class="ms-1 mb-1 fw-bold">Absence journée</p>
-                                                <small class="text-muted mb-0">{{ $absence->date }} &nbsp;
+                                                <small class="text-muted mb-0">{{ \Carbon\Carbon::parse($absence->date)->format('d-m-Y') }} &nbsp;
                                                     @if ($absence->justification == null)
                                                         <span style="color:#f73122; font-size: 12px;">
                                                             <strong>Non justifié </strong>

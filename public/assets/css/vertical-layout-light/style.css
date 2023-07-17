@@ -31674,3 +31674,10 @@ li.day {
     color: #4650dd;
     background-color: #dadcf8;
 } 
+
+
+.list-container2 {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 300px;
+}

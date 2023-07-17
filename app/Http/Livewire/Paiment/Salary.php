@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Paiment;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Salary extends Component
@@ -21,6 +23,7 @@ class Salary extends Component
     {
         $user = Auth::user();
         $manager = $user->last_name;
+        $currentMonth = Carbon::now()->format('Y-m');
 
         $salary = User::where(function ($query) {
             $query->where("first_name", "like", "%" . $this->search . "%")
@@ -42,6 +45,12 @@ class Salary extends Component
             ->when($manager == 'Hdimane' , function ($query) {
                 $query->where('company', 'h2f')
             ->where('roles.name', ['Agent']);
+            })
+            ->whereNotExists(function ($query)  use ($currentMonth) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id')
+                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
             })
             ->whereNotIn('roles.name', ['Super Administrateur'])
             ->orderBy('last_name')

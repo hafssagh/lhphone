@@ -78,7 +78,7 @@
                     @foreach ($resignations as $resignation)
                         <tr>
                             <td style="padding: 0.4rem;" class="text-center"> {{ $resignation->users->last_name }} {{ $resignation->users->first_name }}</td>
-                            <td class="text-center" style="padding: 0.4rem;">{{ $resignation->date }}</td>
+                            <td class="text-center" style="padding: 0.4rem;">{{ \Carbon\Carbon::parse($resignation->date)->format('d-m-Y') }}</td>
                             <td class="text-center" style="padding: 0.4rem;">{{ $resignation->motive }}</td>
                             <td class="text-center" style="padding: 0.4rem;">
                                 {{ \Carbon\Carbon::parse($resignation->users->created_at)->diffForHumans($resignation->users->date_contract) }}

@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Resignation;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -39,7 +40,6 @@ class Resignations extends Component
         $manager = $user->last_name;
     
         $resignation = Resignation::query()
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
             ->when($this->search, function ($query, $search) {
                 return $query->whereHas('users', function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%')
@@ -51,6 +51,11 @@ class Resignations extends Component
         $usersQuery = User::select('id', 'first_name', 'last_name')
             ->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
+            })
+            ->whereNotExists(function ($query)  use ($currentMonth) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id');
             })
             ->orderBy('last_name');
     

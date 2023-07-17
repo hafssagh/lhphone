@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Production;
 
+use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Mails;
@@ -53,12 +54,18 @@ class Sales extends Component
         }
 
         $selectedUserId = $this->newSale;
-
+        $currentMonth = Carbon::now()->format('Y-m');
+        
         $usersQuery = User::join('mails', 'mails.user_id', '=', 'users.id')
             ->select('users.id', 'users.first_name', 'users.last_name')
             ->where('users.company', 'lh')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
+            })->whereNotExists(function ($query)  use ($currentMonth) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id')
+                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
             })
             ->orderBy('last_name')
             ->when($selectedUserId, function ($query, $selectedUserId) {
@@ -129,7 +136,6 @@ class Sales extends Component
         $sale->mail_client = $mails->emailClient ?? null;
         $sale->phone_client = $mails->numClient ?? null; 
         $sale->remark = $mails->send ?? null;
-        /* $sale->remark = $this->newSale["remark"] ?? null; */
         $sale->un = $this->newSale["un"] ?? null;
         $sale->deux = $this->newSale["deux"] ?? null;
         $sale->trois = $this->newSale["trois"] ?? null;

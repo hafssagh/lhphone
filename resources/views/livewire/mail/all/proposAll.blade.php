@@ -129,7 +129,8 @@
                                  @endif
                              </td>
                              <td style="padding: 0.6rem;">
-                                 <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $propo->created_at }} </p>
+                                 <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $propo->created_at->format('d-m-Y H:i:s') }}
+                                </p>
                                  @if ($propo->rappel != null)
                                      <p class="text-danger" style="margin-bottom: 0;">
                                          <span class="text-dark">Rappel</span> : {{ $propo->rappel }}

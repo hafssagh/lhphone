@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Absences extends Component
@@ -63,6 +64,10 @@ class Absences extends Component
         $usersQuery = User::select('id', 'first_name', 'last_name')
             ->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
+            })->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id');
             })->orderBy('last_name');
 
         if ($manager == 'EL MESSIOUI') {

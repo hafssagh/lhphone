@@ -206,7 +206,7 @@
                         <div class="list-container1">
                             @foreach ($users1 as $user)
                                 @if ($user->propoDayCount != null || $user->propoDayCount != 0)
-                                    <div class="list-group list-group-flush list-group-timeline"">
+                                    <div class="list-group list-group-flush list-group-timeline">
                                         <div class="list-group-item px-0">
                                             <div class="row">
                                                 <div class="col-auto">

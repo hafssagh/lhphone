@@ -9,7 +9,7 @@ class Avance extends Model
 {
     use HasFactory;
 
-    protected $table = 'table_avances';
+    protected $table = 'avances';
     
     public $fillable = [
         "advance", "motif", "user_id"

@@ -7,6 +7,7 @@ use App\Models\Avance;
 
 use App\Models\Absence;
 use App\Models\Suspension;
+use App\Models\Resignation;
 use App\Exports\PrimeExport;
 use App\Exports\SalaryExport;
 use App\Exports\ChallengeExport;
@@ -478,7 +479,7 @@ function workHours()
     foreach ($users as $user) {
         $totalAbsenceDays = Absence::where('user_id', $user->id)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-            ->whereRaw("abs_hours > ?", [0]) 
+            ->whereRaw("abs_hours > ?", [0])
             ->sum('abs_hours');
 
         $suspension = Suspension::where('user_id', $user->id)
@@ -486,6 +487,10 @@ function workHours()
                 $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
                     ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
             })
+            ->first();
+
+        $resignation = Resignation::where('user_id', $user->id)
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
             ->first();
 
         if ($suspension) {
@@ -505,6 +510,19 @@ function workHours()
             $numberOfHours = 0;
         }
 
+        if ($resignation) {
+            $resignationDate = Carbon::parse($resignation->date);
+
+            // Add 8 hours for each day equal or after the resignation date (excluding weekends)
+            $date = $currentDate->copy();
+            while ($date->format('Y-m') === $currentMonth && $date->gte($resignationDate)) {
+                if (!$date->isWeekend()) {
+                    $numberOfHours += 8;
+                }
+                $date->subDay();
+            }  
+        }
+
         $workHours = calculerHeuresTravail();
         $user->work_hours = $workHours - $totalAbsenceDays - $numberOfHours;
         $user->save();
@@ -520,8 +538,8 @@ function AbsSalary()
 
     foreach ($users as $user) {
         $avance = Avance::where('user_id', $user->id)
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
-        ->sum('advance');
+            ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
+            ->sum('advance');
 
         $workHoursMonth =  calculerHeuresTravailParMois();
         $salary_perHour = $user->base_salary /  $workHoursMonth;

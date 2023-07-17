@@ -199,32 +199,32 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">1000 P = 1500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">300 P = 200 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">1 000 P = 1 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">300 P = 200 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">1400 P = 2500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">400 P = 300 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">1 400 P = 2 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">400 P = 300 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">1800 P = 3500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">500 P = 400 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">1 800 P = 3 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">500 P = 400 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">2200 P = 4500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">600 P = 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">2 200 P = 4 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">600 P = 500 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">2600 P = 5500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">700 P = 600 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">2 600 P = 5 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">700 P = 600 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">3000 P = 6500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">800 P = 700 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">3 000 P = 6 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">800 P = 700 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.3rem;">3400 P = 7500 Dh</td>
-                                    <td class="text-center" style="padding: 0.3rem;">900 P = 800 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">3 400 P = 7 500 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">900 P = 800 Dh</td>
                                 </tr>
                                 <tr>
                                     <td class="text-center text-muted" style="padding: 1rem;" colspan="2">
@@ -293,19 +293,22 @@
                         @if ($rappelManager->isEmpty())
                             <span><i>Aucun rappel n'est prévu pour aujourd'hui.</i> </span>
                         @endif
-                        <ul class="bullet-line-list2">
-                            @foreach ($rappelManager as $rappelM)
-                                <li>
-                                    <div class="d-flex justify-content-between">
-                                        <div><strong>{{ $rappelM->company }}</strong><span>
-                                                ({{ $rappelM->nameClient }})
-                                            </span><span class="text-muted">// {{ $rappelM->users->first_name }} </span>
+                        <div class="list-container2">
+                            <ul class="bullet-line-list2">
+                                @foreach ($rappelManager as $rappelM)
+                                    <li>
+                                        <div class="d-flex justify-content-between">
+                                            <div><strong>{{ $rappelM->company }}</strong><span>
+                                                    ({{ $rappelM->nameClient }})
+                                                </span><span class="text-muted">// {{ $rappelM->users->first_name }}
+                                                </span>
+                                            </div>
+                                            <p  style="margin-right: 10px">{{ \Carbon\Carbon::parse($rappelM->rappel)->format('H:i') }}</p>
                                         </div>
-                                        <p>{{ \Carbon\Carbon::parse($rappelM->rappel)->format('H:i') }}</p>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                         <div class="list align-items-center pt-3">
                             <div class="wrapper w-100">
                                 <p class="mb-0">

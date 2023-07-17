@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Suspension;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Suspensions extends Component
@@ -39,6 +40,7 @@ class Suspensions extends Component
         Carbon::setLocale("fr");
         $user = Auth::user();
         $manager = $user->last_name;
+        $currentMonth = Carbon::now()->format('Y-m');
 
         $query = Suspension::query()
             ->when($this->search, function ($query, $search) {
@@ -52,6 +54,10 @@ class Suspensions extends Component
         $usersQuery = User::select('id', 'first_name', 'last_name')
             ->whereHas('roles', function ($query) {
                 $query->whereNot('name', 'super administrateur');
+            })->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id');
             })->orderBy('last_name');
 
         if ($manager == 'EL MESSIOUI') {

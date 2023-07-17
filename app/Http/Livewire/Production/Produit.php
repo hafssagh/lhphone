@@ -8,8 +8,9 @@ use App\Models\User;
 use App\Models\Absence;
 use Livewire\Component;
 use App\Models\Objective;
-use App\Models\Resignation;
 use App\Models\Suspension;
+use App\Models\Resignation;
+use Illuminate\Support\Facades\DB;
 
 class Produit extends Component
 {
@@ -38,13 +39,25 @@ class Produit extends Component
 
     public function mount()
     {
-        $this->users = User::where('company', 'lh')
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $this->users = User::whereNotExists(function ($query)  use ($currentMonth) {
+            $query->select(DB::raw(1))
+                ->from('resignations')
+                ->whereRaw('resignations.user_id = users.id')
+                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+        })->where('company', 'lh')
             ->where('group', '1')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })->get();
 
-        $this->users2 = User::where('company', 'lh')
+        $this->users2 = User::whereNotExists(function ($query)  use ($currentMonth) {
+            $query->select(DB::raw(1))
+                ->from('resignations')
+                ->whereRaw('resignations.user_id = users.id')
+                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+        })->where('company', 'lh')
             ->where('group', '2')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');

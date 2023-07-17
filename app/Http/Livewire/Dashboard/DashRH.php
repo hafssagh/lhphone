@@ -8,6 +8,7 @@ use App\Models\Absence;
 use Livewire\Component;
 use App\Models\Suspension;
 use App\Models\Resignation;
+use Illuminate\Support\Facades\DB;
 
 class DashRH extends Component
 {
@@ -22,16 +23,21 @@ class DashRH extends Component
 
         $usersQuery = User::whereHas('roles', function ($query) {
             $query->where('name', 'agent');
-        })->where(function ($query) {
+        })->where(function ($query) use ($currentMonth) {
             $query->where('group', $this->group)
                 ->orWhere(function ($query) {
                     $query->where('company', 'h2f')
                         ->whereNull('group');
                 });
+        })->whereNotExists(function ($query) use ($currentMonth) {
+            $query->select(DB::raw(1))
+                ->from('resignations')
+                ->whereRaw('resignations.user_id = users.id')
+                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?",[$currentMonth]);
         });
 
         $users = $usersQuery->orderBy('last_name')->get();
-
+    
         $userCardre = User::whereHas('roles', function ($query) {
             $query->where('name', 'manager');
         })->orderBy('last_name')->get();

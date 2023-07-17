@@ -71,7 +71,8 @@
                                 <input type="checkbox" wire:model="selectedAbsenceIds" value="{{ $absence->id }}">
                             </td>
                             <td style="padding: 0.7rem;">{{ $absence->users->first_name }} {{ $absence->users->last_name }}</td>
-                            <td style="padding: 0.7rem;" class="text-center">{{ $absence->date }}</td>
+                            <td style="padding: 0.7rem;" class="text-center">{{ \Carbon\Carbon::parse($absence->date)->format('d-m-Y') }}
+                            </td>
                             <td style="padding: 0.7rem;" class="text-center">{{ $absence->abs_hours }} Heures</td>
                             <td style="padding: 0.7rem;">{{ $absence->justification }}</td>
                         </tr>

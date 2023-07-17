@@ -83,7 +83,7 @@
                             <td class="text-center" style="padding: 0.8rem;">{{ $avance->advance }} DH</td>
                             <td class="text-center" style="padding: 0.8rem;">{{ $avance->motif }}</td>
                             <td class="text-center" style="padding: 0.8rem;">
-                                {{ $avance->users->created_at->format('Y-m-d') }}
+                                {{ $avance->users->created_at->format('d-m-Y') }}
                             </td>
                         </tr>
                     @endforeach

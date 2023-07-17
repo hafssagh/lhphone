@@ -210,22 +210,22 @@
                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                         <label class="col-sm-4">Pommeaux:</label>
                         <div class="col-sm-8">
-                            <input class="form-control detail @error('editSale.mousseurs') is-invalid @enderror"
-                                wire:model="editSale.mousseurs" type="number">
+                            <input class="form-control detail @error('editSale.pommeaux') is-invalid @enderror"
+                                wire:model="editSale.pommeaux" type="number">
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                         <label class="col-sm-4">Mousseurs:</label>
                         <div class="col-sm-8">
-                            <input class="form-control detail @error('editSale.reglette') is-invalid @enderror"
-                                wire:model="editSale.reglette" type="number">
+                            <input class="form-control detail @error('editSale.mousseurs') is-invalid @enderror"
+                                wire:model="editSale.mousseurs" type="number">
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                         <label class="col-sm-4">Réglettes:</label>
                         <div class="col-sm-8">
-                            <input class="form-control detail @error('editSale.pommeaux') is-invalid @enderror"
-                                wire:model="editSale.pommeaux" type="number" {{-- disabled --}}>
+                            <input class="form-control detail @error('editSale.reglette') is-invalid @enderror"
+                                wire:model="editSale.reglette" type="number" {{-- disabled --}}>
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">

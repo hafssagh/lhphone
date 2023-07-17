@@ -46,7 +46,9 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th><span style=" margin-left:20px">Agent</span></th>
+                        @cannot('agent')
+                            <th><span style=" margin-left:20px">Agent</span></th>
+                        @endcannot
                         <th class="text-center">Quantité</th>
                         <th class="text-center">Date de vente</th>
                         <th class="text-center">Statut</th>
@@ -80,11 +82,13 @@
                                     @endif
                                 </button>
                             </td>
-                            <td style="padding: 0.3rem;">
-                                <span style=" margin-left:20px">{{ $sale->users->first_name }}</span>
-                            </td>
+                            @cannot('agent')
+                                <td style="padding: 0.3rem;">
+                                    <span style=" margin-left:20px">{{ $sale->users->first_name }}</span>
+                                </td>
+                            @endcannot
                             <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
-                            <td style="padding: 0.3rem;" class="text-center">{{ $sale->date_sal }}</td>
+                            <td style="padding: 0.3rem;" class="text-center">{{ \Carbon\Carbon::parse($sale->date_sal)->format('d-m-Y') }}</td>
                             <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2')
                                     <div class="badge badge-opacity-dark" style="background-color: #cccccc;">En attente
@@ -123,7 +127,8 @@
                                         <span class="sr-only"></span>
                                     </div>
                                 @elseif($sale->state == '1' || $sale->state == '-1')
-                                    {{ $sale->date_confirm }}
+                                    {{ \Carbon\Carbon::parse($sale->date_confirm)->format('d-m-Y') }} 
+
                                 @else
                                     {{ $sale->updated_at->format('Y-m-d') }}
                                 @endif
@@ -136,15 +141,14 @@
                                 </p>
                             </td>
                             <td><span>
-                                @if ($sale->remark == 'rive')
-                                <span
-                                    class=" vertical-text2 text-primary"><strong> Eco<br> Rive</strong>
-                                </span>
-                            @elseif ($sale->remark == 's2ee')
-                                <span
-                                    class=" vertical-text2 text-success"><strong>s2ee</strong>
-                                </span>
-                            @endif</span></td>
+                                    @if ($sale->remark == 'rive')
+                                        <span class=" vertical-text2 text-primary"><strong> Eco<br> Rive</strong>
+                                        </span>
+                                    @elseif ($sale->remark == 's2ee')
+                                        <span class=" vertical-text2 text-success"><strong>s2ee</strong>
+                                        </span>
+                                    @endif
+                                </span></td>
 
                         </tr>
                     @endforeach
