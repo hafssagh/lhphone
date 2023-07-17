@@ -31,18 +31,19 @@ class SuivieV extends Component
             ->selectRaw('COUNT(CASE WHEN sales.state IN (6, 7, 8) THEN 1 ELSE NULL END) AS sale_count')
             ->selectRaw('COUNT(CASE WHEN sales.state = 5 THEN 1 ELSE NULL END) AS sale_count2')
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.group')
-            ->orderBy('first_name', 'asc')
-            ->get();
+            ->orderBy('first_name', 'asc');
         
-    
-            if ($manager == 'EL MESSIOUI') {
-                $users->where('users.group', [1,2]);
-            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-                $users->where('users.group', 1);
-            } elseif ($manager == 'Essaid') {
-                $users->where('users.group', 2);
-            }
-    
+        if ($manager == 'EL MESSIOUI') {
+            $users;
+        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+            $users->where('users.group', 1);
+        } elseif ($manager == 'Essaid') {
+            $users->where('users.group', 2);
+        }
+        
+        $users = $users->get();
+        
+
             $monthWeeks = fetchMonthWeeks();
 
             $weeklySales = [];

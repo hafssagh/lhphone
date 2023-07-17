@@ -32,18 +32,19 @@ class Suivie extends Component
         ->selectRaw('COUNT(CASE WHEN mails.state IN (0, 1, 3, -1) THEN 1 ELSE NULL END) AS mail_count')
         ->selectRaw('COUNT(CASE WHEN mails.state = 1 THEN 1 ELSE NULL END) AS mail_count2')
         ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.group')
-        ->orderBy('first_name', 'asc')
-        ->get();
+        ->orderBy('first_name', 'asc');
     
 
         if ($manager == 'EL MESSIOUI') {
-            $users->where('users.group', [1,2]);
+            $users;
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $users->where('users.group', 1);
         } elseif ($manager == 'Essaid') {
             $users->where('users.group', 2);
         }
 
+        $users = $users->get();
+        
         $monthWeeks = fetchMonthWeeks();
         $weeklyPropo = [];
 

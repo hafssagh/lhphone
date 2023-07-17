@@ -1,5 +1,6 @@
 <div>
-    @can('superadmin')
+    @canany(['manager', 'superadmin'])
+   
         <div class="col-sm-12">
             <div class="home-tab">
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
@@ -8,10 +9,12 @@
                             <a class="nav-link active ps-0" href="/dashboard" role="tab" aria-controls="overview"
                                 aria-selected="true">Général</a>
                         </li>
+                        @can('superadmin')
                         <li class="nav-item">
                             <a class="nav-link" href="/dashboardRH" role="tab" aria-selected="false">Ressources
                                 humaines</a>
                         </li>
+                        @endcan
                         <li class="nav-item">
                             <a class="nav-link" href="/dashboardF" role="tab" aria-selected="false">Suivi Agent</a>
                         </li>
@@ -22,7 +25,7 @@
             </div>
         </div>
         <br>
-    @endcan
+    @endcanany
     <div class="row">
         <div class="col-sm-12">
             <div class="row mb-3">

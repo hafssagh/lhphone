@@ -7,10 +7,12 @@
                         <a class="nav-link ps-0" href="/dashboard" role="tab" aria-controls="overview"
                             aria-selected="false">Général</a>
                     </li>
+                    @can('superadmin')
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboardRH" role="tab" aria-selected="false">Ressources
                             humaines</a>
                     </li>
+                    @endcan
                     <li class="nav-item ">
                         <a class="nav-link active" href="/dashboardF" role="tab" aria-selected="true">Suivi
                             Agent</a>
