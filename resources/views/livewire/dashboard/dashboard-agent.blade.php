@@ -212,7 +212,7 @@
                         </div>
                         <div class="col-sm-7">
                             <canvas width="292" height="551" id="doughnutChart"
-                                style="margin-top:-30px; display: block; box-sizing: border-box; height: 191px; width: 302px;"></canvas>
+                                style="margin-top:-35px; display: block; box-sizing: border-box; height: 191px; width: 302px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -222,6 +222,7 @@
     <div class="col-lg-7">
         <div class="card">
             <div class="card-body">
+                <canvas id="salesChart"></canvas>
             </div>
         </div>
     </div>
@@ -354,6 +355,62 @@
                     }
                 }
             }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:load', function() {
+        var months = @json($months);
+        var refusedSales = @json($refusedSales);
+        var acceptedSales = @json($acceptedSales);
+
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                        label: 'Acceptées',
+                        data: acceptedSales,
+                        type: 'line',
+                        borderColor: '#c2c0c0 ',
+                        backgroundColor: '#c2c0c0 ',
+                    },
+                    {
+                        label: 'Annulées',
+                        data: refusedSales,
+                        type: 'bar',
+                        borderColor: '#e0e0e0',
+                        backgroundColor: '#e0e0e0',
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            font: {
+                                weight: 'bold'
+                            },
+                        },
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                        },
+                    }
+                }
+            },
         });
     });
 </script>

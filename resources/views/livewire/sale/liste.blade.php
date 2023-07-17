@@ -91,8 +91,7 @@
                             <td style="padding: 0.3rem;" class="text-center">{{ \Carbon\Carbon::parse($sale->date_sal)->format('d-m-Y') }}</td>
                             <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2')
-                                    <div class="badge badge-opacity-dark" style="background-color: #cccccc;">En attente
-                                        d'envoi</div>
+                                    <div class="badge badge-opacity-dark" style="background-color: #cccccc;">Cmd confirmée</div>
                                 @elseif($sale->state == '3')
                                     <div class="badge badge-opacity-dark"
                                         style="background-color: #d9cdf3; color:#75609c">Devis
@@ -130,7 +129,7 @@
                                     {{ \Carbon\Carbon::parse($sale->date_confirm)->format('d-m-Y') }} 
 
                                 @else
-                                    {{ $sale->updated_at->format('Y-m-d') }}
+                                    {{ $sale->updated_at->format('d-m-Y') }}
                                 @endif
                             </td>
                             <td style="padding: 0.3rem;">

@@ -13,7 +13,7 @@
                                 humaines</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" role="tab" aria-selected="false">Agents</a>
+                            <a class="nav-link" href="/dashboardF" role="tab" aria-selected="false">Suivi Agent</a>
                         </li>
                     </ul>
                     <div>
@@ -95,8 +95,7 @@
                             <div class="row align-items-center justify-content-center text-danger">
                                 <div class="col-10">
                                     <p class="mb-0">
-                                        <strong><a href="/proposal/all"
-                                                style="text-decoration: none;color: inherit;">En
+                                        <strong><a href="/proposal/all" style="text-decoration: none;color: inherit;">En
                                                 savoir
                                                 plus</a></strong>
                                     </p>
@@ -161,14 +160,17 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     <h3 style="color:#835db4; font-size: 1.26rem">{{ $cards[3] }} Devis</h3>
-                                    <p class="text-sm mb-0">Signés  (<span
-                                        id="moisAnnee"></span>) </p>
+                                    <p class="text-sm mb-0">Signés (<span id="moisAnnee"></span>) </p>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
-                                    <path style="color:#835db4" fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                    <path style="color:#835db4" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                    <path style="color:#835db4" d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                                  </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                                    fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                                    <path style="color:#835db4" fill-rule="evenodd"
+                                        d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                    <path style="color:#835db4"
+                                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                    <path style="color:#835db4"
+                                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                                </svg>
                             </div>
                         </div>
                         <div class="card-footer py-3"
@@ -241,8 +243,7 @@
                         <div class="d-sm-flex justify-content-between align-items-start">
                             <h3 class="card-title"
                                 style=" color: #010101; margin-bottom: 1.2rem; text-transform: capitalize; font-size: 1.126rem; font-weight: 600;">
-                                Classement Agent (<span
-                                id="mois"></span>) 
+                                Classement Agent (<span id="mois"></span>)
                         </div>
                         <canvas id="my_chart" style="height: 80%; width:50%"></canvas>
                     </div>
@@ -250,11 +251,13 @@
                 <div class="d-sm-flex justify-content-between align-items-start">
                     <h3 class="card-title"
                         style="color: #010101; margin-bottom: 1.2rem; text-transform: capitalize; font-size: 1.126rem; font-weight: 600;">
-                        <svg style="color:#DC3545;" xmlns="http://www.w3.org/2000/svg" width="17" height="22" fill="none" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
-                            <path fill="currentColor" stroke="#DC3545" stroke-width="1" d="M0 0h1v15h15v1H0V0Zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5Z" />
-                        </svg>                        
+                        <svg style="color:#DC3545;" xmlns="http://www.w3.org/2000/svg" width="17" height="22"
+                            fill="none" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
+                            <path fill="currentColor" stroke="#DC3545" stroke-width="1"
+                                d="M0 0h1v15h15v1H0V0Zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5Z" />
+                        </svg>
                         &nbsp;
-                         Agents à 0 ({{ $usersWithoutSalesCount }}) 
+                        Agents à 0 ({{ $usersWithoutSalesCount }})
                     </h3>
                 </div><br>
                 <div id="usersContainer" class="d-sm-flex justify-content-between align-items-start">
@@ -285,7 +288,6 @@
                         <svg style="margin-left:-7px; margin-top:-5px" xmlns="http://www.w3.org/2000/svg" width="14"
                             height="14" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                             <path
-                            
                                 d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                         </svg>
                     </a>
@@ -382,12 +384,13 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
-                                            <td style="padding: 0.6rem;"> 
+                                            <td style="padding: 0.6rem;">
                                                 <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->absenceHours }} h
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }} h</td>
+                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }} h
+                                            </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->base_salary }}
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->salary }}</td>
@@ -403,7 +406,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td  style="padding: 0.6rem;"><strong>Total</strong></td>
+                                        <td style="padding: 0.6rem;"><strong>Total</strong></td>
                                         <td style="padding: 0.6rem;"></td>
                                         <td style="padding: 0.6rem;"></td>
                                         <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[1] }}
@@ -500,7 +503,7 @@
                 data: {
                     labels: {!! json_encode($users3->pluck('first_name')) !!},
                     datasets: [{
-                        label: 'Total Sales',
+                        label: 'Totale vente',
                         data: {!! json_encode($users3->pluck('total_sales')) !!},
                         backgroundColor: '#e0e0e0',
                         borderColor: '#c2c0c0',
@@ -570,28 +573,28 @@
     </script>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var date = new Date();
-        var mois = date.toLocaleString("default", {
-            month: "long"
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var date = new Date();
+            var mois = date.toLocaleString("default", {
+                month: "long"
+            });
+            var annee = date.getFullYear();
+            var moisAnnee = mois + " " + annee;
+
+            document.getElementById("moisAnnee").textContent = moisAnnee;
         });
-        var annee = date.getFullYear();
-        var moisAnnee = mois + " " + annee;
+    </script>
 
-        document.getElementById("moisAnnee").textContent = moisAnnee;
-    });
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var date = new Date();
+            var mois = date.toLocaleString("default", {
+                month: "long"
+            });
+            var annee = date.getFullYear();
+            var mois = mois;
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var date = new Date();
-        var mois = date.toLocaleString("default", {
-            month: "long"
+            document.getElementById("mois").textContent = mois;
         });
-        var annee = date.getFullYear();
-        var mois = mois ;
-
-        document.getElementById("mois").textContent = mois;
-    });
-</script>
+    </script>

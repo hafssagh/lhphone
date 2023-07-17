@@ -7,7 +7,6 @@ use App\Models\Sale;
 use App\Models\User;
 use App\Models\Mails;
 use App\Models\Absence;
-use App\Models\Objective;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +20,35 @@ class DashboardAgent extends Component
         $quantitySoldPerWeek = $this->getQuantitySoldPerWeek();
         $objectif = $this->objectif();
 
+        $user = Auth::user();
+
+        $salesData = Sale::where('user_id', $user->id)->select('date_confirm', 'quantity', 'state')
+            ->orderBy('date_confirm')
+            ->get();
+
+        $monthlyData = $salesData->groupBy(function ($sale) {
+            return Carbon::parse($sale->date_confirm)->format('M');
+        })->map(function ($group) {
+            $refusedSales = $group->where('state', '-1')->sum('quantity');
+            $acceptedSales = $group->whereIn('state', [1, 5, 6, 7, 8])->sum('quantity');
+            return [
+                'refusedSales' => $refusedSales,
+                'acceptedSales' => $acceptedSales,
+            ];
+        });
+
+        $monthlyData = $monthlyData->sortBy(function ($item, $key) {
+            return Carbon::parse($key)->month;
+        });
+
+        $months = $monthlyData->keys()->toArray();
+        $refusedSales = $monthlyData->pluck('refusedSales')->toArray();
+        $acceptedSales = $monthlyData->pluck('acceptedSales')->toArray();
+
         return view(
             'livewire.dashboard.dashboard-agent',
-            ['cards' => $cards, 'quantitySoldPerWeek' => $quantitySoldPerWeek, 'objectif' => $objectif]
+            ['cards' => $cards, 'quantitySoldPerWeek' => $quantitySoldPerWeek, 'objectif' => $objectif],
+            compact('months', 'refusedSales', 'acceptedSales')
         )
             ->extends("layouts.master")
             ->section("contenu");
@@ -60,8 +85,8 @@ class DashboardAgent extends Component
     public function objectif()
     {
         $user = Auth::user();
-        $objectives = User:: pluck('objectif');
-    
+        $objectives = User::pluck('objectif');
+
         return $objectives;
     }
 
@@ -107,7 +132,4 @@ class DashboardAgent extends Component
 
         return $quantitySoldPerWeek;
     }
-
- 
-
 }

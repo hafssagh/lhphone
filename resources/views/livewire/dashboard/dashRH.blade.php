@@ -12,7 +12,7 @@
                                 aria-selected="true">Ressources humaines</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"href="#demographics" role="tab">Agents</a>
+                            <a class="nav-link" href="/dashboardF" role="tab">Suivi Agent</a>
                         </li>
                     </ul>
                     <div>
