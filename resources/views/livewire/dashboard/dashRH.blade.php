@@ -325,7 +325,11 @@
                                                 {{ $user->first_name }}</strong>
                                             </td>
                                             <td class="text-center" style="padding: 0.8rem;">
-                                                {{ $user->absenceHours }} h
+                                                @if ($user->absenceHours != 0)
+                                                <strong class="text-danger">{{ $user->absenceHours }} h</strong> 
+                                                @else
+                                                 {{ $user->absenceHours }} h 
+                                                @endif
                                             </td>
                                             <td class="text-center" style="padding: 0.8rem;">{{ $user->work_hours }} h
                                             </td>

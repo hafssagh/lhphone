@@ -54,7 +54,7 @@
                                                 } elseif ($mail->state == '1') {
                                                     $eventColor = '#b0d9b1';
                                                 } elseif ($mail->state == '-1') {
-                                                    $eventColor = '#ffe2e0';
+                                                    $eventColor = '#f5c7c4';
                                                 } elseif ($mail->state == '3') {
                                                     $eventColor = '#faf38c';
                                                 }

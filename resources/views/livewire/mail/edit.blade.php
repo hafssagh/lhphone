@@ -42,7 +42,7 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 0.5rem;"><strong class="title">Société</strong></td>
-                                        <td style="padding: 0.5rem;">{{ $editMail['company'] }}</td>
+                                        <td style="padding: 0.5rem; max-width: 35px; word-wrap: break-word; white-space: normal;">{{ $editMail['company'] }}</td>
                                     </tr>
                                     <tr>
                                         <td style="padding: 0.5rem;"><strong class="title">Responsable</strong></td>

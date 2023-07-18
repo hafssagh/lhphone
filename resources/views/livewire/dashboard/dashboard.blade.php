@@ -78,7 +78,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 class="text-danger" style="font-size: 1.18rem">{{ $cards[8] }} Propositions
+                                    <h3 class="text-danger" style="font-size: 1.15rem">{{ $cards[8] }} Propositions
                                     </h3>
                                     <p class="text-sm mb-0">Non traitées</p>
                                 </div>
@@ -390,7 +390,12 @@
                                             <td style="padding: 0.6rem;">
                                                 <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->absenceHours }} h
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->absenceHours != 0)
+                                                <strong class="text-danger">{{ $user->absenceHours }} h</strong> 
+                                                @else
+                                                 {{ $user->absenceHours }} h 
+                                                @endif
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }} h
                                             </td>
