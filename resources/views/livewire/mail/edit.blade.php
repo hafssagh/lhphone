@@ -26,8 +26,8 @@
                                             class="form-control @error('editMail.state') is-invalid @enderror">
                                             <option value="">-----</option>
                                             <option value="0">Non traitée</option>
-                                            <option value="1">Acceptée</option>
-                                            <option value="-1">Refusée</option>
+                                            <option value="1">Confirmée</option>
+                                            <option value="-1">Hors cible / Pas intéressé</option>
                                             <option value="3">Rappeler</option>
                                         </select>
                                     </div>

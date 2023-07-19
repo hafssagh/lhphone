@@ -251,13 +251,12 @@ class Dashboard extends Component
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
                 ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+        })->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+            $query->where('users.group', 1);
+        })->when(($manager == 'Essaid'), function ($query) {
+            $query->where('users.group', 2);
         })->get();
-        $usersQuery->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
-            $query->where('group', 1);
-        });
-        $usersQuery->when(($manager == 'Essaid'), function ($query) {
-            $query->where('group', 2);
-        });
+        
 
         $sumSal = $usersQuery->sum('salary');
         $sumSalFixe = $usersQuery->sum('base_salary');

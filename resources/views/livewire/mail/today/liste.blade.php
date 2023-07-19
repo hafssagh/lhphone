@@ -17,8 +17,8 @@
                     </div>
                 @endcan
             </h4>
-            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <a href="{{ route('mailAll') }}" class="btn btn-outline-dark"
+            <div class="btn-group" aria-label="Button group with nested dropdown">
+                <a href="/proposal/all" class="btn btn-outline-dark"
                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Tous</a>
             </div>
         </div><br>

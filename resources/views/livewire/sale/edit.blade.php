@@ -130,7 +130,7 @@
                 </tr>
                 <tr>
                     <td style="padding: 0.5rem;"><strong class="title">Société</strong></td>
-                    <td style="padding: 0.5rem;">{{ $editSale['name_client'] }}</td>
+                    <td style="padding: 0.5rem; max-width: 35px; word-wrap: break-word; white-space: normal;">{{ $editSale['name_client'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 0.5rem;"><strong class="title">No de téléphone</strong></td>

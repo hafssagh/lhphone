@@ -90,31 +90,11 @@ class DashboardAgent extends Component
         return $objectives;
     }
 
-    function MonthWeeks()
-    {
-        $monthWeeks = [];
-        $currentDate = Carbon::now()->startOfMonth();
-
-        for ($weekCount = 1; $weekCount <= 4; $weekCount++) {
-            $weekStart = $currentDate->copy()->startOfWeek();
-            $weekEnd = $currentDate->copy()->endOfWeek();
-
-            $monthWeeks[] = [
-                'start' => $weekStart->toDate(),
-                'end' => $weekEnd->toDate(),
-            ];
-
-            $currentDate->addWeek();
-        }
-
-        return $monthWeeks;
-    }
-
     function getQuantitySoldPerWeek()
     {
         $user = Auth::user();
 
-        $monthWeeks = $this->MonthWeeks();
+        $monthWeeks = fetchMonthWeeks();
         $quantitySoldPerWeek = [];
 
         foreach ($monthWeeks as $week) {

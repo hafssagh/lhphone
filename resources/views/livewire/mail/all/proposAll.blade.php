@@ -58,8 +58,8 @@
              <div class="col-md-3">
                  <select class="form-select" wire:model="selectedStatus" wire:change="render" style="font-size: 13px">
                      <option value="all">Tous les statuts</option>
-                     <option value="1">Acceptée</option>
-                     <option value="-1">Refusée</option>
+                     <option value="1">Confirmée</option>
+                     <option value="-1">Hors cible / Pas intéressé</option>
                      <option value="3">À rappeler</option>
                      <option value="0">Non traitée</option>
                  </select>
@@ -112,11 +112,11 @@
                              <td style="padding: 0.6rem;">
                                  @if ($propo->state == '-1')
                                      <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">
-                                         Refusée
+                                        Hors cible / Pas intéressé
                                      </div>
                                  @elseif ($propo->state == '1')
                                      <div class="badge badge-opacity-success" style="background-color: #c8e6c9;">
-                                         Acceptée
+                                         Confirmée
                                      </div>
                                  @elseif ($propo->state == '0')
                                      <div class="badge badge-opacity-dark" style="background-color: #cccccc;">
