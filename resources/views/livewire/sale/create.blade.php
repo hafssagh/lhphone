@@ -120,8 +120,7 @@
                             </div>
                         </div>
                         <div class="form-group row mb-1">
-                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Qantité <span
-                                    class="text-danger"><strong>*</strong></span></label>
+                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Qantité </label>
                             <div class="col-sm-8">
                                 <input type="number" wire:model="newSale.quantity"
                                     class="form-control

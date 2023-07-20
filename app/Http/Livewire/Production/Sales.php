@@ -109,10 +109,8 @@ class Sales extends Component
     public function addNewSale()
     {
         $this->validate([
-            'newSale.quantity' => 'required',
             'newSale.name_client' => 'required|unique:sales,name_client',
         ], [
-            'newSale.quantity.required' => "La quantité est requise.",
             'newSale.name_client.required' => "Le nom de la société est requis.",
             'newSale.name_client.unique' => "Le nom de la société doit être unique.",
         ]);
@@ -128,7 +126,19 @@ class Sales extends Component
         } else {
             $sale->user_id = $this->newSale["user"];
         }
-        $sale->quantity = $this->newSale["quantity"];
+        /* $sale->quantity = $this->newSale["quantity"]; */
+        $quantity = $this->newSale["un"] ?? 0;
+        $quantity += $this->newSale["deux"] ?? 0;
+        $quantity += $this->newSale["trois"] ?? 0;
+        $quantity += $this->newSale["cinq"] ?? 0;
+        $quantity += $this->newSale["dix"] ?? 0;
+        $quantity += $this->newSale["hublots"] ?? 0;
+        $quantity += $this->newSale["reglette"] ?? 0;
+        $quantity += $this->newSale["pommeaux"] ?? 0;
+        $quantity += $this->newSale["mousseurs"] ?? 0;
+        $quantity += $this->newSale["tube"] ?? 0;
+        $quantity += $this->newSale["spot"] ?? 0;
+        $sale->quantity = $quantity;
         $sale->state = $this->newSale["state"] = "2";
         $sale->date_sal = $this->newSale["date_sal"] = date('Y-m-d');
         $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
@@ -199,6 +209,18 @@ class Sales extends Component
         if ($sale->state == '1' || $sale->state == '-1') {
             $sale->date_confirm = now()->toDateString();
         }
+        $quantity = $this->editSale["un"] ?? 0;
+        $quantity += $this->editSale["deux"] ?? 0;
+        $quantity += $this->editSale["trois"] ?? 0;
+        $quantity += $this->editSale["cinq"] ?? 0;
+        $quantity += $this->editSale["dix"] ?? 0;
+        $quantity += $this->editSale["hublots"] ?? 0;
+        $quantity += $this->editSale["reglette"] ?? 0;
+        $quantity += $this->editSale["pommeaux"] ?? 0;
+        $quantity += $this->editSale["mousseurs"] ?? 0;
+        $quantity += $this->editSale["tube"] ?? 0;
+        $quantity += $this->editSale["spot"] ?? 0;
+        $sale->quantity = $quantity;
         $sale->save();
         CalculChallenge();
         CalculPrime();

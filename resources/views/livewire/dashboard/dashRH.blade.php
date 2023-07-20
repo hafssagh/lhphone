@@ -1,5 +1,6 @@
 <div>
     @can('superadmin')
+    <br>
         <div class="col-sm-12">
             <div class="home-tab">
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
@@ -191,7 +192,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4 stretch-card">
+            <div class="col-sm-4 grid-margin">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -238,7 +239,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-12 stretch-card">
+            <div class="col-xl-4 col-lg-12 grid-margin">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -250,7 +251,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-12">
+            <div class="col-xl-4 col-lg-12 grid-margin">
                 <div class="card">
                     <div class="card-body">
                         <div>
@@ -301,10 +302,10 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-sm-12 ">
+            <div class="col-sm-12 grid-margin">
                 <div class="card">
                     <div class="card-body">
-                        <div class="table">
+                        <div class="table table-container">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -361,10 +362,10 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-sm-12 ">
+            <div class="col-sm-12 stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <div class="table">
+                        <div class="table table-container">
                             <table class="table">
                                 <thead>
                                     <tr>

@@ -1,5 +1,6 @@
 <div>
-    <div class="col-sm-12">
+    <br>
+    <div class="col-sm-12 stretch-card">
         <div class="home-tab">
             <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                 <ul class="nav nav-tabs" role="tablist">

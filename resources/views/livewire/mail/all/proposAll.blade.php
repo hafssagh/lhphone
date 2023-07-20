@@ -74,8 +74,8 @@
                          @cannot('agent')
                              <th>Agent</th>
                          @endcannot
-                         <th>Société</th>
                          <th>Client</th>
+                         <th>Société</th>
                          <th>Statut</th>
                          <th>Date d'envoi</th>
                          <th></th>
@@ -101,9 +101,9 @@
                                      {{ $propo->users->first_name }}</td>
                              @endcannot
                              <td style="padding: 0.6rem;"><strong
-                                     style="color: rgb(65, 118, 170)">{{ $propo->company }}</strong></td>
+                                     style="color: rgb(65, 118, 170)">{{ $propo->nameClient }}</strong></td>
                              <td style="padding: 0.6rem;">
-                                 <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $propo->nameClient }}</p>
+                                 <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $propo->company }}</p>
                                  <p class="text-muted" style="margin-bottom: 0;">
                                      <span class="text-dark">Email</span>: {{ $propo->emailClient }} &nbsp;
                                      <span class="text-dark">No</span>: {{ $propo->numClient }}
@@ -133,7 +133,7 @@
                                 </p>
                                  @if ($propo->rappel != null)
                                      <p class="text-danger" style="margin-bottom: 0;">
-                                         <span class="text-dark">Rappel</span> : {{ $propo->rappel }}
+                                         <span class="text-dark">Rappel</span> : {{ \Carbon\Carbon::parse($propo->rappel)->format('d-m-Y\TH:i') }}
                                      </p>
                                  @endif
                              </td>

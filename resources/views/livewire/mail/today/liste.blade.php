@@ -85,7 +85,7 @@
                                                             <div class="col" style="margin-left:-10px;">
                                                                 <strong>{{ $mail->company }} </strong>
                                                                 @if ($mail->rappel != null)
-                                                                    <span class="text-danger"> ({{ $mail->rappel }})</span>
+                                                                    <span class="text-danger"> ({{ \Carbon\Carbon::parse($mail->rappel)->format('d-m-Y\TH:i') }})</span>
                                                                 @endif
                                                                 <br>
                                                                 {{ $mail->users->last_name }} {{ $mail->users->first_name }}
@@ -95,7 +95,7 @@
                                                     @can('agent')
                                                         <strong>{{ $mail->company }} </strong>
                                                         @if ($mail->rappel != null)
-                                                            <span class="text-danger"> ({{ $mail->rappel }})</span>
+                                                            <span class="text-danger"> ({{ \Carbon\Carbon::parse($mail->rappel)->format('d-m-Y\TH:i') }})</span>
                                                         @endif
                                                         <br>
                                                         @if ($mail->send == 'rive')

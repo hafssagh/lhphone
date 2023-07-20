@@ -3,47 +3,48 @@
 </div>
 <br>
 <div class="row">
-    <div class="col-md-3 ">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Calendrier</h4>
-                <div class="d-flex justify-content-between" style="margin-top:-5px">
-                    <div class="text-start">
-                        <p class="current-date"></p>
+    <div class="col-md-3 grid-margin">
+        <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Calendrier</h4>
+                    <div class="d-flex justify-content-between" style="margin-top:-5px">
+                        <div class="text-start">
+                            <p class="current-date"></p>
+                        </div>
+                        <div class="icons">
+                            <span id="prev" class="material-symbols-rounded" style="display: inline-block;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                                </svg>
+                            </span>
+                            <span id="next" class="material-symbols-rounded" style="display: inline-block;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div><br>
+                    <div class="calendar" style="margin-top:-10px">
+                        <ul class="weeks">
+                            <li class="day">Dim</li>
+                            <li class="day">Lun</li>
+                            <li class="day">Mar</li>
+                            <li class="day">Mer</li>
+                            <li class="day">Jeu</li>
+                            <li class="day">Ven</li>
+                            <li class="day">Sam</li>
+                        </ul>
+                        <ul class="days" style="margin-top:-10px"></ul>
                     </div>
-                    <div class="icons">
-                        <span id="prev" class="material-symbols-rounded" style="display: inline-block;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-chevron-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                            </svg>
-                        </span>
-                        <span id="next" class="material-symbols-rounded" style="display: inline-block;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </span>
-                    </div>
-                </div><br>
-                <div class="calendar" style="margin-top:-10px">
-                    <ul class="weeks">
-                        <li class="day">Dim</li>
-                        <li class="day">Lun</li>
-                        <li class="day">Mar</li>
-                        <li class="day">Mer</li>
-                        <li class="day">Jeu</li>
-                        <li class="day">Ven</li>
-                        <li class="day">Sam</li>
-                    </ul>
-                    <ul class="days" style="margin-top:-10px"></ul>
                 </div>
             </div>
         </div>
-        <br>
-        <div class="col-md-12 ">
+        <div class="col-md-12 grid-margin">
             <div class="card">
                 <div class="card-body">
                     <a href="../assets/Règlement interne.pdf" target="_blank" rel="noopener noreferrer"
@@ -303,7 +304,8 @@
                                                 </span><span class="text-muted">// {{ $rappelM->users->first_name }}
                                                 </span>
                                             </div>
-                                            <p  style="margin-right: 10px">{{ \Carbon\Carbon::parse($rappelM->rappel)->format('H:i') }}</p>
+                                            <p style="margin-right: 10px">
+                                                {{ \Carbon\Carbon::parse($rappelM->rappel)->format('H:i') }}</p>
                                         </div>
                                     </li>
                                 @endforeach

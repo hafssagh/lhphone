@@ -40,7 +40,7 @@
                     </div>
                 @endcannot
             </div>
-            <div class="table">
+            <div class="table table-container">
                 <table class="table">
                     <thead>
                         <tr>

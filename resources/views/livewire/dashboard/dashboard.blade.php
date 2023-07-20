@@ -1,7 +1,7 @@
 <div>
+   <br>
     @canany(['manager', 'superadmin'])
-   
-        <div class="col-sm-12">
+        <div class="col-md-12 grid-margin">
             <div class="home-tab">
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                     <ul class="nav nav-tabs" role="tablist">
@@ -27,7 +27,7 @@
         <br>
     @endcanany
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 grid-margin">
             <div class="row mb-3">
                 <div class="mb-4 col-sm-6 col-lg-3 mb-4">
                     <div class="card">
@@ -202,7 +202,7 @@
     </div>
     @can('superadmin')
         <div class="row">
-            <div class="col-sm-4 ">
+            <div class="col-md-4 grid-margin">
                 <div class="card ">
                     <div class="card-body">
                         <div class="d-sm-flex justify-content-between align-items-start">
@@ -240,7 +240,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-md-8 grid-margin">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-sm-flex justify-content-between align-items-start">
@@ -296,8 +296,9 @@
                     </a>
                 </div>
             </div>
+            <div class="col-md-12">
             <div class="row" style="margin-top:30px">
-                <div class="col-6 grid-margin stretch-card">
+                <div class="col-md-6 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-sm-flex justify-content-between align-items-start">
@@ -308,13 +309,13 @@
                     </div>
                 </div>
 
-                <div class="col-6 grid-margin stretch-card">
+                <div class="col-md-6 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-sm-flex justify-content-between align-items-start">
                                 <h3 class="card-title">Production</h3>
                             </div>
-                            <div class="table">
+                            <div class="table table-container">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -363,13 +364,14 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         @endcan
         @can('manager')
             <div class="row">
                 <div class="card">
                     <div class="card-body">
-                        <div class="table">
+                        <div class="table table-container">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -606,3 +608,4 @@
             document.getElementById("mois").textContent = mois;
         });
     </script>
+

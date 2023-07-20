@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('agent_relance', function (Blueprint $table) {
             $table->id();
             $table->string('company');
-            $table->string('emailClient')->unique();
+            $table->string('emailClient');
             $table->string('nameClient')->nullable();
             $table->string('numClient')->nullable();
             $table->string('send');
