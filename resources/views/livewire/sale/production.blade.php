@@ -187,11 +187,11 @@
                                             @endphp
                                         @endforeach
                                         @php
+                                            $salesCount = $sales->where('date_confirm', $date)->sum('sales_count');
                                             $grandTotal += $salesCount;
                                             $object = $obj->objective;
                                             $remainingDaysCount = count($weekDates) - 2;
-                                            $reste = $object - $salesCount;
-                                            $total = $reste * $remainingDaysCount;
+                                            $total = $object * $remainingDaysCount;
                                             $restTotal = $total - $grandTotal;
                                         @endphp
                                         <strong>{{ $restTotal }}</strong>
@@ -397,11 +397,12 @@
                                             @endphp
                                         @endforeach
                                         @php
-                                            $object = $obj->objective;
+                                            $salesCount = $sales2->where('date_confirm', $date)->sum('sales_count');
                                             $grandTotal += $salesCount;
+                                            $object = $obj->objective;
                                             $remainingDaysCount = count($weekDates) - 2;
-                                            $reste = $object * $remainingDaysCount;
-                                            $total = $reste - $grandTotal;
+                                            $total = $object * $remainingDaysCount;
+                                            $restTotal = $total - $grandTotal;
                                         @endphp
                                         <strong>{{ $total }}</strong>
                                     </td>

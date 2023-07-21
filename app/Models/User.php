@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Appoint;
 use App\Models\Suspension;
 use App\Models\Resignation;
 use Laravel\Sanctum\HasApiTokens;
@@ -95,5 +96,9 @@ class User extends Authenticatable
 
     public function avances(){
         return $this->hasMany(Avance::class);
+    }
+
+    public function appoints(){
+        return $this->hasMany(Appoint::class);
     }
 }

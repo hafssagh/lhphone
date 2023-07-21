@@ -60,7 +60,7 @@
                 </ul>
             </div>
         </li>
-        @canAny(['admin', 'superadmin','manager'])
+        @canAny(['admin', 'superadmin', 'manager'])
             <li class="nav-item">
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#paie" aria-expanded="false"
                     aria-controls="paie">
@@ -96,43 +96,62 @@
             </a>
         </li>
     @endcan
-    @if (Auth::user()->company === 'lh' || Auth::user()->roles()->where('name', 'manager')->where('name', 'superadmin')->exists())
-    @cannot('admin')
-        <li class="nav-item ">
-            <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
-                aria-controls="email">
-                <i class="menu-icon mdi mdi-email-outline"></i>
-                <span class="menu-title">Gestion Emailing</span>
-                <i class="menu-arrow" style="color: grey"></i>
-            </a>
-            <div class="collapse" id="email">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('mail') }}">
-                            Propositions</a>
-                    </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('mailExplic') }}">
-                            Mails Explicatifs</a>
-                    </li>
-                    @cannot('agent')
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('RelanceManager') }}">
-                                Mails de Relance</a>
+
+
+    @if (Auth::user()->company === 'lh' ||
+            Auth::user()->company === '' ||
+            Auth::user()->roles()->where('name', 'manager')->where('name', 'superadmin')->exists())
+        @cannot('admin')
+            <li class="nav-item ">
+                <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
+                    aria-controls="email">
+                    <i class="menu-icon mdi mdi-email-outline"></i>
+                    <span class="menu-title">Gestion Emailing</span>
+                    <i class="menu-arrow" style="color: grey"></i>
+                </a>
+                <div class="collapse" id="email">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('mail') }}">
+                                Propositions</a>
                         </li>
-                    @endcannot
-                    @can('agent')
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('RelanceAgent') }}">
-                                Mails de Relance</a>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('mailExplic') }}">
+                                Mails Explicatifs</a>
                         </li>
-                    @endcan
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item  {{ setMenuActive('sales.index') }}">
-            <a class="nav-link" href="{{ route('sales.index') }}">
-                <i class="mdi mdi-chart-line menu-icon"></i>
-                <span class="menu-title">Gestion Vente</span>
-            </a>
-        </li>
-    @endcan
+                        @cannot('agent')
+                            <li class="nav-item"> <a class="nav-link" href="{{ route('RelanceManager') }}">
+                                    Mails de Relance</a>
+                            </li>
+                        @endcannot
+                        @can('agent')
+                            <li class="nav-item"> <a class="nav-link" href="{{ route('RelanceAgent') }}">
+                                    Mails de Relance</a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item  {{ setMenuActive('sales.index') }}">
+                <a class="nav-link" href="{{ route('sales.index') }}">
+                    <i class="mdi mdi-chart-line menu-icon"></i>
+                    <span class="menu-title">Gestion Vente</span>
+                </a>
+            </li>
+        @endcan
+    @endif
+
+    @if (Auth::user()->company === 'h2f' ||
+            Auth::user()->company === '' ||
+            Auth::user()->roles()->where('name', 'manager')->where('name', 'superadmin')->exists())
+        @cannot('admin')
+            <li class="nav-item {{ setMenuActive('appointment') }}">
+                <a class="nav-link collapsed" href="{{ route('appointment') }}">
+                    <i class="menu-icon mdi mdi-format-list-bulleted"></i>
+                    <span class="menu-title">Gestion rendez-vous</span>
+                </a>
+            </li>
+        @endcan
+    @endif
+    
     @canAny(['manager', 'superadmin'])
         <li class="nav-item  {{ setMenuActive('production2') }}">
             <a class="nav-link" href="{{ route('production2') }}">
@@ -143,5 +162,4 @@
             </a>
         </li>
     @endcanAny
-    @endif
 </ul>

@@ -1,5 +1,5 @@
- @auth
-     @if (Auth::user()->last_name != 'Essaid' || Auth::user()->last_name === 'ELMOURABIT')
+
+     @if (Auth::user()->last_name === 'ELMOURABIT' || Auth::user()->last_name === 'By' || Auth::user()->last_name === 'EL MESSIOUI')
          <div class="row">
              <div class="col-md-12">
                  <div class="card">
@@ -185,11 +185,11 @@
                                                  @endphp
                                              @endforeach
                                              @php
+                                                 $salesCount = $sales->where('date_confirm', $date)->sum('sales_count');
                                                  $grandTotal += $salesCount;
                                                  $object = $obj->objective;
                                                  $remainingDaysCount = count($weekDates) - 2;
-                                                 $reste = $object - $salesCount;
-                                                 $total = $reste * $remainingDaysCount;
+                                                 $total = $object * $remainingDaysCount;
                                                  $restTotal = $total - $grandTotal;
                                              @endphp
                                              <strong>{{ $restTotal }}</strong>
@@ -206,8 +206,7 @@
              </div>
          </div><br>
      @endif
- @endauth
- @auth
+
      @if (Auth::user()->last_name === 'Essaid' || Auth::user()->last_name === 'EL MESSIOUI')
          <div class="row">
              <div class="col-md-12">
@@ -406,16 +405,17 @@
                                                      if ($dayOfWeek === Carbon\Carbon::SATURDAY || $dayOfWeek === Carbon\Carbon::SUNDAY) {
                                                          $reste = 0;
                                                      } else {
-                                                         $salesCount = $sales->where('date_confirm', $date)->sum('sales_count');
+                                                         $salesCount = $sales2->where('date_confirm', $date)->sum('sales_count');
                                                      }
                                                  @endphp
                                              @endforeach
                                              @php
-                                                 $object = $obj->objective;
+                                                $salesCount = $sales2->where('date_confirm', $date)->sum('sales_count');
                                                  $grandTotal += $salesCount;
+                                                 $object = $obj->objective;
                                                  $remainingDaysCount = count($weekDates) - 2;
-                                                 $reste = $object * $remainingDaysCount;
-                                                 $total = $reste - $grandTotal;
+                                                 $total = $object * $remainingDaysCount;
+                                                 $restTotal = $total - $grandTotal;
                                              @endphp
                                              <strong>{{ $total }}</strong>
                                          </td>
@@ -432,7 +432,6 @@
              </div>
          </div>
      @endif
- @endauth
 
  <script>
      window.addEventListener('showSuccessMessage', event => {
