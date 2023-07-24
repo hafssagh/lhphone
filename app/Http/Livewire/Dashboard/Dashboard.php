@@ -197,7 +197,8 @@ class Dashboard extends Component
                 ->count();
             $user1->propoDayCount = $propoDayCount;
         }
-
+        $sortedUsers = $users1->sortByDesc('propoDayCount');
+       
         $sumValues = $this->getSumValues();
         $cards = $this->cards();
 
@@ -227,7 +228,7 @@ class Dashboard extends Component
         return view(
             'livewire.dashboard.dashboard',
             [
-                "users" => $users, "users1" => $users1, "users3" => $users3,
+                "users" => $users, "sortedUsers" => $sortedUsers, "users3" => $users3,
                 'sumValues' => $sumValues, 'cards' => $cards,
                 "usersWithoutSalesCount" => $usersWithoutSalesCount,
                 "usersWithoutSales" => $usersWithoutSales

@@ -1,5 +1,5 @@
 <div>
-   <br>
+    <br>
     @canany(['manager', 'superadmin'])
         <div class="col-md-12 grid-margin">
             <div class="home-tab">
@@ -10,10 +10,10 @@
                                 aria-selected="true">Général</a>
                         </li>
                         @can('superadmin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="/dashboardRH" role="tab" aria-selected="false">Ressources
-                                humaines</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/dashboardRH" role="tab" aria-selected="false">Ressources
+                                    humaines</a>
+                            </li>
                         @endcan
                         <li class="nav-item">
                             <a class="nav-link" href="/dashboardF" role="tab" aria-selected="false">Suivi Agent</a>
@@ -209,12 +209,12 @@
                             <h3 class="card-title">Propositions d'aujourd'hui</h3>
                         </div><br>
                         <div class="list-container1">
-                            @foreach ($users1 as $user)
-                                @if ($user->propoDayCount != null || $user->propoDayCount != 0)
-                                    <div class="list-group list-group-flush list-group-timeline">
-                                        <div class="list-group-item px-0">
-                                            <div class="row">
-                                                <div class="col-auto">
+                            @foreach ($sortedUsers as $user)
+                                <div class="list-group list-group-flush list-group-timeline">
+                                    <div class="list-group-item px-0">
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                @if ($user->propoDayCount != null || $user->propoDayCount != 0)
                                                     <div class="avatar me-2 " style="padding: 0.25rem;">
                                                         <div
                                                             class="bg-green-light position-relative overflow-hidden rounded-circle h-100 d-flex align-items-center justify-content-center">
@@ -222,19 +222,27 @@
                                                                 class="avatar-text avatar-primary-light">{{ $user->propoDayCount }}</span>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col">
-                                                    <span style="font-size:0.9rem;">
-                                                        <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
-                                                    </span>
-                                                    <div class="small text-muted">
-                                                        Groupe {{ $user->group }}
+                                                @else
+                                                <div class="avatar me-2 " style="padding: 0.25rem;">
+                                                    <div style="background-color:#fedfdd"
+                                                        class=" position-relative overflow-hidden rounded-circle h-100 d-flex align-items-center justify-content-center">
+                                                        <span
+                                                            class="avatar-text text-danger">{{ $user->propoDayCount }}</span>
                                                     </div>
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="col">
+                                                <span style="font-size:0.9rem;">
+                                                    <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
+                                                </span>
+                                                <div class="small text-muted">
+                                                    Groupe {{ $user->group }}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -297,73 +305,76 @@
                 </div>
             </div>
             <div class="col-md-12">
-            <div class="row" style="margin-top:30px">
-                <div class="col-md-6 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex justify-content-between align-items-start">
-                                <h3 class="card-title">Ventes de l'année</h3>
+                <div class="row" style="margin-top:30px">
+                    <div class="col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <h3 class="card-title">Ventes de l'année</h3>
+                                </div>
+                                <canvas id="salesChart" style="height: 70%; width:80%"></canvas>
                             </div>
-                            <canvas id="salesChart" style="height: 70%; width:80%"></canvas>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex justify-content-between align-items-start">
-                                <h3 class="card-title">Production</h3>
-                            </div>
-                            <div class="table table-container">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="padding: 1rem;" class="text-muted">Agent </th>
-                                            <th style="padding: 1rem;" class="text-center text-muted">Vente(Sem)</th>
-                                            <th style="padding: 1rem;" class="text-center text-muted">Vente(Mois)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users as $user)
+                    <div class="col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <h3 class="card-title">Production</h3>
+                                </div>
+                                <div class="table table-container">
+                                    <table class="table">
+                                        <thead>
                                             <tr>
-                                                <td style="padding: 0.6rem; margin-left:-5px">{{ $user->first_name }}
+                                                <th style="padding: 1rem;" class="text-muted">Agent </th>
+                                                <th style="padding: 1rem;" class="text-center text-muted">Vente(Sem)</th>
+                                                <th style="padding: 1rem;" class="text-center text-muted">Vente(Mois)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $user)
+                                                <tr>
+                                                    <td style="padding: 0.6rem; margin-left:-5px">{{ $user->first_name }}
+                                                    </td>
+                                                    <td class="text-center" style="padding: 0.6rem;">
+                                                        {{ $user->sumQuantity }}
+                                                        P
+                                                    </td>
+                                                    <td class="text-center" style="padding: 0.6rem;">
+                                                        {{ $user->sumQuantity2 }}
+                                                        P
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td style="padding: 0.6rem;"><strong>Total</strong></td>
+                                                <td style="padding: 0.6rem;" class="text-center">
+                                                    <strong>{{ $sumValues[4] }}
+                                                        P</strong>
                                                 </td>
-                                                <td class="text-center" style="padding: 0.6rem;">{{ $user->sumQuantity }}
-                                                    P
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">
-                                                    {{ $user->sumQuantity2 }}
-                                                    P
+                                                <td style="padding: 0.6rem;" class="text-center">
+                                                    <strong>{{ $sumValues[5] }}
+                                                        P</strong>
                                                 </td>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td style="padding: 0.6rem;"><strong>Total</strong></td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[4] }}
-                                                    P</strong>
-                                            </td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[5] }}
-                                                    P</strong>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                                <div class="float-end">
-                                    <br>
-                                    <div class="btn-group">
-                                        <button wire:click="$set('group', 1)" type="button" class="btn"
-                                            style="background-color: #0d6efd; color:white">Groupe 1</button>
-                                        <button wire:click="$set('group', 2)" type="button" class="btn"
-                                            style="background-color: #0d6efd; color:white">Groupe 2</button>
+                                        </tfoot>
+                                    </table>
+                                    <div class="float-end">
+                                        <br>
+                                        <div class="btn-group">
+                                            <button wire:click="$set('group', 1)" type="button" class="btn"
+                                                style="background-color: #0d6efd; color:white">Groupe 1</button>
+                                            <button wire:click="$set('group', 2)" type="button" class="btn"
+                                                style="background-color: #0d6efd; color:white">Groupe 2</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         @endcan
@@ -394,9 +405,9 @@
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">
                                                 @if ($user->absenceHours != 0)
-                                                <strong class="text-danger">{{ $user->absenceHours }} h</strong> 
+                                                    <strong class="text-danger">{{ $user->absenceHours }} h</strong>
                                                 @else
-                                                 {{ $user->absenceHours }} h 
+                                                    {{ $user->absenceHours }} h
                                                 @endif
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }} h
@@ -608,4 +619,3 @@
             document.getElementById("mois").textContent = mois;
         });
     </script>
-
