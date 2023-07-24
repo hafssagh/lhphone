@@ -38,7 +38,7 @@ class Salary extends Component
                 $query->where('group', 1)
                 ->where('roles.name', ['Agent']);
             })
-            ->when($manager == 'Essaid ', function ($query) {
+            ->when($manager == 'Essaid', function ($query) {
                 $query->where('group', 2)
                 ->where('roles.name', ['Agent']);
             })

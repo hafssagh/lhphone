@@ -50,7 +50,7 @@ class ChallengePrime extends Component
             ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
                 $query->where('group', 1);
             })
-            ->when($manager == 'Essaid ', function ($query) {
+            ->when($manager == 'Essaid', function ($query) {
                 $query->where('group', 2);
             })
             ->when($manager == 'Hdimane', function ($query) {

@@ -77,7 +77,7 @@
                                 @else
                                     <label for="remark">Remarque</label>
                                 @endif
-                                <textarea class="form-control" wire:model="editMail.remark" wire:keydown.enter.prevent="updateMail" class="form-control"
+                                <textarea class="form-control" wire:model="editMail.remark"  class="form-control"
                                     style="height: 100px">
                             </textarea>
                                 @error('editMail.remark')

@@ -100,29 +100,6 @@ class MailAll extends Component
         $mail->save();
 
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Formulaire mise à jour avec succès!"]);
-        return redirect()->to('/proposal/all');
-    }
-
-
-    public function PropoRefuse()
-    {
-        Mails::find($this->editMail["id"])->update(["state" => "-1"]);
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "La proposition a été refusé!"]);
-        return redirect()->to('/proposal/all');
-    }
-
-    
-    public function PropoAccepter()
-    {
-        Mails::find($this->editMail["id"])->update(["state" => "1"]);
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "La proposition a été accepté!"]);
-        return redirect()->to('/proposal/all');
-    }
-
-    public function Rappeler()
-    {
-        Mails::find($this->editMail["id"])->update(["state" => "3"]);
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Rappeler le client!"]);
-        return redirect()->to('/proposal/all');
+        /* return redirect()->to('/proposal/all'); */
     }
 }

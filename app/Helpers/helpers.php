@@ -403,7 +403,7 @@ function CalculPrime()
                 4600 => 10000,
             ];
 
-            $user->prime = 0; // Set the initial value of prime
+            $user->prime = 0; 
 
             foreach ($increments as $quantityThreshold => $challengeValue) {
                 if ($totalQuantity >= $quantityThreshold) {
@@ -447,6 +447,37 @@ function fetchWeekDates()
 
     return $weekDates;
 }
+
+function fetchWeekDatesWithoutWeekend()
+{
+    $weekDates = [];
+
+    $currentDate = Carbon::now()->startOfWeek();
+    for ($i = 0; $i < 5; $i++) {
+        $weekDates[$i] = $currentDate->toDateString();
+        $currentDate->addDay();
+    }
+
+    return $weekDates;
+}
+
+function fetchNextWeekDatesWithoutWeekend()
+{
+    $weekDates = [];
+    $currentDate = Carbon::now()->startOfWeek()->addWeek(); 
+
+    for ($i = 0; $i < 5; $i++) {
+        if ($currentDate->isWeekend()) {
+            $currentDate->addDay();
+        }
+
+        $weekDates[$i] = $currentDate->toDateString();
+        $currentDate->addDay();
+    }
+
+    return $weekDates;
+}
+
 
 function fetchMonthWeeks()
 {

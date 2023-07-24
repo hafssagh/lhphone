@@ -36,24 +36,26 @@ class Production extends Component
 
     public function mount()
     {
-        $currentMonth = Carbon::now()->format('Y-m');
-        
-        $this->users = User::whereNotExists(function ($query)  use ($currentMonth) {
+        $currentWeekStart = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $currentWeekEnd = Carbon::now()->endOfWeek()->format('Y-m-d');
+
+        $this->users = User::whereNotExists(function ($query) use ($currentWeekStart, $currentWeekEnd) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
-                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
-        })->where('company', 'lh')
+                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
+        })
+            ->where('company', 'lh')
             ->where('group', '1')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })->get();
-
-        $this->users2 = User::whereNotExists(function ($query)  use ($currentMonth) {
+        
+        $this->users2 = User::whereNotExists(function ($query)  use ($currentWeekStart, $currentWeekEnd) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
-                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
         })->where('company', 'lh')
             ->where('group', '2')
             ->whereHas('roles', function ($query) {

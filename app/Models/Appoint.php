@@ -14,7 +14,7 @@ class Appoint extends Model
     public $fillable = [
         "state", "dep", "date_prise" , "date_confirm" ,"date_rdv",
         "cr", "prospect", "num_fix" , "num_mobile", "adresse", 
-        "commentaire","retour" ,"rappel", "user_id" 
+        "commentaire","retour" , "user_id" 
     ];
 
     public function users(){

@@ -157,6 +157,7 @@ class Sales extends Component
         $sale->mousseurs = $this->newSale["mousseurs"] ?? null;
         $sale->tube = $this->newSale["tube"] ?? null;
         $sale->spot = $this->newSale["spot"] ?? null;
+        $sale->commentaire = $this->newSale["commentaire"] ?? null;
 
         $sale->save();
 
@@ -224,7 +225,7 @@ class Sales extends Component
         $sale->save();
         CalculChallenge();
         CalculPrime();
-        $this->goToListeSales();
+        /* $this->goToListeSales(); */
         $this->dispatchBrowserEvent("showSuccessMessage");
     }
 

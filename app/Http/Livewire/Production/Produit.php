@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Absence;
+use App\Models\Appoint;
 use Livewire\Component;
 use App\Models\Objective;
 use App\Models\Suspension;
@@ -16,9 +17,15 @@ class Produit extends Component
 {
     public $users;
     public $users2;
+    public $users3;
+
     public $sales;
     public $sales2;
+    public $appoint;
+
     public $weekDates;
+    public $weekDatesWithoutWeekends;
+    public $nextWeekDatesWithoutWeekends;
     public $months;
 
     public $absence;
@@ -39,26 +46,38 @@ class Produit extends Component
 
     public function mount()
     {
-        $currentMonth = Carbon::now()->format('Y-m');
+        $currentWeekStart = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $currentWeekEnd = Carbon::now()->endOfWeek()->format('Y-m-d');
 
-        $this->users = User::whereNotExists(function ($query)  use ($currentMonth) {
+        $this->users = User::whereNotExists(function ($query) use ($currentWeekStart, $currentWeekEnd) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
-                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
-        })->where('company', 'lh')
+                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
+        })
+            ->where('company', 'lh')
             ->where('group', '1')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })->get();
 
-        $this->users2 = User::whereNotExists(function ($query)  use ($currentMonth) {
+        $this->users2 = User::whereNotExists(function ($query)  use ($currentWeekStart, $currentWeekEnd) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
-                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
         })->where('company', 'lh')
             ->where('group', '2')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })->get();
+
+        $this->users3 = User::whereNotExists(function ($query)  use ($currentWeekStart, $currentWeekEnd) {
+            $query->select(DB::raw(1))
+                ->from('resignations')
+                ->whereRaw('resignations.user_id = users.id')
+                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
+        })->where('company', 'h2f')
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })->get();
@@ -77,6 +96,11 @@ class Produit extends Component
             ->whereIn('state', [1, 5, 6, 7, 8])
             ->where('users.group', '2')
             ->groupBy('user_id', 'date_confirm')
+            ->get();
+
+        $this->appoint = Appoint::select('user_id', 'date_confirm', 'date_prise', 'date_rdv' , 'cr' ,'state')
+            ->join('users', 'appointments.user_id', '=', 'users.id')
+            ->where('users.company', 'h2f')
             ->get();
 
         $this->absence = Absence::select('user_id', 'date', 'abs_hours')
@@ -116,8 +140,11 @@ class Produit extends Component
             ->get();
 
         $this->weekDates = fetchWeekDates();
+        $this->weekDatesWithoutWeekends = fetchWeekDatesWithoutWeekend();
+        $this->nextWeekDatesWithoutWeekends = fetchNextWeekDatesWithoutWeekend();
         $this->months = fetchMonthWeeks();
     }
+
     public function render()
     {
         $this->objectiveA = Objective::where('group', '1')->get();
