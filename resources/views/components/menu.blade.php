@@ -151,7 +151,7 @@
             </li>
         @endcan
     @endif
-    
+
     @canAny(['manager', 'superadmin'])
         <li class="nav-item  {{ setMenuActive('production2') }}">
             <a class="nav-link" href="{{ route('production2') }}">
@@ -162,4 +162,15 @@
             </a>
         </li>
     @endcanAny
+
+    @can('superadmin')
+        <li class="nav-item  {{ setMenuActive('charge') }}">
+            <a class="nav-link" href="{{ route('charge') }}">
+                <div class="text-center ">
+                    <i class="mdi mdi-alert-circle-outline menu-icon"></i>
+                </div>
+                <span class="menu-title">Gestion charge</span>
+            </a>
+        </li>
+    @endcan
 </ul>

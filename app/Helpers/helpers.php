@@ -19,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 define("PAGEDEVIS", "devisEnCours");
 define("PAGELIST", "liste");
 define("PAGECREATEFORM", "create");
+define("PAGECREATEFORM2", "create2");
 define("PAGEEDITFORM", "edit");
 define("PAGEROLE", "role");
 define("PAGEPOPOSALL", "proposAll");

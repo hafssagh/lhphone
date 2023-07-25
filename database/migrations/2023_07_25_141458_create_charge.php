@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('charge', function (Blueprint $table) {
             $table->id();
+            $table->string('object');
+            $table->string('company');
+            $table->double('price'); 
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }

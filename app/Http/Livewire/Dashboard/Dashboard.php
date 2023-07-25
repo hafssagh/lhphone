@@ -36,11 +36,11 @@ class Dashboard extends Component
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })
-            ->whereNotExists(function ($query)  use ($currentMonth)  {
+            ->whereNotExists(function ($query)  use ($currentWeekStart , $currentWeekEnd)  {
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->where('resignations.date', $currentMonth);
+                    ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
             })
             ->orderBy("users.first_name");
 
@@ -48,11 +48,10 @@ class Dashboard extends Component
         $usersQuery1 = User::where("company", "like", "lh")
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
-            })->whereNotExists(function ($query)  use ($currentToday) {
+            })->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id')
-                    ->whereNot('resignations.date', $currentToday);
+                    ->whereRaw('resignations.user_id = users.id');
             })
             ->orderBy("group")->orderBy("last_name");
 

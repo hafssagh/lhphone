@@ -18,7 +18,7 @@
             toast: 'success',
             title: event.detail.message || "Opération effectuée avec succès",
             showConfirmButton: false,
-            timer: 5000
+            timer: 3000
         })
     });
 </script>

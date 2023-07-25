@@ -8,15 +8,37 @@
                 <div dir="ltr">
                     <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">
-                        <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><br>Dans le cadre de
-                            la nouvelle campagne&nbsp;<b>CEE</b>&nbsp;sur les projecteurs LED&nbsp;en remplacement de
-                            vos éclairages extérieurs, les pollueurs prennent totalement en
-                            charge le matériel envoyé.<br>Ce matériel correspond à :<br><br>&nbsp;Des projecteurs
-                            LED&nbsp;de 30. 50 ou 100 watts et hublots pour que vous puissiez remplacer tous vos points
-                            lumineux extérieurs en façade, typiquement en façade, dans vos allées, parcelles, parkings,
-                            etc....&nbsp;&nbsp;<b>Cette campagne n'est destinée qu'à du remplacement de l'existant, et
-                                non à la création de nouveaux points lumineux (</b><b><i>avec un minimum de
-                                    15).</i></b><br></span>
+                        @if ($send == 's2ee')
+                            <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><br>Dans le cadre
+                                de
+                                la nouvelle campagne&nbsp;<b>CEE</b>&nbsp;sur les projecteurs LED&nbsp;en remplacement
+                                de
+                                vos éclairages extérieurs, les pollueurs prennent totalement en
+                                charge le matériel envoyé.<br>Ce matériel correspond à :<br><br>&nbsp;
+                                Des projecteurs, des hublots, des tubes néons, des spots, des réglettes en LED pour que vous puissiez
+                                remplacer tous vos points
+                                lumineux extérieurs en façade, typiquement en façade, dans vos allées, parcelles,
+                                parkings,
+                                etc....&nbsp;&nbsp;<b>Cette campagne n'est destinée qu'à du remplacement de l'existant,
+                                    et
+                                    non à la création de nouveaux points lumineux (</b><b><i>avec un minimum de
+                                        15).</i></b><br></span>
+                        @elseif ($send == 'rive')
+                            <span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><br>Dans le cadre
+                                de
+                                la nouvelle campagne&nbsp;<b>CEE</b>&nbsp;sur les projecteurs LED&nbsp;en remplacement
+                                de
+                                vos éclairages extérieurs, les pollueurs prennent totalement en
+                                charge le matériel envoyé.<br>Ce matériel correspond à :<br><br>&nbsp;
+                                Des projecteurs LED&nbsp;de 30. 50 ou 100 watts et hublots pour que vous puissiez
+                                remplacer tous vos points
+                                lumineux extérieurs en façade, typiquement en façade, dans vos allées, parcelles,
+                                parkings,
+                                etc....&nbsp;&nbsp;<b>Cette campagne n'est destinée qu'à du remplacement de l'existant,
+                                    et
+                                    non à la création de nouveaux points lumineux (</b><b><i>avec un minimum de
+                                        15).</i></b><br></span>
+                        @endif
                     </p>
                     <p class="MsoNormal"
                         style="margin:0cm 0cm 0.0001pt;line-height:normal;font-size:11pt;font-family:Calibri,sans-serif">

@@ -1,14 +1,18 @@
 <div wire:ignore.self>
     @if ($currentPage == PAGECREATEFORM)
-       @include("livewire.relance-agent.create")
+        @include('livewire.charge.create')
+    @endif
+    @if ($currentPage == PAGECREATEFORM2)
+        @include('livewire.charge.create2')
     @endif
     @if ($currentPage == PAGELIST)
-       @include("livewire.relance-agent.liste")
+        @include('livewire.charge.liste')
+    @endif
+    @if ($currentPage == PAGEEDITFORM)
+        @include('livewire.charge.edit')
     @endif
 </div>
 
-
- 
 
 <script>
     window.addEventListener('showSuccessMessage', event => {
@@ -22,4 +26,3 @@
         })
     });
 </script>
-
