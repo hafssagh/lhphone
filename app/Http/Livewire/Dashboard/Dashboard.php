@@ -329,10 +329,38 @@ class Dashboard extends Component
             $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->count();
         }
 
+        $propo1 = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+        $propo2 = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+
+        $propoMatin = Mails::whereRaw('HOUR(created_at) BETWEEN 9 AND 12')
+        ->whereRaw('DATE(created_at) = ?', [$today])
+        ->whereHas('users', function ($q) {
+            $q->where('group', 1);
+        })
+        ->count();
+        $propoSoir = Mails::whereRaw('HOUR(created_at) BETWEEN 13 AND 19')
+        ->whereRaw('DATE(created_at) = ?', [$today])
+        ->whereHas('users', function ($q) {
+            $q->where('group', 1);
+        })
+        ->count();
+
+        $propoMatin2 = Mails::whereRaw('HOUR(created_at) BETWEEN 9 AND 12')
+        ->whereRaw('DATE(created_at) = ?', [$today])
+        ->whereHas('users', function ($q) {
+            $q->where('group', 2);
+        })
+        ->count();
+        $propoSoir2 = Mails::whereRaw('HOUR(created_at) BETWEEN 13 AND 19')
+        ->whereRaw('DATE(created_at) = ?', [$today])
+        ->whereHas('users', function ($q) {
+            $q->where('group', 2);
+        })
+        ->count();
 
         $sumRefusé = Sale::where('state', '5')->whereIn('date_confirm', $monthDates)->count();
         $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();
         $sumS = Sale::where('state',  '2')->orWhere('state',  '3')->whereIn('date_sal', $monthDates)->count();
-        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $devisEnvoye];
+        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $devisEnvoye, $propo1, $propo2, $propoMatin, $propoSoir, $propoMatin2, $propoSoir2];
     }
 }

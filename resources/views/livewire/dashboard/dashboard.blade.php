@@ -57,9 +57,21 @@
                             <div class="row align-items-center  justify-content-center" style="color:#4650dd ">
                                 <div class="col-10">
                                     <p class="mb-0">
-                                        <strong><a href="/customer/proposal"
-                                                style="text-decoration: none;color: inherit;">En savoir
-                                                plus</a></strong>
+                                        <strong>
+                                            @can('manager')
+                                                <a href="/customer/proposal"
+                                                    style="text-decoration: none;color: inherit;">En savoir
+                                                    plus</a>
+                                            @endcan
+                                            @can('superadmin')
+                                               
+                                                    <button type="submit" class="btn btn-lg mb-0 me-0" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal" style="font-size:13px; color: #4650dd;  padding: 8px;">
+                                                    <strong>En savoir
+                                                        plus</strong> 
+                                                </button>
+                                            @endcan
+                                        </strong>
                                     </p>
                                 </div>
                                 <div class="col-2">
@@ -459,7 +471,61 @@
         @endcan
     </div>
 
-
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 600px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title card-title-dash" id="exampleModalToggleLabel"><strong>Propositions</strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-bordered-all">
+                        <thead>
+                            <tr>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                  </th>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                    Groupe 1</th>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                    Groupe 2
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                Total
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{$cards[9]}}</strong></th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{$cards[10]}}</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                Matin
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{$cards[11]}}</strong></th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{$cards[13]}}</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                Après midi
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{$cards[12]}}</strong></th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{$cards[14]}}</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> 
 
     <script>
         document.addEventListener('livewire:load', function() {
