@@ -48,7 +48,7 @@
                                                 $absenceUser = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 4)
+                                                    ->where('abs_hours', '>', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence
@@ -60,7 +60,7 @@
                                                 $absenceUserDemi = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', 4)
+                                                    ->whereBetween('abs_hours', [4, 6])
                                                     ->first();
                                                 
                                                 $retard = $absence
@@ -263,7 +263,7 @@
                                                 $absenceUser = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 4)
+                                                    ->where('abs_hours', '>', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence2
@@ -275,7 +275,7 @@
                                                 $absenceUserDemi = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', 4)
+                                                    ->whereBetween('abs_hours', [4, 6])
                                                     ->first();
                                                 
                                                 $retard = $absence2
@@ -495,7 +495,7 @@
                                                         ->count() ?? 0;
                                                 
                                                 $backgroundColor = $salesCount >= 5 ? 'background-color: #5cb85c' : '';
-                                                $backgroundColor10 = $date == $currentDate && $salesCount == 0 ? 'background-color: #d9534f' : '';
+                                                $backgroundColor10 =( $date < $currentDate || $date == $currentDate ) && $salesCount == 0 ? 'background-color: #d9534f' : '';
                                                 
                                                 $totalSalesCount += $salesCount;
                                                 $dailySalesCounts[] = $salesCount;
@@ -503,7 +503,7 @@
                                                 $absenceUser = $absence2
                                                     ->where('user_id', $user3->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 4)
+                                                    ->where('abs_hours', '>', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence2
@@ -515,7 +515,7 @@
                                                 $absenceUserDemi = $absence2
                                                     ->where('user_id', $user3->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', 4)
+                                                    ->whereBetween('abs_hours', [1, 6])
                                                     ->first();
                                                 
                                                 $retard = $absence2

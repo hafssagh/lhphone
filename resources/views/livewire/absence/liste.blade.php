@@ -52,6 +52,7 @@
                                         </svg>
                                     </span>
                                 </a>
+                                @can('superadmin')
                                 <a href="javascript:;" wire:click="confirmDelete({{ $absence->id }})" class="btn btn-sm btn-icon">
                                     <span class="svg-icon svg-icon-md">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -63,6 +64,8 @@
                                         </svg>
                                     </span>
                                 </a>
+                                @endcan
+                                
                             </td>
                         </tr>
                     @endforeach

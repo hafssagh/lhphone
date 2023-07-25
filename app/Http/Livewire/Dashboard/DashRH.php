@@ -26,18 +26,18 @@ class DashRH extends Component
         })->where(function ($query) use ($currentMonth) {
             $query->where('group', $this->group)
                 ->orWhere(function ($query) {
-                    $query->where('company', 'h2f')
+                    $query->where('company', 'h2f')->where('group', '')
                         ->whereNull('group');
                 });
         })->whereNotExists(function ($query) use ($currentMonth) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
-                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?",[$currentMonth]);
+                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
         });
 
         $users = $usersQuery->orderBy('last_name')->get();
-    
+
         $userCardre = User::whereHas('roles', function ($query) {
             $query->where('name', 'manager');
         })->orderBy('last_name')->get();
@@ -58,6 +58,10 @@ class DashRH extends Component
                 })
                 ->first();
 
+            $resignation = Resignation::where('user_id', $user->id)
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                ->first();
+
             if ($suspension) {
                 $dateStart = Carbon::parse($suspension->date_debut);
                 $dateEnd = Carbon::parse($suspension->date_fin);
@@ -73,6 +77,18 @@ class DashRH extends Component
                 }
             } else {
                 $numberOfHours = 0;
+            }
+
+            if ($resignation) {
+                $resignationDate = Carbon::parse($resignation->date);
+
+                $date = $currentDate->copy();
+                while ($date->format('Y-m') === $currentMonth && $date->gte($resignationDate)) {
+                    if (!$date->isWeekend()) {
+                        $numberOfHours += 8;
+                    }
+                    $date->subDay();
+                }
             }
 
             $user->absenceHours = $totalAbsenceDays + $numberOfHours;
@@ -144,9 +160,19 @@ class DashRH extends Component
             ->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$currentDate->format('m-d')])
             ->get();
 
+
+        $currentWeekStart = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $currentWeekEnd = Carbon::now()->endOfWeek()->format('Y-m-d');
+
         $stagiaire = User::query()->where('type_contract', 'sans')->whereHas('roles', function ($query) {
             $query->where('name', 'agent');
-        })->orderBy('company')->latest()->get();
+        })->whereNotExists(function ($query)  use ($currentWeekStart, $currentWeekEnd) {
+            $query->select(DB::raw(1))
+                ->from('resignations')
+                ->whereRaw('resignations.user_id = users.id')
+                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
+        })
+            ->orderBy('company')->latest()->get();
 
         $cards = $this->cards();
         $absence = $this->absence();
@@ -178,7 +204,7 @@ class DashRH extends Component
         $usersh2f = User::query()->where('company', 'h2f')->count();
         $currentWeek = Carbon::now()->subWeek(); // Subtracting a week to get the starting date of the last week
         $currentDay = Carbon::now();
-        
+
         $newEmploye = User::whereBetween('created_at', [
             $currentWeek->format('Y-m-d'),
             $currentDay->format('Y-m-d')

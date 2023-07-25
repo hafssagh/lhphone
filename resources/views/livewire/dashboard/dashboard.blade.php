@@ -78,48 +78,6 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 class="text-danger" style="font-size: 1.15rem">{{ $cards[8] }} Propositions
-                                    </h3>
-                                    <p class="text-sm mb-0">Non traitées</p>
-                                </div>
-                                <div class="flex-shrink-0 ms-3 ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                        fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16">
-                                        <path style="color:#dc3545"
-                                            d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708z" />
-                                        <path style="color:#dc3545"
-                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer py-3"
-                            style="background-color: #ffe2e0; border-radius:  0 0 1rem 1rem; border-color: transparent;">
-                            <div class="row align-items-center justify-content-center text-danger">
-                                <div class="col-10">
-                                    <p class="mb-0">
-                                        <strong><a href="/proposal/all" style="text-decoration: none;color: inherit;">En
-                                                savoir
-                                                plus</a></strong>
-                                    </p>
-                                </div>
-                                <div class="col-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
-                                        fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4 col-sm-6 col-lg-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
                                     <h3 style="color:#66bb6a; font-size: 1.26rem">{{ $cards[2] }} Confirmés</h3>
                                     <p class="text-sm mb-0">Aujourd'hui</p>
                                 </div>
@@ -143,6 +101,49 @@
                                     <p class="mb-0">
                                         <strong><a href="/customer/proposal"
                                                 style="text-decoration: none;color: inherit;">En savoir
+                                                plus</a></strong>
+                                    </p>
+                                </div>
+                                <div class="col-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="15"
+                                        fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4 col-sm-6 col-lg-3 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 class="text-danger" style="font-size: 1.26rem">{{ $cards[8] }} Devis
+                                    </h3>
+                                    <p class="text-sm mb-0">Envoyé Aujourd'hui</p>
+                                </div>
+                                <div class="flex-shrink-0 ms-3 ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                                        fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16">
+                                        <path style="color:#dc3545"
+                                            d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z" />
+                                        <path style="color:#dc3545"
+                                            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                        <path style="color:#dc3545"
+                                            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer py-3"
+                            style="background-color: #ffe2e0; border-radius:  0 0 1rem 1rem; border-color: transparent;">
+                            <div class="row align-items-center justify-content-center text-danger">
+                                <div class="col-10">
+                                    <p class="mb-0">
+                                        <strong><a href="/sales" style="text-decoration: none;color: inherit;">En
+                                                savoir
                                                 plus</a></strong>
                                     </p>
                                 </div>
@@ -223,13 +224,13 @@
                                                         </div>
                                                     </div>
                                                 @else
-                                                <div class="avatar me-2 " style="padding: 0.25rem;">
-                                                    <div style="background-color:#fedfdd"
-                                                        class=" position-relative overflow-hidden rounded-circle h-100 d-flex align-items-center justify-content-center">
-                                                        <span
-                                                            class="avatar-text text-danger">{{ $user->propoDayCount }}</span>
+                                                    <div class="avatar me-2 " style="padding: 0.25rem;">
+                                                        <div style="background-color:#ffe2e0"
+                                                            class=" position-relative overflow-hidden rounded-circle h-100 d-flex align-items-center justify-content-center">
+                                                            <span
+                                                                class="avatar-text text-danger">{{ $user->propoDayCount }}</span>
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 @endif
                                             </div>
                                             <div class="col">

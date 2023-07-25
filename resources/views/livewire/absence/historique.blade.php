@@ -67,9 +67,14 @@
                 <tbody>
                     @foreach ($absences as $absence)
                         <tr>
+                            @can('superadmin')
                             <td style="padding: 0.7rem;">
                                 <input type="checkbox" wire:model="selectedAbsenceIds" value="{{ $absence->id }}">
-                            </td>
+                            </td>  
+                            @endcan
+                            @cannot('superadmin')
+                            <td style="padding: 0.7rem;"> </td>  
+                            @endcannot
                             <td style="padding: 0.7rem;">{{ $absence->users->first_name }} {{ $absence->users->last_name }}</td>
                             <td style="padding: 0.7rem;" class="text-center">{{ \Carbon\Carbon::parse($absence->date)->format('d-m-Y') }}
                             </td>

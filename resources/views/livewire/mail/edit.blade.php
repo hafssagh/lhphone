@@ -72,7 +72,7 @@
                                 <br><br><br>
                             @endcannot
                             <div class="form-group" style='margin-top:-10px'>
-                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2')
+                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2' )
                                     <label for="remark">Commentaire agent</label>
                                 @else
                                     <label for="remark">Remarque</label>

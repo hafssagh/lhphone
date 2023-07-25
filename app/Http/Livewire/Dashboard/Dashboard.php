@@ -28,16 +28,19 @@ class Dashboard extends Component
         $user = Auth::user();
         $manager = $user->last_name;
         $currentMonth = Carbon::now()->format('Y-m');
+        $currentToday = Carbon::now()->format('Y-m-d');
+        $currentWeekStart = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $currentWeekEnd = Carbon::now()->endOfWeek()->format('Y-m-d');
 
         $usersQuery = User::where("company", "like", "lh")
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })
-            ->whereNotExists(function ($query)  use ($currentMonth) {
+            ->whereNotExists(function ($query)  use ($currentMonth)  {
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                    ->where('resignations.date', $currentMonth);
             })
             ->orderBy("users.first_name");
 
@@ -45,13 +48,13 @@ class Dashboard extends Component
         $usersQuery1 = User::where("company", "like", "lh")
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
-            })->whereNotExists(function ($query)  use ($currentMonth) {
+            })->whereNotExists(function ($query)  use ($currentToday) {
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                    ->whereNot('resignations.date', $currentToday);
             })
-            ->orderBy("last_name");
+            ->orderBy("group")->orderBy("last_name");
 
 
 
@@ -84,11 +87,11 @@ class Dashboard extends Component
                     ->whereColumn('sales.user_id', 'users.id')
                     ->whereRaw("DATE_FORMAT(sales.date_confirm, '%Y-%m') = ?", [$currentMonth]);
             })
-            ->whereNotExists(function ($query)  use ($currentMonth) {
+            ->whereNotExists(function ($query)  use ($currentWeekStart, $currentWeekEnd)  {
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                    ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
             })
             ->orderBy('users.id')
             ->paginate(3);
@@ -103,11 +106,11 @@ class Dashboard extends Component
                     ->whereColumn('sales.user_id', 'users.id')
                     ->whereRaw("DATE_FORMAT(sales.date_confirm, '%Y-%m') = ?", [$currentMonth]);
             })
-            ->whereNotExists(function ($query)  use ($currentMonth) {
+            ->whereNotExists(function ($query)  use  ($currentWeekStart, $currentWeekEnd) {
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                    ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
             })
             ->orderBy('users.id')
             ->get()->count();
@@ -309,25 +312,28 @@ class Dashboard extends Component
             $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth . '%')
                 ->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
-            $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+           /*  $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count(); */
+           $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth . '%')
                 ->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
-            $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+           /*  $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count(); */
+           $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         } else {
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->count();
             $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth . '%')
                 ->whereIn('state', [1, 5, 6, 7, 8])->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->count();
-            $propoNon = Mails::where('state', '0')->count();
+            /* $propoNon = Mails::where('state', '0')->count(); */
+            $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->count();
         }
 
 
         $sumRefusé = Sale::where('state', '5')->whereIn('date_confirm', $monthDates)->count();
         $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();
         $sumS = Sale::where('state',  '2')->orWhere('state',  '3')->whereIn('date_sal', $monthDates)->count();
-        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $propoNon];
+        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $devisEnvoye];
     }
 }

@@ -127,7 +127,9 @@ class Resignations extends Component
             $user->password = $newPassword;
             $user->save();
         }
-
+        workHours();
+        AbsSalary();
+        CalculChallenge();
         $this->newResignation = [];
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Un nouveau départ a été ajouté avec succès!"]);
     }
@@ -147,7 +149,9 @@ class Resignations extends Component
         $resignation->fill($this->editResignation);
 
         $resignation->save();
-
+        workHours();
+        AbsSalary();
+        CalculChallenge();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ mise à jour avec succès!"]);
         $this->dispatchBrowserEvent("closeModal");
     }

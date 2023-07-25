@@ -47,7 +47,7 @@
                                                 $absenceUser = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 4)
+                                                    ->where('abs_hours', '>', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence
@@ -59,7 +59,7 @@
                                                 $absenceUserDemi = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', 4)
+                                                    ->whereBetween('abs_hours', [4, 6])
                                                     ->first();
                                                 
                                                 $retard = $absence
@@ -82,7 +82,7 @@
                                                 $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
                                                 $resignationUser = $resignation->where('user_id', $user->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; ' : '';
+                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -247,7 +247,7 @@
                                                 $absenceUser = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 4)
+                                                    ->where('abs_hours', '>', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence2
@@ -259,7 +259,7 @@
                                                 $absenceUserDemi = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', 4)
+                                                    ->whereBetween('abs_hours', [4, 6])
                                                     ->first();
                                                 
                                                 $retard = $absence2
@@ -282,7 +282,7 @@
                                                 $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
                                                 $resignationUser = $resignation2->where('user_id', $user2->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A' : '';
+                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A; color: #5A5A5A ' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp

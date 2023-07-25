@@ -6,7 +6,7 @@
              </div>
 
              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                 <a href="{{ route('mail') }}" class="btn btn-outline-dark"
+                 <a href="{{ route('mail') }} " class="btn btn-outline-dark"
                      style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</a>
                  <div class="btn-group" role="group">
                      <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"

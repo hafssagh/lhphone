@@ -46,11 +46,11 @@
                                                 <div class="badge" style="background-color: #b2e7eb ; color:black">
                                                     1h-3h absence
                                                 </div>
-                                            @elseif ($absenceAuth->abs_hours == 4)
+                                            @elseif ($absenceAuth->abs_hours >= 4 && $absenceAuth->abs_hours <= 6)
                                                 <div class="badge" style="background-color: #fdd991 ; color:black">
                                                     1/2 absence
                                                 </div>
-                                            @elseif ($absenceAuth->abs_hours > 4)
+                                            @elseif ($absenceAuth->abs_hours > 6)
                                                 <div class="badge" style="background-color: #f8f88b ; color:black">
                                                     Absence
                                                 </div>
