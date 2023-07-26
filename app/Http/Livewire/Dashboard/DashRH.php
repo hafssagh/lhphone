@@ -23,12 +23,8 @@ class DashRH extends Component
 
         $usersQuery = User::whereHas('roles', function ($query) {
             $query->where('name', 'agent');
-        })->where(function ($query) use ($currentMonth) {
-            $query->where('group', $this->group)
-                ->orWhere(function ($query) {
-                    $query->where('company', 'h2f')->where('group', '')
-                        ->whereNull('group');
-                });
+        })->where(function ($query) {
+            $query->where('group', $this->group);
         })->whereNotExists(function ($query) use ($currentMonth) {
             $query->select(DB::raw(1))
                 ->from('resignations')
@@ -161,16 +157,15 @@ class DashRH extends Component
             ->get();
 
 
-        $currentWeekStart = Carbon::now()->startOfWeek()->format('Y-m-d');
-        $currentWeekEnd = Carbon::now()->endOfWeek()->format('Y-m-d');
+        $currentDay = Carbon::now()->format('Y-m-d');
 
         $stagiaire = User::query()->where('type_contract', 'sans')->whereHas('roles', function ($query) {
             $query->where('name', 'agent');
-        })->whereNotExists(function ($query)  use ($currentWeekStart, $currentWeekEnd) {
+        })->whereNotExists(function ($query)  use ($currentDay) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
-                ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
+                ->whereNot('resignations.date', $currentDay);
         })
             ->orderBy('company')->latest()->get();
 

@@ -30,12 +30,15 @@ class Produit extends Component
 
     public $absence;
     public $absence2;
+    public $absenceh2f;
 
     public $resignation;
     public $resignation2;
+    public $resignationh2f;
 
     public $suspension1;
     public $suspension2;
+    public $suspensionh2f;
 
     public $objectiveA;
     public $objectiveB;
@@ -98,7 +101,7 @@ class Produit extends Component
             ->groupBy('user_id', 'date_confirm')
             ->get();
 
-        $this->appoint = Appoint::select('user_id', 'date_confirm', 'date_prise', 'date_rdv' , 'cr' ,'state')
+        $this->appoint = Appoint::select('user_id', 'date_confirm', 'date_prise', 'date_rdv', 'cr', 'state')
             ->join('users', 'appointments.user_id', '=', 'users.id')
             ->where('users.company', 'h2f')
             ->get();
@@ -115,16 +118,28 @@ class Produit extends Component
             ->groupBy('user_id', 'date', 'abs_hours')
             ->get();
 
-        $this->resignation = Resignation::select('user_id')
-            ->join('users', 'resignations.user_id', '=', 'users.id')
-            ->where('users.group', '1')
-            ->groupBy('user_id')
+        $this->absenceh2f = Absence::select('user_id', 'date', 'abs_hours')
+            ->join('users', 'absences.user_id', '=', 'users.id')
+            ->where('users.company', 'h2f')
+            ->groupBy('user_id', 'date', 'abs_hours')
             ->get();
 
-        $this->resignation2 = Resignation::select('user_id')
+        $this->resignation = Resignation::select('user_id' , 'date')
+            ->join('users', 'resignations.user_id', '=', 'users.id')
+            ->where('users.group', '1')
+            ->groupBy('user_id' , 'date')
+            ->get();
+
+        $this->resignation2 = Resignation::select('user_id' ,'date')
             ->join('users', 'resignations.user_id', '=', 'users.id')
             ->where('users.group', '2')
-            ->groupBy('user_id')
+            ->groupBy('user_id' , 'date')
+            ->get();
+
+        $this->resignationh2f = Resignation::select('user_id','date')
+            ->join('users', 'resignations.user_id', '=', 'users.id')
+            ->where('users.company', 'h2f')
+            ->groupBy('user_id' , 'date')
             ->get();
 
         $this->suspension1 = Suspension::select('user_id', 'date_debut', 'date_fin')
@@ -136,6 +151,12 @@ class Produit extends Component
         $this->suspension2 = Suspension::select('user_id', 'date_debut', 'date_fin')
             ->join('users', 'suspension.user_id', '=', 'users.id')
             ->where('users.group', '2')
+            ->groupBy('user_id', 'date_debut', 'date_fin')
+            ->get();
+
+        $this->suspensionh2f = Suspension::select('user_id', 'date_debut', 'date_fin')
+            ->join('users', 'suspension.user_id', '=', 'users.id')
+            ->where('users.company', 'h2f')
             ->groupBy('user_id', 'date_debut', 'date_fin')
             ->get();
 

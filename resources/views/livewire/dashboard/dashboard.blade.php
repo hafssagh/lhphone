@@ -64,11 +64,11 @@
                                                     plus</a>
                                             @endcan
                                             @can('superadmin')
-                                               
-                                                    <button type="submit" class="btn btn-lg mb-0 me-0" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal" style="font-size:13px; color: #4650dd;  padding: 8px;">
+                                                <button type="submit" class="btn btn-lg mb-0 me-0" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    style="font-size:13px; color: #4650dd;  padding: 8px;">
                                                     <strong>En savoir
-                                                        plus</strong> 
+                                                        plus</strong>
                                                 </button>
                                             @endcan
                                         </strong>
@@ -111,9 +111,21 @@
                             <div class="row align-items-center justify-content-center" style="color:#66bb6a">
                                 <div class="col-10">
                                     <p class="mb-0">
-                                        <strong><a href="/customer/proposal"
-                                                style="text-decoration: none;color: inherit;">En savoir
-                                                plus</a></strong>
+                                        <strong>
+                                            @can('manager')
+                                                <a href="/customer/proposal"
+                                                    style="text-decoration: none;color: inherit;">En savoir
+                                                    plus</a>
+                                            @endcan
+                                            @can('superadmin')
+                                                <button type="submit" class="btn btn-lg mb-0 me-0" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmeModal"
+                                                    style="font-size:13px; color: #66bb6a;  padding: 8px;">
+                                                    <strong>En savoir
+                                                        plus</strong>
+                                                </button>
+                                            @endcan
+                                        </strong>
                                     </p>
                                 </div>
                                 <div class="col-2">
@@ -154,9 +166,20 @@
                             <div class="row align-items-center justify-content-center text-danger">
                                 <div class="col-10">
                                     <p class="mb-0">
-                                        <strong><a href="/sales" style="text-decoration: none;color: inherit;">En
-                                                savoir
-                                                plus</a></strong>
+                                        <strong>
+                                            @can('manager')
+                                                <a href="/sales" style="text-decoration: none;color: inherit;">En savoir
+                                                    plus</a>
+                                            @endcan
+                                            @can('superadmin')
+                                                <button type="submit" class="btn btn-lg mb-0 me-0"
+                                                    data-bs-toggle="modal" data-bs-target="#devisEModal"
+                                                    style="font-size:13px; color: #dc3545;  padding: 8px;">
+                                                    <strong>En savoir
+                                                        plus</strong>
+                                                </button>
+                                            @endcan
+                                        </strong>
                                     </p>
                                 </div>
                                 <div class="col-2">
@@ -471,11 +494,13 @@
         @endcan
     </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 600px;">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="card-title card-title-dash" id="exampleModalToggleLabel"><strong>Propositions</strong></h5>
+                    <h5 class="card-title card-title-dash" id="exampleModalToggleLabel"><strong>Propositions</strong>
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -483,7 +508,7 @@
                         <thead>
                             <tr>
                                 <th style=" text-align: center; padding: 0.5rem; ">
-                                  </th>
+                                </th>
                                 <th style=" text-align: center; padding: 0.5rem; ">
                                     Groupe 1</th>
                                 <th style=" text-align: center; padding: 0.5rem; ">
@@ -492,32 +517,35 @@
                             </tr>
                             <tr>
                                 <th style="text-align: center; padding: 0.5rem; ">
-                                Total
+                                    Matin
                                 </th>
                                 <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{$cards[9]}}</strong></th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{$cards[10]}}</strong>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                Matin
+                                    <strong>{{ $cards[11] }}</strong>
                                 </th>
                                 <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{$cards[11]}}</strong></th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{$cards[13]}}</strong>
+                                    <strong>{{ $cards[13] }}</strong>
                                 </th>
                             </tr>
                             <tr>
                                 <th style="text-align: center; padding: 0.5rem; ">
-                                Après midi
+                                    Après midi
                                 </th>
                                 <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{$cards[12]}}</strong></th>
+                                    <strong>{{ $cards[12] }}</strong>
+                                </th>
                                 <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{$cards[14]}}</strong>
+                                    <strong>{{ $cards[14] }}</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    Total
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{ $cards[9] }}</strong>
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{ $cards[10] }}</strong>
                                 </th>
                             </tr>
                         </thead>
@@ -525,7 +553,84 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+
+    <div class="modal fade" id="confirmeModal" tabindex="-1" aria-labelledby="confirmeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"  style="width: 100%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title card-title-dash" id="confirmeModalToggleLabel"><strong>Devis
+                            envoyés</strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-bordered-all">
+                        <thead>
+                            <tr>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                </th>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                    Groupe 1</th>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                    Groupe 2
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    Total
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{ $cards[15] }}</strong>
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{ $cards[16] }}</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="devisEModal" tabindex="-1" aria-labelledby="devisEModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"  style="width: 100%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title card-title-dash" id="devisEModalToggleLabel"><strong>Devis envoyés</strong>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-bordered-all">
+                        <thead>
+                            <tr>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                </th>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                    Groupe 1</th>
+                                <th style=" text-align: center; padding: 0.5rem; ">
+                                    Groupe 2
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    Total
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{ $cards[17] }}</strong>
+                                </th>
+                                <th style="text-align: center; padding: 0.5rem; ">
+                                    <strong>{{ $cards[18] }}</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('livewire:load', function() {

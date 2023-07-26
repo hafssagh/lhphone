@@ -36,11 +36,11 @@ class Dashboard extends Component
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agent');
             })
-            ->whereNotExists(function ($query)  use ($currentWeekStart , $currentWeekEnd)  {
+            ->whereNotExists(function ($query)  use ($currentMonth)  {
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->whereNotBetween('resignations.date', [$currentWeekStart, $currentWeekEnd]);
+                    ->where('resignations.date', $currentMonth);
             })
             ->orderBy("users.first_name");
 
@@ -167,7 +167,6 @@ class Dashboard extends Component
             if ($resignation) {
                 $resignationDate = Carbon::parse($resignation->date);
 
-                // Add 8 hours for each day equal or after the resignation date (excluding weekends)
                 $date = $currentDate->copy();
                 while ($date->format('Y-m') === $currentMonth && $date->gte($resignationDate)) {
                     if (!$date->isWeekend()) {
@@ -358,9 +357,16 @@ class Dashboard extends Component
         })
         ->count();
 
+        $confirme1 = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+        $confirme2 = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+
+        $devisEnvoye1 = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+        $devisEnvoye2 = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+
         $sumRefusé = Sale::where('state', '5')->whereIn('date_confirm', $monthDates)->count();
         $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();
         $sumS = Sale::where('state',  '2')->orWhere('state',  '3')->whereIn('date_sal', $monthDates)->count();
-        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $devisEnvoye, $propo1, $propo2, $propoMatin, $propoSoir, $propoMatin2, $propoSoir2];
+        return [$sumGrp1, $sumGrp2, $sumEnAtt, $sumEnCours, $sumRefusé, $sumAccepté, $sumS, $propo, $devisEnvoye,
+         $propo1, $propo2, $propoMatin, $propoSoir, $propoMatin2, $propoSoir2, $confirme1, $confirme2, $devisEnvoye1, $devisEnvoye2];
     }
 }

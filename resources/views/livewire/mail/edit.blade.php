@@ -42,7 +42,9 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 0.5rem;"><strong class="title">Société</strong></td>
-                                        <td style="padding: 0.5rem; max-width: 35px; word-wrap: break-word; white-space: normal;">{{ $editMail['company'] }}</td>
+                                        <td
+                                            style="padding: 0.5rem; max-width: 35px; word-wrap: break-word; white-space: normal;">
+                                            {{ $editMail['company'] }}</td>
                                     </tr>
                                     <tr>
                                         <td style="padding: 0.5rem;"><strong class="title">Responsable</strong></td>
@@ -72,13 +74,12 @@
                                 <br><br><br>
                             @endcannot
                             <div class="form-group" style='margin-top:-10px'>
-                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2' )
+                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2')
                                     <label for="remark">Commentaire agent</label>
                                 @else
                                     <label for="remark">Remarque</label>
                                 @endif
-                                <textarea class="form-control" wire:model="editMail.remark"  class="form-control"
-                                    style="height: 100px">
+                                <textarea class="form-control" wire:model="editMail.remark" class="form-control" style="height: 100px">
                             </textarea>
                                 @error('editMail.remark')
                                     <p class="text-danger">{{ $message }}</p>
@@ -86,12 +87,19 @@
                             </div>
 
                             @auth
-                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2')
+                                @if (Auth::user()->last_name === 'Essaid')
                                     <div class="form-group" style='margin-top:-10px'>
                                         <label for="remark2">Commentaire Manager</label>
                                         <textarea class="form-control" wire:model="editMail.remark2" wire:keydown.enter.prevent="updateMail"
                                             class="form-control" style="height: 50px">
                                      </textarea>
+                                    </div>
+                                @elseif (Auth::user()->group === '2')
+                                    <div class="form-group" style='margin-top:-10px'>
+                                        <label for="remark2">Commentaire Manager</label>
+                                        <textarea class="form-control" wire:model="editMail.remark2" wire:keydown.enter.prevent="updateMail"
+                                            class="form-control" style="height: 50px" disabled>
+                                 </textarea>
                                     </div>
                                 @endif
                             @endauth

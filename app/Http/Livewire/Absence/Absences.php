@@ -153,6 +153,8 @@ class Absences extends Component
             $absence->justification = null;
         }
         $absence->save();
+        workHours();
+        AbsSalary();
         $this->goToListeAbsence();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Absence mise à jour avec succès!"]);
     }
@@ -173,6 +175,6 @@ class Absences extends Component
         Absence::destroy($id);
         workHours();
         AbsSalary();
-        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Départ supprimé avec succès!"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Absence supprimé avec succès!"]);
     }
 }

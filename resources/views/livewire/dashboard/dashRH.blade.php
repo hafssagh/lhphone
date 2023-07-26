@@ -192,14 +192,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4 grid-margin">
+            <div class="col-sm-4 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h3 class="card-title card-title-dash">Agents (sans contrat)</h3>
                         </div>
                         <div class="list-group list-group-flush list-group-timeline">
-                            <div class="list-container">
+                            <div {{-- class="list-container" --}}>
                                 @foreach ($stagiaire as $stage)
                                     <div class="list-group-item px-0">
                                         <div class="row">
@@ -239,7 +239,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-12 grid-margin">
+            <div class="col-xl-4 col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -351,7 +351,7 @@
                                         style="background-color: #0d6efd; color:white">Groupe 1</button>
                                     <button wire:click="$set('group', 2)" type="button" class="btn"
                                         style="background-color: #0d6efd; color:white">Groupe 2</button>
-                                    <button wire:click="$set('group', '3')" type="button" class="btn"
+                                    <button wire:click="$set('group', null)" type="button" class="btn"
                                         style="background-color: #0d6efd; color:white">H2F</button>
                                 </div>
                             </div>

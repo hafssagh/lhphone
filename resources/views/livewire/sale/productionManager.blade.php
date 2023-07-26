@@ -49,6 +49,7 @@
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
                                                     ->where('abs_hours', '>', 6)
+                                                    ->where('abs_hours', '=', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence
@@ -60,13 +61,13 @@
                                                 $absenceUserDemi = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->whereBetween('abs_hours', [4, 6])
+                                                    ->whereBetween('abs_hours', [4, 5])
                                                     ->first();
                                                 
                                                 $retard = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', -1)
+                                                    ->where('abs_hours', '<', 1)
                                                     ->first();
                                                 
                                                 $suspension = $suspension1
@@ -83,7 +84,7 @@
                                                 $backgroundColor7 = $retard ? 'background-color: #A6B9FF ' : '';
                                                 
                                                 $resignationUser = $resignation->where('user_id', $user->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
+                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -264,6 +265,7 @@
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
                                                     ->where('abs_hours', '>', 6)
+                                                    ->where('abs_hours', '=', 6)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence2
@@ -275,13 +277,13 @@
                                                 $absenceUserDemi = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->whereBetween('abs_hours', [4, 6])
+                                                    ->whereBetween('abs_hours', [4, 5])
                                                     ->first();
                                                 
                                                 $retard = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', -1)
+                                                    ->where('abs_hours', '<', 1)
                                                     ->first();
                                                 
                                                 $suspension = $suspension2
@@ -298,7 +300,7 @@
                                                 $backgroundColor7 = $retard ? 'background-color: #6f84ab ' : '';
                                                 
                                                 $resignationUser = $resignation2->where('user_id', $user2->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color: #5A5A5A ' : '';
+                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #5A5A5A ; color: #5A5A5A ' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -495,57 +497,56 @@
                                                         ->count() ?? 0;
                                                 
                                                 $backgroundColor = $salesCount >= 5 ? 'background-color: #5cb85c' : '';
-                                                $backgroundColor10 =( $date < $currentDate || $date == $currentDate ) && $salesCount == 0 ? 'background-color: #d9534f' : '';
+                                                $backgroundColor10 = ($date < $currentDate || $date == $currentDate) && $salesCount == 0 ? 'background-color: #d9534f' : '';
                                                 
                                                 $totalSalesCount += $salesCount;
                                                 $dailySalesCounts[] = $salesCount;
                                                 
-                                                $absenceUser = $absence2
+                                                $absh2f = $absenceh2f
                                                     ->where('user_id', $user3->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 6)
+                                                    ->whereBetween('abs_hours', [6, 8])
                                                     ->first();
                                                 
-                                                $absenceUser12 = $absence2
+                                                $absenceUserDemi = $absenceh2f
                                                     ->where('user_id', $user3->id)
                                                     ->where('date', $date)
-                                                    ->whereBetween('abs_hours', [1, 3])
+                                                    ->whereBetween('abs_hours', [1, 5])
                                                     ->first();
                                                 
-                                                $absenceUserDemi = $absence2
-                                                    ->where('user_id', $user3->id)
-                                                    ->where('date', $date)
-                                                    ->whereBetween('abs_hours', [1, 6])
-                                                    ->first();
-                                                
-                                                $retard = $absence2
-                                                    ->where('user_id', $user3->id)
-                                                    ->where('date', $date)
-                                                    ->where('abs_hours', -1)
-                                                    ->first();
-                                                
-                                                $suspension = $suspension2
+                                                $suspension = $suspensionh2f
                                                     ->where('user_id', $user3->id)
                                                     ->where('date_debut', '<=', $date)
                                                     ->where('date_fin', '>=', $date)
                                                     ->first();
                                                 
-                                                $backgroundColor8 = $suspension ? 'background-color: #d32f2f ; color: #d32f2f' : '';
+                                                $backgroundColor8 = $suspension ? 'background-color: #d32f2f ;' : '';
                                                 
-                                                $backgroundColor2 = $absenceUser ? 'background-color: #FFFF66 ' : '';
-                                                $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';
-                                                $backgroundColor6 = $absenceUserDemi ? 'background-color: #FED071 ' : '';
-                                                $backgroundColor7 = $retard ? 'background-color: #6f84ab ' : '';
+                                                $backgroundColor2 = $absh2f ? 'background-color: #d9534f ' : '';
+                                                $backgroundColor6 = $absenceUserDemi ? 'background-color: #d9534f ' : '';
                                                 
-                                                $resignationUser = $resignation2->where('user_id', $user3->id)->first();
-                                                $backgroundColor4 = $resignationUser ? 'background-color: #5A5A5A ; color: #5A5A5A ' : '';
+                                                $resignationUser = $resignationh2f->where('user_id', $user3->id)->first();
+                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #7d7d7d ;' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
-                                            <td style="padding: 0.7rem ;padding: 0.5rem ;border: 4px solid rgb(253, 253, 253);background-color: #ececec; {{ $backgroundColor }}; border-radius:15px; 
-                       {{ $backgroundColor2 }};{{ $backgroundColor4 }};{{ $backgroundColor5 }};{{ $backgroundColor6 }};{{ $backgroundColor7 }}; {{ $backgroundColor8 }}; {{ $backgroundColor10 }}; "
+                                            <td style="padding: 0.7rem ;padding: 0.5rem ;border: 4px solid rgb(253, 253, 253);background-color: #ececec; border-radius:15px; 
+                       {{ $backgroundColor }}; {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor6 }};  {{ $backgroundColor8 }}; {{ $backgroundColor10 }}; "
                                                 class="text-center">
-                                                <strong>{{ $salesCount }}</strong>
+                                                <strong>
+                                                    @if ($backgroundColor4)
+                                                        ARR
+                                                    @elseif ($backgroundColor2)
+                                                        ABS
+                                                    @elseif ($backgroundColor6)
+                                                        1/2 ABS
+                                                    @elseif ($backgroundColor8)
+                                                        MAP
+                                                    @else
+                                                        {{ $salesCount }}
+                                                    @endif
+
+                                                </strong>
                                             </td>
                                         @endforeach
 
@@ -639,12 +640,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $totalConfirme = 0;
+                                    @endphp
                                     @foreach ($weekDatesWithoutWeekends as $date)
                                         @php
                                             $isFriday =
                                                 \Carbon\Carbon::parse($date)
                                                     ->locale('fr')
                                                     ->isoFormat('dddd') === 'vendredi';
+                                            
+                                            $isMonday =
+                                                \Carbon\Carbon::parse($date)
+                                                    ->locale('fr')
+                                                    ->isoFormat('dddd') === 'lundi';
                                         @endphp
                                         <tr>
                                             <td style="font-size: 13px; padding: 0.7rem;">
@@ -667,30 +676,56 @@
                                                         ->whereBetween('cr', ['18:00:00', '20:00:00'])
                                                         ->count() ?? 0;
                                                 $rdvCount = $appoint->where('date_rdv', $date)->count() ?? 0;
-                                                $rdvCountConfirmé =
+                                                $rdvCountConfirme =
                                                     $appoint
                                                         ->where('date_rdv', $date)
                                                         ->where('state', '1')
                                                         ->count() ?? 0;
+                                                
+                                                $totalConfirme += $rdvCountConfirme;
                                             @endphp
                                             <td class="text-center"
-                                                style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                                {{ $rdvCountM }} </td>
+                                                style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif; @if ($isMonday) background-color: #444657; color: #444657; @endif">
+                                                <strong>{{ $rdvCountM }} </strong>
+                                            </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                                {{ $rdvCountA }}</td>
+                                                <strong>{{ $rdvCountA }}</strong>
+                                            </td>
                                             <td class="text-center "
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                                {{ $rdvCountS }}</td>
+                                                <strong>{{ $rdvCountS }}</strong>
+                                            </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                                {{ $rdvCount }}</td>
+                                               <strong> {{ $rdvCount }}</strong>
+                                            </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                                {{ $rdvCountConfirmé }}</td>
+                                                <strong>{{ $rdvCountConfirme }}</strong>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <td></td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
+                                      <strong>{{ $totalConfirme }} </strong>  
+                                    </td>
+                                </tfoot>
                             </table>
 
                         </div>
@@ -715,12 +750,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $totalConfirme = 0;
+                                    @endphp
                                     @foreach ($nextWeekDatesWithoutWeekends as $date)
                                         @php
                                             $isFriday =
                                                 \Carbon\Carbon::parse($date)
                                                     ->locale('fr')
                                                     ->isoFormat('dddd') === 'vendredi';
+                                            
+                                            $isMonday =
+                                                \Carbon\Carbon::parse($date)
+                                                    ->locale('fr')
+                                                    ->isoFormat('dddd') === 'lundi';
                                         @endphp
                                         <tr>
                                             <td style="font-size: 13px; padding: 0.7rem;">
@@ -742,34 +785,57 @@
                                                         ->where('date_rdv', $date)
                                                         ->whereBetween('cr', ['18:00:00', '20:00:00'])
                                                         ->count() ?? 0;
-                                                $rdvCount =
-                                                    $appoint
-                                                        ->where('date_rdv', $date)
-                                                        ->count() ?? 0;
-                                                $rdvCountConfirmé =
+                                                $rdvCount = $appoint->where('date_rdv', $date)->count() ?? 0;
+                                                $rdvCountConfirme =
                                                     $appoint
                                                         ->where('date_rdv', $date)
                                                         ->where('state', '1')
                                                         ->count() ?? 0;
+                                                
+                                                $totalConfirme += $rdvCountConfirme;
                                             @endphp
                                             <td class="text-center"
-                                                style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                                {{ $rdvCountM }} </td>
+                                                style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif ; @if ($isMonday) background-color: #444657; color: #444657; @endif">
+                                                <strong>{{ $rdvCountM }} </strong>
+                                            </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                                {{ $rdvCountA }}</td>
+                                               <strong>{{ $rdvCountA }}</strong> 
+                                            </td>
                                             <td class="text-center "
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                                {{ $rdvCountS }}</td>
+                                               <strong>{{ $rdvCountS }}</strong> 
+                                            </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                                {{ $rdvCount }}</td>
+                                               <strong>{{ $rdvCount }}</strong> 
+                                            </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                                {{ $rdvCountConfirmé }}</td>
+                                               <strong>{{ $rdvCountConfirme }}</strong> 
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <td></td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #444657; border-radius:15px;">
+                                    </td>
+                                    <td class="text-center"
+                                        style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
+                                      <strong>{{ $totalConfirme }} </strong>  
+                                    </td>
+                                </tfoot>
                             </table>
 
                         </div>

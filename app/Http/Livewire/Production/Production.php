@@ -90,16 +90,16 @@ class Production extends Component
             ->groupBy('user_id', 'date', 'abs_hours')
             ->get();
 
-        $this->resignation = Resignation::select('user_id')
+        $this->resignation = Resignation::select('user_id' , 'date')
             ->join('users', 'resignations.user_id', '=', 'users.id')
             ->where('users.group', '1')
-            ->groupBy('user_id')
+            ->groupBy('user_id' , 'date')
             ->get();
 
-        $this->resignation2 = Resignation::select('user_id')
+        $this->resignation2 = Resignation::select('user_id' , 'date')
             ->join('users', 'resignations.user_id', '=', 'users.id')
             ->where('users.group', '2')
-            ->groupBy('user_id')
+            ->groupBy('user_id' , 'date')
             ->get();
 
         $this->suspension1 = Suspension::select('user_id', 'date_debut', 'date_fin')

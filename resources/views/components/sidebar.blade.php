@@ -33,15 +33,18 @@
                                 <br><br>
                                 <p class="fw-light text-muted mb-0">{{ getRolesName() }}</p>
                             </div>
-                            <a class="dropdown-item" href="{{ route('user.profile') }}"><i
-                                    class="dropdown-item-icon mdi mdi-account-outline me-2" style="color:#1F3BB3"></i>
-                                Mon Profile
-                                </span></a>
-                                @canAny(['admin', 'manager'])
-                                <a class="dropdown-item" href="{{ route('absence.myliste') }}"><i
-                                        class="dropdown-item-icon mdi mdi-calendar me-2" style="color:#1F3BB3"></i>
-                                    Mes absences
+                            @cannot('superadmin')
+                                <a class="dropdown-item" href="{{ route('user.profile') }}"><i
+                                        class="dropdown-item-icon mdi mdi-account-outline me-2" style="color:#1F3BB3"></i>
+                                    Mon Profile
                                     </span></a>
+                                @canAny(['admin', 'manager'])
+                                    <a class="dropdown-item" href="{{ route('absence.myliste') }}"><i
+                                            class="dropdown-item-icon mdi mdi-calendar me-2" style="color:#1F3BB3"></i>
+                                        Mes absences
+                                        </span>
+                                    </a>
+                                @endcannot
                             @endcannot
                             <a class="dropdown-item" href="{{ route('profile.update') }}"><i
                                     class="dropdown-item-icon mdi mdi-lock-outline me-2" style="color:#1F3BB3"></i>

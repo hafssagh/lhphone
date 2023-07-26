@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Avance;
 
 use App\Models\Absence;
+use App\Models\Appoint;
 use App\Models\Suspension;
 use App\Models\Resignation;
 use App\Exports\PrimeExport;
@@ -352,7 +353,7 @@ function exportSalary()
 function CalculChallenge()
 {
     $weekDates = fetchWeekDates();
-    $users = User::all();
+    $users = User::where('company', 'lh')->get();
 
     foreach ($users as $user) {
         $sales = Sale::where('user_id', $user->id)
@@ -374,13 +375,31 @@ function CalculChallenge()
 
         $user->save();
     }
-}
 
+    $today = Carbon::today()->format('Y-m-d');
+    $users2 = User::where('company', 'h2f')->get();
+
+    foreach ($users2 as $user2) {
+        $totalAppoint = Appoint::where('user_id', $user2->id)
+            ->where('date_confirm', $today)
+            ->where('state', 1)
+            ->count();
+
+        if ($totalAppoint > 1) {
+            $challenge = ($totalAppoint - 1) * 100;
+            $user2->challenge = $challenge;
+        } else {
+            $user2->challenge = 0;
+        }
+
+        $user2->save();
+    }
+}
 
 function CalculPrime()
 {
     $monthDates = fetchMonthDates();
-    $users = User::all();
+    $users = User::where('company', 'lh')->get();
 
     foreach ($users as $user) {
         $sales = Sale::where('user_id', $user->id)
@@ -404,7 +423,7 @@ function CalculPrime()
                 4600 => 10000,
             ];
 
-            $user->prime = 0; 
+            $user->prime = 0;
 
             foreach ($increments as $quantityThreshold => $challengeValue) {
                 if ($totalQuantity >= $quantityThreshold) {
@@ -418,6 +437,31 @@ function CalculPrime()
         }
 
         $user->save();
+    }
+
+
+    $users2 = User::where('company', 'h2f')->get();
+
+    foreach ($users2 as $user2) {
+        $totalAppoint = Appoint::where('user_id', $user2->id)
+            ->where('date_confirm', $monthDates)
+            ->where('state', 1)
+            ->count();
+
+        if ($totalAppoint == 9 && ($user2->base_salary >= 3500 && $user2->base_salary <= 4500)) {
+            $challenge = 800;
+            $user2->challenge = $challenge;
+        } elseif (($totalAppoint == 12 && $user2->base_salary == 5000 )) {
+            $challenge = 800;
+            $user2->challenge = $challenge;
+        }  elseif (($totalAppoint == 14 && $user2->base_salary == 5500 )) {
+            $challenge = 800;
+            $user2->challenge = $challenge;
+        } else {
+            $user2->challenge = 0;
+        }
+
+        $user2->save();
     }
 }
 
@@ -465,7 +509,7 @@ function fetchWeekDatesWithoutWeekend()
 function fetchNextWeekDatesWithoutWeekend()
 {
     $weekDates = [];
-    $currentDate = Carbon::now()->startOfWeek()->addWeek(); 
+    $currentDate = Carbon::now()->startOfWeek()->addWeek();
 
     for ($i = 0; $i < 5; $i++) {
         if ($currentDate->isWeekend()) {
@@ -552,7 +596,7 @@ function workHours()
                     $numberOfHours += 8;
                 }
                 $date->subDay();
-            }  
+            }
         }
 
         $workHours = calculerHeuresTravail();
