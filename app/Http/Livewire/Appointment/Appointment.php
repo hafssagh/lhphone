@@ -160,6 +160,7 @@ class Appointment extends Component
         }
         $appoint->save();
         CalculChallenge();
+        CalculPrime();
         $this->goToListeAppointments();
         $this->dispatchBrowserEvent("showSuccessMessage");
     }

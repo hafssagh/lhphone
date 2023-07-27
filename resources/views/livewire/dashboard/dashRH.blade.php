@@ -1,6 +1,6 @@
 <div>
     @can('superadmin')
-    <br>
+        <br>
         <div class="col-sm-12">
             <div class="home-tab">
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
@@ -212,9 +212,8 @@
                                                             <img src="../assets/images/user2.png"
                                                                 class="rounded-circle "
                                                                 style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%">
-                                                                <noscript><img
-                                                                    src="../assets/images/user2.png" decoding="async"
-                                                                    data-nimg="fixed"
+                                                            <noscript><img src="../assets/images/user2.png"
+                                                                    decoding="async" data-nimg="fixed"
                                                                     style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
                                                                     class="rounded-circle "
                                                                     loading="lazy" /></noscript></span>
@@ -311,7 +310,8 @@
                                     <tr>
                                         <th style="padding: 0.8rem;" class="text-muted">Agent</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire fixe</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Challenge</th>
@@ -323,23 +323,37 @@
                                         <tr>
                                             <td style="padding: 0.8rem;">
                                                 <strong>{{ $user->last_name }}
-                                                {{ $user->first_name }}</strong>
+                                                    {{ $user->first_name }}</strong>
                                             </td>
                                             <td class="text-center" style="padding: 0.8rem;">
                                                 @if ($user->absenceHours != 0)
-                                                <strong class="text-danger">{{ $user->absenceHours }} h</strong> 
+                                                    <strong class="text-danger">{{ $user->absenceHours }} h</strong>
                                                 @else
-                                                 {{ $user->absenceHours }} h 
+                                                    {{ $user->absenceHours }} h
                                                 @endif
                                             </td>
-                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->work_hours }} h
+                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->work_hours }}
+                                                h
                                             </td>
-                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->base_salary }} DH
+                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->base_salary }}
+                                                DH
                                             </td>
-                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->salary }} DH</td> 
-                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->challenge }}
+                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->salary }} DH
                                             </td>
-                                            <td class="text-center" style="padding: 0.8rem;">{{ $user->prime }}</td> 
+                                            <td class="text-center" style="padding: 0.8rem;">
+                                                @if ($user->challenge != 0)
+                                                    <strong style="color: #5E50F9">{{ $user->challenge }} DH</strong>
+                                                @else
+                                                    {{ $user->challenge }} 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" style="padding: 0.8rem;">
+                                                @if ($user->prime != 0)
+                                                    <strong style="color: #5E50F9">{{ $user->prime }} DH</strong>
+                                                @else
+                                                    {{ $user->prime }} 
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -371,7 +385,8 @@
                                     <tr>
                                         <th style="padding: 0.8rem;" class="text-muted">Manager</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire fixe</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                     </tr>
@@ -379,7 +394,7 @@
                                 <tbody>
                                     @foreach ($userCardre as $userCardre)
                                         <tr>
-                                            <td style="padding: 0.8rem;"> 
+                                            <td style="padding: 0.8rem;">
                                                 <strong>{{ $userCardre->last_name }}
                                                     {{ $userCardre->first_name }}</strong>
                                             </td>
@@ -399,7 +414,8 @@
                                     <tr>
                                         <th style="padding: 0.8rem;" class="text-muted">Informaticien</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire fixe</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                     </tr>
@@ -417,7 +433,8 @@
                                                 {{ $userInfo->work_hours }} h</td>
                                             <td class="text-center" style="padding: 0.8rem;">
                                                 {{ $userInfo->base_salary }} DH</td>
-                                            <td class="text-center" style="padding: 0.8rem;">{{ $userInfo->salary }} DH
+                                            <td class="text-center" style="padding: 0.8rem;">{{ $userInfo->salary }}
+                                                DH
                                             </td>
                                         </tr>
                                     @endforeach

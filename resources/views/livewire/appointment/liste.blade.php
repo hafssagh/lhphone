@@ -184,7 +184,7 @@
                 </tbody>
             </table>
             <div class="float-end">
-                {{ $appointment->onEachSide(1)->links() }} 
+                {{ $appointment->onEachSide(1)->links() }}
             </div>
         </div>
     </div>

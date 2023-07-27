@@ -374,12 +374,18 @@
                                                     <td style="padding: 0.6rem; margin-left:-5px">{{ $user->first_name }}
                                                     </td>
                                                     <td class="text-center" style="padding: 0.6rem;">
-                                                        {{ $user->sumQuantity }}
-                                                        P
+                                                        @if ($user->sumQuantity != 0)
+                                                            <strong>{{ $user->sumQuantity }} P</strong>
+                                                        @else
+                                                            {{ $user->sumQuantity }}
+                                                        @endif
                                                     </td>
                                                     <td class="text-center" style="padding: 0.6rem;">
-                                                        {{ $user->sumQuantity2 }}
-                                                        P
+                                                        @if ($user->sumQuantity2 != 0)
+                                                            <strong>{{ $user->sumQuantity2 }} P</strong>
+                                                        @else
+                                                            {{ $user->sumQuantity2 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -451,13 +457,26 @@
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->base_salary }}
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->salary }}</td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->sumQuantity }} P
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                    {{ $user->sumQuantity }} P
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->challenge ?? 0 }}
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->challenge != 0)
+                                                    <strong style="color: #5E50F9">{{ $user->challenge }} DH</strong>
+                                                @else
+                                                    {{ $user->challenge }}
+                                                @endif
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->sumQuantity2 }} P
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                    {{ $user->sumQuantity2 }} P
                                             </td>
-                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->prime ?? 0 }}</td>
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->prime != 0)
+                                                    <strong style="color: #5E50F9">{{ $user->prime }} DH</strong>
+                                                @else
+                                                    {{ $user->prime }}
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -557,7 +576,7 @@
 
     <div class="modal fade" id="confirmeModal" tabindex="-1" aria-labelledby="confirmeModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"  style="width: 100%;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="card-title card-title-dash" id="confirmeModalToggleLabel"><strong>Devis
@@ -595,7 +614,7 @@
     </div>
 
     <div class="modal fade" id="devisEModal" tabindex="-1" aria-labelledby="devisEModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"  style="width: 100%;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="card-title card-title-dash" id="devisEModalToggleLabel"><strong>Devis envoyés</strong>

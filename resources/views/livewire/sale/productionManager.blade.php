@@ -497,7 +497,6 @@
                                                         ->count() ?? 0;
                                                 
                                                 $backgroundColor = $salesCount >= 5 ? 'background-color: #5cb85c' : '';
-                                                $backgroundColor10 = ($date < $currentDate || $date == $currentDate) && $salesCount == 0 ? 'background-color: #d9534f' : '';
                                                 
                                                 $totalSalesCount += $salesCount;
                                                 $dailySalesCounts[] = $salesCount;
@@ -528,11 +527,15 @@
                                                 $resignationUser = $resignationh2f->where('user_id', $user3->id)->first();
                                                 $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #7d7d7d ;' : '';
                                                 
+                                                $backgroundColor10 = ($date < $currentDate || $date == $currentDate) && $salesCount == 0 ? 'background-color: #e37b76;' : '';
+                                                $finalBackgroundColor = $backgroundColor4 ?: $backgroundColor8 ?: $backgroundColor2 ?: $backgroundColor6 ?: $backgroundColor ?: $backgroundColor10;
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
+                                                
+                                                $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
+                                                
                                             @endphp
                                             <td style="padding: 0.7rem ;padding: 0.5rem ;border: 4px solid rgb(253, 253, 253);background-color: #ececec; border-radius:15px; 
-                       {{ $backgroundColor }}; {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor6 }};  {{ $backgroundColor8 }}; {{ $backgroundColor10 }}; "
-                                                class="text-center">
+                                               {{ $finalBackgroundColor }}"   class="text-center">
                                                 <strong>
                                                     @if ($backgroundColor4)
                                                         ARR
@@ -698,7 +701,7 @@
                                             </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                               <strong> {{ $rdvCount }}</strong>
+                                                <strong> {{ $rdvCount }}</strong>
                                             </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
@@ -723,7 +726,7 @@
                                     </td>
                                     <td class="text-center"
                                         style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                      <strong>{{ $totalConfirme }} </strong>  
+                                        <strong>{{ $totalConfirme }} </strong>
                                     </td>
                                 </tfoot>
                             </table>
@@ -800,19 +803,19 @@
                                             </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                               <strong>{{ $rdvCountA }}</strong> 
+                                                <strong>{{ $rdvCountA }}</strong>
                                             </td>
                                             <td class="text-center "
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px; @if ($isFriday) background-color: #444657; color: #444657; @endif">
-                                               <strong>{{ $rdvCountS }}</strong> 
+                                                <strong>{{ $rdvCountS }}</strong>
                                             </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                               <strong>{{ $rdvCount }}</strong> 
+                                                <strong>{{ $rdvCount }}</strong>
                                             </td>
                                             <td class="text-center"
                                                 style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                               <strong>{{ $rdvCountConfirme }}</strong> 
+                                                <strong>{{ $rdvCountConfirme }}</strong>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -833,7 +836,7 @@
                                     </td>
                                     <td class="text-center"
                                         style="padding: 0.7rem ;border: 4px solid rgb(253, 253, 253);background-color:  #ececec; border-radius:15px;">
-                                      <strong>{{ $totalConfirme }} </strong>  
+                                        <strong>{{ $totalConfirme }} </strong>
                                     </td>
                                 </tfoot>
                             </table>

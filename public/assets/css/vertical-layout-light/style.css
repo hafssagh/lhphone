@@ -31465,6 +31465,13 @@ li.day {
   font-size: 14px; 
 }
 
+.details0 {
+
+  box-sizing: border-box;
+  padding: 5px; 
+  font-size: 14px; 
+}
+
 .bullet-line-list2 {
   padding-left: 30px;
   position: relative;

@@ -221,6 +221,8 @@ class Users extends Component
 
         User::find($this->editUser["id"])->update($validationAttributes["editUser"]);
         AbsSalary();
+        CalculChallenge();
+        CalculPrime();
 
         $this->goToListeUser();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Utilisateur mise à jour avec succès!"]);

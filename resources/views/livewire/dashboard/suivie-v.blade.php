@@ -1,6 +1,6 @@
 <div>
     <br>
-    <div class="col-sm-12">
+    <div class="col-sm-12 ">
         <div class="home-tab">
             <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                 <ul class="nav nav-tabs" role="tablist">
@@ -142,8 +142,8 @@
                     datasets: [{
                             label: 'Devis signé',
                             data: saleData,
-                            backgroundColor: '#e0e0e0',
-                            borderColor: '#c2c0c0',
+                            backgroundColor: '#f7dae1',
+                            borderColor: '#fa9db6',
                             barThickness: 15,
                             borderWidth: 2,
                             borderRadius: 20,
@@ -203,8 +203,8 @@
                 datasets: [{
                         label: 'Devis signé',
                         data: {!! json_encode($users->pluck('sale_count')) !!},
-                        backgroundColor: '#e0e0e0',
-                        borderColor: '#c2c0c0',
+                        backgroundColor: '#f7dae1',
+                        borderColor: '#fa9db6',
                         barThickness: 15,
                         borderWidth: 2,
                         borderRadius: 20,

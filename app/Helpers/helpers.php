@@ -442,27 +442,58 @@ function CalculPrime()
 
     $users2 = User::where('company', 'h2f')->get();
 
+    $primeMap = [
+        [9, [3500, 4000, 4500], 800],
+        [12, [5000], 800],
+        [14, [5500], 800],
+        [16, [6000], 800],
+    
+        [10, [3500, 4000, 4500], 900],
+        [13, [5000], 900],
+        [15, [5500], 900],
+        [17, [6000], 900],
+    
+        [11, [3500, 4000, 4500], 1000],
+        [14, [5000], 1000],
+        [16, [5500], 1000],
+        [18, [6000], 1000],
+    
+        [12, [3500, 4000, 4500], 1100],
+        [15, [5000], 1100],
+        [17, [5500], 1100],
+        [19, [6000], 1100],
+
+        [13, [3500, 4000, 4500], 1200],
+        [16, [5000], 1200],
+        [18, [5500], 1200],
+        [20, [6000], 1200],
+
+        [14, [3500,  4000, 4500], 1300],
+        [17, [5000], 1300],
+        [19, [5500], 1300],
+        [21, [6000], 1300],
+    ];
+    
     foreach ($users2 as $user2) {
         $totalAppoint = Appoint::where('user_id', $user2->id)
-            ->where('date_confirm', $monthDates)
+            ->whereIn('date_confirm', $monthDates)
             ->where('state', 1)
             ->count();
-
-        if ($totalAppoint == 9 && ($user2->base_salary >= 3500 && $user2->base_salary <= 4500)) {
-            $challenge = 800;
-            $user2->challenge = $challenge;
-        } elseif (($totalAppoint == 12 && $user2->base_salary == 5000 )) {
-            $challenge = 800;
-            $user2->challenge = $challenge;
-        }  elseif (($totalAppoint == 14 && $user2->base_salary == 5500 )) {
-            $challenge = 800;
-            $user2->challenge = $challenge;
-        } else {
-            $user2->challenge = 0;
+    
+        $user2->prime = 0;
+    
+        foreach ($primeMap as $primeData) {
+            [$targetAppointments, $salaryRanges, $prime] = $primeData;
+    
+            if ($totalAppoint == $targetAppointments && in_array($user2->base_salary, $salaryRanges)) {
+                $user2->prime = $prime;
+                break;
+            }
         }
-
+    
         $user2->save();
     }
+    
 }
 
 function fetchMonthDates()

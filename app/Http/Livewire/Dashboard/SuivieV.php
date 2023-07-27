@@ -28,7 +28,7 @@ class SuivieV extends Component
             })
             ->leftJoin('sales', 'users.id', '=', 'sales.user_id')
             ->select('users.id', 'users.first_name', 'users.last_name', 'users.group')
-            ->selectRaw('COUNT(CASE WHEN sales.state IN (6, 7, 8) THEN 1 ELSE NULL END) AS sale_count')
+            ->selectRaw('COUNT(CASE WHEN sales.state IN (1,6, 7, 8) THEN 1 ELSE NULL END) AS sale_count')
             ->selectRaw('COUNT(CASE WHEN sales.state = 5 THEN 1 ELSE NULL END) AS sale_count2')
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.group')
             ->orderBy('first_name', 'asc');
@@ -59,7 +59,7 @@ class SuivieV extends Component
                     $sales = DB::table('sales')
                         ->where('user_id', $userId)
                         ->whereBetween('date_confirm', [$startOfWeek, $endOfWeek])
-                        ->whereIn('state', [6,7,8])
+                        ->where('state', 1)
                         ->count();
     
                     $sales2 = DB::table('sales')

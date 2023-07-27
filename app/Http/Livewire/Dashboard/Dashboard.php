@@ -311,21 +311,21 @@ class Dashboard extends Component
                 ->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 2))->count();
            /*  $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count(); */
-           $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+           $devisEnvoye = Sale::whereRaw('DATE(created_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth . '%')
                 ->whereIn('state', [1, 5, 6, 7, 8])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
            /*  $propoNon = Mails::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count(); */
-           $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+           $devisEnvoye = Sale::whereRaw('DATE(created_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         } else {
             $sumEnAtt = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->count();
             $sumEnCours = Sale::whereDate('updated_at', 'LIKE', $currentMonth . '%')
                 ->whereIn('state', [1, 5, 6, 7, 8])->count();
             $propo = Mails::whereRaw('DATE(created_at) = ?', [$today])->count();
             /* $propoNon = Mails::where('state', '0')->count(); */
-            $devisEnvoye = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->count();
+            $devisEnvoye = Sale::whereRaw('DATE(created_at) = ?', [$today])->where('state','3')->count();
         }
 
         $propo1 = Mails::whereRaw('DATE(created_at) = ?', [$today])->whereHas('users', fn ($q) => $q->where('group', 1))->count();
@@ -360,8 +360,8 @@ class Dashboard extends Component
         $confirme1 = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         $confirme2 = Mails::whereRaw('DATE(updated_at) = ?', [$today])->where('state', 1)->whereHas('users', fn ($q) => $q->where('group', 2))->count();
 
-        $devisEnvoye1 = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
-        $devisEnvoye2 = Sale::whereRaw('DATE(updated_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+        $devisEnvoye1 = Sale::whereRaw('DATE(created_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+        $devisEnvoye2 = Sale::whereRaw('DATE(created_at) = ?', [$today])->where('state','3')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
 
         $sumRefusé = Sale::where('state', '5')->whereIn('date_confirm', $monthDates)->count();
         $sumAccepté = Sale::where('state', '1')->whereIn('date_confirm', $monthDates)->count();

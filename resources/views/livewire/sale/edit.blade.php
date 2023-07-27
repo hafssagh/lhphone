@@ -149,11 +149,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="padding: 0.5rem;"><strong class="title">Commentaire</strong></td>
-                    <td style="padding: 0.1rem;">
-                        <input type="text" wire:model="editSale.commentaire"
-                            class="form-control details @error('editSale.commentaire') is-invalid @enderror"
-                            style="border: none;" placeholder="{{ $editSale['commentaire'] }}">
+                    <td style="padding: 0.5rem;"><strong class="title" style="">Commentaire</strong></td>
+                    <td style="padding: 0.5rem;">
+                        <textarea type="text" wire:model="editSale.commentaire"
+                            class="form-control details0 @error('editSale.commentaire') is-invalid @enderror"
+                            style="border: none; height:100%; width:100%; " placeholder="{{ $editSale['commentaire'] }}" ></textarea>
                     </td>
                 </tr>
             </tbody>
