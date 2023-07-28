@@ -36,7 +36,7 @@ class Historique extends Component
                 $q->where('first_name', 'like', '%' . $this->search . '%')
                     ->orWhere('last_name', 'like', '%' . $this->search . '%');
             });
-        })->paginate(14);
+        })->paginate(15);
     
         return view('livewire.absence.historique', [
             "absences" => $absences,

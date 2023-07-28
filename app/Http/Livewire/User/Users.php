@@ -88,7 +88,7 @@ class Users extends Component
             }
         }
 
-        $users = $query->whereNot('last_name' , 'EL MESSIOUI')->paginate(10);
+        $users = $query->whereNot('last_name' , 'EL MESSIOUI')->paginate(11);
 
         $data = [
             "users" => $users,

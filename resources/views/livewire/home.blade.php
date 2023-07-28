@@ -186,7 +186,7 @@
             </div>
         </div>
     @endcannot
-    @if (Auth::user()->company != 'h2f')
+    @if (Auth::user()->company == 'lh')
         @can('agent')
             <div class="col-md-4 grid-margin">
                 <div class="card">
@@ -270,6 +270,42 @@
                                 </p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        @endcan
+    @endif
+    @if (Auth::user()->company == 'h2f')
+        @can('agent')
+            <div class="col-md-4 grid-margin">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-center">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style=" font-weight:bold">Prime</th>
+                                    <th class="text-center" style=" font-weight:bold">Challenge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.4rem;">2 Confirmés = 100 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">9 Confirmés = 800 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.4rem;">3 Confirmés = 200 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">12 Confirmés = 800 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.4rem;">4 Confirmés = 300 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">14 Confirmés = 800 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 0.4rem;">5 Confirmés = 400 Dh</td>
+                                    <td class="text-center" style="padding: 0.4rem;">9 Confirmés = 800 Dh</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

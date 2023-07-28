@@ -72,7 +72,7 @@ class MailAll extends Component
             $query->whereHas('users', fn ($q) => $q->where('group', 2));
         }
     
-        $proposition = $query->orderBy('created_at', 'desc')->paginate(9);
+        $proposition = $query->orderBy('created_at', 'desc')->paginate(8);
 
         return view('livewire.mail.all.indexAll', ['proposition' => $proposition])
             ->extends("layouts.master")
@@ -99,7 +99,7 @@ class MailAll extends Component
         $mail->fill($this->editMail);
         $mail->save();
 
+        $this->goToListPropos();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Formulaire mise à jour avec succès!"]);
-        /* return redirect()->to('/proposal/all'); */
     }
 }

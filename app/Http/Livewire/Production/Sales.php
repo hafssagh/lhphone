@@ -225,7 +225,7 @@ class Sales extends Component
         $sale->save();
         CalculChallenge();
         CalculPrime();
-        /* $this->goToListeSales(); */
+         $this->goToListeSales(); 
         $this->dispatchBrowserEvent("showSuccessMessage");
     }
 

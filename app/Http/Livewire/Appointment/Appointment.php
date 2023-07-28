@@ -59,7 +59,7 @@ class Appointment extends Component
             });
         }
 
-        $appointment = $query->orderBy('created_at', 'desc')->paginate(9);
+        $appointment = $query->orderBy('created_at', 'desc')->paginate(10);
 
         $currentMonth = Carbon::now()->format('Y-m');
         $usersQuery = User::select('id', 'first_name', 'last_name')

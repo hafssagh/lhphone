@@ -54,7 +54,7 @@ class Salary extends Component
             })
             ->whereNotIn('roles.name', ['Super Administrateur'])
             ->orderBy('last_name')
-            ->paginate(12);
+            ->paginate(14);
 
         return view('livewire.paiment.salary',  ["salary" => $salary])
             ->extends("layouts.master")
