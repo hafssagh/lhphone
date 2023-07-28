@@ -5,7 +5,7 @@
             <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link ps-0" href="/dashboard" role="tab" aria-controls="overview"
+                        <a class="nav-link ps-0" href="/dashboard2" role="tab" aria-controls="overview"
                             aria-selected="false">Général</a>
                     </li>
                     @can('superadmin')
@@ -19,29 +19,31 @@
                             Agent</a>
                     </li>
                 </ul>
-                <div>
-                    <div class="btn-wrapper" style="margin-top:5px">
-                        <a href="/dashboardF" class="btn btn-primary text-white me-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
-                            </svg>
-                            Propositions</a>
-                        <a href="/dashboardV" class="btn btn-otline-dark  me-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                class="bi bi-bar-chart" viewBox="0 0 16 16">
-                                <path
-                                    d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
-                            </svg> Ventes </a>
-                        <a href="/dashboardH" class="btn btn-otline-dark">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                class="bi bi-bar-chart" viewBox="0 0 16 16">
-                                <path
-                                    d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
-                            </svg> Rendez-vous </a>
+                @can('superadmin')
+                    <div>
+                        <div class="btn-wrapper" style="margin-top:5px">
+                            <a href="/dashboardF" class="btn btn-otline-dark me-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                    class="bi bi-bar-chart" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
+                                </svg> Propositions </a>
+                            <a href="/dashboardV" class="btn btn-otline-dark me-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                    class="bi bi-bar-chart" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
+                                </svg> Ventes </a>
+                            <a href="/dashboardH" class="btn btn-primary text-white me-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                    class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
+                                </svg>
+                                Rendez-vous</a>
+                        </div>
                     </div>
-                </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -131,10 +133,10 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                            label: 'Total proposition',
+                            label: 'Total rendez-cous',
                             data: propoData,
-                            backgroundColor: '#e0e0e0',
-                            borderColor: '#c2c0c0',
+                            backgroundColor: '#FCF3CF',
+                            borderColor: '#F9E79F',
                             barThickness: 15,
                             borderWidth: 2,
                             borderRadius: 20,
@@ -143,8 +145,8 @@
                         {
                             label: 'Confirmé',
                             data: propoAcceptData,
-                            backgroundColor: '#c8e6c9',
-                            borderColor: '#b4cfb5',
+                            backgroundColor: '#D6EAF8',
+                            borderColor: '#AED6F1',
                             barThickness: 15,
                             borderWidth: 2,
                             borderRadius: 20,
@@ -193,9 +195,9 @@
                 labels: {!! json_encode($users->pluck('first_name')) !!},
                 datasets: [{
                         label: 'Total Poposition',
-                        data: {!! json_encode($users->pluck('mail_count')) !!},
-                        backgroundColor: '#e0e0e0',
-                        borderColor: '#c2c0c0',
+                        data: {!! json_encode($users->pluck('propo_count')) !!},
+                        backgroundColor: '#FCF3CF',
+                        borderColor: '#F9E79F',
                         barThickness: 15,
                         borderWidth: 2,
                         borderRadius: 20,
@@ -203,9 +205,9 @@
                     },
                     {
                         label: 'Confirmé',
-                        data: {!! json_encode($users->pluck('mail_count2')) !!},
-                        backgroundColor: '#c8e6c9',
-                        borderColor: '#b4cfb5',
+                        data: {!! json_encode($users->pluck('propo_count1')) !!},
+                        backgroundColor: '#D6EAF8',
+                        borderColor: '#AED6F1',
                         barThickness: 15,
                         borderWidth: 2,
                         borderRadius: 20,

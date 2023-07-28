@@ -16,12 +16,22 @@
             </li>
         @endcan
         @cannot('admin')
-            <li class="nav-item {{ setMenuActive('dashboard') }}">
-                <a class="nav-link collapsed" href="{{ route('dashboard') }}">
-                    <i class="mdi mdi-grid-large menu-icon"></i>
-                    <span class="menu-title">Tableau de bord</span>
-                </a>
-            </li>
+            @if (Auth::user()->company === 'lh' || Auth::user()->company === '')
+                <li class="nav-item {{ setMenuActive('dashboard') }}">
+                    <a class="nav-link collapsed" href="{{ route('dashboard') }}">
+                        <i class="mdi mdi-grid-large menu-icon"></i>
+                        <span class="menu-title">Tableau de bord</span>
+                    </a>
+                </li>
+            @endif
+            @if (Auth::user()->company === 'h2f')
+                <li class="nav-item {{ setMenuActive('dashboard2') }}">
+                    <a class="nav-link collapsed" href="{{ route('dashboard2') }}">
+                        <i class="mdi mdi-grid-large menu-icon"></i>
+                        <span class="menu-title">Tableau de bord</span>
+                    </a>
+                </li>
+            @endif
         @endcannot
         <li class="nav-item {{ setMenuActive('users.index') }}">
             <a class="nav-link" href="{{ route('users.index') }}">

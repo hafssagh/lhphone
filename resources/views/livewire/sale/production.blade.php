@@ -47,8 +47,7 @@
                                                 $absenceUser = $absence
                                                     ->where('user_id', $user->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 6)
-                                                    ->where('abs_hours', '=', 6)
+                                                    ->where('abs_hours', '>=', 8)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence
@@ -248,8 +247,7 @@
                                                 $absenceUser = $absence2
                                                     ->where('user_id', $user2->id)
                                                     ->where('date', $date)
-                                                    ->where('abs_hours', '>', 6)
-                                                    ->where('abs_hours', '=', 6)
+                                                    ->where('abs_hours', '>=', 8)
                                                     ->first();
                                                 
                                                 $absenceUser12 = $absence2

@@ -289,20 +289,30 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.4rem;">2 Confirmés = 100 Dh</td>
-                                    <td class="text-center" style="padding: 0.4rem;">9 Confirmés = 800 Dh</td>
+                                    <td class="text-center" style="padding: 0.5rem;">2 Confirmés = 100 Dh</td>
+                                    @if (Auth::user()->base_salary >= 3500 && Auth::user()->base_salary <= 4500)
+                                        <td class="text-center" style="padding: 0.5rem;">9 Confirmés = 800 Dh</td>
+                                    @elseif (Auth::user()->base_salary == 5000)
+                                        <td class="text-center" style="padding: 0.5rem;">12 Confirmés = 800 Dh</td>
+                                    @elseif (Auth::user()->base_salary == 5500)
+                                        <td class="text-center" style="padding: 0.5rem;">14 Confirmés = 800 Dh</td>
+                                    @elseif (Auth::user()->base_salary == 6000)
+                                        <td class="text-center" style="padding: 0.5rem;">16 Confirmés = 800 Dh</td>
+                                    @endif
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.4rem;">3 Confirmés = 200 Dh</td>
-                                    <td class="text-center" style="padding: 0.4rem;">12 Confirmés = 800 Dh</td>
+                                    <td class="text-center" style="padding: 0.5rem;">3 Confirmés = 200 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.4rem;">4 Confirmés = 300 Dh</td>
-                                    <td class="text-center" style="padding: 0.4rem;">14 Confirmés = 800 Dh</td>
+                                    <td class="text-center" style="padding: 0.5rem;">4 Confirmés = 300 Dh</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center" style="padding: 0.4rem;">5 Confirmés = 400 Dh</td>
-                                    <td class="text-center" style="padding: 0.4rem;">9 Confirmés = 800 Dh</td>
+                                    <td class="text-center" style="padding: 0.5rem;">5 Confirmés = 400 Dh</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-muted" style="padding: 1rem;" colspan="2">
+                                        NB : Plus 100 Dh pour chaque rendez-vous de plus
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

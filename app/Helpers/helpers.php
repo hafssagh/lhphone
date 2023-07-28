@@ -577,6 +577,7 @@ function fetchMonthWeeks()
     return $monthWeeks;
 }
 
+
 function workHours()
 {
     $users = User::all();

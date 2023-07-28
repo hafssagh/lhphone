@@ -76,11 +76,11 @@ class Absences extends Component
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
                 ->paginate(12);
-            $users = $usersQuery->where('group', 1)->get();
+            $users = $usersQuery->where('group', 1)->orWhere('last_name' , 'ELMOURABIT')->orWhere('last_name' , 'By')->get();
         } elseif ($manager == 'Essaid') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('group', 2))
                 ->paginate(12);
-            $users = $usersQuery->where('group', 2)->get();
+            $users = $usersQuery->where('group', 2)->orWhere('last_name' , 'Essaid')->get();
         } elseif ($manager == 'Hdimane') {
             $absences = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
                 ->paginate(12);

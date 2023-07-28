@@ -130,9 +130,9 @@
                         <div class="form-group row mb-1">
                             <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Commentaire </label>
                             <div class="col-sm-8">
-                                <input type="text" wire:model="newSale.commentaire"
-                                    class="form-control
-                        @error('newSale.commentaire') is-invalid @enderror">
+                                <textarea type="text" wire:model="newSale.commentaire"
+                                    class="form-control  @error('newSale.commentaire') is-invalid @enderror"
+                                    style="height:80px"></textarea>
                             </div>
                         </div>
                     </div>

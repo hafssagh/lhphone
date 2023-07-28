@@ -6,7 +6,7 @@
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active ps-0" href="/dashboard" role="tab" aria-controls="overview"
+                            <a class="nav-link active ps-0" href="/dashboard2" role="tab" aria-controls="overview"
                                 aria-selected="true">Général</a>
                         </li>
                         @can('superadmin')
@@ -16,27 +16,27 @@
                             </li>
                         @endcan
                         <li class="nav-item">
-                            <a class="nav-link" href="/dashboardF" role="tab" aria-selected="false">Suivi Agent</a>
+                            <a class="nav-link" href="/dashboardH" role="tab" aria-selected="false">Suivi Agent</a>
                         </li>
                     </ul>
-                    @cannot('manager')
-                        <div class="btn-wrapper" style="margin-top:5px">
-                            <a href="/dashboard" class="btn btn-primary text-white me-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                    class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
-                                </svg>
-                                LH Phone </a>
-                            <a href="/dashboard2" class="btn btn-otline-dark ">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                    class="bi bi-bar-chart" viewBox="0 0 16 16">
-                                    <path
-                                        d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
-                                </svg>
-                                H2F Premium </a>
-                        </div>
-                    @endcannot
+                    @can('superadmin')
+                    <div class="btn-wrapper" style="margin-top:5px">
+                        <a href="/dashboard" class="btn btn-otline-dark me-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                class="bi bi-bar-chart" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
+                            </svg>
+                            LH Phone </a>
+                        <a href="/dashboard2" class="btn btn-primary text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
+                            </svg>
+                            H2F Premium </a>
+                    </div>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 style="color:#4650dd; font-size: 1.24rem">{{ $cards[7] }} Propositions</h3>
+                                    <h3 style="color:#4650dd; font-size: 1.24rem">{{ $cards[0] }} Rendez-vous</h3>
                                     <p class="text-sm mb-0">Envoyés Aujourd'hui</p>
                                 </div>
                                 <div class="flex-shrink-0 ms-3 ">
@@ -73,19 +73,9 @@
                                 <div class="col-10">
                                     <p class="mb-0">
                                         <strong>
-                                            @can('manager')
-                                                <a href="/customer/proposal"
-                                                    style="text-decoration: none;color: inherit;">En savoir
-                                                    plus</a>
-                                            @endcan
-                                            @can('superadmin')
-                                                <button type="submit" class="btn btn-lg mb-0 me-0" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"
-                                                    style="font-size:13px; color: #4650dd;  padding: 8px;">
-                                                    <strong>En savoir
-                                                        plus</strong>
-                                                </button>
-                                            @endcan
+                                            <a href="/appointments" style="text-decoration: none;color: inherit;">En
+                                                savoir
+                                                plus</a>
                                         </strong>
                                     </p>
                                 </div>
@@ -105,7 +95,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 style="color:#66bb6a; font-size: 1.26rem">{{ $cards[2] }} Confirmés</h3>
+                                    <h3 style="color:#66bb6a; font-size: 1.26rem">{{ $cards[1] }} Confirmés</h3>
                                     <p class="text-sm mb-0">Aujourd'hui</p>
                                 </div>
                                 <div class="flex-shrink-0 ms-3 ">
@@ -127,19 +117,9 @@
                                 <div class="col-10">
                                     <p class="mb-0">
                                         <strong>
-                                            @can('manager')
-                                                <a href="/customer/proposal"
-                                                    style="text-decoration: none;color: inherit;">En savoir
-                                                    plus</a>
-                                            @endcan
-                                            @can('superadmin')
-                                                <button type="submit" class="btn btn-lg mb-0 me-0"
-                                                    data-bs-toggle="modal" data-bs-target="#confirmeModal"
-                                                    style="font-size:13px; color: #66bb6a;  padding: 8px;">
-                                                    <strong>En savoir
-                                                        plus</strong>
-                                                </button>
-                                            @endcan
+                                            <a href="/appointments" style="text-decoration: none;color: inherit;">En
+                                                savoir
+                                                plus</a>
                                         </strong>
                                     </p>
                                 </div>
@@ -159,9 +139,9 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 class="text-danger" style="font-size: 1.26rem">{{ $cards[8] }} Devis
+                                    <h3 class="text-danger" style="font-size: 1.26rem">{{ $cards[2] }} Rendez-vous
                                     </h3>
-                                    <p class="text-sm mb-0">Envoyé Aujourd'hui</p>
+                                    <p class="text-sm mb-0">En attente</p>
                                 </div>
                                 <div class="flex-shrink-0 ms-3 ">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
@@ -182,18 +162,9 @@
                                 <div class="col-10">
                                     <p class="mb-0">
                                         <strong>
-                                            @can('manager')
-                                                <a href="/sales" style="text-decoration: none;color: inherit;">En savoir
-                                                    plus</a>
-                                            @endcan
-                                            @can('superadmin')
-                                                <button type="submit" class="btn btn-lg mb-0 me-0"
-                                                    data-bs-toggle="modal" data-bs-target="#devisEModal"
-                                                    style="font-size:13px; color: #dc3545;  padding: 8px;">
-                                                    <strong>En savoir
-                                                        plus</strong>
-                                                </button>
-                                            @endcan
+                                            <a href="/appointments" style="text-decoration: none;color: inherit;">En
+                                                savoir
+                                                plus</a>
                                         </strong>
                                     </p>
                                 </div>
@@ -213,13 +184,13 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h3 style="color:#835db4; font-size: 1.26rem">{{ $cards[3] }} Devis</h3>
-                                    <p class="text-sm mb-0">Signés (<span id="moisAnnee"></span>) </p>
+                                    <h3 style="color:#835db4; font-size: 1.26rem">{{ $cards[3] }} Rappel</h3>
+                                    <p class="text-sm mb-0"> (NRP / Injoingnable)</p>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="30"
+                                    fill="currentColor" class="bi bi-clipboard-minus" viewBox="0 0 16 16">
                                     <path style="color:#835db4" fill-rule="evenodd"
-                                        d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                        d="M5.5 9.5A.5.5 0 0 1 6 9h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
                                     <path style="color:#835db4"
                                         d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
                                     <path style="color:#835db4"
@@ -232,8 +203,9 @@
                             <div class="row align-items-center justify-content-center" style="color:#835db4">
                                 <div class="col-10">
                                     <p class="mb-0">
-                                        <strong><a href="{{ route('sales.index') }}"
-                                                style="text-decoration: none;color: inherit;">En savoir
+                                        <strong><a href="/appointments"
+                                                style="text-decoration: none;color: inherit;">En
+                                                savoir
                                                 plus</a></strong>
                                     </p>
                                 </div>
@@ -251,26 +223,27 @@
             </div>
         </div>
     </div>
+
     @can('superadmin')
         <div class="row">
             <div class="col-md-4 grid-margin stretch-card">
                 <div class="card ">
                     <div class="card-body">
                         <div class="d-sm-flex justify-content-between align-items-start">
-                            <h3 class="card-title">Propositions d'aujourd'hui</h3>
+                            <h3 class="card-title">Rendez-vous d'aujourd'hui</h3>
                         </div><br>
                         <div class="list-container1">
-                            @foreach ($sortedUsers as $user)
+                            @foreach ($users1 as $user)
                                 <div class="list-group list-group-flush list-group-timeline">
                                     <div class="list-group-item px-0">
                                         <div class="row">
                                             <div class="col-auto">
-                                                @if ($user->propoDayCount != null || $user->propoDayCount != 0)
+                                                @if ($user->appointDayCount != null || $user->appointDayCount != 0)
                                                     <div class="avatar me-2 " style="padding: 0.25rem;">
                                                         <div
                                                             class="bg-green-light position-relative overflow-hidden rounded-circle h-100 d-flex align-items-center justify-content-center">
                                                             <span
-                                                                class="avatar-text avatar-primary-light">{{ $user->propoDayCount }}</span>
+                                                                class="avatar-text avatar-primary-light">{{ $user->appointDayCount }}</span>
                                                         </div>
                                                     </div>
                                                 @else
@@ -278,7 +251,7 @@
                                                         <div style="background-color:#ffe2e0"
                                                             class=" position-relative overflow-hidden rounded-circle h-100 d-flex align-items-center justify-content-center">
                                                             <span
-                                                                class="avatar-text text-danger">{{ $user->propoDayCount }}</span>
+                                                                class="avatar-text text-danger">{{ $user->appointDayCount }}</span>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -299,7 +272,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 grid-margin">
+            <div class="col-md-8 grid-margin ">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-sm-flex justify-content-between align-items-start">
@@ -319,11 +292,11 @@
                                 d="M0 0h1v15h15v1H0V0Zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5Z" />
                         </svg>
                         &nbsp;
-                        Agents à 0 ({{ $usersWithoutSalesCount }})
+                        Agents à 0 ({{ $usersWithoutAppointCount }})
                     </h3>
                 </div><br>
                 <div id="usersContainer" class="d-sm-flex justify-content-between align-items-start">
-                    <a href="{{ $usersWithoutSales->previousPageUrl() }}" class="btn btn-dark btn-sm"
+                    <a href="{{ $usersWithoutAppoints->previousPageUrl() }}" class="btn btn-dark btn-sm"
                         style="width: 25px; height: 27px; background-color: #0d6efd; border-color: #0d6efd">
                         <svg style="margin-left:-7px; margin-top:-5px" xmlns="http://www.w3.org/2000/svg" width="14"
                             height="14" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
@@ -331,21 +304,20 @@
                                 d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
                         </svg>
                     </a>
-                    @foreach ($usersWithoutSales as $usersWithoutSale)
+                    @foreach ($usersWithoutAppoints as $usersWithoutAppoint)
                         <div class="col-lg-3 d-flex flex-column" style="margin-top: -20px">
                             <div class="card card-rounded">
                                 <div class="card-body">
                                     <span class="small text-truncate"
                                         style="display: inline-block; max-width: 130px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                        <strong>{{ $usersWithoutSale->first_name }}
-                                            {{ $usersWithoutSale->last_name }}</strong>
-                                        <br><span class="text-muted">Groupe {{ $usersWithoutSale->group }}</span>
+                                        <strong>{{ $usersWithoutAppoint->first_name }}
+                                            {{ $usersWithoutAppoint->last_name }}</strong>
                                     </span>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                    <a href="{{ $usersWithoutSales->nextPageUrl() }}" class="btn btn-dark btn-sm"
+                    <a href="{{ $usersWithoutAppoints->nextPageUrl() }}" class="btn btn-dark btn-sm"
                         style="width: 25px; height: 27px; background-color: #0d6efd; border-color: #0d6efd">
                         <svg style="margin-left:-7px; margin-top:-5px" xmlns="http://www.w3.org/2000/svg" width="14"
                             height="14" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
@@ -361,13 +333,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-start">
-                                    <h3 class="card-title">Ventes de l'année</h3>
+                                    <h3 class="card-title">Les rendez-vous de l'année</h3>
                                 </div>
-                                <canvas id="salesChart" style="height: 70%; width:80%"></canvas>
+                                <canvas id="appointmentChart" style="height: 70%; width:80%"></canvas>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -379,8 +350,8 @@
                                         <thead>
                                             <tr>
                                                 <th style="padding: 1rem;" class="text-muted">Agent </th>
-                                                <th style="padding: 1rem;" class="text-center text-muted">Vente(Sem)</th>
-                                                <th style="padding: 1rem;" class="text-center text-muted">Vente(Mois)</th>
+                                                <th style="padding: 1rem;" class="text-center text-muted">RDV(Jour)</th>
+                                                <th style="padding: 1rem;" class="text-center text-muted">RDV(Mois)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -389,17 +360,17 @@
                                                     <td style="padding: 0.6rem; margin-left:-5px">{{ $user->first_name }}
                                                     </td>
                                                     <td class="text-center" style="padding: 0.6rem;">
-                                                        @if ($user->sumQuantity != 0)
-                                                            <strong>{{ $user->sumQuantity }} P</strong>
+                                                        @if ($user->sumRDV != 0)
+                                                            <strong>{{ $user->sumRDV }} RDV</strong>
                                                         @else
-                                                            {{ $user->sumQuantity }}
+                                                            {{ $user->sumRDV }}
                                                         @endif
                                                     </td>
                                                     <td class="text-center" style="padding: 0.6rem;">
-                                                        @if ($user->sumQuantity2 != 0)
-                                                            <strong>{{ $user->sumQuantity2 }} P</strong>
+                                                        @if ($user->sumRDV2 != 0)
+                                                            <strong>{{ $user->sumRDV2 }} RDV</strong>
                                                         @else
-                                                            {{ $user->sumQuantity2 }}
+                                                            {{ $user->sumRDV2 }}
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -419,15 +390,6 @@
                                             </tr>
                                         </tfoot>
                                     </table>
-                                    <div class="float-end">
-                                        <br>
-                                        <div class="btn-group">
-                                            <button wire:click="$set('group', 1)" type="button" class="btn"
-                                                style="background-color: #0d6efd; color:white">Groupe 1</button>
-                                            <button wire:click="$set('group', 2)" type="button" class="btn"
-                                                style="background-color: #0d6efd; color:white">Groupe 2</button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -448,9 +410,9 @@
                                         <th style="padding: 0.6rem;" class="text-center text-muted">Heures travail</th>
                                         <th style="padding: 0.6rem;" class="text-center text-muted">Salaire fixe</th>
                                         <th style="padding: 0.6rem;" class="text-center text-muted">Salaire</th>
-                                        <th style="padding: 0.6rem;" class="text-center text-muted">Vente(Sem)</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">RDV(Jour)</th>
                                         <th style="padding: 0.6rem;" class="text-center text-muted">Challenge</th>
-                                        <th style="padding: 0.6rem;" class="text-center text-muted">Vente(Mois)</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">RDV(Mois)</th>
                                         <th style="padding: 0.6rem;" class="text-center text-muted">Prime</th>
                                     </tr>
                                 </thead>
@@ -473,10 +435,10 @@
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">{{ $user->salary }}</td>
                                             <td class="text-center" style="padding: 0.6rem;">
-                                                @if ($user->sumQuantity != 0)
-                                                    <strong>{{ $user->sumQuantity2 }} P</strong>
+                                                @if ($user->sumRDV != 0)
+                                                    <strong>{{ $user->sumRDV }} RDV</strong>
                                                 @else
-                                                    {{ $user->sumQuantity }} P
+                                                    {{ $user->sumRDV }}
                                                 @endif
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">
@@ -487,10 +449,10 @@
                                                 @endif
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">
-                                                @if ($user->sumQuantity2 != 0)
-                                                    <strong>{{ $user->sumQuantity2 }} P</strong>
+                                                @if ($user->sumRDV2 != 0)
+                                                    <strong>{{ $user->sumRDV2 }} RDV</strong>
                                                 @else
-                                                    {{ $user->sumQuantity2 }} P
+                                                    {{ $user->sumRDV2 }}
                                                 @endif
                                             </td>
                                             <td class="text-center" style="padding: 0.6rem;">
@@ -515,13 +477,13 @@
                                                 DH</strong>
                                         </td>
                                         <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[4] }}
-                                                P</strong>
+                                                RDV</strong>
                                         </td>
                                         <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[2] }}
                                                 DH</strong>
                                         </td>
-                                        <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[5] }}
-                                                P</strong>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong> {{ $sumValues[5] }}
+                                                RDV</strong>
                                         </td>
                                         <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[3] }}
                                                 DH</strong>
@@ -534,201 +496,8 @@
                 </div>
             </div>
         @endcan
+
     </div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="card-title card-title-dash" id="exampleModalToggleLabel"><strong>Propositions</strong>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-bordered-all">
-                        <thead>
-                            <tr>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                </th>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                    Groupe 1</th>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                    Groupe 2
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    Matin
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[11] }}</strong>
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[13] }}</strong>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    Après midi
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[12] }}</strong>
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[14] }}</strong>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    Total
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[9] }}</strong>
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[10] }}</strong>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="confirmeModal" tabindex="-1" aria-labelledby="confirmeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="card-title card-title-dash" id="confirmeModalToggleLabel"><strong>Devis
-                            envoyés</strong></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-bordered-all">
-                        <thead>
-                            <tr>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                </th>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                    Groupe 1</th>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                    Groupe 2
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    Total
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[15] }}</strong>
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[16] }}</strong>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="devisEModal" tabindex="-1" aria-labelledby="devisEModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="card-title card-title-dash" id="devisEModalToggleLabel"><strong>Devis envoyés</strong>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-bordered-all">
-                        <thead>
-                            <tr>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                </th>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                    Groupe 1</th>
-                                <th style=" text-align: center; padding: 0.5rem; ">
-                                    Groupe 2
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    Total
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[17] }}</strong>
-                                </th>
-                                <th style="text-align: center; padding: 0.5rem; ">
-                                    <strong>{{ $cards[18] }}</strong>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('livewire:load', function() {
-            var months = @json($months);
-            var refusedSales = @json($refusedSales);
-            var acceptedSales = @json($acceptedSales);
-
-            var ctx = document.getElementById('salesChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: months,
-                    datasets: [{
-                            label: 'Acceptées',
-                            data: acceptedSales,
-                            type: 'line',
-                            borderColor: '#c2c0c0 ',
-                            backgroundColor: '#c2c0c0 ',
-                        },
-                        {
-                            label: 'Annulées',
-                            data: refusedSales,
-                            type: 'bar',
-                            borderColor: '#e0e0e0',
-                            backgroundColor: '#e0e0e0',
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                font: {
-                                    weight: 'bold'
-                                },
-                            },
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false,
-                            },
-                        },
-                        y: {
-                            grid: {
-                                display: false,
-                            },
-                        }
-                    }
-                },
-            });
-        });
-    </script>
 
     <script>
         document.addEventListener('livewire:load', function() {
@@ -738,8 +507,8 @@
                 data: {
                     labels: {!! json_encode($users3->pluck('first_name')) !!},
                     datasets: [{
-                        label: 'Totale vente',
-                        data: {!! json_encode($users3->pluck('total_sales')) !!},
+                        label: 'Rdv Confirmés',
+                        data: {!! json_encode($users3->pluck('confirme')) !!},
                         backgroundColor: '#e0e0e0',
                         borderColor: '#c2c0c0',
                         barThickness: 30,
@@ -772,11 +541,24 @@
         });
     </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var date = new Date();
+            var mois = date.toLocaleString("default", {
+                month: "long"
+            });
+            var annee = date.getFullYear();
+            var mois = mois;
+
+            document.getElementById("mois").textContent = mois;
+        });
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Initial page load
-            loadPageContent("{{ $usersWithoutSales->url(1) }}");
+            loadPageContent("{{ $usersWithoutAppoints->url(1) }}");
 
             // Event handler for previous page icon click
             $(document).on('click', '#previousPage', function(e) {
@@ -809,27 +591,57 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var date = new Date();
-            var mois = date.toLocaleString("default", {
-                month: "long"
+        document.addEventListener('livewire:load', function() {
+            var months = @json($months);
+            var refusedRDV = @json($refusedRDV);
+            var acceptedRDV = @json($acceptedRDV);
+
+            var ctx = document.getElementById('appointmentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                            label: 'Acceptées',
+                            data: acceptedRDV,
+                            type: 'line',
+                            borderColor: '#c2c0c0 ',
+                            backgroundColor: '#c2c0c0 ',
+                        },
+                        {
+                            label: 'Annulées',
+                            data: refusedRDV,
+                            type: 'bar',
+                            borderColor: '#e0e0e0',
+                            backgroundColor: '#e0e0e0',
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                font: {
+                                    weight: 'bold'
+                                },
+                            },
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                        },
+                        y: {
+                            grid: {
+                                display: false,
+                            },
+                        }
+                    }
+                },
             });
-            var annee = date.getFullYear();
-            var moisAnnee = mois + " " + annee;
-
-            document.getElementById("moisAnnee").textContent = moisAnnee;
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var date = new Date();
-            var mois = date.toLocaleString("default", {
-                month: "long"
-            });
-            var annee = date.getFullYear();
-            var mois = mois;
-
-            document.getElementById("mois").textContent = mois;
         });
     </script>

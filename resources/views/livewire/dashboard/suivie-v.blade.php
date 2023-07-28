@@ -9,10 +9,10 @@
                             aria-selected="false">Général</a>
                     </li>
                     @can('superadmin')
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboardRH" role="tab" aria-selected="false">Ressources
-                            humaines</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboardRH" role="tab" aria-selected="false">Ressources
+                                humaines</a>
+                        </li>
                     @endcan
                     <li class="nav-item ">
                         <a class="nav-link active" href="/dashboardF" role="tab" aria-selected="true">Suivi
@@ -28,13 +28,19 @@
                                 <path
                                     d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
                             </svg> Propositions </a>
-                        <a href="/dashboardV" class="btn btn-primary text-white">
+                        <a href="/dashboardV" class="btn btn-primary text-white me-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
                                 class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
                             </svg>
                             Ventes </a>
+                        <a href="/dashboardH" class="btn btn-otline-dark ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                class="bi bi-bar-chart" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
+                            </svg> Rendez-vous </a>
                     </div>
                 </div>
             </div>
@@ -142,8 +148,8 @@
                     datasets: [{
                             label: 'Devis signé',
                             data: saleData,
-                            backgroundColor: '#f7dae1',
-                            borderColor: '#fa9db6',
+                            backgroundColor: '#F2D7D5',
+                            borderColor: '#E6B0AA',
                             barThickness: 15,
                             borderWidth: 2,
                             borderRadius: 20,
@@ -152,8 +158,8 @@
                         {
                             label: 'En attente de livraison',
                             data: sale2Data,
-                            backgroundColor: '#dadcf8',
-                            borderColor: '#9396bd',
+                            backgroundColor: '#e0e0e0',
+                            borderColor: '#c2c0c0',
                             barThickness: 15,
                             borderWidth: 2,
                             borderRadius: 20,
@@ -203,8 +209,8 @@
                 datasets: [{
                         label: 'Devis signé',
                         data: {!! json_encode($users->pluck('sale_count')) !!},
-                        backgroundColor: '#f7dae1',
-                        borderColor: '#fa9db6',
+                        backgroundColor: '#F2D7D5',
+                        borderColor: '#E6B0AA',
                         barThickness: 15,
                         borderWidth: 2,
                         borderRadius: 20,
@@ -213,8 +219,8 @@
                     {
                         label: 'En attente de livraison',
                         data: {!! json_encode($users->pluck('sale_count2')) !!},
-                        backgroundColor: '#dadcf8',
-                        borderColor: '#9396bd',
+                        backgroundColor: '#e0e0e0',
+                        borderColor: '#c2c0c0',
                         barThickness: 15,
                         borderWidth: 2,
                         borderRadius: 20,
