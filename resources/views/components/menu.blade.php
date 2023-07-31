@@ -17,7 +17,9 @@
         @endcan
         @cannot('admin')
             @if (Auth::user()->company === 'lh' || Auth::user()->company === '')
-                <li class="nav-item {{ setMenuActive('dashboard') }}">
+                <li
+                    class="nav-item {{ setMenuActive('dashboard') }} {{ setMenuActive('dashboard2') }}  {{ setMenuActive('dashRH') }}
+                 {{ setMenuActive('dashboardV') }} {{ setMenuActive('dashboardF') }} {{ setMenuActive('dashboardH') }}">
                     <a class="nav-link collapsed" href="{{ route('dashboard') }}">
                         <i class="mdi mdi-grid-large menu-icon"></i>
                         <span class="menu-title">Tableau de bord</span>
@@ -25,7 +27,7 @@
                 </li>
             @endif
             @if (Auth::user()->company === 'h2f')
-                <li class="nav-item {{ setMenuActive('dashboard2') }}">
+                <li class="nav-item {{ setMenuActive('dashboard2') }} {{ setMenuActive('dashboardH') }}">
                     <a class="nav-link collapsed" href="{{ route('dashboard2') }}">
                         <i class="mdi mdi-grid-large menu-icon"></i>
                         <span class="menu-title">Tableau de bord</span>
@@ -71,7 +73,7 @@
             </div>
         </li>
         @canAny(['admin', 'superadmin', 'manager'])
-            <li class="nav-item">
+            <li class="nav-item  {{ setMenuActive('advance-salary') }}">
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#paie" aria-expanded="false"
                     aria-controls="paie">
                     <i class="mdi mdi-credit-card-multiple menu-icon"></i>
@@ -93,12 +95,21 @@
 
 
     @can('agent')
-        <li class="nav-item {{ setMenuActive('dashAgent') }}">
-            <a class="nav-link collapsed" href="{{ route('dashAgent') }}">
-                <i class="mdi mdi-grid-large menu-icon"></i>
-                <span class="menu-title">Tableau de bord</span>
-            </a>
-        </li>
+        @if (Auth::user()->company === 'lh')
+            <li class="nav-item {{ setMenuActive('dashAgent') }}">
+                <a class="nav-link collapsed" href="{{ route('dashAgent') }}">
+                    <i class="mdi mdi-grid-large menu-icon"></i>
+                    <span class="menu-title">Tableau de bord</span>
+                </a>
+            </li>
+        @elseif (Auth::user()->company === 'h2f')
+            <li class="nav-item {{ setMenuActive('dashAgent2') }}">
+                <a class="nav-link collapsed" href="{{ route('dashAgent2') }}">
+                    <i class="mdi mdi-grid-large menu-icon"></i>
+                    <span class="menu-title">Tableau de bord</span>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link" href="{{ route('absence.myliste') }}">
                 <i class="mdi mdi-calendar menu-icon"></i>
@@ -112,7 +123,7 @@
             Auth::user()->company === '' ||
             Auth::user()->roles()->where('name', 'manager')->where('name', 'superadmin')->exists())
         @cannot('admin')
-            <li class="nav-item ">
+            <li class="nav-item  {{ setMenuActive('mailAll') }}">
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
                     aria-controls="email">
                     <i class="menu-icon mdi mdi-email-outline"></i>

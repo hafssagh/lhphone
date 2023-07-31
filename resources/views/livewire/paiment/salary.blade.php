@@ -3,7 +3,12 @@
         <div class="card-body">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div>
-                    <h4 class="card-title card-title-dash">Liste des salaires</h4><br>
+                    <h4 class="card-title card-title-dash">Liste des salaires</h4>
+                    <button type="submit" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    style="font-size: 14px; color: #0d6efd;  text-decoration: underline; margin:-15px;">
+                    Somme des salaires
+                </button>
+                    <br><br>
                 </div>
                 <div>
                     <a class="btn btn-lg text-black mb-0 me-0 float-end" href="/advance-salary"
@@ -104,4 +109,44 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 100%;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="card-title card-title-dash" id="exampleModalToggleLabel"><strong>Somme salaire</strong>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered table-bordered-all">
+                <thead>
+                    <tr>
+                        <th style=" text-align: center; padding: 0.5rem; ">
+                        Total </th>
+                        <th style=" text-align: center; padding: 0.5rem; ">
+                            Espèce</th>
+                        <th style=" text-align: center; padding: 0.5rem; ">
+                           Virement
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center; padding: 0.5rem; ">
+                            {{$sumSalary}} Dh
+                        </th>
+                        <th style="text-align: center; padding: 0.5rem; ">
+                              {{$sumEspece}} Dh
+                        </th>
+                        <th style="text-align: center; padding: 0.5rem; ">
+                             {{$sumVirement}} Dh
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
 </div>

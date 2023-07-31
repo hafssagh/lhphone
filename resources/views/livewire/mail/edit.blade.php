@@ -74,11 +74,11 @@
                                 <br><br><br>
                             @endcannot
                             <div class="form-group" style='margin-top:-10px'>
-                                @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2')
-                                    <label for="remark">Commentaire agent</label>
+                                {{--   @if (Auth::user()->last_name === 'Essaid' || Auth::user()->group === '2') --}}
+                                <label for="remark">Commentaire agent</label>{{-- 
                                 @else
                                     <label for="remark">Remarque</label>
-                                @endif
+                                @endif --}}
                                 <textarea class="form-control" wire:model="editMail.remark" class="form-control" style="height: 100px">
                             </textarea>
                                 @error('editMail.remark')
@@ -87,21 +87,22 @@
                             </div>
 
                             @auth
-                                @if (Auth::user()->last_name === 'Essaid')
+                                @cannot('agent')
                                     <div class="form-group" style='margin-top:-10px'>
                                         <label for="remark2">Commentaire Manager</label>
                                         <textarea class="form-control" wire:model="editMail.remark2" wire:keydown.enter.prevent="updateMail"
                                             class="form-control" style="height: 50px">
                                      </textarea>
                                     </div>
-                                @elseif (Auth::user()->group === '2')
+                                @endcannot
+                                @can('agent')
                                     <div class="form-group" style='margin-top:-10px'>
                                         <label for="remark2">Commentaire Manager</label>
                                         <textarea class="form-control" wire:model="editMail.remark2" wire:keydown.enter.prevent="updateMail"
                                             class="form-control" style="height: 50px" disabled>
                                  </textarea>
                                     </div>
-                                @endif
+                                @endcan
                             @endauth
                             <div class="form-group">
                                 <label for="rappel">Rappel</label>

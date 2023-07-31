@@ -30,6 +30,7 @@ use App\Http\Livewire\Suspension\Suspensions;
 use App\Http\Livewire\Appointment\Appointment;
 use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Resignation\Resignations;
+use App\Http\Livewire\Dashboard\DashboardAgent2;
 use App\Http\Livewire\RelanceManger\MailManager;
 
 /*
@@ -60,6 +61,7 @@ Route::get('/dashboard', Dashboard::class)->name("dashboard");
 Route::get('/dashboard2', Dashboard2::class)->name("dashboard2");
 Route::get('/dashboardRH', DashRH::class)->name("dashRH");
 Route::get('/dashboardAgent', DashboardAgent::class)->name("dashAgent");
+Route::get('/dashboardAgent2', DashboardAgent2::class)->name("dashAgent2");
 Route::get('/dashboardF', Suivie::class)->name("dashboardF");
 Route::get('/dashboardV', SuivieV::class)->name("dashboardV");
 Route::get('/dashboardH', SuivieH::class)->name("dashboardH");

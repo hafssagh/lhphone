@@ -59,6 +59,13 @@ class Home extends Component
             ->select('users.first_name', 'users.last_name', 'users.photo')
             ->get();
 
+        $userRh = User::join('user_role', 'users.id', '=', 'user_role.user_id')
+            ->join('roles', 'user_role.role_id', '=', 'roles.id')
+            ->where('roles.name', 'Administrateur')
+            ->where('users.first_name', 'Ikram')
+            ->select('users.first_name', 'users.last_name', 'users.photo')
+            ->get();
+
         $userDirecteur = User::join('user_role', 'users.id', '=', 'user_role.user_id')
             ->join('roles', 'user_role.role_id', '=', 'roles.id')
             ->where('roles.name', 'Super Administrateur')
@@ -87,7 +94,7 @@ class Home extends Component
             ->select('users.first_name', 'users.last_name', 'users.photo', 'users.company', 'users.group')
             ->get();
 
-        $today = Carbon::now(); 
+        $today = Carbon::now();
         $rappel = Mails::query()
             ->where('user_id', '=', $user->id)
             ->whereDate('rappel', $today)
@@ -113,7 +120,7 @@ class Home extends Component
         return view('livewire.home',  [
             "userGet" => $userGet, "userAgent" => $userAgent, "userAdmin" => $userAdmin,
             "userAdmin2" => $userAdmin2, "userManager" => $userManager, "userDirecteur" => $userDirecteur,
-            "rappel" => $rappel, "rappelManager" => $rappelManager
+            "rappel" => $rappel, "rappelManager" => $rappelManager , "userRh" => $userRh
         ])
             ->extends("layouts.master")
             ->section("contenu");

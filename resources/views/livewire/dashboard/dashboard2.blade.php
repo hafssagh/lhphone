@@ -381,11 +381,11 @@
                                                 <td style="padding: 0.6rem;"><strong>Total</strong></td>
                                                 <td style="padding: 0.6rem;" class="text-center">
                                                     <strong>{{ $sumValues[4] }}
-                                                        P</strong>
+                                                        RDV</strong>
                                                 </td>
                                                 <td style="padding: 0.6rem;" class="text-center">
                                                     <strong>{{ $sumValues[5] }}
-                                                        P</strong>
+                                                        RDV</strong>
                                                 </td>
                                             </tr>
                                         </tfoot>

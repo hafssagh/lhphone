@@ -135,6 +135,7 @@
                             </div>
                         @endforeach
                     </div>
+                    @foreach ($userRh as $userRh)
                     <div class="row">
                         <div style=" margin-left: -2px; margin-top: 1em;">
                             <div style="display: flex; align-items: center;">
@@ -142,11 +143,15 @@
                                     style="height: 50px; width: 50px; ">
                                 <div style="margin-left: 15px ; margin-bottom: 0; width:150px">
                                     <P class="fw-bold" style="margin-bottom: 0;">Chargée ressources humaines</P>
-                                    <p class="text-truncate" style="margin-bottom: 0;">...</p>
+                                    <p class="text-truncate" style="margin-bottom: 0;">
+                                        {{ $userRh->last_name }}
+                                        {{ $userRh->first_name }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>

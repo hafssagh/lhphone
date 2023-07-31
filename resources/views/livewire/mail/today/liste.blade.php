@@ -18,7 +18,7 @@
                 @endcan
             </h4>
            
-                <a href="/proposal/all" class="btn btn-outline-dark"
+                <a href="{{ route('mailAll') }}" class="btn btn-outline-dark"
                     style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Tous</a>
            
         </div><br>

@@ -56,7 +56,13 @@ class Salary extends Component
             ->orderBy('last_name')
             ->paginate(14);
 
-        return view('livewire.paiment.salary',  ["salary" => $salary])
+
+        $sumSalary = User::sum('salary');
+       $sumVirement = User::where('type_virement','virement')->sum('salary');
+       $sumEspece = User::where('type_virement', 'espece')->sum('salary');
+
+        return view('livewire.paiment.salary',  ["salary" => $salary , 
+        "sumSalary" => $sumSalary , "sumVirement" => $sumVirement  , "sumEspece" => $sumEspece ])
             ->extends("layouts.master")
             ->section("contenu");
     }

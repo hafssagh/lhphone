@@ -1,4 +1,4 @@
-<div class="row">
+ <div class="row">
     <div class="col-sm-12">
         <div class="row mb-3">
             <div class="mb-4 col-sm-6 col-lg-3 mb-4">
@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
-                                <h3 style="color:#4650dd; font-size: 1.25rem">{{ $cards[0] }} Propositions
+                                <h3 style="color:#4650dd; font-size: 1.25rem">{{ $cards[0] }} Rendez-vous
                                 </h3>
                                 <p class="text-sm mb-0">Envoyés Aujourd'hui</p>
                             </div>
@@ -30,8 +30,8 @@
                         <div class="row align-items-center  justify-content-center" style="color:#4650dd ">
                             <div class="col-10">
                                 <p class="mb-0">
-                                    <a href="/customer/proposal" style="text-decoration: none;color: inherit;">
-                                    <strong> En savoir plus </strong></a>
+                                    <a href="/appointments" style="text-decoration: none;color: inherit;">
+                                    <strong>En savoir plus</strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -72,8 +72,8 @@
                         <div class="row align-items-center justify-content-center text-success">
                             <div class="col-10">
                                 <p class="mb-0">
-                                    <a href="/proposal/all" style="text-decoration: none;color: inherit;">
-                                    <strong>   En savoir plus </strong></a>
+                                    <a href="/appointments" style="text-decoration: none;color: inherit;">
+                                    <strong> En savoir plus </strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -92,18 +92,14 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
-                                <h3 style="color:#835db4; font-size: 1.25rem">{{ $cards[2] }} Devis</h3>
-                                <p class="text-sm mb-0">Signés (<span id="moisAnnee"></span>)</p>
+                                <h3 style="color:#835db4; font-size: 1.25rem">{{ $cards[2] }} Rendez-vous</h3>
+                                <p class="text-sm mb-0">Non traités (<span id="moisAnnee"></span>)</p>
                             </div>
                             <div class="flex-shrink-0 ms-3 ">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
-                                    <path style="color:#835db4" fill-rule="evenodd"
-                                        d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
-                                    <path style="color:#835db4"
-                                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
-                                    <path style="color:#835db4"
-                                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16">
+                                    <path style="color:#835db4" d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"></path>
+                                    <path style="color:#835db4" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
+                                    <path style="color:#835db4" d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
                                 </svg>
                             </div>
                         </div>
@@ -113,8 +109,8 @@
                         <div class="row align-items-center justify-content-center" style="color:#835db4">
                             <div class="col-10">
                                 <p class="mb-0">
-                                    <a href="/sales" style="text-decoration: none;color: inherit;">
-                                    <strong>En savoir plus</a></strong>
+                                    <a href="/appointments" style="text-decoration: none;color: inherit;">
+                                    <strong>  En savoir plus </strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -151,7 +147,7 @@
                             <div class="col-10">
                                 <p class="mb-0">
                                     <a href="/profile/absence" style="text-decoration: none;color: inherit;">
-                                    <strong>En  savoir plus </strong></a>
+                                    <strong>   En savoir plus </strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -168,6 +164,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-lg-5" style="font-family: Segoe UI">
         <div class=" pb-4 pb-lg-2">
@@ -177,7 +174,7 @@
                         <div class="mb-4 mb-sm-0 col-sm-5">
                             <h2 class="mb-0 d-flex align-items-center"><span>{{ $cards[4] }} </span><span
                                     class="dot bg-green d-inline-block ms-3"></span></h2><span
-                                class="">Pièces</span>
+                                class="">Rendez-vous</span>
                             <hr><small class="text-muted">Challenge : {{ $cards[6]->first()->challenge }} DH
                             </small>
                         </div>
@@ -197,7 +194,7 @@
                                 <span>{{ $cards[5] }}</span>
                                 <span class="dot bg-indigo d-inline-block ms-3"></span>
                             </h2>
-                            <span class="">Pièces</span>
+                            <span class="">Rendez-vous</span>
                             @if ($cards[7]->first()->challenge != 0)
                                 <hr>
                                 <small class="text-muted">Primes : {{ $cards[7]->first()->challenge }} DH</small>
@@ -218,11 +215,12 @@
     <div class="col-lg-7">
         <div class="card">
             <div class="card-body">
-                <canvas id="salesChart"></canvas>
+                <canvas id="rdvChart"></canvas>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -250,7 +248,6 @@
     });
 </script>
 
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -258,7 +255,7 @@
         var chartData = {
             labels: ["pièces", "pièces", "pièces", "pièces"],
             datasets: [{
-                data: @json($quantitySoldPerWeek),
+                data: @json($CountRDV),
                 backgroundColor: '#a9cfab',
                 borderColor: '#a9cfab',
                 borderWidth: 2,
@@ -305,9 +302,9 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         var doughnutData = {
-            labels: ['Vente'],
+            labels: ['Rdv'],
             datasets: [{
-                data: [JSON.parse('@json($cards[5])'), 100 - JSON.parse(
+                data: [JSON.parse('@json($cards[5])'), 24 - JSON.parse(
                     '@json($cards[5])')],
                 backgroundColor: ['#a9cfab', '#E5E4E2']
             }]
@@ -358,24 +355,24 @@
 <script>
     document.addEventListener('livewire:load', function() {
         var months = @json($months);
-        var refusedSales = @json($refusedSales);
-        var acceptedSales = @json($acceptedSales);
+        var refusedAppoints = @json($refusedAppoints);
+        var acceptedAppoints = @json($acceptedAppoints);
 
-        var ctx = document.getElementById('salesChart').getContext('2d');
+        var ctx = document.getElementById('rdvChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: months,
                 datasets: [{
-                        label: 'Acceptées',
-                        data: acceptedSales,
+                        label: 'RDV Accepté',
+                        data: acceptedAppoints,
                         type: 'line',
                         borderColor: '#c2c0c0 ',
                         backgroundColor: '#c2c0c0 ',
                     },
                     {
-                        label: 'Annulées',
-                        data: refusedSales,
+                        label: 'RDV Annulé',
+                        data: refusedAppoints,
                         type: 'bar',
                         borderColor: '#e0e0e0',
                         backgroundColor: '#e0e0e0',
