@@ -40,7 +40,7 @@ class Dashboard extends Component
                 $query->select(DB::raw(1))
                     ->from('resignations')
                     ->whereRaw('resignations.user_id = users.id')
-                    ->where('resignations.date', $currentMonth);
+                    ->whereNot('resignations.date', $currentMonth);
             })
             ->orderBy("users.first_name");
 

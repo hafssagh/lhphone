@@ -1,9 +1,10 @@
 <div style="background-color: rgb(218, 213, 213)">
-    <br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
     <div class="text-center">
-        <img src="/assets/images/production.png" alt="" style="height:300px">
+        <img src="/assets/images/production1.png" alt="" style="height:300px">
+        {{--   <img src="/assets/images/prod2.png" alt="" style="height:200px">  <img src="/assets/images/prod1.png" alt="" style="height:300px"> --}}
     </div>
-    <br><br><br><br>
+    <br><br><br><br><br><br>
     <div class="content-wrapper" style=" background-color: rgb(218, 213, 213)">
         <div class="row">
             <div class="col-6 grid-margin">
@@ -82,7 +83,7 @@
                                                 $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
                                                 $resignationUser = $resignation->where('user_id', $user->id)->first();
-                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date  ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
+                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -216,7 +217,7 @@
                                         <th style="font-size: 30px;" class="text-center">
                                             {{ \Carbon\Carbon::parse($date)->format('d-m') }}</th>
                                     @endforeach
-                                    <th style="font-size:30px;">Objectif</th>
+                                    {{-- <th style="font-size:30px;" class="text-center">Objectif</th> --}}
                                     <th style="font-size:35px;">Total\S</th>
                                     <th style="font-size:35px;">Total\M</th>
                                 </tr>
@@ -282,7 +283,7 @@
                                                 $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
                                                 $resignationUser = $resignation2->where('user_id', $user2->id)->first();
-                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date  ? 'background-color: #5A5A5A; color: #5A5A5A ' : '';
+                                                $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #5A5A5A; color: #5A5A5A ' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
@@ -292,10 +293,10 @@
                                                 <strong>{{ $salesCount }}</strong>
                                             </td>
                                         @endforeach
-                                        <td class="text-center"
+                                        {{--  <td class="text-center"
                                             style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #dbd9d9; border-radius:15px;">
                                             <strong>{{ $user2->objectif }}</strong>
-                                        </td>
+                                        </td> --}}
                                         <td class="text-center"
                                             style="font-size:35px; border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;{{ $backgroundColor3 }};">
                                             <strong>{{ $totalSalesCount }}</strong>
@@ -338,9 +339,9 @@
                                             <strong>{{ $salesCount }}</strong>
                                         </td>
                                     @endforeach
-                                    <td
+                                    {{--     <td
                                         style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;">
-                                    </td>
+                                    </td> --}}
                                     <td class="text-center"
                                         style="font-size:35px;border: 4px solid rgb(253, 253, 253);background-color: #a1a9da; border-radius:15px;{{ $backgroundColor3 }};">
                                         <strong>{{ $grandTotal }}</strong>
@@ -381,9 +382,9 @@
                                             @endforeach
                                         </td>
                                     @endforeach
-                                    <td class="text-center"
+                                    {{--   <td class="text-center"
                                         style=" border: 4px solid rgb(253, 253, 253);background-color: #cccbcb; border-radius:15px;">
-                                    </td>
+                                    </td> --}}
                                     <td class="text-center"
                                         style=" font-size:35px; border: 4px solid rgb(253, 253, 253); background-color: #cccbcb; border-radius: 15px;">
                                         @foreach ($weekDates as $date)
@@ -474,17 +475,17 @@
             </div> --}}
         </div>
         <div class="row">
-            <div class="col-6 grid-margin">
+            <div class="col-6 grid-margin"><br><br><br><br><br>
                 <div class="text-center">
                     <img src="/assets/images/lh.png" style="height:400px">
                 </div>
             </div>
-            <div class="col-6 grid-margin">
+            <div class="col-6 grid-margin"><br><br><br><br><br>
                 <div class="text-center">
                     <img src="/assets/images/h2f.png" style=" height:385px">
                 </div>
             </div>
-        </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div><br><br><br><br><br><br><br><br>
     </div>
 </div>
 
