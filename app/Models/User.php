@@ -101,4 +101,6 @@ class User extends Authenticatable
     public function appoints(){
         return $this->hasMany(Appoint::class);
     }
+
+
 }
