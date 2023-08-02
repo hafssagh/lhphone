@@ -7,9 +7,11 @@ use App\Models\Sale;
 use App\Models\User;
 use App\Models\Mails;
 use Livewire\Component;
+use App\Exports\SalesExport;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Sales extends Component
 {
@@ -237,5 +239,10 @@ class Sales extends Component
     {
         $this->newSale = "";
         $this->currentPage = PAGECREATEFORM;
+    }
+
+    public function SalesExport()
+    {
+        return Excel::download(new SalesExport, 'production.xlsx');
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Livewire\Mail;
 
 use App\Models\Mails;
 use Livewire\Component;
+use App\Exports\PropoExport;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MailAll extends Component
 {
@@ -105,5 +107,10 @@ class MailAll extends Component
 
         $this->goToListPropos();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Formulaire mise à jour avec succès!"]);
+    }
+
+    public function exportPropo()
+    {
+        return Excel::download(new PropoExport, 'propositions.xlsx');
     }
 }

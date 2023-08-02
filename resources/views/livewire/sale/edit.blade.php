@@ -45,7 +45,7 @@
                     <div class="md-step-bar-right"></div>
                 </div>
 
-                @if (
+             {{--    @if (
                     $editSale['state'] == '1' ||
                         $editSale['state'] == '4' ||
                         $editSale['state'] == '5' ||
@@ -60,7 +60,7 @@
                 <div class="md-step-title">Devis à corriger</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
-            </div>
+            </div> --}}
             @if (
                 $editSale['state'] == '1' ||
                     $editSale['state'] == '4' ||
@@ -72,7 +72,7 @@
                 @else
                     <div class="md-step">
             @endif
-            <div class="md-step-circle"><span>5</span></div>
+            <div class="md-step-circle"><span>4</span></div>
             <div class="md-step-title">Devis signé</div>
             <div class="md-step-bar-left"></div>
             <div class="md-step-bar-right"></div>
@@ -82,7 +82,7 @@
             @else
                 <div class="md-step">
         @endif
-        <div class="md-step-circle"><span>6</span></div>
+        <div class="md-step-circle"><span>5</span></div>
         <div class="md-step-title">En attente de livraison</div>
         <div class="md-step-bar-left"></div>
         <div class="md-step-bar-right"></div>
@@ -92,7 +92,7 @@
     @else
         <div class="md-step">
 @endif
-<div class="md-step-circle"><span>7</span></div>
+<div class="md-step-circle"><span>6</span></div>
 <div class="md-step-title">Livré</div>
 <div class="md-step-bar-left"></div>
 <div class="md-step-bar-right"></div>
@@ -276,7 +276,7 @@
         </div>
     </div>
 </div>
-@cannot('agent')
+
     <div class="d-flex flex-row-reverse">
         <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"
             style="font-size: 14px; line-height: 18px; padding: 8px;">
@@ -287,7 +287,7 @@
             </svg>
             Enregistrer</button>&nbsp;
     </div>
-@endcannot
+
 
 </div>
 </div>
