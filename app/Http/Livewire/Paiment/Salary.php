@@ -21,48 +21,54 @@ class Salary extends Component
 
     public function render()
     {
-        $user = Auth::user();
-        $manager = $user->last_name;
-        $currentMonth = Carbon::now()->format('Y-m');
+        if (auth()->check()) {
+            $user = Auth::user();
+            $manager = $user->last_name;
+            $currentMonth = Carbon::now()->format('Y-m');
 
-        $salary = User::where(function ($query) {
-            $query->where("first_name", "like", "%" . $this->search . "%")
-                ->orWhere("last_name", "like", "%" . $this->search . "%");
-        })
-            ->when($this->selectedCompany !== null && $this->selectedCompany !== 'all', function ($query) {
-                $query->where('company', $this->selectedCompany);
+            $salary = User::where(function ($query) {
+                $query->where("first_name", "like", "%" . $this->search . "%")
+                    ->orWhere("last_name", "like", "%" . $this->search . "%");
             })
-            ->join('user_role', 'users.id', '=', 'user_role.user_id')
-            ->join('roles', 'user_role.role_id', '=', 'roles.id')
-            ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
-                $query->where('group', 1)
-                ->where('roles.name', ['Agent']);
-            })
-            ->when($manager == 'Essaid', function ($query) {
-                $query->where('group', 2)
-                ->where('roles.name', ['Agent']);
-            })
-            ->when($manager == 'Hdimane' , function ($query) {
-                $query->where('company', 'h2f')
-            ->where('roles.name', ['Agent']);
-            })
-            ->whereNotExists(function ($query)  use ($currentMonth) {
-                $query->select(DB::raw(1))
-                    ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
-            })
-            ->whereNotIn('roles.name', ['Super Administrateur'])
-            ->orderBy('last_name')
-            ->paginate(14);
+                ->when($this->selectedCompany !== null && $this->selectedCompany !== 'all', function ($query) {
+                    $query->where('company', $this->selectedCompany);
+                })
+                ->join('user_role', 'users.id', '=', 'user_role.user_id')
+                ->join('roles', 'user_role.role_id', '=', 'roles.id')
+                ->when($manager == 'ELMOURABIT' || $manager == 'By', function ($query) {
+                    $query->where('group', 1)
+                        ->where('roles.name', ['Agent']);
+                })
+                ->when($manager == 'Essaid', function ($query) {
+                    $query->where('group', 2)
+                        ->where('roles.name', ['Agent']);
+                })
+                ->when($manager == 'Hdimane', function ($query) {
+                    $query->where('company', 'h2f')
+                        ->where('roles.name', ['Agent']);
+                })
+                ->whereNotExists(function ($query)  use ($currentMonth) {
+                    $query->select(DB::raw(1))
+                        ->from('resignations')
+                        ->whereRaw('resignations.user_id = users.id')
+                        ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                })
+                ->whereNotIn('roles.name', ['Super Administrateur'])
+                ->orderBy('last_name')
+                ->paginate(14);
 
 
-        $sumSalary = User::sum('salary');
-       $sumVirement = User::where('type_virement','virement')->sum('salary');
-       $sumEspece = User::where('type_virement', 'espece')->sum('salary');
+            $sumSalary = User::sum('salary');
+            $sumVirement = User::where('type_virement', 'virement')->sum('salary');
+            $sumEspece = User::where('type_virement', 'espece')->sum('salary');
+        } else {
+            return redirect()->route('login');
+        }
 
-        return view('livewire.paiment.salary',  ["salary" => $salary , 
-        "sumSalary" => $sumSalary , "sumVirement" => $sumVirement  , "sumEspece" => $sumEspece ])
+        return view('livewire.paiment.salary',  [
+            "salary" => $salary,
+            "sumSalary" => $sumSalary, "sumVirement" => $sumVirement, "sumEspece" => $sumEspece
+        ])
             ->extends("layouts.master")
             ->section("contenu");
     }
@@ -71,5 +77,4 @@ class Salary extends Component
     {
         $this->showRib = !$this->showRib;
     }
-
 }

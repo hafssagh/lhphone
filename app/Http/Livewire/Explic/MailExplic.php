@@ -12,7 +12,7 @@ class MailExplic extends Component
 {
     public $currentPage = PAGELIST;
     use WithPagination;
-    
+
     protected $paginationTheme = "bootstrap";
     public $search = "";
     public $user_id, $subject, $emailClient, $nameClient, $numClient, $adresse, $company;
@@ -31,40 +31,44 @@ class MailExplic extends Component
 
     public function render()
     {
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
-        $manager = $user->last_name; 
-    
-        $query = Explic::query();
+        if (auth()->check()) {
+            $user = Auth::user();
+            $role = $user->roles->first()->name;
+            $manager = $user->last_name;
 
-        if ($role == 'Agent') {
-            $query->where('user_id', $user->id)
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
+            $query = Explic::query();
+
+            if ($role == 'Agent') {
+                $query->where('user_id', $user->id)
+                    ->when($this->search, function ($query, $search) {
+                        return $query->whereHas('users', function ($query) use ($search) {
+                            $query->where('nameClient', 'like', '%' . $search . '%')
+                                ->orWhere('emailClient', 'like', '%' . $search . '%');
+                        });
+                    });
+            } else {
+                $query->when($this->search, function ($query, $search) {
+                    $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%')
+                            ->orWhere('nameClient', 'like', '%' . $search . '%')
                             ->orWhere('emailClient', 'like', '%' . $search . '%');
                     });
                 });
-        } else {
-            $query->when($this->search, function ($query, $search) {
-                $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%')
-                        ->orWhere('nameClient', 'like', '%' . $search . '%')
-                        ->orWhere('emailClient', 'like', '%' . $search . '%');
-                });
-            });
-        }
-    
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Essaid') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 2));
-        }
-    
-        $explics = $query->orderBy('created_at', 'desc')->paginate(14);
+            }
 
-        return view('livewire.explic.index' , ['explics' => $explics])->extends("layouts.master")
+            if ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            } elseif ($manager == 'Essaid') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            }
+
+            $explics = $query->orderBy('created_at', 'desc')->paginate(14);
+        } else {
+            return redirect()->route('login');
+        }
+        
+        return view('livewire.explic.index', ['explics' => $explics])->extends("layouts.master")
             ->section("contenu");
     }
 
@@ -77,7 +81,7 @@ class MailExplic extends Component
     public function sendEmail()
     {
         $this->validate();
-    
+
         $data = [
             'user_id' => $this->user_id = Auth::user()->id,
             'subject' => $this->subject = "Projet éclairage extérieur en LED à '' 0 EURO ''",
@@ -87,27 +91,26 @@ class MailExplic extends Component
             'adresse' => $this->adresse,
             'company' => $this->company,
         ];
-    
+
         $user = Auth::user();
         $fromName = $user ?  auth()->user()->nom_prod  : config('mail.from.name');
         $fromAddress = config('mail.from.address');
-    
+
         $emailSent = false;
         Mail::send('livewire.explic.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
             $message->from($fromAddress, $fromName)
                 ->to($this->emailClient)
                 ->subject($this->subject);
-    
+
             $emailSent = true;
         });
-    
+
         if ($emailSent) {
             Explic::create($data);
-    
+
             $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
             $this->goToListMail();
             $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
-        
         } else {
             $this->dispatchBrowserEvent("showErrorMessage", ["message" => "Échec de l'envoi de l'email. Veuillez réessayer ultérieurement."]);
         }

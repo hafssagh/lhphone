@@ -29,8 +29,8 @@ class Suivie extends Component
         })
         ->leftJoin('mails', 'users.id', '=', 'mails.user_id')
         ->select('users.id', 'users.first_name', 'users.last_name', 'users.group')
-        ->selectRaw('COUNT(CASE WHEN mails.state IN (0, 1, 3, -1) THEN 1 ELSE NULL END) AS mail_count')
-        ->selectRaw('COUNT(CASE WHEN mails.state = 1 THEN 1 ELSE NULL END) AS mail_count2')
+        ->selectRaw('COUNT(CASE WHEN mails.state IN (0, 1, 3, -1) AND DATE_FORMAT(mails.created_at, "%Y-%m") = ? THEN 1 ELSE NULL END) AS mail_count', [$currentMonth])
+        ->selectRaw('COUNT(CASE WHEN mails.state = 1 AND DATE_FORMAT(mails.updated_at, "%Y-%m") = ? THEN 1 ELSE NULL END) AS mail_count2', [$currentMonth])
         ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.group')
         ->orderBy('first_name', 'asc');
     
@@ -59,12 +59,11 @@ class Suivie extends Component
                 $propo = DB::table('mails')
                     ->where('user_id', $userId)
                     ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                    ->whereIn('state', [1,0,-1,3])
                     ->count();
 
                 $propoAccept = DB::table('mails')
                     ->where('user_id', $userId)
-                    ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                    ->whereBetween('updated_at', [$startOfWeek, $endOfWeek])
                     ->where('state', 1)
                     ->count();
 

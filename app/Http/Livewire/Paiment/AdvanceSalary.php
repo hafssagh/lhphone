@@ -28,54 +28,57 @@ class AdvanceSalary extends Component
         "newAdvance.advance" => "required",
         "newAdvance.motif" => "nullable",
     ];
-    
+
     public function render()
     {
         Carbon::setLocale("fr");
-    
-        $user = Auth::user();
-        $manager = $user->last_name;
-    
-        $avance = Avance::query()
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })
-            ->latest();
-    
-        $usersQuery = User::select('id', 'first_name', 'last_name')
-            ->whereHas('roles', function ($query) {
-                $query->whereNot('name', 'super administrateur');
-            })
-            ->orderBy('last_name');
-    
-        if ($manager == 'EL MESSIOUI') {
-            $avances = $avance->paginate(10);
-            $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $avances = $avance->whereHas('users', fn ($q) => $q->where('group', 1))
-                ->paginate(10);
-            $users = $usersQuery->where('group', 1)->get();
-        } elseif ($manager == 'Essaid') {
-            $avances = $avance->whereHas('users', fn ($q) => $q->where('group', 2))
-                ->paginate(10);
-            $users = $usersQuery->where('group', 2)->get();
-        } elseif ($manager == 'Hdimane') {
-            $avances = $avance->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
-                ->paginate(10);
-            $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
-                $query->where('name', 'agent');
-            })->get();
-        } else {
-            $avances = $avance->paginate(10);
-            $users = $usersQuery->get();
-        }
 
-        return view('livewire.paiment.advance-salary' , ['users' => $users , 'avances' => $avances])
-        ->extends("layouts.master")
-        ->section("contenu");
+        if (auth()->check()) {
+            $user = Auth::user();
+            $manager = $user->last_name;
+
+            $avance = Avance::query()
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    });
+                })
+                ->latest();
+
+            $usersQuery = User::select('id', 'first_name', 'last_name')
+                ->whereHas('roles', function ($query) {
+                    $query->whereNot('name', 'super administrateur');
+                })
+                ->orderBy('last_name');
+
+            if ($manager == 'EL MESSIOUI') {
+                $avances = $avance->paginate(10);
+                $users = $usersQuery->get();
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $avances = $avance->whereHas('users', fn ($q) => $q->where('group', 1))
+                    ->paginate(10);
+                $users = $usersQuery->where('group', 1)->get();
+            } elseif ($manager == 'Essaid') {
+                $avances = $avance->whereHas('users', fn ($q) => $q->where('group', 2))
+                    ->paginate(10);
+                $users = $usersQuery->where('group', 2)->get();
+            } elseif ($manager == 'Hdimane') {
+                $avances = $avance->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
+                    ->paginate(10);
+                $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->get();
+            } else {
+                $avances = $avance->paginate(10);
+                $users = $usersQuery->get();
+            }
+        } else {
+            return redirect()->route('login');
+        }
+        return view('livewire.paiment.advance-salary', ['users' => $users, 'avances' => $avances])
+            ->extends("layouts.master")
+            ->section("contenu");
     }
 
     public function toggleShowAddForm()
@@ -119,5 +122,4 @@ class AdvanceSalary extends Component
         $this->newAdvance = [];
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Un avancement de salaire a été ajouté avec succès!"]);
     }
-
 }

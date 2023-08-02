@@ -34,53 +34,56 @@ class Resignations extends Component
     public function render()
     {
         Carbon::setLocale("fr");
-    
-        $currentMonth = Carbon::now()->format('Y-m');
-        $user = Auth::user();
-        $manager = $user->last_name;
-    
-        $resignation = Resignation::query()
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })
-            ->latest();
-    
-        $usersQuery = User::select('id', 'first_name', 'last_name')
-            ->whereHas('roles', function ($query) {
-                $query->whereNot('name', 'super administrateur');
-            })
-            ->whereNotExists(function ($query)  use ($currentMonth) {
-                $query->select(DB::raw(1))
-                    ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id');
-            })
-            ->orderBy('last_name');
-    
-        if ($manager == 'EL MESSIOUI') {
-            $resignations = $resignation->paginate(10);
-            $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $resignations = $resignation->whereHas('users', fn ($q) => $q->where('group', 1))
-                ->paginate(10);
-            $users = $usersQuery->where('group', 1)->get();
-        } elseif ($manager == 'Essaid') {
-            $resignations = $resignation->whereHas('users', fn ($q) => $q->where('group', 2))
-                ->paginate(10);
-            $users = $usersQuery->where('group', 2)->get();
-        } elseif ($manager == 'Hdimane') {
-            $resignations = $resignation->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
-                ->paginate(10);
-            $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
-                $query->where('name', 'agent');
-            })->get();
+
+        if (auth()->check()) {
+            $currentMonth = Carbon::now()->format('Y-m');
+            $user = Auth::user();
+            $manager = $user->last_name;
+
+            $resignation = Resignation::query()
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    });
+                })
+                ->latest();
+
+            $usersQuery = User::select('id', 'first_name', 'last_name')
+                ->whereHas('roles', function ($query) {
+                    $query->whereNot('name', 'super administrateur');
+                })
+                ->whereNotExists(function ($query)  use ($currentMonth) {
+                    $query->select(DB::raw(1))
+                        ->from('resignations')
+                        ->whereRaw('resignations.user_id = users.id');
+                })
+                ->orderBy('last_name');
+
+            if ($manager == 'EL MESSIOUI') {
+                $resignations = $resignation->paginate(10);
+                $users = $usersQuery->get();
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $resignations = $resignation->whereHas('users', fn ($q) => $q->where('group', 1))
+                    ->paginate(10);
+                $users = $usersQuery->where('group', 1)->get();
+            } elseif ($manager == 'Essaid') {
+                $resignations = $resignation->whereHas('users', fn ($q) => $q->where('group', 2))
+                    ->paginate(10);
+                $users = $usersQuery->where('group', 2)->get();
+            } elseif ($manager == 'Hdimane') {
+                $resignations = $resignation->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
+                    ->paginate(10);
+                $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->get();
+            } else {
+                $resignations = $resignation->paginate(10);
+                $users = $usersQuery->get();
+            }
         } else {
-            $resignations = $resignation->paginate(10);
-            $users = $usersQuery->get();
+            return redirect()->route('login');
         }
-    
         return view('livewire.resignation.index', [
             "resignations" => $resignations,
             "users" => $users
@@ -88,7 +91,7 @@ class Resignations extends Component
             ->extends("layouts.master")
             ->section("contenu");
     }
-    
+
 
     public function toggleShowAddForm()
     {

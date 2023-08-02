@@ -38,47 +38,50 @@ class Suspensions extends Component
     public function render()
     {
         Carbon::setLocale("fr");
-        $user = Auth::user();
-        $manager = $user->last_name;
-        $currentMonth = Carbon::now()->format('Y-m');
+        if (auth()->check()) {
+            $user = Auth::user();
+            $manager = $user->last_name;
+            $query = Suspension::query()
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    });
+                })
+                ->latest();
 
-        $query = Suspension::query()
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })
-            ->latest();
+            $usersQuery = User::select('id', 'first_name', 'last_name')
+                ->whereHas('roles', function ($query) {
+                    $query->whereNot('name', 'super administrateur');
+                })->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('resignations')
+                        ->whereRaw('resignations.user_id = users.id');
+                })->orderBy('last_name');
 
-        $usersQuery = User::select('id', 'first_name', 'last_name')
-            ->whereHas('roles', function ($query) {
-                $query->whereNot('name', 'super administrateur');
-            })->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id');
-            })->orderBy('last_name');
-
-        if ($manager == 'EL MESSIOUI') {
-            $suspensions = $query->get();
-            $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 1));
-            $users = $usersQuery->where('group', 1)->get();
-        } elseif ($manager == 'Essaid') {
-            $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 2));
-            $users = $usersQuery->where('group', 2)->get();
-        } elseif ($manager == 'Hdimane') {
-            $suspensions = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'));
-            $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
-                $query->where('name', 'agent');
-            })->get();
+            if ($manager == 'EL MESSIOUI') {
+                $suspensions = $query->get();
+                $users = $usersQuery->get();
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 1));
+                $users = $usersQuery->where('group', 1)->get();
+            } elseif ($manager == 'Essaid') {
+                $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 2));
+                $users = $usersQuery->where('group', 2)->get();
+            } elseif ($manager == 'Hdimane') {
+                $suspensions = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'));
+                $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->get();
+            } else {
+                $suspensions = $query->get();
+                $users = $usersQuery->get();
+            }
         } else {
-            $suspensions = $query->get();
-            $users = $usersQuery->get();
+            return redirect()->route('login');
         }
-   
+
+
         return view('livewire.suspension.index', ["suspensions" => $suspensions, "users" => $users,])
             ->extends("layouts.master")
             ->section("contenu");
@@ -105,7 +108,7 @@ class Suspensions extends Component
         $suspension->save();
 
         workHours();
-        AbsSalary(); 
+        AbsSalary();
 
         $this->goToListeSuspension();
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Un nouveau Suspension a été ajouté avec succès!"]);

@@ -52,47 +52,51 @@ class Users extends Component
     public function render()
     {
         Carbon::setLocale("fr");
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
-        $search = "%" . $this->search . "%";
-        $manager = $user->last_name;
+        if (auth()->check()) {
+            $user = Auth::user();
+            $role = $user->roles->first()->name;
+            $search = "%" . $this->search . "%";
+            $manager = $user->last_name;
 
-        $query = User::where(function ($query) use ($search) {
-            $query->where("first_name", "like", $search)
-                ->orWhere("last_name", "like", $search);
-        })
-            ->orderBy("last_name");
+            $query = User::where(function ($query) use ($search) {
+                $query->where("first_name", "like", $search)
+                    ->orWhere("last_name", "like", $search);
+            })
+                ->orderBy("last_name");
 
-        if ($role == 'Administrateur' || $role == 'Super Administrateur') {
-            if ($this->selectedCompany !== null && $this->selectedCompany != "all") {
-                $query->where('company', $this->selectedCompany);
+            if ($role == 'Administrateur' || $role == 'Super Administrateur') {
+                if ($this->selectedCompany !== null && $this->selectedCompany != "all") {
+                    $query->where('company', $this->selectedCompany);
+                }
+            } elseif ($role == 'Manager') {
+
+                if ($manager == 'EL MESSIOUI') {
+                    $query->latest();
+                } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+                    $query->where("company", "like", "lh")->where('group', 1)->whereHas('roles', function ($query) {
+                        $query->where('name', 'agent');
+                    })->latest();
+                } elseif ($manager == 'Essaid') {
+                    $query->where("company", "like", "lh")->where('group', 2)->whereHas('roles', function ($query) {
+                        $query->where('name', 'agent');
+                    })->latest();
+                } elseif ($manager == 'Hdimane') {
+                    $query->where("company", "like", "h2f")
+                        ->whereHas('roles', function ($query) {
+                            $query->where('name', 'agent');
+                        })
+                        ->latest();
+                }
             }
-        } elseif ($role == 'Manager') {
-           
-            if ($manager == 'EL MESSIOUI') {
-                $query->latest();
-            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-                $query->where("company", "like", "lh")->where('group', 1)  ->whereHas('roles', function ($query) {
-                    $query->where('name', 'agent');
-                })->latest();
-            } elseif ($manager == 'Essaid') {
-                $query->where("company", "like", "lh")->where('group', 2)  ->whereHas('roles', function ($query) {
-                    $query->where('name', 'agent');
-                })->latest();
-            } elseif ($manager == 'Hdimane') {
-                $query->where("company", "like", "h2f")
-                ->whereHas('roles', function ($query) {
-                    $query->where('name', 'agent');
-                })
-                ->latest();
-            }
+
+            $users = $query->whereNot('last_name', 'EL MESSIOUI')->paginate(11);
+
+            $data = [
+                "users" => $users,
+            ];
+        } else {
+            return redirect()->route('login');
         }
-
-        $users = $query->whereNot('last_name' , 'EL MESSIOUI')->paginate(11);
-
-        $data = [
-            "users" => $users,
-        ];
 
         return view('livewire.users.index', $data)
             ->extends("layouts.master")
@@ -200,9 +204,9 @@ class Users extends Component
     {
         $validationAttributes = $this->validate();
         $validationAttributes["newUser"]["password"] =  bcrypt("password");
-        
+
         $user = User::create($validationAttributes["newUser"]);
-        
+
         $agentRole = Role::where('name', 'agent')->first();
         if ($agentRole) {
             $user->roles()->attach($agentRole->id);
@@ -216,7 +220,7 @@ class Users extends Component
 
     public function updateUser()
     {
-        
+
         $validationAttributes = $this->validate();
 
         User::find($this->editUser["id"])->update($validationAttributes["editUser"]);

@@ -30,72 +30,76 @@ class Sales extends Component
 
     public function render()
     {
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
-        $manager = $user->last_name;
+        if (auth()->check()) {
+            $user = Auth::user();
+            $role = $user->roles->first()->name;
+            $manager = $user->last_name;
 
 
-        $query = Sale::select('sales.*')
-            ->join('mails', 'mails.user_id', '=', 'sales.user_id')
-            ->orderBy('sales.date_sal', 'desc')
-            ->when($this->state, fn ($q, $state) => $q->where('sales.state', $state))
-            ->when($this->search, fn ($q, $search) => $q->whereHas(
-                'users',
-                fn ($q) => $q->where('users.first_name', 'like', "%$search%")
-                    ->orWhere('users.last_name', 'like', "%$search%")
-                    ->orWhere('sales.name_client', 'like', "%$search%")
-            ))->latest();
-        if ($role == 'Agent') {
-            $query->where('mails.user_id', $user->id);
-        }
+            $query = Sale::select('sales.*')
+                ->join('mails', 'mails.user_id', '=', 'sales.user_id')
+                ->orderBy('sales.date_sal', 'desc')
+                ->when($this->state, fn ($q, $state) => $q->where('sales.state', $state))
+                ->when($this->search, fn ($q, $search) => $q->whereHas(
+                    'users',
+                    fn ($q) => $q->where('users.first_name', 'like', "%$search%")
+                        ->orWhere('users.last_name', 'like', "%$search%")
+                        ->orWhere('sales.name_client', 'like', "%$search%")
+                ))->latest();
+            if ($role == 'Agent') {
+                $query->where('mails.user_id', $user->id);
+            }
 
-        if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
-            $query->where('sales.state', $this->selectedStatus);
-        }
+            if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
+                $query->where('sales.state', $this->selectedStatus);
+            }
 
-        $selectedUserId = $this->newSale;
-        $currentMonth = Carbon::now()->format('Y-m');
-        
-        $usersQuery = User::join('mails', 'mails.user_id', '=', 'users.id')
-            ->select('users.id', 'users.first_name', 'users.last_name')
-            ->where('users.company', 'lh')
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'agent');
-            })->whereNotExists(function ($query)  use ($currentMonth) {
-                $query->select(DB::raw(1))
-                    ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
-            })
-            ->orderBy('last_name')
-            ->when($selectedUserId, function ($query, $selectedUserId) {
-                $query->where('users.id', $selectedUserId);
-            });
+            $selectedUserId = $this->newSale;
+            $currentMonth = Carbon::now()->format('Y-m');
 
-        if ($role == 'Agent') {
-            $mailsQuery = Mails::where('user_id', $user->id)->where('state', '1')->latest()->get();
+            $usersQuery = User::join('mails', 'mails.user_id', '=', 'users.id')
+                ->select('users.id', 'users.first_name', 'users.last_name')
+                ->where('users.company', 'lh')
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->whereNotExists(function ($query)  use ($currentMonth) {
+                    $query->select(DB::raw(1))
+                        ->from('resignations')
+                        ->whereRaw('resignations.user_id = users.id')
+                        ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                })
+                ->orderBy('last_name')
+                ->when($selectedUserId, function ($query, $selectedUserId) {
+                    $query->where('users.id', $selectedUserId);
+                });
+
+            if ($role == 'Agent') {
+                $mailsQuery = Mails::where('user_id', $user->id)->where('state', '1')->latest()->get();
+            } else {
+                $mailsQuery = Mails::where('user_id', $selectedUserId)->where('state', '1')->latest()->get();
+            }
+            // Disable ONLY_FULL_GROUP_BY mode
+            DB::statement('SET sql_mode=(SELECT REPLACE(@@sql_mode, "ONLY_FULL_GROUP_BY", ""));');
+
+            if ($manager == 'EL MESSIOUI') {
+                $users = $usersQuery->groupBy('users.id')->get();
+                $sales = $query->groupBy('sales.id')->paginate(9);
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $users = $usersQuery->where('group', 1)->groupBy('users.id')->get();
+                $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
+                    ->groupBy('sales.id')
+                    ->paginate(9);
+            } elseif ($manager == 'Essaid') {
+                $users = $usersQuery->where('group', 2)->groupBy('users.id')->get();
+                $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))
+                    ->groupBy('sales.id')
+                    ->paginate(9);
+            } else {
+                $users = $usersQuery->groupBy('users.id')->get();
+                $sales = $query->groupBy('sales.id')->paginate(7);
+            }
         } else {
-            $mailsQuery = Mails::where('user_id', $selectedUserId)->where('state', '1')->latest()->get();
-        }
-        // Disable ONLY_FULL_GROUP_BY mode
-        DB::statement('SET sql_mode=(SELECT REPLACE(@@sql_mode, "ONLY_FULL_GROUP_BY", ""));');
-
-        if ($manager == 'EL MESSIOUI') {
-            $users = $usersQuery->groupBy('users.id')->get();
-            $sales = $query->groupBy('sales.id')->paginate(9);
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $users = $usersQuery->where('group', 1)->groupBy('users.id')->get();
-            $sales = $query->whereHas('users', fn ($q) => $q->where('group', 1))
-                ->groupBy('sales.id')
-                ->paginate(9);
-        } elseif ($manager == 'Essaid') {
-            $users = $usersQuery->where('group', 2)->groupBy('users.id')->get();
-            $sales = $query->whereHas('users', fn ($q) => $q->where('group', 2))
-                ->groupBy('sales.id')
-                ->paginate(9);
-        } else {
-            $users = $usersQuery->groupBy('users.id')->get();
-            $sales = $query->groupBy('sales.id')->paginate(7);
+            return redirect()->route('login');
         }
 
         return view('livewire.sale.index', [
@@ -144,7 +148,7 @@ class Sales extends Component
         $sale->date_confirm = $this->newSale["date_confirm"] ?? null;
         $sale->name_client = $this->newSale["name_client"];
         $sale->mail_client = $mails->emailClient ?? null;
-        $sale->phone_client = $mails->numClient ?? null; 
+        $sale->phone_client = $mails->numClient ?? null;
         $sale->remark = $mails->send ?? null;
         $sale->un = $this->newSale["un"] ?? null;
         $sale->deux = $this->newSale["deux"] ?? null;
@@ -225,7 +229,7 @@ class Sales extends Component
         $sale->save();
         CalculChallenge();
         CalculPrime();
-         $this->goToListeSales(); 
+        $this->goToListeSales();
         $this->dispatchBrowserEvent("showSuccessMessage");
     }
 

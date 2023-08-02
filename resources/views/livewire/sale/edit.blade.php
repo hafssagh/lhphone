@@ -31,6 +31,7 @@
                             $editSale['state'] == '1' ||
                             $editSale['state'] == '-1' ||
                             $editSale['state'] == '5' ||
+                            $editSale['state'] == '4' ||
                             $editSale['state'] == '6' ||
                             $editSale['state'] == '7' ||
                             $editSale['state'] == '8')
@@ -46,6 +47,7 @@
 
                 @if (
                     $editSale['state'] == '1' ||
+                        $editSale['state'] == '4' ||
                         $editSale['state'] == '5' ||
                         $editSale['state'] == '6' ||
                         $editSale['state'] == '7' ||
@@ -55,36 +57,52 @@
                         <div class="md-step">
                 @endif
                 <div class="md-step-circle"><span>4</span></div>
-                <div class="md-step-title">Devis signé</div>
+                <div class="md-step-title">Devis à corriger</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
-            @if ($editSale['state'] == '5' || $editSale['state'] == '6' || $editSale['state'] == '7' || $editSale['state'] == '8')
+            @if (
+                $editSale['state'] == '1' ||
+                    $editSale['state'] == '4' ||
+                    $editSale['state'] == '5' ||
+                    $editSale['state'] == '6' ||
+                    $editSale['state'] == '7' ||
+                    $editSale['state'] == '8')
                 <div class="md-step active">
                 @else
                     <div class="md-step">
             @endif
             <div class="md-step-circle"><span>5</span></div>
-            <div class="md-step-title">En attente de livraison</div>
+            <div class="md-step-title">Devis signé</div>
             <div class="md-step-bar-left"></div>
             <div class="md-step-bar-right"></div>
         </div>
-        @if ($editSale['state'] == '6' || $editSale['state'] == '7' || $editSale['state'] == '8')
+        @if ($editSale['state'] == '5' || $editSale['state'] == '6' || $editSale['state'] == '7' || $editSale['state'] == '8')
             <div class="md-step active">
             @else
                 <div class="md-step">
         @endif
         <div class="md-step-circle"><span>6</span></div>
-        <div class="md-step-title">Livré</div>
+        <div class="md-step-title">En attente de livraison</div>
         <div class="md-step-bar-left"></div>
         <div class="md-step-bar-right"></div>
+</div>
+@if ($editSale['state'] == '6' || $editSale['state'] == '7' || $editSale['state'] == '8')
+    <div class="md-step active">
+    @else
+        <div class="md-step">
+@endif
+<div class="md-step-circle"><span>7</span></div>
+<div class="md-step-title">Livré</div>
+<div class="md-step-bar-left"></div>
+<div class="md-step-bar-right"></div>
 </div>
 @if ($editSale['state'] == '7' || $editSale['state'] == '8')
     <div class="md-step active">
     @else
         <div class="md-step">
 @endif
-<div class="md-step-circle"><span>7</span></div>
+<div class="md-step-circle"><span>8</span></div>
 <div class="md-step-title">AH envoyé</div>
 <div class="md-step-bar-left"></div>
 <div class="md-step-bar-right"></div>
@@ -94,7 +112,7 @@
     @else
         <div class="md-step">
 @endif
-<div class="md-step-circle"><span>8</span></div>
+<div class="md-step-circle"><span>9</span></div>
 <div class="md-step-title">AH signé</div>
 <div class="md-step-bar-left"></div>
 <div class="md-step-bar-right"></div>
@@ -112,6 +130,7 @@
                         <option value="3">Devis envoyé</option>
                         <option value="1">Devis signé</option>
                         <option value="-1">Devis refusé</option>
+                        <option value="4">Devis à corriger</option>
                         <option value="5">En attente de livraison</option>
                         <option value="6">Livré</option>
                         <option value="7">AH envoyé</option>
@@ -130,7 +149,8 @@
                 </tr>
                 <tr>
                     <td style="padding: 0.5rem;"><strong class="title">Société</strong></td>
-                    <td style="padding: 0.5rem; max-width: 35px; word-wrap: break-word; white-space: normal;">{{ $editSale['name_client'] }}</td>
+                    <td style="padding: 0.5rem; max-width: 35px; word-wrap: break-word; white-space: normal;">
+                        {{ $editSale['name_client'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 0.5rem;"><strong class="title">No de téléphone</strong></td>
@@ -153,7 +173,7 @@
                     <td style="padding: 0.5rem;">
                         <textarea type="text" wire:model="editSale.commentaire"
                             class="form-control details0 @error('editSale.commentaire') is-invalid @enderror"
-                            style="border: none; height:100%; width:100%; " placeholder="{{ $editSale['commentaire'] }}" ></textarea>
+                            style="border: none; height:100%; width:100%; " placeholder="{{ $editSale['commentaire'] }}"></textarea>
                     </td>
                 </tr>
             </tbody>

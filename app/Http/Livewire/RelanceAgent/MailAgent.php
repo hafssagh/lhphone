@@ -33,38 +33,42 @@ class MailAgent extends Component
 
     public function render()
     {
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
-        $manager = $user->last_name;
+        if (auth()->check()) {
+            $user = Auth::user();
+            $role = $user->roles->first()->name;
+            $manager = $user->last_name;
 
-        $query = AgentRelance::query();
+            $query = AgentRelance::query();
 
-        if ($role == 'Agent') {
-            $query->where('user_id', $user->id)
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
+            if ($role == 'Agent') {
+                $query->where('user_id', $user->id)
+                    ->when($this->search, function ($query, $search) {
+                        return $query->whereHas('users', function ($query) use ($search) {
+                            $query->where('nameClient', 'like', '%' . $search . '%')
+                                ->orWhere('emailClient', 'like', '%' . $search . '%');
+                        });
+                    });
+            } else {
+                $query->when($this->search, function ($query, $search) {
+                    $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%')
+                            ->orWhere('nameClient', 'like', '%' . $search . '%')
                             ->orWhere('emailClient', 'like', '%' . $search . '%');
                     });
                 });
+            }
+
+            if ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            } elseif ($manager == 'Essaid') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            }
+
+            $relances = $query->orderBy('created_at', 'desc')->paginate(14);
         } else {
-            $query->when($this->search, function ($query, $search) {
-                $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%')
-                        ->orWhere('nameClient', 'like', '%' . $search . '%')
-                        ->orWhere('emailClient', 'like', '%' . $search . '%');
-                });
-            });
+            return redirect()->route('login');
         }
-
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Essaid') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 2));
-        }
-
-        $relances = $query->orderBy('created_at', 'desc')->paginate(14);
 
         return view('livewire.relance-agent.index', ["relances" => $relances])
             ->extends("layouts.master")

@@ -81,4 +81,4 @@ Route::get('/mailExplic', MailExplic::class)->name("mailExplic");
 Route::get('/mailRelance', MailManager::class)->name("RelanceManager");
 Route::get('/mailR', MailAgent::class)->name("RelanceAgent");
 Route::get('/charges', Charges::class)->name("charge");
-Route::get('/messages', Messages::class)->name("message");
+Route::get('/chat', Messages::class)->name("message");

@@ -27,8 +27,8 @@ class SuivieH extends Component
         })
         ->leftJoin('appointments', 'users.id', '=', 'appointments.user_id')
         ->select('users.id', 'users.first_name', 'users.last_name', 'users.group')
-        ->selectRaw('COUNT(CASE WHEN appointments.state = 1 THEN 1 ELSE NULL END) AS propo_count1')
-        ->selectRaw('COUNT(appointments.id) AS propo_count')
+        ->selectRaw('COUNT(CASE WHEN appointments.state = 1 AND DATE_FORMAT(appointments.updated_at, "%Y-%m") = ? THEN 1 ELSE NULL END) AS propo_count1', [$currentMonth])
+        ->selectRaw('COUNT(CASE WHEN DATE_FORMAT(appointments.created_at, "%Y-%m") = ? THEN 1 ELSE NULL END) AS propo_count', [$currentMonth])
         ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.group')
         ->orderBy('first_name', 'asc');
 

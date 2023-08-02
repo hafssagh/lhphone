@@ -194,4 +194,34 @@
             </a>
         </li>
     @endcan
+
+
+    @php
+        $not_seen =
+            App\Models\Message::where('receiver_id', auth()->id())
+                ->where('is_seen', false)
+                ->get() ?? null;
+        if (isset($sender) && $sender->id) {
+            $not_seen = Message::where('user_id', $sender->id)
+                ->where('receiver_id', auth()->id())->where('is_seen', false);
+            $not_seen->update(['is_seen' => true]);
+        }
+    @endphp
+    <li class="nav-item  {{ setMenuActive('message') }}">
+        <a class="nav-link" href="{{ route('message') }}">
+            <div class="text-center ">
+                <i class="menu-icon mdi mdi-email-outline"></i>
+            </div>
+            <span class="menu-title">Messagerie
+            </span>
+            @if (filled($not_seen))
+                <span class="badge bg-danger rounded-pill float-end"
+                    style="font-size:10px; margin-bottom:20px; margin-right:15px; height:20px; width:20px">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        {{ $not_seen->count() }}
+                    </div>
+                </span>
+            @endif
+        </a>
+    </li>
 </ul>

@@ -25,6 +25,7 @@ class Dashboard extends Component
 
     public function render()
     {
+        if (auth()->check()) {
         $user = Auth::user();
         $manager = $user->last_name;
         $currentMonth = Carbon::now()->format('Y-m');
@@ -225,7 +226,9 @@ class Dashboard extends Component
         $months = $monthlyData->keys()->toArray();
         $refusedSales = $monthlyData->pluck('refusedSales')->toArray();
         $acceptedSales = $monthlyData->pluck('acceptedSales')->toArray();
-
+    } else {
+        return redirect()->route('login');
+    }
         return view(
             'livewire.dashboard.dashboard',
             [

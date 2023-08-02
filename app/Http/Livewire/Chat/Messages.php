@@ -14,6 +14,7 @@ class Messages extends Component
     public $sender;
     public $message;
     public $allmessages;
+    public $search = "";
 
     public function render()
     {
@@ -21,36 +22,57 @@ class Messages extends Component
         $today = Carbon::now()->format('Y-m-d');
         $user = Auth::user();
         $manager = $user->last_name;
+        $company = $user->company;
+        $group = $user->group;
         $role = $user->roles->first()->name;
         
-        $usersQuery = User::whereNotExists(function ($query)  use ($today)  {
+        $usersQuery = User::whereNotExists(function ($query) use ($today) {
             $query->select(DB::raw(1))
                 ->from('resignations')
                 ->whereRaw('resignations.user_id = users.id')
                 ->whereNot('resignations.date', $today);
+        })->when($this->search, function ($query, $search) {
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%');
         });
 
         if ($manager == 'EL MESSIOUI') {
             $usersQuery;
         } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
             $usersQuery->where('group', 1)->orWhereHas('roles', function ($query) {
-                $query->where('name', 'manager')->orWhere('name', 'Super Administrateur')->orWhere('name', 'Administrateur');
-            });
+                $query->where('name', 'manager')
+                ->orWhere('name', 'Super Administrateur')
+                ->orWhere('name', 'Administrateur');
+            })->whereNot('company', 'h2f')->whereNot('last_name', 'Essaid');
         } elseif ($manager == 'Essaid') {
             $usersQuery->where('group', 2)->orWhereHas('roles', function ($query) {
-                $query->where('name', 'manager')->orWhere('name', 'Super Administrateur')->orWhere('name', 'Administrateur');
-            });
+                $query->where('name', 'manager')
+                ->orWhere('name', 'Super Administrateur')
+                ->orWhere('name', 'Administrateur');
+            })->whereNot('company', 'h2f')->whereNot('last_name', 'ELMOURABIT')->whereNot('last_name', 'By');
         }elseif ($manager == 'Hdimane') {
             $usersQuery->where('company', 'h2f')->orWhereHas('roles', function ($query) {
-                $query->where('name', 'manager')->orWhere('name', 'Super Administrateur')->orWhere('name', 'Administrateur');
-            });
-        }elseif ($role == 'agent') {
-            $usersQuery->orWhereHas('roles', function ($query) {
-                $query->where('name', 'manager')->orWhere('name', 'Super Administrateur')->orWhere('name', 'Administrateur');
-            });
+                $query
+                ->orWhere('name', 'Super Administrateur')
+                ->orWhere('name', 'Administrateur');
+            })->whereNot('company', 'lh');
+        } elseif ($role == 'Agent' && $company == 'lh' && $group == '1') {
+            $usersQuery->whereHas('roles', function ($query) {
+                $query->whereNot('name', 'agent');
+            })->where('company', 'lh')->whereNot('last_name', 'Essaid');
+        }  elseif ($role == 'Agent' && $company == 'lh' && $group == '2') {
+            $usersQuery->whereHas('roles', function ($query) {
+                $query->whereNot('name', 'agent');
+            })->where('company', 'lh')->whereNot('last_name', 'ELMOURABIT')->whereNot('last_name', 'By');
+        }  elseif ($role == 'Agent' && $company == 'h2f') {
+            $usersQuery->whereHas('roles', function ($query) {
+                $query->whereNot('name', 'agent');
+            })->where('company', 'h2f');
+        }else {
+            $usersQuery;
         }
 
-
+      
         $users = $usersQuery->get();
 
         $sender = $this->sender;

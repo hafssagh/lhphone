@@ -30,51 +30,54 @@ class MailAll extends Component
 
     public function render()
     {
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
-        $manager = $user->last_name; 
-    
-        $query = Mails::query();
-    
-        if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
-            $query->where('state', $this->selectedStatus);
-        }
-        
-        if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
-            $query->whereMonth('created_at', $this->selectedMonth);
-        }
+        if (auth()->check()) {
+            $user = Auth::user();
+            $role = $user->roles->first()->name;
+            $manager = $user->last_name;
 
-        if ($role == 'Agent') {
-            $query->where('user_id', $user->id)
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('nameClient', 'like', '%' . $search . '%')
+            $query = Mails::query();
+
+            if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
+                $query->where('state', $this->selectedStatus);
+            }
+
+            if ($this->selectedMonth !== null && $this->selectedMonth !== "all") {
+                $query->whereMonth('created_at', $this->selectedMonth);
+            }
+
+            if ($role == 'Agent') {
+                $query->where('user_id', $user->id)
+                    ->when($this->search, function ($query, $search) {
+                        return $query->whereHas('users', function ($query) use ($search) {
+                            $query->where('nameClient', 'like', '%' . $search . '%')
+                                ->orWhere('emailClient', 'like', '%' . $search . '%')
+                                ->orWhere('numClient', 'like', '%' . $search . '%')
+                                ->orWhere('company', 'like', '%' . $search . '%');
+                        });
+                    });
+            } else {
+                $query->when($this->search, function ($query, $search) {
+                    $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%')
+                            ->orWhere('nameClient', 'like', '%' . $search . '%')
+                            ->orWhere('company', 'like', '%' . $search . '%')
                             ->orWhere('emailClient', 'like', '%' . $search . '%')
-                            ->orWhere('numClient', 'like', '%' . $search . '%')
-                            ->orWhere('company', 'like', '%' . $search . '%');
+                            ->orWhere('numClient', 'like', '%' . $search . '%');
                     });
                 });
+            }
+
+            if ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            } elseif ($manager == 'Essaid') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            }
+
+            $proposition = $query->orderBy('created_at', 'desc')->paginate(8);
         } else {
-            $query->when($this->search, function ($query, $search) {
-                $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%')
-                        ->orWhere('nameClient', 'like', '%' . $search . '%')
-                        ->orWhere('company', 'like', '%' . $search . '%')
-                        ->orWhere('emailClient', 'like', '%' . $search . '%')
-                        ->orWhere('numClient', 'like', '%' . $search . '%');
-                });
-            });
-            
+            return redirect()->route('login');
         }
-    
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Essaid') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 2));
-        }
-    
-        $proposition = $query->orderBy('created_at', 'desc')->paginate(8);
 
         return view('livewire.mail.all.indexAll', ['proposition' => $proposition])
             ->extends("layouts.master")
@@ -92,9 +95,8 @@ class MailAll extends Component
         $this->resetValidation();
         $this->editMail = Mails::with("users")->find($id)->toArray();
         $this->currentPage = PAGEEDITFORM;
-   
     }
-    
+
     public function updateMail()
     {
         $mail = Mails::find($this->editMail["id"]);

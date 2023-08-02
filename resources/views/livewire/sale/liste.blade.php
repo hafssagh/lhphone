@@ -20,6 +20,7 @@
                                 <option value="3">Devis envoyé</option>
                                 <option value="1">Devis signé</option>
                                 <option value="-1">Devis refusé</option>
+                                <option value="4">Devis à corriger</option>
                                 <option value="5">En attente de livraison</option>
                                 <option value="6">Livré</option>
                                 <option value="7">AH envoyé</option>
@@ -71,6 +72,8 @@
                                         <div class="square_table" style="background-color: #b0d4b1;"></div>
                                     @elseif($sale->state == '-1')
                                         <div class="square_table" style="background-color: #f5a7a1;"></div>
+                                    @elseif ($sale->state == '4')
+                                        <div class="square_table" style="background-color: #f3ea6c;"></div>
                                     @elseif ($sale->state == '5')
                                         <div class="square_table" style="background-color: #7dc098;"></div>
                                     @elseif ($sale->state == '6')
@@ -88,10 +91,12 @@
                                 </td>
                             @endcannot
                             <td class="text-center" style="padding: 0.3rem;">{{ $sale->quantity }}</td>
-                            <td style="padding: 0.3rem;" class="text-center">{{ \Carbon\Carbon::parse($sale->date_sal)->format('d-m-Y') }}</td>
+                            <td style="padding: 0.3rem;" class="text-center">
+                                {{ \Carbon\Carbon::parse($sale->date_sal)->format('d-m-Y') }}</td>
                             <td style="padding: 0.3rem;" class="text-center">
                                 @if ($sale->state == '2')
-                                    <div class="badge badge-opacity-dark" style="background-color: #cccccc;">Cmd confirmée</div>
+                                    <div class="badge badge-opacity-dark" style="background-color: #cccccc;">Cmd
+                                        confirmée</div>
                                 @elseif($sale->state == '3')
                                     <div class="badge badge-opacity-dark"
                                         style="background-color: #d9cdf3; color:#75609c">Devis
@@ -102,6 +107,9 @@
                                 @elseif($sale->state == '-1')
                                     <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">Devis
                                         refusé</div>
+                                @elseif($sale->state == '4')
+                                    <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">
+                                       Devis à corriger</div>
                                 @elseif($sale->state == '5')
                                     <div class="badge badge-opacity-success" style="background-color: #b8e6ca;">En
                                         attente
@@ -126,8 +134,7 @@
                                         <span class="sr-only"></span>
                                     </div>
                                 @elseif($sale->state == '1' || $sale->state == '-1')
-                                    {{ \Carbon\Carbon::parse($sale->date_confirm)->format('d-m-Y') }} 
-
+                                    {{ \Carbon\Carbon::parse($sale->date_confirm)->format('d-m-Y') }}
                                 @else
                                     {{ $sale->updated_at->format('d-m-Y') }}
                                 @endif
