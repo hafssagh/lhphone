@@ -33,8 +33,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Adresse Email <span class="text-danger"><strong>*</strong></span></label>
-                                <input type="email" wire:model="emailClient" class="form-control">
-                                @error('emailClient')
+                                <input type="email" wire:model="email" class="form-control">
+                                @error('email')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>

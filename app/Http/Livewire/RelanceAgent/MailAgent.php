@@ -16,17 +16,16 @@ class MailAgent extends Component
 
     protected $paginationTheme = "bootstrap";
     public $search = "";
-    public $user_id, $subject, $company, $emailClient, $nameClient, $numClient, $send;
+    public $user_id, $subject, $company, $email, $nameClient, $numClient, $send;
 
     protected $rules = [
-        'emailClient' => 'required|email|unique:mails,emailClient',
+        'email' => 'required|email',
         'company' => 'required',
         'subject' => 'required',
     ];
 
     protected $messages = [
-        'emailClient.required' => 'L\'adresse Email du client est requise.',
-        'emailClient.unique' => 'L\'adresse mail a déjà été prise.',
+        'email.required' => 'L\'adresse Email du client est requise.',
         'company.required' => 'La société est requise.',
         'subject.required' => 'L\'objet du mail est requis.',
     ];
@@ -45,7 +44,7 @@ class MailAgent extends Component
                     ->when($this->search, function ($query, $search) {
                         return $query->whereHas('users', function ($query) use ($search) {
                             $query->where('nameClient', 'like', '%' . $search . '%')
-                                ->orWhere('emailClient', 'like', '%' . $search . '%');
+                                ->orWhere('email', 'like', '%' . $search . '%');
                         });
                     });
             } else {
@@ -54,7 +53,7 @@ class MailAgent extends Component
                         $query->where('first_name', 'like', '%' . $search . '%')
                             ->orWhere('last_name', 'like', '%' . $search . '%')
                             ->orWhere('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
+                            ->orWhere('email', 'like', '%' . $search . '%');
                     });
                 });
             }
@@ -89,7 +88,7 @@ class MailAgent extends Component
             'user_id' => $this->user_id = Auth::user()->id,
             'subject' => $this->subject,
             'nameClient' => $this->nameClient,
-            'emailClient' => $this->emailClient,
+            'email' => $this->email,
             'numClient' => $this->numClient,
             'company' => $this->company,
             'send' => $this->send,
@@ -108,7 +107,7 @@ class MailAgent extends Component
         if ($this->send == "rive") {
             Mail::send('livewire.relance-agent.body', $data, function ($message) use ($fromName, $fromAddress, $excelFilePath, $pdfFilePath, $pdf2FilePath, &$emailSent) {
                 $message->from($fromAddress, $fromName)
-                    ->to($this->emailClient)
+                    ->to($this->email)
                     ->subject($this->subject)
                     ->attach($excelFilePath, [
                         'as' => 'FICHE QUANTITATIVE.xlsx',
@@ -128,7 +127,7 @@ class MailAgent extends Component
         } elseif ($this->send == "s2ee") {
             Mail::send('livewire.relance-agent.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
                 $message->from($fromAddress, $fromName)
-                    ->to($this->emailClient)
+                    ->to($this->email)
                     ->subject($this->subject);
 
                 $emailSent = true;
@@ -138,7 +137,7 @@ class MailAgent extends Component
         if ($emailSent) {
             AgentRelance::create($data);
 
-            $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
+            $this->reset(['subject', 'email', 'nameClient', 'numClient']);
             $this->goToListMail();
             $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
         } else {

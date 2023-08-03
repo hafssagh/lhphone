@@ -1,6 +1,6 @@
 <div>
     <div class="row grid-margin">
-        <div class="col-md-6">
+        <div class="col-md-6 grid-margin">
             <div class="card card-rounded">
                 <div class="card-body">
                     <div class="d-sm-flex justify-content-between align-items-start">
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 grid-margin">
             <div class="card card-rounded">
                 <div class="card-body">
                     <div class="d-sm-flex justify-content-between align-items-start">

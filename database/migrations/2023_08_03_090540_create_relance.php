@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('manager_relances', function (Blueprint $table) {
+        Schema::create('relance', function (Blueprint $table) {
             $table->id();
             $table->string('company');
-            $table->string('emailClient')->unique();
+            $table->string('email');
             $table->string('nameClient')->nullable();
             $table->string('numClient')->nullable();
-            $table->date('date_envoie')->nullable();
-            $table->string('numDevie')->nullable();
-            $table->string('object')->nullable();
+            $table->string('send');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('manager_relances');
+        Schema::dropIfExists('relance');
     }
 };

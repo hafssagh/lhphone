@@ -9,10 +9,10 @@ class AgentRelance extends Model
 {
     use HasFactory;
 
-    protected $table = 'agent_relance';
+    protected $table = 'relance';
     
     public $fillable = [
-        "company", "nameClient", "emailClient", "numClient" , "user_id", "send"  
+        "company", "nameClient", "email", "numClient" , "user_id", "send"  
     ];
 
     public function users(){

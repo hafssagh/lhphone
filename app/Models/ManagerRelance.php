@@ -9,10 +9,10 @@ class ManagerRelance extends Model
 {
     use HasFactory;
 
-    protected $table = 'manager_relances';
+    protected $table = 'relance_manager';
     
     public $fillable = [
-        "company", "nameClient", "emailClient", "numClient" , "user_id",
+        "company", "nameClient", "email", "numClient" , "user_id",
         "date_envoie",  "numDevie",  "object",  
     ];
 

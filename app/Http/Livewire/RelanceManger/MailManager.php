@@ -15,17 +15,16 @@ class MailManager extends Component
 
     protected $paginationTheme = "bootstrap";
     public $search = "";
-    public $user_id, $subject, $company, $emailClient, $nameClient, $numClient, $date_envoie,
+    public $user_id, $subject, $company, $email, $nameClient, $numClient, $date_envoie,
         $numDevie, $object;
 
     protected $rules = [
-        'emailClient' => 'required|email|unique:mails,emailClient',
+        'email' => 'required|email',
         'company' => 'required',
     ];
 
     protected $messages = [
-        'emailClient.required' => 'L\'adresse Email du client est requise.',
-        'emailClient.unique' => 'L\'adresse mail a déjà été prise.',
+        'email.required' => 'L\'adresse Email du client est requise.',
         'company.required' => 'La société est requise.',
     ];
 
@@ -42,7 +41,7 @@ class MailManager extends Component
                     ->when($this->search, function ($query, $search) {
                         return $query->whereHas('users', function ($query) use ($search) {
                             $query->where('nameClient', 'like', '%' . $search . '%')
-                                ->orWhere('emailClient', 'like', '%' . $search . '%');
+                                ->orWhere('email', 'like', '%' . $search . '%');
                         });
                     });
             } else {
@@ -51,7 +50,7 @@ class MailManager extends Component
                         $query->where('first_name', 'like', '%' . $search . '%')
                             ->orWhere('last_name', 'like', '%' . $search . '%')
                             ->orWhere('nameClient', 'like', '%' . $search . '%')
-                            ->orWhere('emailClient', 'like', '%' . $search . '%');
+                            ->orWhere('email', 'like', '%' . $search . '%');
                     });
                 });
             }
@@ -81,7 +80,7 @@ class MailManager extends Component
             'subject' => $this->subject,
             'company' => $this->company,
             'nameClient' => $this->nameClient,
-            'emailClient' => $this->emailClient,
+            'email' => $this->email,
             'numDevie' => $this->numDevie,
             'numClient' => $this->numClient,
             'date_envoie' => $this->date_envoie,
@@ -95,7 +94,7 @@ class MailManager extends Component
         $emailSent = false;
         Mail::send('livewire.relance-manager.body', $data, function ($message) use ($fromName, $fromAddress, &$emailSent) {
             $message->from($fromAddress, $fromName)
-                ->to($this->emailClient)
+                ->to($this->email)
                 ->subject($this->subject);
 
             $emailSent = true;
@@ -104,7 +103,7 @@ class MailManager extends Component
         if ($emailSent) {
             ManagerRelance::create($data);
 
-            $this->reset(['subject', 'emailClient', 'nameClient', 'numClient']);
+            $this->reset(['subject', 'email', 'nameClient', 'numClient']);
             $this->goToListMail();
             $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Le mail a été envoyé avec succès!"]);
         } else {

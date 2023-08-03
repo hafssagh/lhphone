@@ -56,7 +56,7 @@
                         </td>
                         <td style="padding: 0.6rem;">
                             <p class="text-muted" style="margin-bottom: 0;">
-                                <span class="text-dark">Email</span>: {{ $relance->emailClient }} &nbsp;
+                                <span class="text-dark">Email</span>: {{ $relance->email}} &nbsp;
                                 <span class="text-dark">No</span>: {{ $relance->numClient }}
                             </p>
                         </td>

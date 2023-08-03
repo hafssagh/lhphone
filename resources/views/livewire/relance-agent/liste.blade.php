@@ -55,7 +55,7 @@
                                 {{ $relance->company }}</strong></td>
 
                         <td style="padding: 0.6rem;">
-                            {{ $relance->emailClient }}
+                            {{ $relance->email }}
                         </td>
                         <td style="padding: 0.6rem;">
                             <p class="text-dark fw-bold" style="margin-bottom: 0;">{{ $relance->nameClient }}</p>
