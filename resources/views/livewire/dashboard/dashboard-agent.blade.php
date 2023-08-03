@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
-                                <h3 style="color:#4650dd; font-size: 1.25rem">{{ $cards[0] }} Propositions
+                                <h3 style="color:#4650dd; font-size: 1.2rem">{{ $cards[0] }} Proposition
                                 </h3>
                                 <p class="text-sm mb-0">Envoyés Aujourd'hui</p>
                             </div>
@@ -31,7 +31,7 @@
                             <div class="col-10">
                                 <p class="mb-0">
                                     <a href="/customer/proposal" style="text-decoration: none;color: inherit;">
-                                    <strong> En savoir plus </strong></a>
+                                        <strong> En savoir plus </strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -73,7 +73,7 @@
                             <div class="col-10">
                                 <p class="mb-0">
                                     <a href="/proposal/all" style="text-decoration: none;color: inherit;">
-                                    <strong>   En savoir plus </strong></a>
+                                        <strong> En savoir plus </strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -114,7 +114,7 @@
                             <div class="col-10">
                                 <p class="mb-0">
                                     <a href="/sales" style="text-decoration: none;color: inherit;">
-                                    <strong>En savoir plus</a></strong>
+                                        <strong>En savoir plus</a></strong>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -151,7 +151,7 @@
                             <div class="col-10">
                                 <p class="mb-0">
                                     <a href="/profile/absence" style="text-decoration: none;color: inherit;">
-                                    <strong>En  savoir plus </strong></a>
+                                        <strong>En savoir plus </strong></a>
                                 </p>
                             </div>
                             <div class="col-2">
@@ -169,7 +169,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5" style="font-family: Segoe UI">
+    <div class="col-md-5 grid-margin" style="font-family: Segoe UI">
         <div class=" pb-4 pb-lg-2">
             <div class="h-100 card">
                 <div class="d-flex card-body">
@@ -215,15 +215,26 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-7">
+    <div class="col-md-7 grid-margin">
         <div class="card">
             <div class="card-body">
-                <canvas id="salesChart"></canvas>
+                <div class="d-sm-flex justify-content-between align-items-start">
+                    <h4> <strong>Production</strong> </h4><br>
+                </div>
+                <canvas id="salesChart" ></canvas>
             </div>
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="annee"></canvas>
+            </div>
+        </div>
+    </div>
+</div> 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var date = new Date();
@@ -367,18 +378,94 @@
             data: {
                 labels: months,
                 datasets: [{
-                        label: 'Acceptées',
+                        label: 'Acceptée',
                         data: acceptedSales,
                         type: 'line',
                         borderColor: '#c2c0c0 ',
                         backgroundColor: '#c2c0c0 ',
                     },
                     {
-                        label: 'Annulées',
+                        label: 'Annulée',
                         data: refusedSales,
                         type: 'bar',
                         borderColor: '#e0e0e0',
                         backgroundColor: '#e0e0e0',
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            font: {
+                                weight: 'bold'
+                            },
+                        },
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                        },
+                    }
+                }
+            },
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:load', function() {
+        var months = @json($months1);
+        var propoConfirme = @json($propoConfirme);
+        var propoEnvoye = @json($propoEnvoye);
+        var devisSigne = @json($devisSigne);
+
+        var ctx = document.getElementById('annee').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                        label: 'Proposition',
+                        data: propoEnvoye,
+                        type: 'bar',
+                        backgroundColor: '#e0e0e0',
+                        borderColor: '#c2c0c0',
+                        barThickness: 30,
+                        borderWidth: 2,
+                        borderRadius: 20,
+                        borderSkipped: false,
+                    },
+                    {
+                        label: 'Confirmé',
+                        data: propoConfirme,
+                        type: 'bar',
+                        backgroundColor: '#FADBD8',
+                        borderColor: '#F5B7B1',
+                        barThickness: 30,
+                        borderWidth: 2,
+                        borderRadius: 20,
+                        borderSkipped: false,
+                    },
+                    {
+                        label: 'Devis signé',
+                        data: devisSigne,
+                        type: 'bar',
+                        backgroundColor: '#D1F2EB',
+                        borderColor: '#A2D9CE',
+                        barThickness: 30,
+                        borderWidth: 2,
+                        borderRadius: 20,
+                        borderSkipped: false,
                     }
                 ]
             },

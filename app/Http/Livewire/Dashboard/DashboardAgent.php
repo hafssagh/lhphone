@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Http\Livewire\Production\Sales;
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
@@ -42,9 +43,74 @@ class DashboardAgent extends Component
                 return Carbon::parse($key)->month;
             });
 
+
             $months = $monthlyData->keys()->toArray();
             $refusedSales = $monthlyData->pluck('refusedSales')->toArray();
             $acceptedSales = $monthlyData->pluck('acceptedSales')->toArray();
+
+
+            $devisData = Sale::where('user_id', $user->id)->select('date_confirm', 'state')
+                ->orderBy('date_confirm')
+                ->get();
+
+                $propoData = Mails::where('user_id', $user->id)
+                ->select('created_at', 'state')
+                ->orderBy('created_at')
+                ->get();
+            
+            // Fetch data for proposals based on updated_at column.
+            $propoData2 = Mails::where('user_id', $user->id)
+                ->select('updated_at', 'state')
+                ->orderBy('updated_at')
+                ->get();
+            
+            // Group $propoData by month and count the number of proposals sent for each month.
+            $monthlyPropo = $propoData->groupBy(function ($propo) {
+                return Carbon::parse($propo->created_at)->format('M');
+            })->map(function ($group) {
+                $propoEnvoye = $group->count();
+                return [
+                    'propoEnvoye' => $propoEnvoye,
+                ];
+            });
+            
+            // Group $propoData2 by month and count the number of proposals confirmed for each month.
+            $monthlyPropo2 = $propoData2->groupBy(function ($propo) {
+                return Carbon::parse($propo->updated_at)->format('M');
+            })->map(function ($group) {
+                $propoConfirme = $group->where('state', 1)->count();
+                return [
+                    'propoConfirme' => $propoConfirme,
+                ];
+            });
+
+            $monthlyDevis = $devisData->groupBy(function ($devis) {
+                return Carbon::parse($devis->date_confirm)->format('M');
+            })->map(function ($group) {
+                $devisSigne = $group->whereIn('state', [1, 5, 6, 7, 8])->count();
+                return [
+                    'devisSigne' => $devisSigne,
+                ];
+            });
+
+            $monthlyDevis = $monthlyDevis->sortBy(function ($item, $key) {
+                return Carbon::parse($key)->month;
+            });
+
+            $monthlyPropo = $monthlyPropo->sortBy(function ($item, $key) {
+                return Carbon::parse($key)->month;
+            });
+
+            $monthlyPropo2 = $monthlyPropo2->sortBy(function ($item, $key) {
+                return Carbon::parse($key)->month;
+            });
+
+            $mergedData = $monthlyPropo->merge($monthlyDevis);
+            $mergedData = $monthlyPropo2->merge($monthlyDevis);
+            $months1 = $mergedData->keys()->toArray();
+            $propoEnvoye = $monthlyPropo->pluck('propoEnvoye')->toArray();
+            $propoConfirme = $monthlyPropo2->pluck('propoConfirme')->toArray();
+            $devisSigne = $mergedData->pluck('devisSigne')->toArray();
         } else {
             return redirect()->route('login');
         }
@@ -52,7 +118,7 @@ class DashboardAgent extends Component
         return view(
             'livewire.dashboard.dashboard-agent',
             ['cards' => $cards, 'quantitySoldPerWeek' => $quantitySoldPerWeek, 'objectif' => $objectif],
-            compact('months', 'refusedSales', 'acceptedSales')
+            compact('months', 'refusedSales', 'acceptedSales', 'months1', 'propoEnvoye', 'propoConfirme', 'devisSigne')
         )
             ->extends("layouts.master")
             ->section("contenu");
