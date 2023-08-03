@@ -49,48 +49,54 @@ class Absences extends Component
     public function render()
     {
         $currentMonth = Carbon::now()->format('Y-m');
-        $user = Auth::user();
-        $manager = $user->last_name;
 
-        $query = Absence::query()
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-            ->when($this->search, function ($query, $search) {
-                return $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                });
-            })->orderBy('date','desc');
+        if (auth()->check()) {
+            $user = Auth::user();
+            $manager = $user->last_name;
 
-        $usersQuery = User::select('id', 'first_name', 'last_name')
-            ->whereHas('roles', function ($query) {
-                $query->whereNot('name', 'super administrateur');
-            })->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id');
-            })->orderBy('last_name');
+            $query = Absence::query()
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                ->when($this->search, function ($query, $search) {
+                    return $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    });
+                })->orderBy('date', 'desc');
 
-        if ($manager == 'EL MESSIOUI') {
-            $absences = $query->paginate(12);
-            $users = $usersQuery->get();
-        } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
-                ->paginate(12);
-            $users = $usersQuery->where('group', 1)->orWhere('last_name' , 'ELMOURABIT')->orWhere('last_name' , 'By')->get();
-        } elseif ($manager == 'Essaid') {
-            $absences = $query->whereHas('users', fn ($q) => $q->where('group', 2))
-                ->paginate(12);
-            $users = $usersQuery->where('group', 2)->orWhere('last_name' , 'Essaid')->get();
-        } elseif ($manager == 'Hdimane') {
-            $absences = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
-                ->paginate(12);
-            $users = $usersQuery->where('company', 'h2f') ->whereHas('roles', function ($query) {
-                $query->where('name', 'agent');
-            })->get();
+            $usersQuery = User::select('id', 'first_name', 'last_name')
+                ->whereHas('roles', function ($query) {
+                    $query->whereNot('name', 'super administrateur');
+                })->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('resignations')
+                        ->whereRaw('resignations.user_id = users.id');
+                })->orderBy('last_name');
+
+            if ($manager == 'EL MESSIOUI') {
+                $absences = $query->paginate(12);
+                $users = $usersQuery->get();
+            } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $absences = $query->whereHas('users', fn ($q) => $q->where('group', 1))
+                    ->paginate(12);
+                $users = $usersQuery->where('group', 1)->orWhere('last_name', 'ELMOURABIT')->orWhere('last_name', 'By')->get();
+            } elseif ($manager == 'Essaid') {
+                $absences = $query->whereHas('users', fn ($q) => $q->where('group', 2))
+                    ->paginate(12);
+                $users = $usersQuery->where('group', 2)->orWhere('last_name', 'Essaid')->get();
+            } elseif ($manager == 'Hdimane') {
+                $absences = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'))
+                    ->paginate(12);
+                $users = $usersQuery->where('company', 'h2f')->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->get();
+            } else {
+                $absences = $query->paginate(12);
+                $users = $usersQuery->get();
+            }
         } else {
-            $absences = $query->paginate(12);
-            $users = $usersQuery->get();
+            return redirect()->route('login');
         }
+
 
         return view('livewire.absence.index', [
             "absences" => $absences,

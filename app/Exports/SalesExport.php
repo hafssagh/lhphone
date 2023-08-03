@@ -68,8 +68,8 @@ class SalesExport implements FromCollection, WithMapping, WithHeadings
             $stateLabel,
             $sales->date_confirm,
             $sales->quantity,
-            $sales->commentaire,
             $sales->remark,
+            $sales->commentaire,
         ];
     }
 
@@ -86,8 +86,8 @@ class SalesExport implements FromCollection, WithMapping, WithHeadings
             'Statut',
             'Date confirmation',
             'Quantité',
+            '',
             'Commentaire',
-            'Remarque',
         ];
     }
 }

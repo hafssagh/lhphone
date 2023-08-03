@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Appoint;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Exports\AppointExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,53 +28,57 @@ class Appointment extends Component
     public $selectedId;
 
     public $currentPage = PAGELIST;
-    
+
     public function render()
     {
-        $user = Auth::user();
-        $role = $user->roles->first()->name;
+        if (auth()->check()) {
+            $user = Auth::user();
+            $role = $user->roles->first()->name;
 
-        $query = Appoint::query();
+            $query = Appoint::query();
 
-        if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
-            $query->where('state', $this->selectedStatus);
-        }
+            if ($this->selectedStatus !== null && $this->selectedStatus !== "all") {
+                $query->where('state', $this->selectedStatus);
+            }
 
-        if ($role == 'Agent') {
-            $query->where('user_id', $user->id)
-                ->when($this->search, function ($query, $search) {
-                    return $query->whereHas('users', function ($query) use ($search) {
-                        $query->where('prospect', 'like', '%' . $search . '%')
-                        ->orWhere('dep', 'like', '%' . $search . '%')
-                        ->orWhere('date_rdv', 'like', '%' . $search . '%');
+            if ($role == 'Agent') {
+                $query->where('user_id', $user->id)
+                    ->when($this->search, function ($query, $search) {
+                        return $query->whereHas('users', function ($query) use ($search) {
+                            $query->where('prospect', 'like', '%' . $search . '%')
+                                ->orWhere('dep', 'like', '%' . $search . '%')
+                                ->orWhere('date_rdv', 'like', '%' . $search . '%');
+                        });
+                    });
+            } else {
+                $query->when($this->search, function ($query, $search) {
+                    $query->whereHas('users', function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%')
+                            ->orWhere('prospect', 'like', '%' . $search . '%')
+                            ->orWhere('dep', 'like', '%' . $search . '%')
+                            ->orWhere('date_rdv', 'like', '%' . $search . '%');
                     });
                 });
+            }
+
+            $appointment = $query->orderBy('created_at', 'desc')->paginate(10);
+
+            $currentMonth = Carbon::now()->format('Y-m');
+            $usersQuery = User::select('id', 'first_name', 'last_name')
+                ->where('company', 'h2f')
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'agent');
+                })->whereNotExists(function ($query)  use ($currentMonth) {
+                    $query->select(DB::raw(1))
+                        ->from('resignations')
+                        ->whereRaw('resignations.user_id = users.id')
+                        ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+                })
+                ->orderBy('last_name')->paginate(9);
         } else {
-            $query->when($this->search, function ($query, $search) {
-                $query->whereHas('users', function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%')
-                        ->orWhere('prospect', 'like', '%' . $search . '%')
-                        ->orWhere('dep', 'like', '%' . $search . '%')
-                        ->orWhere('date_rdv', 'like', '%' . $search . '%');
-                });
-            });
+            return redirect()->route('login');
         }
-
-        $appointment = $query->orderBy('created_at', 'desc')->paginate(10);
-
-        $currentMonth = Carbon::now()->format('Y-m');
-        $usersQuery = User::select('id', 'first_name', 'last_name')
-            ->where('company', 'h2f')
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'agent');
-            })->whereNotExists(function ($query)  use ($currentMonth) {
-                $query->select(DB::raw(1))
-                    ->from('resignations')
-                    ->whereRaw('resignations.user_id = users.id')
-                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
-            })
-            ->orderBy('last_name')->paginate(9);
 
 
         return view('livewire.appointment.index', ['appointment' => $appointment, 'users' => $usersQuery])->extends("layouts.master")
@@ -86,7 +91,7 @@ class Appointment extends Component
         $this->currentPage = PAGECREATEFORM;
     }
 
-   public function addNewAppointment()
+    public function addNewAppointment()
     {
         $this->validate([
             'newAppointment.prospect' => 'required|unique:appointments,prospect',
@@ -118,11 +123,11 @@ class Appointment extends Component
         } else {
             $appoint->user_id = $this->newAppointment["user"];
         }
-        
+
         $appoint->state = $this->newAppointment["state"] = "0";
         $appoint->date_prise = $this->newAppointment["date_prise"] = date('Y-m-d');
-        $appoint->date_rdv = $this->newAppointment["date_rdv"] ;
-        $appoint->cr = $this->newAppointment["cr"] ;
+        $appoint->date_rdv = $this->newAppointment["date_rdv"];
+        $appoint->cr = $this->newAppointment["cr"];
         $appoint->date_confirm = $this->newAppointment["date_confirm"] ?? null;
         $appoint->prospect = $this->newAppointment["prospect"];
         $appoint->adresse = $this->newAppointment["adresse"];
@@ -145,7 +150,7 @@ class Appointment extends Component
         $this->currentPage = PAGELIST;
     }
 
-    
+
     public function editAppointment($id)
     {
         $this->editAppointment = Appoint::with("users")->find($id)->toArray();
@@ -164,5 +169,10 @@ class Appointment extends Component
         CalculPrime();
         $this->goToListeAppointments();
         $this->dispatchBrowserEvent("showSuccessMessage");
+    }
+
+    public function AppointExport()
+    {
+        return Excel::download(new AppointExport, 'rdv.xlsx');
     }
 }

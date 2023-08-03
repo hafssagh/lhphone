@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </div>
-                    @endcanany
+                @endcanany
                 <div class="btn-group " role="group" aria-label="Button group with nested dropdown">
                     <a href="{{ route('mail') }} " class="btn btn-outline-dark"
                         style="font-size: 13px; height: 20px; text-align: center; line-height: 5px;">Jour</a>

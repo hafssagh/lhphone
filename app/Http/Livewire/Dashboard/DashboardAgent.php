@@ -16,34 +16,38 @@ class DashboardAgent extends Component
 {
     public function render()
     {
-        $cards = $this->cards();
-        $quantitySoldPerWeek = $this->getQuantitySoldPerWeek();
-        $objectif = $this->objectif();
+        if (auth()->check()) {
+            $cards = $this->cards();
+            $quantitySoldPerWeek = $this->getQuantitySoldPerWeek();
+            $objectif = $this->objectif();
 
-        $user = Auth::user();
+            $user = Auth::user();
 
-        $salesData = Sale::where('user_id', $user->id)->select('date_confirm', 'quantity', 'state')
-            ->orderBy('date_confirm')
-            ->get();
+            $salesData = Sale::where('user_id', $user->id)->select('date_confirm', 'quantity', 'state')
+                ->orderBy('date_confirm')
+                ->get();
 
-        $monthlyData = $salesData->groupBy(function ($sale) {
-            return Carbon::parse($sale->date_confirm)->format('M');
-        })->map(function ($group) {
-            $refusedSales = $group->where('state', '-1')->sum('quantity');
-            $acceptedSales = $group->whereIn('state', [1, 5, 6, 7, 8])->sum('quantity');
-            return [
-                'refusedSales' => $refusedSales,
-                'acceptedSales' => $acceptedSales,
-            ];
-        });
+            $monthlyData = $salesData->groupBy(function ($sale) {
+                return Carbon::parse($sale->date_confirm)->format('M');
+            })->map(function ($group) {
+                $refusedSales = $group->where('state', '-1')->sum('quantity');
+                $acceptedSales = $group->whereIn('state', [1, 5, 6, 7, 8])->sum('quantity');
+                return [
+                    'refusedSales' => $refusedSales,
+                    'acceptedSales' => $acceptedSales,
+                ];
+            });
 
-        $monthlyData = $monthlyData->sortBy(function ($item, $key) {
-            return Carbon::parse($key)->month;
-        });
+            $monthlyData = $monthlyData->sortBy(function ($item, $key) {
+                return Carbon::parse($key)->month;
+            });
 
-        $months = $monthlyData->keys()->toArray();
-        $refusedSales = $monthlyData->pluck('refusedSales')->toArray();
-        $acceptedSales = $monthlyData->pluck('acceptedSales')->toArray();
+            $months = $monthlyData->keys()->toArray();
+            $refusedSales = $monthlyData->pluck('refusedSales')->toArray();
+            $acceptedSales = $monthlyData->pluck('acceptedSales')->toArray();
+        } else {
+            return redirect()->route('login');
+        }
 
         return view(
             'livewire.dashboard.dashboard-agent',

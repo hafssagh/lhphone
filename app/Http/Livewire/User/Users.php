@@ -52,6 +52,7 @@ class Users extends Component
     public function render()
     {
         Carbon::setLocale("fr");
+        
         if (auth()->check()) {
             $user = Auth::user();
             $role = $user->roles->first()->name;

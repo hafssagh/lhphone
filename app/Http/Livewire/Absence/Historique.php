@@ -15,35 +15,39 @@ class Historique extends Component
     public $search = "";
 
     public $selectedAbsenceIds  = [];
-    public $selectedMonth ;
+    public $selectedMonth;
 
     public function render()
     {
-        $user = Auth::user();
-        $manager = $user->last_name;
-        $query = Absence::orderBy('date', 'DESC');
-    
-        if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 1));
-        } elseif ($manager == 'Essaid') {
-            $query->whereHas('users', fn ($q) => $q->where('group', 2));
+        if (auth()->check()) {
+            $user = Auth::user();
+            $manager = $user->last_name;
+            $query = Absence::orderBy('date', 'DESC');
+
+            if ($manager == 'ELMOURABIT' || $manager == 'By') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 1));
+            } elseif ($manager == 'Essaid') {
+                $query->whereHas('users', fn ($q) => $q->where('group', 2));
+            }
+
+            $absences = $query->when($this->selectedMonth !== null && $this->selectedMonth != "all", function ($q) {
+                return $q->whereMonth('date', $this->selectedMonth);
+            })->when($this->search, function ($q) {
+                return $q->whereHas('users', function ($q) {
+                    $q->where('first_name', 'like', '%' . $this->search . '%')
+                        ->orWhere('last_name', 'like', '%' . $this->search . '%');
+                });
+            })->paginate(15);
+        } else {
+            return redirect()->route('login');
         }
-    
-        $absences = $query->when($this->selectedMonth !== null && $this->selectedMonth != "all", function ($q) {
-            return $q->whereMonth('date', $this->selectedMonth);
-        })->when($this->search, function ($q) {
-            return $q->whereHas('users', function ($q) {
-                $q->where('first_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('last_name', 'like', '%' . $this->search . '%');
-            });
-        })->paginate(15);
-    
+
         return view('livewire.absence.historique', [
             "absences" => $absences,
             "users" => User::select('id', 'first_name', 'last_name')->get(),
         ])->extends("layouts.master")->section("contenu");
     }
-    
+
 
 
     public function confirmDelete()
@@ -60,7 +64,7 @@ class Historique extends Component
             Absence::whereIn('id', $this->selectedAbsenceIds)->delete();
             workHours();
             AbsSalary();
-          
+
             $this->selectedAbsenceIds = [];
         }
     }

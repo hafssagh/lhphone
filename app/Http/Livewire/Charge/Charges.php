@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 class Charges extends Component
 {
     use WithFileUploads;
-    
+
     public $currentPage = PAGELIST;
 
     public $newCharges = [];
@@ -17,13 +17,17 @@ class Charges extends Component
 
     public function render()
     {
-        $query = Charge::query();
-        $query2 = Charge::query();
+        if (auth()->check()) {
+            $query = Charge::query();
+            $query2 = Charge::query();
 
-        $chargesLH = $query->where('company' , 'lh')->orderBy('created_at', 'desc')->get();
-        $chargesH2F = $query2->where('company' , 'h2f')->orderBy('created_at', 'desc')->get();
-    
-        return view('livewire.charge.index', ['chargesLH' => $chargesLH , 'chargesH2F' => $chargesH2F])
+            $chargesLH = $query->where('company', 'lh')->orderBy('created_at', 'desc')->get();
+            $chargesH2F = $query2->where('company', 'h2f')->orderBy('created_at', 'desc')->get();
+        } else {
+            return redirect()->route('login');
+        }
+
+        return view('livewire.charge.index', ['chargesLH' => $chargesLH, 'chargesH2F' => $chargesH2F])
             ->extends("layouts.master")
             ->section("contenu");;
     }
@@ -59,8 +63,8 @@ class Charges extends Component
         $charge->company = $this->newCharges["company"] = 'lh';
         $charge->file = $this->newCharges["file"] ?? 0;
 
-        if ($file =  $charge->file) { 
-            $filePath = $file->store('public/charge_files'); 
+        if ($file =  $charge->file) {
+            $filePath = $file->store('public/charge_files');
             $charge->file = $filePath;
         }
 
@@ -89,8 +93,8 @@ class Charges extends Component
         $charge->company = $this->newCharges["company"] = 'h2f';
         $charge->file = $this->newCharges["file"] ?? 0;
 
-        if ($file =  $charge->file) { 
-            $filePath = $file->store('public/charge_files'); 
+        if ($file =  $charge->file) {
+            $filePath = $file->store('public/charge_files');
             $charge->file = $filePath;
         }
 

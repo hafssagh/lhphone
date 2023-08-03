@@ -70,7 +70,13 @@
                                                         </div>
                                                         <div class="pt-1">
                                                             <p class="small text-muted mb-1">
-                                                                {{ $lastMessage ? $lastMessage->created_at->format('H:i') : '' }}
+                                                                @if ($lastMessage)
+                                                                    @if ($lastMessage->created_at->isToday())
+                                                                        {{ $lastMessage->created_at->format('H:i') }}
+                                                                    @else
+                                                                        {{ $lastMessage->created_at->format('d/m/Y') }}
+                                                                    @endif
+                                                                @endif
                                                             </p>
                                                             @if (filled($not_seen))
                                                                 <span class="badge bg-danger rounded-pill float-end">
@@ -125,7 +131,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="list-container4" style="display: flex; flex-direction: column-reverse; overflow-y: auto; max-height: 470px;">
+                            <div class="list-container4"
+                                style="display: flex; flex-direction: column-reverse; overflow-y: auto; max-height: 470px;">
                                 <div wire:poll='mountdata'>
                                     @if (filled($allmessages))
                                         @foreach ($allmessages as $msg)
@@ -155,13 +162,19 @@
 
                                                         @if ($msg->user_id == auth()->id())
                                                             @if ($msg->is_seen == 0)
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-                                                              </svg>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor"
+                                                                    class="bi bi-check" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                                                </svg>
                                                             @else
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
-                                                                <path style="color:blue" d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
-                                                              </svg>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor"
+                                                                    class="bi bi-check-all" viewBox="0 0 16 16">
+                                                                    <path style="color:blue"
+                                                                        d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                                                                </svg>
                                                             @endif
                                                         @endif
                                                     </p>
@@ -186,8 +199,8 @@
 
                         <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
                             @if (auth()->user()->photo != '' || auth()->user()->photo != null)
-                                <img src="{{ asset('storage/' . auth()->user()->photo) }}" class="rounded-circle me-3"
-                                    alt="avatar 3" style="width: 40px; height: 100%;">
+                                <img src="{{ asset('storage/' . auth()->user()->photo) }}"
+                                    class="rounded-circle me-3" alt="avatar 3" style="width: 40px; height: 100%;">
                             @else
                                 <img src="../assets/images/user.png" class="me-3" alt="avatar 3"
                                     style="width: 40px; height: 100%;">

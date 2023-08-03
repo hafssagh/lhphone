@@ -1,10 +1,17 @@
 <div class="card card-rounded">
     <div class="card-body">
         <div class="d-sm-flex justify-content-between align-items-start">
-            <div>
-                <h4 class="card-title card-title-dash">Liste des rendez-vous</h4>
-            </div>
-
+            <div class="d-flex  align-items-start">
+                <h4 class="card-title card-title-dash me-2">Liste des rendez-vous</h4>
+                @canany(['superadmin', 'manager'])
+                    <div class="home-tab">
+                        <div class="btn-wrapper">
+                            <a wire:click='AppointExport' class="btn btn-outline-dark me-0"><i class="icon-download"></i>
+                                Export</a>
+                        </div>
+                    </div>
+                @endcanany
+            </div><br>
             <div>
                 <button class="btn btn-lg text-black mb-0 me-0" type="button" wire:click="goToaddAppointment"
                     style="font-size: 14px; line-height: 18px; padding: 8px;">

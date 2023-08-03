@@ -18,159 +18,165 @@ class DashRH extends Component
     public function render()
     {
         Carbon::setLocale("fr");
-        $currentDate = Carbon::now();
-        $currentMonth = Carbon::now()->format('Y-m');
+        if (auth()->check()) {
+            $currentDate = Carbon::now();
+            $currentMonth = Carbon::now()->format('Y-m');
 
-        $usersQuery = User::whereHas('roles', function ($query) {
-            $query->where('name', 'agent');
-        })->where(function ($query) {
-            $query->where('group', $this->group);
-        })->whereNotExists(function ($query) use ($currentMonth) {
-            $query->select(DB::raw(1))
-                ->from('resignations')
-                ->whereRaw('resignations.user_id = users.id')
-                ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
-        });
+            $usersQuery = User::whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })->where(function ($query) {
+                $query->where('group', $this->group);
+            })->whereNotExists(function ($query) use ($currentMonth) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id')
+                    ->whereRaw("DATE_FORMAT(resignations.date, '%Y-%m') != ?", [$currentMonth]);
+            });
 
-        $users = $usersQuery->orderBy('last_name')->get();
+            $users = $usersQuery->orderBy('last_name')->get();
 
-        $userCardre = User::whereHas('roles', function ($query) {
-            $query->where('name', 'manager');
-        })->orderBy('last_name')->get();
+            $userCardre = User::whereHas('roles', function ($query) {
+                $query->where('name', 'manager');
+            })->orderBy('last_name')->get();
 
-        $userInfo = User::whereHas('roles', function ($query) {
-            $query->where('name', 'Administrateur');
-        })->orderBy('last_name')->get();
+            $userInfo = User::whereHas('roles', function ($query) {
+                $query->where('name', 'Administrateur');
+            })->orderBy('last_name')->get();
 
-        foreach ($users as $user) {
-            $totalAbsenceDays = Absence::where('user_id', $user->id)
-                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->sum('abs_hours');
+            foreach ($users as $user) {
+                $totalAbsenceDays = Absence::where('user_id', $user->id)
+                    ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                    ->sum('abs_hours');
 
-            $suspension = Suspension::where('user_id', $user->id)
-                ->where(function ($query) use ($currentMonth) {
-                    $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
-                        ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
-                })
-                ->first();
+                $suspension = Suspension::where('user_id', $user->id)
+                    ->where(function ($query) use ($currentMonth) {
+                        $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                            ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+                    })
+                    ->first();
 
-            $resignation = Resignation::where('user_id', $user->id)
-                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->first();
+                $resignation = Resignation::where('user_id', $user->id)
+                    ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                    ->first();
 
-            if ($suspension) {
-                $dateStart = Carbon::parse($suspension->date_debut);
-                $dateEnd = Carbon::parse($suspension->date_fin);
+                if ($suspension) {
+                    $dateStart = Carbon::parse($suspension->date_debut);
+                    $dateEnd = Carbon::parse($suspension->date_fin);
 
-                $numberOfHours = 0;
-                $date = $currentDate->copy();
+                    $numberOfHours = 0;
+                    $date = $currentDate->copy();
 
-                while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
-                    if (!$date->isWeekend() && $date->lte($dateEnd)) {
-                        $numberOfHours += 8;
+                    while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
+                        if (!$date->isWeekend() && $date->lte($dateEnd)) {
+                            $numberOfHours += 8;
+                        }
+                        $date->subDay();
                     }
-                    $date->subDay();
+                } else {
+                    $numberOfHours = 0;
                 }
-            } else {
-                $numberOfHours = 0;
+
+                if ($resignation) {
+                    $resignationDate = Carbon::parse($resignation->date);
+
+                    $date = $currentDate->copy();
+                    while ($date->format('Y-m') === $currentMonth && $date->gte($resignationDate)) {
+                        if (!$date->isWeekend()) {
+                            $numberOfHours += 8;
+                        }
+                        $date->subDay();
+                    }
+                }
+
+                $user->absenceHours = $totalAbsenceDays + $numberOfHours;
+            }
+            foreach ($userCardre as $userCadre) {
+                $totalAbsenceDays = Absence::where('user_id', $userCadre->id)
+                    ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                    ->sum('abs_hours');
+
+                $suspension = Suspension::where('user_id', $userCadre->id)
+                    ->where(function ($query) use ($currentMonth) {
+                        $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                            ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+                    })
+                    ->first();
+
+                if ($suspension) {
+                    $dateStart = Carbon::parse($suspension->date_debut);
+                    $dateEnd = Carbon::parse($suspension->date_fin);
+
+                    $numberOfHours = 0;
+                    $date = $currentDate->copy();
+
+                    while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
+                        if (!$date->isWeekend() && $date->lte($dateEnd)) {
+                            $numberOfHours += 8;
+                        }
+                        $date->subDay();
+                    }
+                } else {
+                    $numberOfHours = 0;
+                }
+
+                $userCadre->absenceHours = $totalAbsenceDays + $numberOfHours;
+            }
+            foreach ($userInfo as $userI) {
+                $totalAbsenceDays = Absence::where('user_id', $userI->id)
+                    ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                    ->sum('abs_hours');
+
+                $suspension = Suspension::where('user_id', $userI->id)
+                    ->where(function ($query) use ($currentMonth) {
+                        $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                            ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+                    })
+                    ->first();
+
+                if ($suspension) {
+                    $dateStart = Carbon::parse($suspension->date_debut);
+                    $dateEnd = Carbon::parse($suspension->date_fin);
+
+                    $numberOfHours = 0;
+                    $date = $currentDate->copy();
+
+                    while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
+                        if (!$date->isWeekend() && $date->lte($dateEnd)) {
+                            $numberOfHours += 8;
+                        }
+                        $date->subDay();
+                    }
+                } else {
+                    $numberOfHours = 0;
+                }
+
+                $userI->absenceHours = $totalAbsenceDays + $numberOfHours;
             }
 
-            if ($resignation) {
-                $resignationDate = Carbon::parse($resignation->date);
+            $userGet = User::select('first_name', 'last_name', 'photo', 'birthday')
+                ->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$currentDate->format('m-d')])
+                ->get();
 
-                $date = $currentDate->copy();
-                while ($date->format('Y-m') === $currentMonth && $date->gte($resignationDate)) {
-                    if (!$date->isWeekend()) {
-                        $numberOfHours += 8;
-                    }
-                    $date->subDay();
-                }
-            }
 
-            $user->absenceHours = $totalAbsenceDays + $numberOfHours;
+            $currentDay = Carbon::now()->format('Y-m-d');
+
+            $stagiaire = User::query()->where('type_contract', 'sans')->whereHas('roles', function ($query) {
+                $query->where('name', 'agent');
+            })->whereNotExists(function ($query)  use ($currentDay) {
+                $query->select(DB::raw(1))
+                    ->from('resignations')
+                    ->whereRaw('resignations.user_id = users.id')
+                    ->whereNot('resignations.date', $currentDay);
+            })
+                ->orderBy('company')->latest()->get();
+
+            $cards = $this->cards();
+            $absence = $this->absence();
+        } else {
+            return redirect()->route('login');
         }
-        foreach ($userCardre as $userCadre) {
-            $totalAbsenceDays = Absence::where('user_id', $userCadre->id)
-                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->sum('abs_hours');
-
-            $suspension = Suspension::where('user_id', $userCadre->id)
-                ->where(function ($query) use ($currentMonth) {
-                    $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
-                        ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
-                })
-                ->first();
-
-            if ($suspension) {
-                $dateStart = Carbon::parse($suspension->date_debut);
-                $dateEnd = Carbon::parse($suspension->date_fin);
-
-                $numberOfHours = 0;
-                $date = $currentDate->copy();
-
-                while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
-                    if (!$date->isWeekend() && $date->lte($dateEnd)) {
-                        $numberOfHours += 8;
-                    }
-                    $date->subDay();
-                }
-            } else {
-                $numberOfHours = 0;
-            }
-
-            $userCadre->absenceHours = $totalAbsenceDays + $numberOfHours;
-        }
-        foreach ($userInfo as $userI) {
-            $totalAbsenceDays = Absence::where('user_id', $userI->id)
-                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-                ->sum('abs_hours');
-
-            $suspension = Suspension::where('user_id', $userI->id)
-                ->where(function ($query) use ($currentMonth) {
-                    $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
-                        ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
-                })
-                ->first();
-
-            if ($suspension) {
-                $dateStart = Carbon::parse($suspension->date_debut);
-                $dateEnd = Carbon::parse($suspension->date_fin);
-
-                $numberOfHours = 0;
-                $date = $currentDate->copy();
-
-                while ($date->format('Y-m') === $currentMonth && $date->gte($dateStart)) {
-                    if (!$date->isWeekend() && $date->lte($dateEnd)) {
-                        $numberOfHours += 8;
-                    }
-                    $date->subDay();
-                }
-            } else {
-                $numberOfHours = 0;
-            }
-
-            $userI->absenceHours = $totalAbsenceDays + $numberOfHours;
-        }
-
-        $userGet = User::select('first_name', 'last_name', 'photo', 'birthday')
-            ->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$currentDate->format('m-d')])
-            ->get();
 
 
-        $currentDay = Carbon::now()->format('Y-m-d');
-
-        $stagiaire = User::query()->where('type_contract', 'sans')->whereHas('roles', function ($query) {
-            $query->where('name', 'agent');
-        })->whereNotExists(function ($query)  use ($currentDay) {
-            $query->select(DB::raw(1))
-                ->from('resignations')
-                ->whereRaw('resignations.user_id = users.id')
-                ->whereNot('resignations.date', $currentDay);
-        })
-            ->orderBy('company')->latest()->get();
-
-        $cards = $this->cards();
-        $absence = $this->absence();
         return view(
             'livewire.dashboard.dashRH',
             [

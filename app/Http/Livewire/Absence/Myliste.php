@@ -14,29 +14,33 @@ class Myliste extends Component
     {
         Carbon::setLocale("fr");
 
-        $currentDay = Carbon::now()->format('Y-m-d');
-        $currentMonth = Carbon::now()->format('Y-m');
+        if (auth()->check()) {
+            $currentDay = Carbon::now()->format('Y-m-d');
+            $currentMonth = Carbon::now()->format('Y-m');
 
-        $user = auth()->user()->id;
+            $user = auth()->user()->id;
 
-        $absence = Absence::query()
-            ->where("user_id", '=', $user)
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$currentDay])
-            ->get();
+            $absence = Absence::query()
+                ->where("user_id", '=', $user)
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$currentDay])
+                ->get();
 
-        $allAbsence = Absence::query()
-            ->where("user_id", '=', $user)
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') <> ?", [$currentDay])
-            ->get();
+            $allAbsence = Absence::query()
+                ->where("user_id", '=', $user)
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') <> ?", [$currentDay])
+                ->get();
 
-        $suspension = Suspension::query()
-            ->where('user_id', '=', $user)
-            ->where(function ($query) use ($currentMonth) {
-                $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
-                    ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
-            })
-            ->get();
+            $suspension = Suspension::query()
+                ->where('user_id', '=', $user)
+                ->where(function ($query) use ($currentMonth) {
+                    $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                        ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+                })
+                ->get();
+        } else {
+            return redirect()->route('login');
+        }
 
 
         return view('livewire.absence.myliste', [
@@ -53,7 +57,7 @@ class Myliste extends Component
         $currentDate = Carbon::now();
         $totalAbsenceDays = Absence::where('user_id', $user->id)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-            ->whereRaw("abs_hours > ?", [0]) 
+            ->whereRaw("abs_hours > ?", [0])
             ->sum('abs_hours');
 
         $suspension = Suspension::where('user_id', $user->id)
