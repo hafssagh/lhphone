@@ -57,14 +57,12 @@ class DashboardAgent extends Component
                 ->select('created_at', 'state')
                 ->orderBy('created_at')
                 ->get();
-            
-            // Fetch data for proposals based on updated_at column.
+
             $propoData2 = Mails::where('user_id', $user->id)
                 ->select('updated_at', 'state')
                 ->orderBy('updated_at')
                 ->get();
-            
-            // Group $propoData by month and count the number of proposals sent for each month.
+
             $monthlyPropo = $propoData->groupBy(function ($propo) {
                 return Carbon::parse($propo->created_at)->format('M');
             })->map(function ($group) {
@@ -73,8 +71,7 @@ class DashboardAgent extends Component
                     'propoEnvoye' => $propoEnvoye,
                 ];
             });
-            
-            // Group $propoData2 by month and count the number of proposals confirmed for each month.
+
             $monthlyPropo2 = $propoData2->groupBy(function ($propo) {
                 return Carbon::parse($propo->updated_at)->format('M');
             })->map(function ($group) {
