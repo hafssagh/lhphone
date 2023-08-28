@@ -29,7 +29,7 @@ class Charges extends Component
 
         return view('livewire.charge.index', ['chargesLH' => $chargesLH, 'chargesH2F' => $chargesH2F])
             ->extends("layouts.master")
-            ->section("contenu");;
+            ->section("contenu");
     }
 
     public function goToaddCharge()

@@ -198,7 +198,7 @@
                             <h3 class="card-title card-title-dash">Agents (sans contrat)</h3>
                         </div>
                         <div class="list-group list-group-flush list-group-timeline">
-                            <div class="list-container" >
+                            <div class="list-container">
                                 @foreach ($stagiaire as $stage)
                                     <div class="list-group-item px-0">
                                         <div class="row">
@@ -311,7 +311,8 @@
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
                                         </th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Challenge</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Prime</th>
@@ -386,7 +387,8 @@
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
                                         </th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                     </tr>
                                 </thead>
@@ -398,7 +400,13 @@
                                                     {{ $userCardre->first_name }}</strong>
                                             </td>
                                             <td class="text-center" style="padding: 0.8rem;">
-                                                {{ $userCardre->absenceHours }} h</td>
+                                                @if ($userCardre->absenceHours != 0)
+                                                    <strong class="text-danger">{{ $userCardre->absenceHours }}
+                                                        h</strong>
+                                                @else
+                                                    {{ $userCardre->absenceHours }} h
+                                                @endif
+                                            </td>
                                             <td class="text-center" style="padding: 0.8rem;">
                                                 {{ $userCardre->work_hours }} h</td>
                                             <td class="text-center" style="padding: 0.8rem;">
@@ -415,7 +423,8 @@
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
                                         </th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                     </tr>
                                 </thead>
@@ -428,7 +437,13 @@
                                                         {{ $userInf->first_name }}</strong>
                                                 </td>
                                                 <td class="text-center" style="padding: 0.8rem;">
-                                                    {{ $userInf->absenceHours }} h</td>
+                                                    @if ($userInf->absenceHours != 0)
+                                                        <strong class="text-danger">{{ $userInf->absenceHours }}
+                                                            h</strong>
+                                                    @else
+                                                        {{ $userInf->absenceHours }} h
+                                                    @endif
+                                                </td>
                                                 <td class="text-center" style="padding: 0.8rem;">
                                                     {{ $userInf->work_hours }} h</td>
                                                 <td class="text-center" style="padding: 0.8rem;">
@@ -447,7 +462,8 @@
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Absence</th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Heures travail
                                         </th>
-                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base</th>
+                                        <th style="padding: 0.8rem;" class="text-center text-muted">Salaire de base
+                                        </th>
                                         <th style="padding: 0.8rem;" class="text-center text-muted">Salaire/j</th>
                                     </tr>
                                 </thead>
@@ -460,7 +476,12 @@
                                                         {{ $userInf->first_name }}</strong>
                                                 </td>
                                                 <td class="text-center" style="padding: 0.8rem;">
-                                                    {{ $userInf->absenceHours }} h</td>
+                                                    @if ($userInf->absenceHours != 0)
+                                                        <strong class="text-danger">{{ $userInf->absenceHours }}
+                                                            h</strong>
+                                                    @else
+                                                        {{ $userInf->absenceHours }} h
+                                                    @endif</td>
                                                 <td class="text-center" style="padding: 0.8rem;">
                                                     {{ $userInf->work_hours }} h</td>
                                                 <td class="text-center" style="padding: 0.8rem;">

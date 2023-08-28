@@ -135,8 +135,8 @@
                     datasets: [{
                             label: 'Total rendez-cous',
                             data: propoData,
-                            backgroundColor: '#FCF3CF',
-                            borderColor: '#F9E79F',
+                            backgroundColor: '#e0e0e0',
+                            borderColor: '#c2c0c0',
                             barThickness: 15,
                             borderWidth: 2,
                             borderRadius: 20,

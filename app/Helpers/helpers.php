@@ -5,6 +5,7 @@ use App\Models\Sale;
 use App\Models\User;
 use App\Models\Avance;
 
+use App\Models\Conges;
 use App\Models\Absence;
 use App\Models\Appoint;
 use App\Models\Suspension;
@@ -447,17 +448,17 @@ function CalculPrime()
         [12, [5000], 800],
         [14, [5500], 800],
         [16, [6000], 800],
-    
+
         [10, [3500, 4000, 4500], 900],
         [13, [5000], 900],
         [15, [5500], 900],
         [17, [6000], 900],
-    
+
         [11, [3500, 4000, 4500], 1000],
         [14, [5000], 1000],
         [16, [5500], 1000],
         [18, [6000], 1000],
-    
+
         [12, [3500, 4000, 4500], 1100],
         [15, [5000], 1100],
         [17, [5500], 1100],
@@ -473,27 +474,26 @@ function CalculPrime()
         [19, [5500], 1300],
         [21, [6000], 1300],
     ];
-    
+
     foreach ($users2 as $user2) {
         $totalAppoint = Appoint::where('user_id', $user2->id)
             ->whereIn('date_confirm', $monthDates)
             ->where('state', 1)
             ->count();
-    
+
         $user2->prime = 0;
-    
+
         foreach ($primeMap as $primeData) {
             [$targetAppointments, $salaryRanges, $prime] = $primeData;
-    
+
             if ($totalAppoint == $targetAppointments && in_array($user2->base_salary, $salaryRanges)) {
                 $user2->prime = $prime;
                 break;
             }
         }
-    
+
         $user2->save();
     }
-    
 }
 
 function fetchMonthDates()
@@ -597,6 +597,13 @@ function workHours()
             })
             ->first();
 
+        $conge = Conges::where('user_id', $user->id)->where('statut', '2')
+            ->where(function ($query) use ($currentMonth) {
+                $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                    ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+            })
+            ->first();
+
         $resignation = Resignation::where('user_id', $user->id)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
             ->first();
@@ -617,6 +624,23 @@ function workHours()
         } else {
             $numberOfHours = 0;
         }
+        if ($conge) {
+            $dateStart = Carbon::parse($conge->date_debut);
+            $dateEnd = Carbon::parse($conge->date_fin);
+
+            $numberHours = 0;
+            $currentDate = $dateStart->copy();
+
+            while ($currentDate <= $dateEnd) {
+                if ($currentDate->isWeekday()) {
+                    $numberHours += 8;
+                }
+                $currentDate->addDay();
+            }
+        } else {
+            $numberHours = 0;
+        }
+
 
         if ($resignation) {
             $resignationDate = Carbon::parse($resignation->date);
@@ -632,7 +656,7 @@ function workHours()
         }
 
         $workHours = calculerHeuresTravail();
-        $user->work_hours = $workHours - $totalAbsenceDays - $numberOfHours;
+        $user->work_hours = $workHours - $totalAbsenceDays - $numberOfHours - $numberHours;
         $user->save();
     }
 }

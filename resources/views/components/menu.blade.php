@@ -72,6 +72,12 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item {{ setMenuActive('conge') }}">
+            <a class="nav-link" href="{{ route('conge') }}">
+                <i class="mdi mdi-calendar-text menu-icon"></i>
+                <span class="menu-title">Gestion Congé</span>
+            </a>
+        </li>
         @canAny(['admin', 'superadmin', 'manager'])
             <li class="nav-item  {{ setMenuActive('advance-salary') }}">
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#paie" aria-expanded="false"

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Absence;
 
 use Carbon\Carbon;
+use App\Models\Conges;
 use App\Models\Absence;
 use Livewire\Component;
 use App\Models\Suspension;
@@ -67,6 +68,14 @@ class Myliste extends Component
             })
             ->first();
 
+        $conge = Conges::where('user_id', $user->id)->where('statut', '2')
+            ->where(function ($query) use ($currentMonth) {
+                $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
+                    ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
+            })
+            ->first();
+
+
         if ($suspension) {
             $dateStart = Carbon::parse($suspension->date_debut);
             $dateEnd = Carbon::parse($suspension->date_fin);
@@ -84,6 +93,24 @@ class Myliste extends Component
             $numberOfHours = 0;
         }
 
-        return $totalAbsenceDays + $numberOfHours;
+        if ($conge) {
+            $dateStart = Carbon::parse($conge->date_debut);
+            $dateEnd = Carbon::parse($conge->date_fin);
+
+            $numberHours = 0;
+            $currentDate = $dateStart->copy();
+
+            while ($currentDate <= $dateEnd) {
+                if ($currentDate->isWeekday()) {
+                    $numberHours += 8; // Add 8 hours for each weekday
+                }
+                $currentDate->addDay();
+            }
+        } else {
+            $numberHours = 0;
+        }
+
+
+        return $totalAbsenceDays + $numberOfHours + $numberHours;
     }
 }

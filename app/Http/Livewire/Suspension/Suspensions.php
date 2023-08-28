@@ -63,10 +63,10 @@ class Suspensions extends Component
                 $suspensions = $query->get();
                 $users = $usersQuery->get();
             } elseif ($manager == 'ELMOURABIT' || $manager == 'By') {
-                $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 1));
+                $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 1))->get();
                 $users = $usersQuery->where('group', 1)->get();
             } elseif ($manager == 'Essaid') {
-                $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 2));
+                $suspensions = $query->whereHas('users', fn ($q) => $q->where('group', 2))->get();
                 $users = $usersQuery->where('group', 2)->get();
             } elseif ($manager == 'Hdimane') {
                 $suspensions = $query->whereHas('users', fn ($q) => $q->where('company', 'h2f'));
