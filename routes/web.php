@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Livewire\Conge\Conge;
 use App\Http\Livewire\Home\Home;
 use App\Http\Livewire\User\Users;
 use App\Http\Livewire\Mail\MailAll;
+use App\Http\Livewire\Chat\Messages;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Charge\Charges;
 use App\Http\Livewire\Mail\SendEmail;
@@ -29,8 +31,6 @@ use App\Http\Livewire\Production\Production2;
 use App\Http\Livewire\RelanceAgent\MailAgent;
 use App\Http\Livewire\Suspension\Suspensions;
 use App\Http\Livewire\Appointment\Appointment;
-use App\Http\Livewire\Chat\Messages;
-use App\Http\Livewire\Conge\Conge;
 use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Resignation\Resignations;
 use App\Http\Livewire\Dashboard\DashboardAgent2;
@@ -84,3 +84,4 @@ Route::get('/mailR', MailAgent::class)->name("RelanceAgent");
 Route::get('/charges', Charges::class)->name("charge");
 Route::get('/chat', Messages::class)->name("message");
 Route::get('/conge', Conge::class)->name("conge");
+

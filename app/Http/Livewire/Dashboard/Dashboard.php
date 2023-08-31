@@ -150,7 +150,7 @@ class Dashboard extends Component
                         $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
                             ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
                     })
-                    ->first();
+                    ->get();
 
                 $resignation = Resignation::where('user_id', $user->id)
                     ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
@@ -173,21 +173,20 @@ class Dashboard extends Component
                     $numberOfHours = 0;
                 }
 
-                if ($conge) {
-                    $dateStart = Carbon::parse($conge->date_debut);
-                    $dateEnd = Carbon::parse($conge->date_fin);
+                $numberHours = 0;
 
-                    $numberHours = 0;
+                foreach ($conge as $congeItem) {
+                    $dateStart = Carbon::parse($congeItem->getAttribute('date_debut'));
+                    $dateEnd = Carbon::parse($congeItem->getAttribute('date_fin'));
+
                     $currentDate = $dateStart->copy();
 
                     while ($currentDate <= $dateEnd) {
                         if ($currentDate->isWeekday()) {
-                            $numberHours += 8; // Add 8 hours for each weekday
+                            $numberHours += 8;
                         }
                         $currentDate->addDay();
                     }
-                } else {
-                    $numberHours = 0;
                 }
 
 

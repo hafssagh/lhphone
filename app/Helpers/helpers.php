@@ -597,12 +597,29 @@ function workHours()
             })
             ->first();
 
-        $conge = Conges::where('user_id', $user->id)->where('statut', '2')
+        $conges = Conges::where('user_id', $user->id)
+            ->where('statut', '2')
             ->where(function ($query) use ($currentMonth) {
                 $query->whereRaw("DATE_FORMAT(date_debut, '%Y-%m') = ?", [$currentMonth])
                     ->orWhereRaw("DATE_FORMAT(date_fin, '%Y-%m') = ?", [$currentMonth]);
             })
-            ->first();
+            ->get();
+
+        $numberHours = 0;
+
+        foreach ($conges as $congeItem) {
+            $dateStart = Carbon::parse($congeItem->getAttribute('date_debut'));
+            $dateEnd = Carbon::parse($congeItem->getAttribute('date_fin'));
+
+            $currentDate = $dateStart->copy();
+
+            while ($currentDate <= $dateEnd) {
+                if ($currentDate->isWeekday()) {
+                    $numberHours += 8;
+                }
+                $currentDate->addDay();
+            }
+        }
 
         $resignation = Resignation::where('user_id', $user->id)
             ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
@@ -623,22 +640,6 @@ function workHours()
             }
         } else {
             $numberOfHours = 0;
-        }
-        if ($conge) {
-            $dateStart = Carbon::parse($conge->date_debut);
-            $dateEnd = Carbon::parse($conge->date_fin);
-
-            $numberHours = 0;
-            $currentDate = $dateStart->copy();
-
-            while ($currentDate <= $dateEnd) {
-                if ($currentDate->isWeekday()) {
-                    $numberHours += 8;
-                }
-                $currentDate->addDay();
-            }
-        } else {
-            $numberHours = 0;
         }
 
 

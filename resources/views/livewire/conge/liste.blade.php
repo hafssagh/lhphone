@@ -54,10 +54,10 @@
                                 @endforeach
                             </td>
                             <td style="padding: 0.7rem;" class="text-center">
-                                {{ $firstConge->date_debut }}
+                                {{ \Carbon\Carbon::parse($firstConge->date_debut )->format('d-m-Y') }}
                             </td>
                             <td style="padding: 0.7rem;" class="text-center">
-                                {{ $firstConge->date_fin }}
+                                {{ \Carbon\Carbon::parse($firstConge->date_fin )->format('d-m-Y') }}
                             </td>
                             <td style="padding: 0.7rem;" class="text-center">
                                 @if ($firstConge->statut == 1)
