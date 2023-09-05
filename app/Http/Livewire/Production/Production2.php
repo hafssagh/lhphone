@@ -76,6 +76,6 @@ class Production2 extends Component
     {
         return view('livewire.sale.production2')
             ->extends("layouts.app")
-            ->section("contenu2");;
+            ->section("contenu2");
     }
 }

@@ -133,11 +133,14 @@
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#email" aria-expanded="false"
                     aria-controls="email">
                     <i class="menu-icon mdi mdi-email-outline"></i>
-                    <span class="menu-title">Gestion Emailing</span>
+                    <span class="menu-title">Eclairages</span>
                     <i class="menu-arrow" style="color: grey"></i>
                 </a>
                 <div class="collapse" id="email">
                     <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('sales.index') }}">
+                            Gestion Vente</a>
+                    </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('mail') }}">
                                 Propositions</a>
                         </li>
@@ -157,10 +160,10 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item  {{ setMenuActive('sales.index') }}">
-                <a class="nav-link" href="{{ route('sales.index') }}">
+            <li class="nav-item  {{ setMenuActive('renovation') }}">
+                <a class="nav-link" href="{{ route('renovation') }}">
                     <i class="mdi mdi-chart-line menu-icon"></i>
-                    <span class="menu-title">Gestion Vente</span>
+                    <span class="menu-title">Rénovation globale</span>
                 </a>
             </li>
         @endcan
@@ -173,7 +176,7 @@
             <li class="nav-item {{ setMenuActive('appointment') }}">
                 <a class="nav-link collapsed" href="{{ route('appointment') }}">
                     <i class="menu-icon mdi mdi-format-list-bulleted"></i>
-                    <span class="menu-title">Gestion rendez-vous</span>
+                    <span class="menu-title">PPV</span>
                 </a>
             </li>
         @endcan

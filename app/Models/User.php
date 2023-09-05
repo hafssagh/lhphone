@@ -102,5 +102,7 @@ class User extends Authenticatable
         return $this->hasMany(Appoint::class);
     }
 
-
+    public function renovations(){
+        return $this->hasMany(Renovations::class);
+    }
 }
