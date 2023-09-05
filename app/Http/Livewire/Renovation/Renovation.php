@@ -97,8 +97,8 @@ class Renovation extends Component
             return redirect()->route('login');
         }
 
-
-        return view('livewire.renovation.index', ['renovations' => $renovations, 'users' => $users])->extends("layouts.master")
+        return view('livewire.renovation.index', ['renovations' => $renovations, 'users' => $users],
+       )->extends("layouts.master")
             ->section("contenu");
     }
 

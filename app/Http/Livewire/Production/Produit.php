@@ -165,13 +165,14 @@ class Produit extends Component
 
         $this->renovation1 = Renovations::select('user_id', 'date_confirm', 'date_prise', 'date_rdv', 'cr', 'state')
             ->join('users', 'renovation.user_id', '=', 'users.id')
-            ->whereNot('state','rapp')
+            ->whereNotIn('state', ['rapp', 'annuler'])
             ->where('users.group', '1')
             ->get();
 
+
         $this->renovation2 = Renovations::select('user_id', 'date_confirm', 'date_prise', 'date_rdv', 'cr', 'state')
             ->join('users', 'renovation.user_id', '=', 'users.id')
-            ->whereNot('state','rapp')
+            ->whereNotIn('state', ['rapp', 'annuler'])
             ->where('users.group', '2')
             ->get();
 

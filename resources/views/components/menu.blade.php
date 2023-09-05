@@ -18,9 +18,10 @@
         @cannot('admin')
             @if (Auth::user()->company === 'lh' || Auth::user()->company === '')
                 <li
-                    class="nav-item {{ setMenuActive('dashboard') }} {{ setMenuActive('dashboard2') }}  {{ setMenuActive('dashRH') }}
+                    class="nav-item {{ setMenuActive('dashboard') }} {{ setMenuActive('dashboard2') }} {{ setMenuActive('dashboard3') }}
+                      {{ setMenuActive('dashRH') }}
                  {{ setMenuActive('dashboardV') }} {{ setMenuActive('dashboardF') }} {{ setMenuActive('dashboardH') }}">
-                    <a class="nav-link collapsed" href="{{ route('dashboard') }}">
+                    <a class="nav-link collapsed" href="{{ route('dashboard3') }}">
                         <i class="mdi mdi-grid-large menu-icon"></i>
                         <span class="menu-title">Tableau de bord</span>
                     </a>

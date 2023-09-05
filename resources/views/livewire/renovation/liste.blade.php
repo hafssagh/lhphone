@@ -88,6 +88,9 @@
                                                                         @elseif($renovation->state == '-3')
                                                                             <div class="square_table"
                                                                                 style="background-color: #c58c91 ;">
+                                                                            @elseif($renovation->state == 'annuler')
+                                                                                <div class="square_table"
+                                                                                    style="background-color: #f5a7a1;">
                                     @endif
                                 </button> </td>
                             @cannot('agent')
@@ -121,7 +124,7 @@
                                         {{ \Carbon\Carbon::parse($renovation->date_rdv)->format('d-m-Y') }}
                                         {{ \Carbon\Carbon::parse($renovation->cr)->format('H:i') }}
                                     @else
-                                        <span class="text-muted">Indéterminé</span> 
+                                        <span class="text-muted">Indéterminé</span>
                                     @endif
                                 </p>
                             </td>
@@ -169,6 +172,10 @@
                                     <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">
                                         Rappel
                                     </div>
+                                @elseif ($renovation->state == 'annuler')
+                                    <div class="badge badge-opacity-danger" style="background-color: #fedfdd;">
+                                        RDV non pris
+                                    </div>
                                 @endif
                             </td>
                             <td style="padding: 0.6rem;" class="text-center">
@@ -179,7 +186,8 @@
                                         $renovation->state == '4' ||
                                         $renovation->state == '5' ||
                                         $renovation->state == '6' ||
-                                        $renovation->state == 'rapp')
+                                        $renovation->state == 'rapp'||
+                                        $renovation->state == 'annuler')
                                     <div class="spinner-border text-dark" role="status"
                                         style="width:16px ;height:16px">
                                         <span class="sr-only"></span>
