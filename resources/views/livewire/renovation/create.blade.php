@@ -78,25 +78,23 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
+                            <div class="form-group row" style="margin-top: -25px;">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="name">Date rendez-vous <span
-                                                class="text-danger"><strong>*</strong></span></label>
+                                        <label for="name">Date rendez-vous</label>
                                         <input type="date" wire:model="newRenovation.date_rdv" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="name">Créneau <span
-                                                class="text-danger"><strong>*</strong></span></label>
+                                        <label for="name">Créneau </label>
                                         <input type="time" wire:model="newRenovation.cr" class="form-control">
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group" style="margin-top: -25px;">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label for="commentaire">Commentaire</label>
                                 <textarea class="form-control" wire:model="newRenovation.commentaire" class="form-control" style="height: 120px">
                             </textarea>
@@ -107,6 +105,26 @@
                                 <input type="text" wire:model="newRenovation.retour" class="form-control">
                             </div>
                             @endcannot
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Statut <span
+                                                class="text-danger"><strong>*</strong></span></label>
+                                                <select wire:model="newRenovation.state"
+                                                class="form-control @error('newRenovation.state') is-invalid @enderror">
+                                                <option value="">-----</option>
+                                                <option value="0">RDV pris</option>
+                                                <option value="rapp">Rappel</option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Rappel</span></label>
+                                        <input type="datetime-local" wire:model="newRenovation.rappel" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="d-flex flex-row-reverse">
                             <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"

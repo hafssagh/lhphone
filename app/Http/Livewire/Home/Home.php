@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Mails;
 use Livewire\Component;
+use App\Models\Renovations;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
@@ -96,13 +97,14 @@ class Home extends Component
                 ->get();
 
             $today = Carbon::now();
-            $rappel = Mails::query()
+            
+            $rappel = Renovations::query()
                 ->where('user_id', '=', $user->id)
                 ->whereDate('rappel', $today)
                 ->orderBy('rappel')
                 ->get();
 
-            $rappelManager = Mails::query()
+            $rappelManager = Renovations::query()
                 ->whereDate('rappel', $today)
                 ->orderBy('rappel');
 

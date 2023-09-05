@@ -19,12 +19,12 @@
                                     <select wire:model="editRenovation.state"
                                         class="form-control @error('editRenovation.state') is-invalid @enderror">
                                         <option value="">-----</option>
-                                        <option value="0">En attente</option>
+                                        <option value="0">RDV pris</option>
+                                        <option value="rapp">Rappel</option>
                                         <option value="1">Confirmé</option>
                                         <option value="2">A voir</option>
                                         <option value="3">NRP</option>
                                         <option value="4">Injoingnable</option>
-                                        <option value="5">Enregistrement demandé</option>
                                         <option value="-1">Annulé</option>
                                         <option value="-2">Hors cible</option>
                                         <option value="-3">Mauvaise fois</option>
@@ -34,7 +34,18 @@
                         @endcannot
 
                         @can('agent')
-                            <br><br>
+                        <br><br>
+                        <div class="form-group row mb-1">
+                            <label class="col-sm-2 col-form-label" style="font-size: 0.8rem;">Statut</label>
+                            <div class="col-sm-10">
+                                <select wire:model="editRenovation.state"
+                                    class="form-control @error('editRenovation.state') is-invalid @enderror">
+                                    <option value="">-----</option>
+                                    <option value="0">RDV pris</option>
+                                    <option value="rapp">Rappel</option>
+                                </select>
+                            </div>
+                        </div>
                         @endcan
 
                         <div class="table-container">
@@ -89,7 +100,7 @@
                     </div>
                     @cannot('agent')
                         <div class="col-md-6">
-                            <div class="form-group" style="margin-top:55px">
+                            <div class="form-group" style="margin-top:35px">
                             @endcannot
                             @can('agent')
                                 <div class="col-md-6">
@@ -110,9 +121,12 @@
                                     <input type="text" wire:model="editRenovation.retour" class="form-control">
                                 </div>
                                 @endcan
+                                <div class="form-group">
+                                    <label for="name">Rappel</span></label>
+                                    <input type="datetime-local" wire:model="editRenovation.rappel" class="form-control">
+                                </div>
                             </div>
                         </div>
-                        @cannot('agent')
                             <div class="d-flex flex-row-reverse">
                                 <button type="submit" class="btn btn-lg text-black mb-0 me-0 justify-content-end"
                                     style="font-size: 14px; line-height: 18px; padding: 8px;">
@@ -123,7 +137,6 @@
                                     </svg>
                                     Enregistrer</button>&nbsp;
                             </div>
-                        @endcannot
 
                     </div>
                 </div>

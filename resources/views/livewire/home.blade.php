@@ -259,8 +259,8 @@
                             @foreach ($rappel as $rappels)
                                 <li>
                                     <div class="d-flex justify-content-between">
-                                        <div><strong>{{ $rappels->company }}</strong><span>
-                                                ({{ $rappels->nameClient }})
+                                        <div><strong>{{ $rappels->prospect }}</strong><span>
+                                                ({{ $rappels->dep }})
                                             </span> </div>
                                         <p>{{ \Carbon\Carbon::parse($rappels->rappel)->format('H:i') }}</p>
                                     </div>

@@ -50,8 +50,8 @@
                                                         ->where('date_prise', now()->toDateString())
                                                         ->count() ?? 0;
                                                 
-                                                $backgroundColor = $salesCount >= 5 ? 'background-color: #2fc22f' : '';
-                                                $backgroundColor1 = $salesCount != 0 ? 'background-color: #93c47d' : '';
+                                                $backgroundColor1 = $salesCount >= 5 ? 'background-color: #2fc22f' : '';
+                                                $backgroundColor = $salesCount != 0 ? 'background-color: #a2c493' : '';
     
                                                 $totalSalesCount += $salesCount;
                                                 $dailySalesCounts[] = $salesCount;
@@ -219,8 +219,8 @@
                                                         ->where('date_prise', now()->toDateString())
                                                         ->count() ?? 0;
                                                 
-                                                $backgroundColor = $salesCount >= 5 ? 'background-color: #2fc22f' : '';
-                                                $backgroundColor1 = $salesCount != 0 ? 'background-color: #93c47d' : '';
+                                                $backgroundColor1 = $salesCount >= 5 ? 'background-color: #2fc22f' : '';
+                                                $backgroundColor = $salesCount != 0 ? 'background-color: #a2c493' : '';
     
                                                 $totalSalesCount += $salesCount;
                                                 $dailySalesCounts[] = $salesCount;

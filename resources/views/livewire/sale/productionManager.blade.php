@@ -99,7 +99,7 @@
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
 
-                                            <td style="padding: 0.7rem; border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px; 
+                                            <td style="padding: 0.7rem; border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }};{{ $backgroundColor1 }}; border-radius:15px; 
                                 {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }}; {{ $backgroundColor8 }}"
                                                 class="text-center">
                                                 <strong>{{ $salesCount }}</strong>
@@ -277,7 +277,7 @@
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
                                             @endphp
 
-                                            <td style="padding: 0.7rem; border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }}; border-radius:15px; 
+                                            <td style="padding: 0.7rem; border: 4px solid rgb(253, 253, 253);background-color:#ececec ; {{ $backgroundColor }};{{ $backgroundColor1 }}; border-radius:15px; 
                                 {{ $backgroundColor2 }}; {{ $backgroundColor4 }}; {{ $backgroundColor5 }}; {{ $backgroundColor6 }}; {{ $backgroundColor7 }}; {{ $backgroundColor8 }}"
                                                 class="text-center">
                                                 <strong>{{ $salesCount }}</strong>

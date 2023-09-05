@@ -113,17 +113,18 @@ class Renovation extends Component
         $this->validate([
             'newRenovation.prospect' => 'required|unique:renovation,prospect',
             'newRenovation.adresse' => 'required',
-            'newRenovation.date_rdv' => 'required',
-            'newRenovation.cr' => 'required',
+            'newRenovation.date_rdv' => 'nullable',
+            'newRenovation.cr' => 'nullable',
+            'newRenovation.state' => 'required',
             'newRenovation.dep' => 'required|numeric',
             'newRenovation.num_fix' => 'nullable|numeric',
             'newRenovation.num_mobile' => 'nullable|numeric',
+            'newRenovation.rappel' => 'nullable',
         ], [
             'newRenovation.prospect.required' => "Le nom du prospect est requis.",
             'newRenovation.prospect.unique' => "Le nom du prospect doit être unique.",
             'newRenovation.adresse.required' => "L'adresse du prospect est requis.",
-            'newRenovation.date_rdv.required' => "La date du rendez-vous est requise.",
-            'newRenovation.cr.required' => "Le crénaut du rendez-vous est requis.",
+            'newRenovation.state.required' => "Le statut est requis.",
             'newRenovation.dep.numeric' => "Le département doit contenir que des chiffres.",
             'newRenovation.dep.required' => "Le département est requis.",
             'newRenovation.num_fix.required' => "Le numéro fixe doit contenir que des chiffres.",
@@ -141,10 +142,10 @@ class Renovation extends Component
             $renovation->user_id = $this->newRenovation["user"];
         }
 
-        $renovation->state = $this->newRenovation["state"] = "0";
+        $renovation->state = $this->newRenovation["state"];
         $renovation->date_prise = $this->newRenovation["date_prise"] = date('Y-m-d');
-        $renovation->date_rdv = $this->newRenovation["date_rdv"];
-        $renovation->cr = $this->newRenovation["cr"];
+        $renovation->date_rdv = $this->newRenovation["date_rdv"] ?? null;
+        $renovation->cr = $this->newRenovation["cr"] ?? null;
         $renovation->date_confirm = $this->newRenovation["date_confirm"] ?? null;
         $renovation->prospect = $this->newRenovation["prospect"];
         $renovation->adresse = $this->newRenovation["adresse"];
@@ -153,6 +154,7 @@ class Renovation extends Component
         $renovation->num_mobile = $this->newRenovation["num_mobile"] ?? null;
         $renovation->commentaire = $this->newRenovation["commentaire"] ?? null;
         $renovation->retour = $this->newRenovation["retour"] ?? null;
+        $renovation->rappel = $this->newRenovation["rappel"] ?? null;
 
         $renovation->save();
 

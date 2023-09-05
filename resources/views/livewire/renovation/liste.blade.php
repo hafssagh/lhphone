@@ -3,7 +3,7 @@
         <div class="d-sm-flex justify-content-between align-items-start">
             <div class="d-flex  align-items-start">
                 <h4 class="card-title card-title-dash me-2">Liste des rendez-vous</h4>
-             
+
             </div><br>
             <div>
                 <button class="btn btn-lg text-black mb-0 me-0" type="button" wire:click="goToaddRenovation"
@@ -28,12 +28,12 @@
             <div class="col-md-3">
                 <select class="form-select" wire:model="selectedStatus" wire:change="render" style="font-size: 13px">
                     <option value="all">Tous les RDV</option>
-                    <option value="0">En attente</option>
+                    <option value="0">RDV pris</option>
+                    <option value="rapp">Rappel</option>
                     <option value="1">Confirmé</option>
                     <option value="2">A voir</option>
                     <option value="3">NRP</option>
                     <option value="4">Injoingnable</option>
-                    <option value="5">Enregistrement demandé</option>
                     <option value="-1">Annulé</option>
                     <option value="-2">Hors cible</option>
                     <option value="-3">Mauvaise fois</option>
@@ -70,12 +70,15 @@
                                             @elseif($renovation->state == '2')
                                                 <div class="square_table" style="background-color: #a8ecee;">
                                                 @elseif($renovation->state == '3')
-                                                    <div class="square_table" style="background-color: #f3ea6c;">
+                                                    <div class="square_table" style="background-color: #a6b5df;">
                                                     @elseif($renovation->state == '4')
                                                         <div class="square_table" style="background-color: #b09dd4;">
                                                         @elseif($renovation->state == '5')
                                                             <div class="square_table"
                                                                 style="background-color: #a78671;">
+                                                            @elseif($renovation->state == 'rapp')
+                                                                <div class="square_table"
+                                                                    style="background-color: #f3ea6c;">
                                                                 @elseif($renovation->state == '-1')
                                                                     <div class="square_table"
                                                                         style="background-color: #f5a7a1;">
@@ -95,6 +98,12 @@
                                 <p class="text-dark fw-bold text-center" style="margin-bottom: 0;">
                                     {{ \Carbon\Carbon::parse($renovation->date_prise)->format('d-m-Y') }}
                                 </p>
+                                @if ($renovation->rappel != null)
+                                    <p class="text-danger" style="margin-bottom: 0;">
+                                        <span class="text-dark">Rappel</span> :
+                                        {{ $renovation->rappel }}
+                                    </p>
+                                @endif
                             </td>
                             <td style="padding: 0.6rem;"><strong
                                     style="color: rgb(65, 118, 170)">{{ $renovation->prospect }}</strong></td>
@@ -104,11 +113,16 @@
                                     <span class="text-dark">No mobile</span>: {{ $renovation->num_mobile }}
                                 </p>
                             </td>
-                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $renovation->dep }}</strong></td>
+                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $renovation->dep }}</strong>
+                            </td>
                             <td style="padding: 0.6rem;">
                                 <p class="text-dark fw-bold text-center" style="margin-bottom: 0;">
-                                    {{ \Carbon\Carbon::parse($renovation->date_rdv)->format('d-m-Y') }}
-                                    {{ \Carbon\Carbon::parse($renovation->cr)->format('H:i') }}
+                                    @if ($renovation->date_rdv != '0000-00-00')
+                                        {{ \Carbon\Carbon::parse($renovation->date_rdv)->format('d-m-Y') }}
+                                        {{ \Carbon\Carbon::parse($renovation->cr)->format('H:i') }}
+                                    @else
+                                        <span class="text-muted">Indéterminé</span> 
+                                    @endif
                                 </p>
                             </td>
                             <td class="text-center" style="padding: 0.6rem;">
@@ -135,10 +149,10 @@
                                     </div>
                                 @elseif ($renovation->state == '0')
                                     <div class="badge badge-opacity-dark" style="background-color: #cccccc;">
-                                        En attente
+                                        RDV pris
                                     </div>
                                 @elseif ($renovation->state == '3')
-                                    <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">
+                                    <div class="badge badge-opacity-primary">
                                         NRP
                                     </div>
                                 @elseif ($renovation->state == '4')
@@ -151,9 +165,9 @@
                                         style="background-color: #d8c5af; color:#6F4E37">
                                         Enregistrement demandé
                                     </div>
-                                @elseif ($renovation->state == '6')
-                                    <div class="badge badge-opacity-primary">
-                                        Présence couple
+                                @elseif ($renovation->state == 'rapp')
+                                    <div class="badge badge-opacity-warning" style="background-color: #ffff8fdc;">
+                                        Rappel
                                     </div>
                                 @endif
                             </td>
@@ -164,7 +178,8 @@
                                         $renovation->state == '3' ||
                                         $renovation->state == '4' ||
                                         $renovation->state == '5' ||
-                                        $renovation->state == '6')
+                                        $renovation->state == '6' ||
+                                        $renovation->state == 'rapp')
                                     <div class="spinner-border text-dark" role="status"
                                         style="width:16px ;height:16px">
                                         <span class="sr-only"></span>
