@@ -260,7 +260,7 @@
                                 <li>
                                     <div class="d-flex justify-content-between">
                                         <div><strong>{{ $rappels->prospect }}</strong><span>
-                                                ({{ $rappels->dep }})
+                                                (dep {{ $rappels->dep }})
                                             </span> </div>
                                         <p>{{ \Carbon\Carbon::parse($rappels->rappel)->format('H:i') }}</p>
                                     </div>
@@ -270,7 +270,7 @@
                         <div class="list align-items-center pt-3">
                             <div class="wrapper w-100">
                                 <p class="mb-0">
-                                    <a href="/proposal/all" class="fw-bold text-primary">Voir plus <i
+                                    <a href="/RG" class="fw-bold text-primary">Voir plus <i
                                             class="mdi mdi-arrow-right ms-2"></i></a>
                                 </p>
                             </div>
@@ -350,8 +350,8 @@
                                 @foreach ($rappelManager as $rappelM)
                                     <li>
                                         <div class="d-flex justify-content-between">
-                                            <div><strong>{{ $rappelM->company }}</strong><span>
-                                                    ({{ $rappelM->nameClient }})
+                                            <div><strong>{{ $rappelM->prospect }}</strong><span>
+                                                    (dep {{ $rappelM->dep }})
                                                 </span><span class="text-muted">// {{ $rappelM->users->first_name }}
                                                 </span>
                                             </div>
@@ -365,7 +365,7 @@
                         <div class="list align-items-center pt-3">
                             <div class="wrapper w-100">
                                 <p class="mb-0">
-                                    <a href="/proposal/all" class="fw-bold text-primary">Voir plus <i
+                                    <a href="/RG" class="fw-bold text-primary">Voir plus <i
                                             class="mdi mdi-arrow-right ms-2"></i></a>
                                 </p>
                             </div>

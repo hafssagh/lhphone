@@ -95,6 +95,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="name">Email </label>
+                                <input type="text" wire:model="newRenovation.email" class="form-control">
+                            </div>
+                            <div class="form-group">
                                 <label for="commentaire">Commentaire</label>
                                 <textarea class="form-control" wire:model="newRenovation.commentaire" class="form-control" style="height: 120px">
                             </textarea>

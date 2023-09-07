@@ -91,6 +91,11 @@
                                         <td style="padding: 0.5rem;">{{ $editRenovation['num_fix'] }}</td>
                                     </tr>
                                     <tr>
+                                        <td style="padding: 0.5rem;"><strong class="title">Email</strong>
+                                        </td>
+                                        <td style="padding: 0.5rem;">{{ $editRenovation['email'] }}</td>
+                                    </tr>
+                                    <tr>
                                         <td style="padding: 0.5rem;"><strong class="title">Date rendez-vous</strong>
                                         </td>
                                         <td style="padding: 0.1rem;">
@@ -110,11 +115,11 @@
                     </div>
                     @cannot('agent')
                         <div class="col-md-6">
-                            <div class="form-group" style="margin-top:35px">
+                            <div class="form-group" style="margin-top:85px">
                             @endcannot
                             @can('agent')
                                 <div class="col-md-6">
-                                    <div class="form-group" style="margin-top:35px">
+                                    <div class="form-group" style="margin-top:85px">
                                     @endcan
                                     <label for="commentaire">Commentaire</label>
                                     <textarea class="form-control" wire:model="editRenovation.commentaire" class="form-control" style="height: 120px">  </textarea>

@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('adresse');
             $table->string('commentaire')->nullable();
             $table->string('retour')->nullable();
+            $table->string('rappel')->nullable();
+            $table->string('email')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

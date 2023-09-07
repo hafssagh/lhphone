@@ -49,7 +49,7 @@
                         @cannot('agent')
                             <th>Agent</th>
                         @endcannot
-                        <th class="text-center">Date prise</th>
+                        <th>Date prise</th>
                         <th>Prospect</th>
                         <th>Détails</th>
                         <th class="text-center">Dep.</th>
@@ -98,7 +98,7 @@
                                     {{ $renovation->users->first_name }}</td>
                             @endcannot
                             <td style="padding: 0.6rem;">
-                                <p class="text-dark fw-bold text-center" style="margin-bottom: 0;">
+                                <p class="text-dark fw-bold " style="margin-bottom: 0;">
                                     {{ \Carbon\Carbon::parse($renovation->date_prise)->format('d-m-Y') }}
                                 </p>
                                 @if ($renovation->rappel != null)

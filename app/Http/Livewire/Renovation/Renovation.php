@@ -120,6 +120,7 @@ class Renovation extends Component
             'newRenovation.num_fix' => 'nullable|numeric',
             'newRenovation.num_mobile' => 'nullable|numeric',
             'newRenovation.rappel' => 'nullable',
+            'newRenovation.email' => 'nullable',
         ], [
             'newRenovation.prospect.required' => "Le nom du prospect est requis.",
             'newRenovation.prospect.unique' => "Le nom du prospect doit être unique.",
@@ -155,6 +156,7 @@ class Renovation extends Component
         $renovation->commentaire = $this->newRenovation["commentaire"] ?? null;
         $renovation->retour = $this->newRenovation["retour"] ?? null;
         $renovation->rappel = $this->newRenovation["rappel"] ?? null;
+        $renovation->email = $this->newRenovation["email"] ?? null;
 
         $renovation->save();
 

@@ -23,20 +23,20 @@ use App\Http\Livewire\Production\Produit;
 use App\Http\Livewire\Dashboard\Dashboard;
 use App\Http\Livewire\Profile\UserProfile;
 use App\Http\Livewire\Dashboard\Dashboard2;
+use App\Http\Livewire\Dashboard\Dashboard3;
 use App\Http\Livewire\Paiment\AdvanceSalary;
 use App\Http\Livewire\Production\Production;
 use App\Http\Livewire\Profile\ResetPassword;
 use App\Http\Livewire\Renovation\Renovation;
 use App\Http\Livewire\Paiment\ChallengePrime;
 use App\Http\Livewire\Production\Production2;
+use App\Http\Livewire\Production\Production3;
 use App\Http\Livewire\RelanceAgent\MailAgent;
 use App\Http\Livewire\Suspension\Suspensions;
 use App\Http\Livewire\Appointment\Appointment;
-use App\Http\Livewire\Dashboard\Dashboard3;
 use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Resignation\Resignations;
 use App\Http\Livewire\Dashboard\DashboardAgent2;
-use App\Http\Livewire\Production\Production3;
 use App\Http\Livewire\RelanceManger\MailManager;
 
 /*
