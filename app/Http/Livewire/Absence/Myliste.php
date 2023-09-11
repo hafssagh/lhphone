@@ -112,4 +112,9 @@ class Myliste extends Component
 
         return $totalAbsenceDays + $numberOfHours + $numberHours;
     }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 }

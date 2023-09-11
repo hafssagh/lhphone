@@ -85,6 +85,11 @@ class Appointment extends Component
             ->section("contenu");
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+    
     public function goToaddAppointment()
     {
         $this->newAppointment = "";

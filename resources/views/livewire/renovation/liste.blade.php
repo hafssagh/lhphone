@@ -99,7 +99,7 @@
                             @endcannot
                             <td style="padding: 0.6rem;">
                                 <p class="text-dark fw-bold " style="margin-bottom: 0;">
-                                    {{ \Carbon\Carbon::parse($renovation->date_prise)->format('d-m-Y') }}
+                                    {{ \Carbon\Carbon::parse($renovation->created_at)->format('d-m-Y H:i') }}
                                 </p>
                                 @if ($renovation->rappel != null)
                                     <p class="text-danger" style="margin-bottom: 0;">
@@ -120,7 +120,7 @@
                             </td>
                             <td style="padding: 0.6rem;">
                                 <p class="text-dark fw-bold text-center" style="margin-bottom: 0;">
-                                    @if ($renovation->date_rdv != '0000-00-00')
+                                    @if ($renovation->date_rdv != '0000-00-00'  &&  $renovation->date_rdv != null)
                                         {{ \Carbon\Carbon::parse($renovation->date_rdv)->format('d-m-Y') }}
                                         {{ \Carbon\Carbon::parse($renovation->cr)->format('H:i') }}
                                     @else

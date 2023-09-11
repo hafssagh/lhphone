@@ -6,7 +6,7 @@
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link ps-0" href="/dashboard" role="tab">Général</a>
+                            <a class="nav-link ps-0" href="/dashboard3" role="tab">Général</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="/dashboardRH" role="tab" aria-controls="overview"

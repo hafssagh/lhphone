@@ -21,7 +21,7 @@
                     </ul>
                     @if (Auth::user()->last_name === 'ELMOURABIT' ||
                             Auth::user()->last_name === 'By' ||
-                            Auth::user()->last_name === 'EL MESSIOUI')
+                            Auth::user()->last_name === 'EL MESSIOUI' || Auth::user()->last_name === 'Essaid')
                         <div class="btn-wrapper" style="margin-top:5px">
                             <a href="/dashboard3" class="btn btn-otline-dark me-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
@@ -42,7 +42,7 @@
                     @endif
                     @if (Auth::user()->last_name === 'ELMOURABIT' ||
                             Auth::user()->last_name === 'By' ||
-                            Auth::user()->last_name === 'EL MESSIOUI')
+                            Auth::user()->last_name === 'EL MESSIOUI' || Auth::user()->last_name === 'Essaid')
                         <a href="/dashboard" class="btn btn-primary text-white me-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
                                 class="bi bi-bar-chart-fill" viewBox="0 0 16 16">

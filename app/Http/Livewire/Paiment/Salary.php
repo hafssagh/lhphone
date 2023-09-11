@@ -73,6 +73,11 @@ class Salary extends Component
             ->section("contenu");
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function toggleRibDisplay()
     {
         $this->showRib = !$this->showRib;

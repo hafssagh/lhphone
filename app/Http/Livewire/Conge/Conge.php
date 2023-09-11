@@ -101,6 +101,12 @@ class Conge extends Component
             ->section("contenu");
     }
 
+    
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function goToListeConge()
     {
         $this->resetValidation();

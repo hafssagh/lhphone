@@ -86,6 +86,11 @@ class MailAll extends Component
             ->section("contenu");
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+    
     public function goToListPropos()
     {
         $this->resetValidation();

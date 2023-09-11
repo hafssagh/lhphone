@@ -87,6 +87,11 @@ class Suspensions extends Component
             ->section("contenu");
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function goToaddSuspension()
     {
         $this->newSuspension = "";

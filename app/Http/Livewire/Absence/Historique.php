@@ -48,7 +48,10 @@ class Historique extends Component
         ])->extends("layouts.master")->section("contenu");
     }
 
-
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function confirmDelete()
     {

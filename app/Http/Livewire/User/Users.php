@@ -104,6 +104,11 @@ class Users extends Component
             ->section("contenu");
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+    
     public function rules()
     {
         if ($this->currentPage == PAGEEDITFORM) {
