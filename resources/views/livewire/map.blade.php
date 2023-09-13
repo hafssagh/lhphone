@@ -2,12 +2,12 @@
 <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 <style>
     #map {
-        height: 700px;
+        height: 600px;
         margin: 0 auto;
     }
 
     #map2 {
-        height: 700px;
+        height: 600px;
         margin: 0 auto;
     }
 
@@ -209,8 +209,8 @@
             },
             {
                 code: 'fr-idf-hd',
-                value1: {{ $dep01 }},
-                value2: '1'
+                value1: {{ $dep92 }},
+                value2: '92'
             },
             {
                 code: 'fr-pdl-st',
@@ -274,8 +274,8 @@
             },
             {
                 code: 'fr-idf-vp',
-                value1: {{ $dep01 }},
-                value2: '1'
+                value1: {{ $dep75 }},
+                value2: '75'
             },
             {
                 code: 'fr-naq-cz',
@@ -304,8 +304,8 @@
             },
             {
                 code: 'fr-idf-ss',
-                value1: {{ $dep01 }},
-                value2: '1'
+                value1: {{ $dep93 }},
+                value2: '93'
             },
             {
                 code: 'fr-hdf-so',
@@ -329,8 +329,8 @@
             },
             {
                 code: 'fr-idf-vm',
-                value1: {{ $dep01 }},
-                value2: '1'
+                value1: {{ $dep94 }},
+                value2: '94'
             },
             {
                 code: 'fr-naq-vn',
@@ -559,6 +559,9 @@
                 }
             }]
         });
+        document.getElementById('map').addEventListener('removeChart', function () {
+            chart.destroy();
+        });
     })();
 </script>
 
@@ -736,8 +739,8 @@
             },
             {
                 code: 'fr-idf-hd',
-                value1: {{ $dep01All }},
-                value2: '1'
+                value1: {{ $dep92All }},
+                value2: '92'
             },
             {
                 code: 'fr-pdl-st',
@@ -801,8 +804,8 @@
             },
             {
                 code: 'fr-idf-vp',
-                value1: {{ $dep01All }},
-                value2: '1'
+                value1: {{ $dep75All }},
+                value2: '75'
             },
             {
                 code: 'fr-naq-cz',
@@ -831,8 +834,8 @@
             },
             {
                 code: 'fr-idf-ss',
-                value1: {{ $dep01All }},
-                value2: '1'
+                value1: {{ $dep93All }},
+                value2: '93'
             },
             {
                 code: 'fr-hdf-so',
@@ -856,8 +859,8 @@
             },
             {
                 code: 'fr-idf-vm',
-                value1: {{ $dep01All }},
-                value2: '1'
+                value1: {{ $dep94All }},
+                value2: '94'
             },
             {
                 code: 'fr-naq-vn',

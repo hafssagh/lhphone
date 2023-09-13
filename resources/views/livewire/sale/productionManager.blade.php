@@ -271,7 +271,7 @@
                                                 $backgroundColor6 = $absenceUserDemi ? 'background-color: #f59445 ' : '';
                                                 $backgroundColor7 = $retard ? 'background-color: #688dd4 ' : '';
                                                 
-                                                $resignationUser = $resignation->where('user_id', $user2->id)->first();
+                                                $resignationUser = $resignation2->where('user_id', $user2->id)->first();
                                                 $backgroundColor4 = $resignationUser && $date >= $resignationUser->date ? 'background-color: #5A5A5A ; color: #5A5A5A' : '';
                                                 
                                                 $backgroundColor3 = $totalSalesCount ? 'background-color: #5c6bc0; color:white' : '';
