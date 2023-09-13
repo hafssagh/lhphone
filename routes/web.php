@@ -37,6 +37,7 @@ use App\Http\Livewire\Appointment\Appointment;
 use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Resignation\Resignations;
 use App\Http\Livewire\Dashboard\DashboardAgent2;
+use App\Http\Livewire\Map;
 use App\Http\Livewire\RelanceManger\MailManager;
 
 /*
@@ -90,4 +91,5 @@ Route::get('/chat', Messages::class)->name("message");
 Route::get('/conge', Conge::class)->name("conge");
 Route::get('/RG', Renovation::class)->name("renovation");
 Route::get('/fetch3', Production3::class)->name("production3");
+Route::get('/map', Map::class)->name("map");
 

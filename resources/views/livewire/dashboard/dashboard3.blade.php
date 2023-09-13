@@ -358,252 +358,257 @@
                         </div>
                     </div>
                 </div>
-            @endcan
-            @can('manager')
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table table-container">
-                                <table class="table">
-                                    <thead>
+            </div>
+            @include('livewire.map')
+        @endcan
+        @can('manager')
+
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 0.6rem;" class="text-muted">Agent</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Absence</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Heures travail
+                                        </th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Salaire fixe</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Salaire</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">RDV(Jour)</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Challenge</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">RDV(Mois)</th>
+                                        <th style="padding: 0.6rem;" class="text-center text-muted">Prime</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $user)
                                         <tr>
-                                            <th style="padding: 0.6rem;" class="text-muted">Agent</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">Absence</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">Heures travail
-                                            </th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">Salaire fixe</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">Salaire</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">RDV(Jour)</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">Challenge</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">RDV(Mois)</th>
-                                            <th style="padding: 0.6rem;" class="text-center text-muted">Prime</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users as $user)
-                                            <tr>
-                                                <td style="padding: 0.6rem;">
-                                                    <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">
-                                                    @if ($user->absenceHours != 0)
-                                                        <strong class="text-danger">{{ $user->absenceHours }} h</strong>
-                                                    @else
-                                                        {{ $user->absenceHours }} h
-                                                    @endif
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }}
-                                                    h
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">{{ $user->base_salary }}
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">{{ $user->salary }}</td>
-                                                <td class="text-center" style="padding: 0.6rem;">
-                                                    @if ($user->sumRDV != 0)
-                                                        <strong>{{ $user->sumRDV }} RDV</strong>
-                                                    @else
-                                                        {{ $user->sumRDV }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">
-                                                    {{ $user->challenge }}
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">
-                                                    @if ($user->sumRDV2 != 0)
-                                                        <strong>{{ $user->sumRDV2 }} RDV</strong>
-                                                    @else
-                                                        {{ $user->sumRDV2 }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center" style="padding: 0.6rem;">
-                                                    @if ($user->prime != 0)
-                                                        <strong style="color: #5E50F9">{{ $user->prime }} DH</strong>
-                                                    @else
-                                                        {{ $user->prime }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td style="padding: 0.6rem;"><strong>Total</strong></td>
-                                            <td style="padding: 0.6rem;"></td>
-                                            <td style="padding: 0.6rem;"></td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[1] }}
-                                                    DH</strong>
+                                            <td style="padding: 0.6rem;">
+                                                <strong>{{ $user->last_name }} {{ $user->first_name }}</strong>
                                             </td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[0] }}
-                                                    DH</strong>
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->absenceHours != 0)
+                                                    <strong class="text-danger">{{ $user->absenceHours }} h</strong>
+                                                @else
+                                                    {{ $user->absenceHours }} h
+                                                @endif
                                             </td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[4] }}
-                                                    RDV</strong>
+                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->work_hours }}
+                                                h
                                             </td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[2] }}
-                                                    DH</strong>
+                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->base_salary }}
                                             </td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong> {{ $sumValues[5] }}
-                                                    RDV</strong>
+                                            <td class="text-center" style="padding: 0.6rem;">{{ $user->salary }}</td>
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->sumRDV != 0)
+                                                    <strong>{{ $user->sumRDV }} RDV</strong>
+                                                @else
+                                                    {{ $user->sumRDV }}
+                                                @endif
                                             </td>
-                                            <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[3] }}
-                                                    DH</strong>
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                {{ $user->challenge }}
+                                            </td>
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->sumRDV2 != 0)
+                                                    <strong>{{ $user->sumRDV2 }} RDV</strong>
+                                                @else
+                                                    {{ $user->sumRDV2 }}
+                                                @endif
+                                            </td>
+                                            <td class="text-center" style="padding: 0.6rem;">
+                                                @if ($user->prime != 0)
+                                                    <strong style="color: #5E50F9">{{ $user->prime }} DH</strong>
+                                                @else
+                                                    {{ $user->prime }}
+                                                @endif
                                             </td>
                                         </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td style="padding: 0.6rem;"><strong>Total</strong></td>
+                                        <td style="padding: 0.6rem;"></td>
+                                        <td style="padding: 0.6rem;"></td>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[1] }}
+                                                DH</strong>
+                                        </td>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[0] }}
+                                                DH</strong>
+                                        </td>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[4] }}
+                                                RDV</strong>
+                                        </td>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[2] }}
+                                                DH</strong>
+                                        </td>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong> {{ $sumValues[5] }}
+                                                RDV</strong>
+                                        </td>
+                                        <td style="padding: 0.6rem;" class="text-center"><strong>{{ $sumValues[3] }}
+                                                DH</strong>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
-            @endcan
+            </div>
+            <br><br>
+            @include('livewire.map')
+        @endcan
 
-        </div>
+    </div>
 
-        <script>
-            document.addEventListener('livewire:load', function() {
-                var ctx = document.getElementById('my_chart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: {!! json_encode($users3->pluck('first_name')) !!},
-                        datasets: [{
-                            label: 'Rdv Confirmés',
-                            data: {!! json_encode($users3->pluck('confirme')) !!},
-                            backgroundColor: '#e0e0e0',
-                            borderColor: '#c2c0c0',
-                            barThickness: 30,
-                            borderWidth: 2,
-                            borderRadius: 20,
-                            borderSkipped: false,
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                grid: {
-                                    display: false
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    display: false
-                                }
+    <script>
+        document.addEventListener('livewire:load', function() {
+            var ctx = document.getElementById('my_chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {!! json_encode($users3->pluck('first_name')) !!},
+                    datasets: [{
+                        label: 'Rdv Confirmés',
+                        data: {!! json_encode($users3->pluck('confirme')) !!},
+                        backgroundColor: '#e0e0e0',
+                        borderColor: '#c2c0c0',
+                        barThickness: 30,
+                        borderWidth: 2,
+                        borderRadius: 20,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
                             }
                         },
-                        plugins: {
-                            legend: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
                                 display: false
                             }
                         }
                     },
-                });
-            });
-        </script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var date = new Date();
-                var mois = date.toLocaleString("default", {
-                    month: "long"
-                });
-                var annee = date.getFullYear();
-                var mois = mois;
-
-                document.getElementById("mois").textContent = mois;
-            });
-        </script>
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                // Initial page load
-                loadPageContent("{{ $usersWithoutAppoints->url(1) }}");
-
-                // Event handler for previous page icon click
-                $(document).on('click', '#previousPage', function(e) {
-                    e.preventDefault();
-                    var prevUrl = $(this).attr('href');
-                    loadPageContent(prevUrl);
-                });
-
-                // Event handler for next page icon click
-                $(document).on('click', '#nextPage', function(e) {
-                    e.preventDefault();
-                    var nextUrl = $(this).attr('href');
-                    loadPageContent(nextUrl);
-                });
-
-                function loadPageContent(url) {
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function(data) {
-                            $('#usersContainer').html(data);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
+                    plugins: {
+                        legend: {
+                            display: false
                         }
-                    });
-                }
+                    }
+                },
             });
-        </script>
+        });
+    </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var date = new Date();
+            var mois = date.toLocaleString("default", {
+                month: "long"
+            });
+            var annee = date.getFullYear();
+            var mois = mois;
 
-        <script>
-            document.addEventListener('livewire:load', function() {
-                var months = @json($months);
-                var refusedRDV = @json($refusedRDV);
-                var acceptedRDV = @json($acceptedRDV);
+            document.getElementById("mois").textContent = mois;
+        });
+    </script>
 
-                var ctx = document.getElementById('appointmentChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: months,
-                        datasets: [{
-                                label: 'Acceptées',
-                                data: acceptedRDV,
-                                type: 'line',
-                                borderColor: '#c2c0c0 ',
-                                backgroundColor: '#c2c0c0 ',
-                            },
-                            {
-                                label: 'Annulées',
-                                data: refusedRDV,
-                                type: 'bar',
-                                borderColor: '#e0e0e0',
-                                backgroundColor: '#e0e0e0',
-                            }
-                        ]
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initial page load
+            loadPageContent("{{ $usersWithoutAppoints->url(1) }}");
+
+            // Event handler for previous page icon click
+            $(document).on('click', '#previousPage', function(e) {
+                e.preventDefault();
+                var prevUrl = $(this).attr('href');
+                loadPageContent(prevUrl);
+            });
+
+            // Event handler for next page icon click
+            $(document).on('click', '#nextPage', function(e) {
+                e.preventDefault();
+                var nextUrl = $(this).attr('href');
+                loadPageContent(nextUrl);
+            });
+
+            function loadPageContent(url) {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function(data) {
+                        $('#usersContainer').html(data);
                     },
-                    options: {
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    usePointStyle: true,
-                                    font: {
-                                        weight: 'bold'
-                                    },
-                                },
-                            }
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            var months = @json($months);
+            var refusedRDV = @json($refusedRDV);
+            var acceptedRDV = @json($acceptedRDV);
+
+            var ctx = document.getElementById('appointmentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                            label: 'Acceptées',
+                            data: acceptedRDV,
+                            type: 'line',
+                            borderColor: '#c2c0c0 ',
+                            backgroundColor: '#c2c0c0 ',
                         },
-                        scales: {
-                            x: {
-                                grid: {
-                                    display: false,
+                        {
+                            label: 'Annulées',
+                            data: refusedRDV,
+                            type: 'bar',
+                            borderColor: '#e0e0e0',
+                            backgroundColor: '#e0e0e0',
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                font: {
+                                    weight: 'bold'
                                 },
                             },
-                            y: {
-                                grid: {
-                                    display: false,
-                                },
-                            }
                         }
                     },
-                });
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                        },
+                        y: {
+                            grid: {
+                                display: false,
+                            },
+                        }
+                    }
+                },
             });
-        </script>
+        });
+    </script>
 
-    </div>
+</div>

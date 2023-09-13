@@ -22,7 +22,7 @@
     <link rel="shortcut icon" href="/assets/images/mylogo.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
+    
 <body>
     <div class="container-scroller">
         <!-- partial:../../partials/_navbar.html -->
