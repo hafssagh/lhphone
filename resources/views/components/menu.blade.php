@@ -80,7 +80,7 @@
             </a>
         </li>
         @canAny(['admin', 'superadmin', 'manager'])
-            <li class="nav-item  {{ setMenuActive('advance-salary') }}">
+            <li class="nav-item  ">
                 <a class="nav-link collapse" data-bs-toggle="collapse" href="#paie" aria-expanded="false"
                     aria-controls="paie">
                     <i class="mdi mdi-credit-card-multiple menu-icon"></i>
@@ -93,6 +93,12 @@
                         </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('challenge_prime') }}">
                                 Challenge et Prime</a>
+                        </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('advance-salary') }}">
+                                Avancement salarial</a>
+                        </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('prelevement') }}">
+                                Déduction Salariale</a>
                         </li>
                     </ul>
                 </div>
@@ -140,8 +146,8 @@
                 <div class="collapse" id="email">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="{{ route('sales.index') }}">
-                            Gestion Vente</a>
-                    </li>
+                                Gestion Vente</a>
+                        </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('mail') }}">
                                 Propositions</a>
                         </li>
@@ -213,7 +219,8 @@
                 ->get() ?? null;
         if (isset($sender) && $sender->id) {
             $not_seen = Message::where('user_id', $sender->id)
-                ->where('receiver_id', auth()->id())->where('is_seen', false);
+                ->where('receiver_id', auth()->id())
+                ->where('is_seen', false);
             $not_seen->update(['is_seen' => true]);
         }
     @endphp

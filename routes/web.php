@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Livewire\Map;
+use App\Http\Livewire\Map2;
+use App\Models\Prelevement;
 use App\Http\Livewire\Home\Home;
 use App\Http\Livewire\User\Users;
 use App\Http\Livewire\Conge\Conge;
@@ -37,7 +40,7 @@ use App\Http\Livewire\Appointment\Appointment;
 use App\Http\Livewire\Dashboard\DashboardAgent;
 use App\Http\Livewire\Resignation\Resignations;
 use App\Http\Livewire\Dashboard\DashboardAgent2;
-use App\Http\Livewire\Map;
+use App\Http\Livewire\Paiment\PrelevementSalary;
 use App\Http\Livewire\RelanceManger\MailManager;
 
 /*
@@ -58,7 +61,7 @@ Auth::routes();
 Route::get('/', Home::class)->name("home")->middleware(["auth"]);
 Route::get('/salary', Salary::class)->name("salary");
 Route::get('/challenge-prime', ChallengePrime::class)->name("challenge_prime");
-Route::get('/advance-salary', AdvanceSalary::class)->name("advance-salary");
+Route::get('/advance', AdvanceSalary::class)->name("advance-salary");
 Route::get('/admin/list', Absences::class)->name("absence.index");
 Route::get('/suspension', Suspensions::class)->name("suspension.index");
 Route::get('/resignation', Resignations::class)->name("resignation.index");
@@ -92,5 +95,7 @@ Route::get('/conge', Conge::class)->name("conge");
 Route::get('/RG', Renovation::class)->name("renovation");
 Route::get('/fetch3', Production3::class)->name("production3");
 Route::get('/map', Map::class)->name("map");
+Route::get('/map', Map2::class)->name("map");
+Route::get('/prelevement', PrelevementSalary::class)->name("prelevement");
 
 

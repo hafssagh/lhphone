@@ -24,7 +24,7 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label">Date<span class="text-danger"><strong>*</strong></span></label>
             <div class="col-sm-4">
-                <label>De</label>
+                <label>Arrêt</label>
                 <div class="col-sm-12">
                     <input class="form-control @error('newSuspension.date_debut') is-invalid @enderror" type="date"
                         wire:model="newSuspension.date_debut">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <label>À</label>
+                <label>Retour</label>
                 <div class="col-sm-12">
                     <input class="form-control @error('newSuspension.date_fin') is-invalid @enderror" type="date"
                         wire:model="newSuspension.date_fin">

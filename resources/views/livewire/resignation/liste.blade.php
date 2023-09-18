@@ -81,7 +81,7 @@
                             <td class="text-center" style="padding: 0.4rem;">{{ \Carbon\Carbon::parse($resignation->date)->format('d-m-Y') }}</td>
                             <td class="text-center" style="padding: 0.4rem;">{{ $resignation->motive }}</td>
                             <td class="text-center" style="padding: 0.4rem;">
-                                {{ \Carbon\Carbon::parse($resignation->users->created_at)->diffForHumans($resignation->users->date_contract) }}
+                                {{ \Carbon\Carbon::parse($resignation->date)->diffForHumans($resignation->users->created_at) }}
                             </td>
                             <td class="text-center" style="padding: 0.4rem;">
                                 <a href="javascript:;" class="btn btn-sm btn-icon" wire:click="editResignation({{$resignation->id}})">

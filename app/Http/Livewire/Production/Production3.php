@@ -118,7 +118,7 @@ class Production3 extends Component
 
     public function render()
     {
-        return view('livewire.production.production3')    ->extends("layouts.app")
+        return view('livewire.production.production3')->extends("layouts.app")
         ->section("contenu2");
     }
 }

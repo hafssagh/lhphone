@@ -8,6 +8,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Salary extends Component
 {
@@ -81,5 +82,33 @@ class Salary extends Component
     public function toggleRibDisplay()
     {
         $this->showRib = !$this->showRib;
+    }
+
+    public function senMail()
+    {
+        $salary = User::all();
+        $sumSalary = User::sum('salary');
+        $sumVirement = User::where('type_virement', 'virement')->sum('salary');
+        $sumEspece = User::where('type_virement', 'espece')->sum('salary');
+
+        $data = [
+            'salary' => $salary,
+            'sumEspece' => $sumEspece,
+            'sumSalary' => $sumSalary,
+            'sumVirement' => $sumVirement,
+        ];
+
+        $fromAddress = config('mail.from.address');
+
+        $emailSent = false;
+        Mail::send('livewire.paiment.body', $data, function ($message) use ($fromAddress, &$emailSent) {
+            $message->from($fromAddress)
+                ->to('hafssa.ghalbane@gmail.com')
+                ->subject("Salaire");
+
+            $emailSent = true;
+        });
+
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "L'Email a été envoyé avec succès."]);
     }
 }

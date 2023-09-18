@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="d-sm-flex justify-content-between align-items-start">
             <div>
-                <h4 class="card-title card-title-dash">Liste des avancements de salaire</h4><br>
+                <h4 class="card-title card-title-dash">Liste des déductions salariales </h4><br>
                 <div class="input-group">
                     <input type="text" class="form-control" wire:model.debounce.250ms='search'
                         placeholder="Rechercher ...">
@@ -32,12 +32,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($isAddAdvance)
+                    @if ($isAddPrelevement)
                         <tr>
                             <form action="">
                                 <td class="text-center" style="padding: 0.8rem;">
-                                    <select wire:model="newAdvance.user"
-                                        class="form-control bg-white text-black @error('newAdvance.user') is-invalid @enderror">
+                                    <select wire:model="newPrelevement.user"
+                                        class="form-control bg-white text-black @error('newPrelevement.user') is-invalid @enderror">
                                         <option value=""></option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}">
@@ -46,17 +46,17 @@
                                     </select>
                                 </td>
                                 <td style="padding: 0.8rem;"> <input
-                                        class="form-control @error('newAdvance.advance') is-invalid @enderror"
-                                        type="text" wire:model="newAdvance.advance"
-                                        wire:keydown.enter='addNewAdvance'>
+                                        class="form-control @error('newPrelevement.prelevement') is-invalid @enderror"
+                                        type="text" wire:model="newPrelevement.prelevement"
+                                        wire:keydown.enter='addNewPrelevement'>
                                 </td>
                                 <td style="padding: 0.8rem;"> <input
-                                        class="form-control @error('newAdvance.motif') is-invalid @enderror"
-                                        type="text" wire:model="newAdvance.motif" wire:keydown.enter='addNewAdvance'>
+                                        class="form-control @error('newPrelevement.motif') is-invalid @enderror"
+                                        type="text" wire:model="newPrelevement.motif" wire:keydown.enter='addNewPrelevement'>
                                 </td>
                                 <td style="padding: 0.8rem;"></td>
                                 <td class="text-center" style="padding: 0.8rem;">
-                                    <button wire:click.prevent='addNewAdvance'
+                                    <button wire:click.prevent='addNewPrelevement'
                                         class="btn btn-lg text-black mb-0 me-0 justify-content-end"
                                         style="font-size: 14px; line-height: 18px; padding: 8px;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -78,21 +78,21 @@
                             </form>
                         </tr>
                     @endif
-                    @foreach ($avances as $avance)
+                    @foreach ($prelevements as $prelevement)
                         <tr>
-                            <td style="padding: 0.8rem;" class="text-center"> {{ $avance->users->last_name }}
-                                {{ $avance->users->first_name }}</td>
-                            <td class="text-center" style="padding: 0.8rem;">{{ $avance->advance }} DH</td>
-                            <td class="text-center" style="padding: 0.8rem;">{{ $avance->motif }}</td>
+                            <td style="padding: 0.8rem;" class="text-center"> {{ $prelevement->users->last_name }}
+                                {{ $prelevement->users->first_name }}</td>
+                            <td class="text-center" style="padding: 0.8rem;">{{ $prelevement->prelevement }} DH</td>
+                            <td class="text-center" style="padding: 0.8rem;">{{ $prelevement->motif }}</td>
                             <td class="text-center" style="padding: 0.8rem;">
-                                {{ $avance->users->created_at->format('d-m-Y') }}
+                                {{ $prelevement->users->created_at->format('d-m-Y') }}
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
             <div class="float-end">
-                {{ $avances->links() }}
+                {{ $prelevements->links() }}
             </div>
         </div>
     </div>
