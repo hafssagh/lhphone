@@ -86,7 +86,7 @@
                                                         ->where('date_fin', '>=', $date)
                                                         ->first();
                                                     
-                                                    $backgroundColor8 = $suspension ? 'background-color: #5A5A5A; color:#5A5A5A' : '';
+                                                    $backgroundColor8 = $suspension ? 'background-color: #d32f2f ; color: #d32f2f' : '';
                                                     
                                                     $backgroundColor2 = $absenceUser ? 'background-color: #f0f046 ' : '';
                                                     $backgroundColor5 = $absenceUser12 ? 'background-color: #9EEFF0 ' : '';

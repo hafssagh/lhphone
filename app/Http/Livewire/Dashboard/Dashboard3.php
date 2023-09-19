@@ -544,17 +544,17 @@ class Dashboard3 extends Component
         $manager = $user->last_name;
 
         if ($manager == 'ELMOURABIT' || $manager == 'By') {
-            $allRDV = Renovations::whereDate('created_at', $today)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
+            $allRDV = Renovations::whereDate('created_at', $today)->whereNot('state','rapp')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $confirme = Renovations::whereDate('date_confirm', $today)->whereHas('users', fn ($q) => $q->where('group', 1))->count();
             $enAttente = Renovations::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 1))->count();;
             $rappel = Renovations::where('state', 'rapp')->whereHas('users', fn ($q) => $q->where('group', 1))->count();
         } elseif ($manager == 'Essaid') {
-            $allRDV = Renovations::whereDate('created_at', $today)->whereHas('users', fn ($q) => $q->where('group', 2))->count();
+            $allRDV = Renovations::whereDate('created_at', $today)->whereNot('state','rapp')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $confirme = Renovations::whereDate('date_confirm', $today)->whereHas('users', fn ($q) => $q->where('group', 2))->count();
             $enAttente = Renovations::where('state', '0')->whereHas('users', fn ($q) => $q->where('group', 2))->count();;
             $rappel = Renovations::where('state', 'rapp')->whereHas('users', fn ($q) => $q->where('group', 2))->count();
         } else {
-            $allRDV = Renovations::whereDate('created_at', $today)->count();
+            $allRDV = Renovations::whereDate('created_at', $today)->whereNot('state','rapp')->count();
             $confirme = Renovations::whereDate('date_confirm', $today)->count();
             $enAttente = Renovations::where('state', '0')->count();;
             $rappel = Renovations::where('state', 'rapp')->count();
